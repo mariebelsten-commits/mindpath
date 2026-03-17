@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MindPath — Your CBT Companion</title>
+  <style>
+    :root {
+      --primary: #277647;
+      --primary-hover: #1f6039;
+      --primary-light: #4CA870;
+      --primary-bg: #E8F5ED;
+      --accent: #853a76;
+      --bg: #F6F4F0;
+      --card: #FFFFFF;
+      --text: #1A2332;
+      --text-muted: #6B7280;
+      --border: #E5E7EB;
+      --success: #16A34A;
+      --warning: #D97706;
+      --danger: #DC2626;
+      --radius: 14px;
+      --shadow: 0 2px 10px rgba(0,0,0,0.07);
+      --shadow-lg: 0 6px 24px rgba(0,0,0,0.13);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    /* ── Navigation ── */
+    nav { background: var(--card); border-bottom: 1px solid var(--border); padding: 0 20px; display: flex; align-items: center; gap: 2px; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow); flex-wrap: wrap; }
+    .nav-brand { font-size: 18px; font-weight: 800; color: var(--primary); padding: 14px 0; margin-right: 12px; letter-spacing: -0.5px; flex-shrink: 0; }
+    .nav-brand span { color: var(--accent); }
+    .nav-btn { background: none; border: none; padding: 8px 13px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--text-muted); transition: all 0.18s; white-space: nowrap; }
+    .nav-btn:hover { background: var(--primary-bg); color: var(--primary); }
+    .nav-btn.active { background: var(--primary-bg); color: var(--primary); font-weight: 700; }
+    .nav-crisis { margin-left: auto; background: #FEF2F2; color: var(--danger); border: 1px solid #FECACA; padding: 6px 13px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; flex-shrink: 0; }
+    .nav-crisis:hover { background: #FEE2E2; }
+
+    /* ── Main ── */
+    main { max-width: 860px; margin: 0 auto; padding: 28px 16px; }
+    .section { display: none; animation: fadeUp 0.25s ease; }
+    .section.active { display: block; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ── Cards ── */
+    .card { background: var(--card); border-radius: var(--radius); padding: 22px 24px; box-shadow: var(--shadow); border: 1px solid var(--border); margin-bottom: 16px; }
+    .card-title { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .card-subtitle { font-size: 13px; color: var(--text-muted); line-height: 1.55; }
+
+    /* ── Page headers ── */
+    .page-header { margin-bottom: 22px; }
+    .page-title { font-size: 24px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+    .page-subtitle { font-size: 14px; color: var(--text-muted); line-height: 1.5; }
+
+    /* ── Buttons ── */
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all 0.18s; font-family: inherit; }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-secondary { background: var(--primary-bg); color: var(--primary); }
+    .btn-secondary:hover { background: #d0ebe5; }
+    .btn-ghost { background: none; border: 1px solid var(--border); color: var(--text-muted); }
+    .btn-ghost:hover { border-color: var(--primary); color: var(--primary); }
+    .btn-sm { padding: 6px 14px; font-size: 12px; }
+    .btn-danger { background: #FEF2F2; color: var(--danger); border: 1px solid #FECACA; }
+
+    /* ── Hero ── */
+    .hero { background: linear-gradient(135deg, #277647 0%, #3a9e60 60%, #4CB878 100%); color: white; border-radius: var(--radius); padding: 28px 32px; margin-bottom: 20px; }
+    .hero h1 { font-size: 26px; font-weight: 800; margin-bottom: 8px; line-height: 1.2; }
+    .hero p { font-size: 14px; opacity: 0.88; line-height: 1.65; max-width: 520px; }
+    .hero-disclaimer { margin-top: 14px; background: rgba(255,255,255,0.15); border-radius: 8px; padding: 10px 14px; font-size: 12px; opacity: 0.85; line-height: 1.5; }
+
+    /* ── Chat ── */
+    .chat-wrap { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .chat-header { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+    .chat-avatar-lg { width: 36px; height: 36px; border-radius: 50%; background: var(--primary-bg); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .chat-name { font-size: 14px; font-weight: 700; color: var(--text); }
+    .chat-status { font-size: 11px; color: var(--success); display: flex; align-items: center; gap: 4px; }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success); }
+    .chat-messages { height: 360px; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 12px; background: #F9F8F6; }
+    .msg { display: flex; gap: 8px; max-width: 82%; animation: msgIn 0.22s ease; }
+    @keyframes msgIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    .msg-bot { align-self: flex-start; }
+    .msg-user { align-self: flex-end; flex-direction: row-reverse; }
+    .msg-avatar { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+    .msg-bot .msg-avatar { background: var(--primary-bg); }
+    .msg-user .msg-avatar { background: #F3E8F1; }
+    .msg-bubble { padding: 10px 14px; border-radius: 14px; font-size: 13.5px; line-height: 1.55; white-space: pre-wrap; }
+    .msg-bot .msg-bubble { background: white; border: 1px solid var(--border); border-top-left-radius: 4px; color: var(--text); }
+    .msg-user .msg-bubble { background: var(--primary); color: white; border-top-right-radius: 4px; }
+    .typing-indicator { display: flex; gap: 4px; align-items: center; padding: 10px 14px; background: white; border: 1px solid var(--border); border-radius: 14px; border-top-left-radius: 4px; width: fit-content; }
+    .typing-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text-muted); animation: typing 1.2s infinite; }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typing { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-5px); opacity: 1; } }
+    .chat-choices { padding: 10px 14px; display: flex; flex-wrap: wrap; gap: 7px; background: white; border-top: 1px solid var(--border); }
+    .choice-btn { padding: 7px 14px; border: 1.5px solid var(--primary-light); border-radius: 20px; background: white; color: var(--primary); font-size: 12.5px; font-weight: 600; cursor: pointer; transition: all 0.18s; font-family: inherit; }
+    .choice-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
+    .chat-input-row { display: flex; gap: 8px; padding: 12px 14px; background: white; border-top: 1px solid var(--border); }
+    .chat-input { flex: 1; padding: 8px 14px; border: 1.5px solid var(--border); border-radius: 20px; font-size: 13.5px; font-family: inherit; outline: none; transition: border-color 0.18s; }
+    .chat-input:focus { border-color: var(--primary); }
+    .chat-send { padding: 8px 16px; background: var(--primary); color: white; border: none; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; transition: background 0.18s; }
+    .chat-send:hover { background: var(--primary-hover); }
+
+    /* ── Forms ── */
+    .form-group { margin-bottom: 16px; }
+    .form-label { display: block; font-size: 12.5px; font-weight: 700; color: var(--text); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.3px; }
+    .form-input, .form-textarea, .form-select { width: 100%; padding: 9px 13px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 14px; font-family: inherit; outline: none; transition: border-color 0.18s; background: white; color: var(--text); }
+    .form-input:focus, .form-textarea:focus, .form-select:focus { border-color: var(--primary); }
+    .form-textarea { resize: vertical; min-height: 80px; line-height: 1.55; }
+    .slider-row { display: flex; align-items: center; gap: 12px; }
+    input[type=range] { flex: 1; accent-color: var(--primary); }
+    .slider-val { font-size: 14px; font-weight: 800; color: var(--primary); min-width: 38px; text-align: right; }
+
+    /* ── Info box ── */
+    .info-box { background: var(--primary-bg); border-left: 3px solid var(--primary); padding: 12px 16px; border-radius: 0 8px 8px 0; font-size: 13.5px; color: var(--text); line-height: 1.6; margin-bottom: 16px; }
+    .info-box strong { color: var(--primary); }
+    .warn-box { background: #FFFBEB; border-left: 3px solid var(--warning); padding: 12px 16px; border-radius: 0 8px 8px 0; font-size: 13px; color: var(--text); line-height: 1.6; margin-bottom: 16px; }
+
+    /* ── Worksheet Steps ── */
+    .step-progress { display: flex; gap: 5px; margin-bottom: 20px; align-items: center; }
+    .step-pip { width: 28px; height: 6px; border-radius: 3px; background: var(--border); transition: background 0.2s; }
+    .step-pip.active { background: var(--primary); }
+    .step-pip.done { background: var(--primary-light); }
+    .step-label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+    .step-heading { font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+    .step-desc { font-size: 13.5px; color: var(--text-muted); line-height: 1.65; margin-bottom: 18px; }
+    .step-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
+
+    /* ── Distortion Checklist ── */
+    .distortion-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px; }
+    .distortion-item { border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 12px; cursor: pointer; transition: all 0.18s; display: flex; gap: 9px; align-items: flex-start; }
+    .distortion-item:hover { border-color: var(--primary-light); background: var(--primary-bg); }
+    .distortion-item.selected { border-color: var(--primary); background: var(--primary-bg); }
+    .distortion-item input[type=checkbox] { accent-color: var(--primary); margin-top: 2px; flex-shrink: 0; }
+    .distortion-name { font-size: 13px; font-weight: 700; color: var(--text); }
+    .distortion-desc { font-size: 11.5px; color: var(--text-muted); line-height: 1.4; margin-top: 2px; }
+
+    /* ── Journal ── */
+    .journal-entries { display: flex; flex-direction: column; gap: 10px; }
+    .entry-card { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 14px 18px; cursor: pointer; transition: all 0.18s; }
+    .entry-card:hover { box-shadow: var(--shadow); border-color: var(--primary-light); }
+    .entry-header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap; }
+    .entry-date { font-size: 11px; color: var(--text-muted); font-weight: 600; }
+    .emotion-badge { padding: 2px 9px; border-radius: 12px; font-size: 11.5px; font-weight: 700; }
+    .e-low { background: #EFF6FF; color: #1D4ED8; }
+    .e-anxious { background: #FFFBEB; color: #B45309; }
+    .e-angry { background: #FFF1F2; color: #BE123C; }
+    .e-neutral { background: #F3F4F6; color: #374151; }
+    .e-hopeful { background: #F0FDF4; color: #15803D; }
+    .e-sad { background: #EDE9FE; color: #6D28D9; }
+    .entry-thought { font-size: 13px; color: var(--text); font-style: italic; line-height: 1.5; }
+    .entry-situation { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+    .mood-score { font-size: 12px; font-weight: 700; }
+
+    /* ── Activities ── */
+    .activity-library { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; margin-bottom: 20px; }
+    .activity-tile { padding: 14px 10px; background: var(--card); border: 1.5px solid var(--border); border-radius: 10px; font-size: 12px; text-align: center; cursor: pointer; transition: all 0.18s; font-family: inherit; }
+    .activity-tile:hover { border-color: var(--primary); background: var(--primary-bg); }
+    .activity-tile .tile-icon { font-size: 24px; display: block; margin-bottom: 5px; }
+    .planned-list { display: flex; flex-direction: column; gap: 8px; }
+    .planned-item { background: var(--card); border: 1.5px solid var(--border); border-radius: 10px; padding: 12px 16px; display: flex; align-items: center; gap: 12px; }
+    .planned-item.done { opacity: 0.6; }
+    .planned-item.done .planned-name { text-decoration: line-through; }
+    .planned-name { flex: 1; font-size: 14px; font-weight: 600; color: var(--text); }
+    .planned-date { font-size: 11.5px; color: var(--text-muted); }
+    .planned-mood { font-size: 12px; color: var(--text-muted); }
+    .complete-btn { padding: 5px 12px; background: var(--primary-bg); color: var(--primary); border: 1px solid var(--primary-light); border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; }
+    .complete-btn:hover { background: var(--primary); color: white; }
+
+    /* ── Learn ── */
+    .learn-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+    .learn-card { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 20px; cursor: pointer; transition: all 0.2s; }
+    .learn-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); border-color: var(--primary-light); }
+    .learn-icon { font-size: 32px; margin-bottom: 10px; }
+    .learn-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 5px; color: var(--text); }
+    .learn-card p { font-size: 12.5px; color: var(--text-muted); line-height: 1.5; }
+
+    /* ── Modal ── */
+    .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.48); z-index: 300; align-items: center; justify-content: center; padding: 16px; }
+    .overlay.open { display: flex; animation: fadeUp 0.2s ease; }
+    .modal { background: var(--card); border-radius: var(--radius); padding: 28px; max-width: 580px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: var(--shadow-lg); }
+    .modal-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 18px; gap: 12px; }
+    .modal-title { font-size: 19px; font-weight: 800; color: var(--text); }
+    .modal-close { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-muted); padding: 0; line-height: 1; flex-shrink: 0; }
+    .modal-close:hover { color: var(--text); }
+    .modal-body { font-size: 14px; line-height: 1.7; color: var(--text); }
+    .modal-body h4 { font-size: 14px; font-weight: 700; color: var(--primary); margin: 14px 0 4px; }
+    .modal-body p { margin-bottom: 10px; }
+    .crisis-line { background: #FEF2F2; border: 1.5px solid #FECACA; border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; }
+    .crisis-name { font-size: 14px; font-weight: 800; color: var(--danger); margin-bottom: 3px; }
+    .crisis-detail { font-size: 13px; color: var(--text-muted); }
+    .crisis-number { font-size: 18px; font-weight: 800; color: var(--text); }
+
+    /* ── Breathing Exercise ── */
+    .breathing-wrap { text-align: center; padding: 20px; }
+    .breath-circle { width: 130px; height: 130px; border-radius: 50%; background: var(--primary-bg); border: 3px solid var(--primary); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: var(--primary); margin: 20px auto; transition: transform 4s cubic-bezier(0.4,0,0.2,1), background 4s ease, color 4s ease; }
+    .breath-circle.inhale { transform: scale(1.45); background: var(--primary); color: white; }
+    .breath-circle.exhale { transform: scale(1); }
+    .breath-label { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+    .breath-count { font-size: 32px; font-weight: 800; color: var(--primary); margin: 8px 0; }
+
+    /* ── Empty state ── */
+    .empty { text-align: center; padding: 40px 20px; color: var(--text-muted); }
+    .empty .e-icon { font-size: 40px; margin-bottom: 10px; }
+    .empty p { font-size: 13.5px; line-height: 1.6; max-width: 280px; margin: 0 auto; }
+
+    /* ── Saved record list ── */
+    .saved-record { border: 1.5px solid var(--border); border-radius: 10px; padding: 12px 16px; margin-bottom: 8px; cursor: pointer; transition: all 0.18s; }
+    .saved-record:hover { border-color: var(--primary-light); box-shadow: var(--shadow); }
+    .saved-record-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .saved-record-date { font-size: 11px; color: var(--text-muted); font-weight: 600; }
+    .saved-record-thought { font-size: 13px; color: var(--text); font-style: italic; }
+
+    /* ── Two col layout ── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 580px) { .two-col { grid-template-columns: 1fr; } .hero { padding: 20px; } .hero h1 { font-size: 20px; } main { padding: 16px 10px; } }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* ── Tag ── */
+    .tag { display: inline-flex; align-items: center; padding: 2px 9px; border-radius: 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; }
+    .tag-green { background: var(--primary-bg); color: var(--primary); }
+    .tag-orange { background: #F5EDF3; color: #853a76; }
+    .tag-purple { background: #F5F3FF; color: #7C3AED; }
+
+    /* ── Divider ── */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════ NAVIGATION ═══════════════ -->
+<nav>
+  <div class="nav-brand">Mind<span>Path</span></div>
+  <button class="nav-btn active" id="nav-guide"   onclick="showSection('guide')">🧭 Guide</button>
+  <button class="nav-btn"        id="nav-journal"  onclick="showSection('journal')">📔 Journal</button>
+  <button class="nav-btn"        id="nav-worksheet" onclick="showSection('worksheet')">🧠 Thought Record</button>
+  <button class="nav-btn"        id="nav-activity" onclick="showSection('activity')">🌱 Activities</button>
+  <button class="nav-btn"        id="nav-assess"   onclick="showSection('assess')">📊 Self-Check</button>
+  <button class="nav-btn"        id="nav-learn"    onclick="showSection('learn')">📚 Learn CBT</button>
+  <button class="nav-crisis"     onclick="openModal('crisisModal')">🆘 Crisis Help</button>
+</nav>
+
+<!-- ═══════════════ CRISIS MODAL ═══════════════ -->
+<div class="overlay" id="crisisModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">🆘 Immediate Support</div>
+      <button class="modal-close" onclick="closeModal('crisisModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="color:var(--danger);font-weight:700;margin-bottom:14px;">If you are in immediate danger, please call emergency services (999 or 911) right now.</p>
+      <div class="crisis-line">
+        <div class="crisis-name">Samaritans (UK)</div>
+        <div class="crisis-number">116 123</div>
+        <div class="crisis-detail">Free, 24/7, confidential listening service</div>
+      </div>
+      <div class="crisis-line">
+        <div class="crisis-name">Crisis Text Line (UK)</div>
+        <div class="crisis-number">Text SHOUT to 85258</div>
+        <div class="crisis-detail">Free, 24/7 text-based crisis support</div>
+      </div>
+      <div class="crisis-line">
+        <div class="crisis-name">National Suicide Prevention Lifeline (US)</div>
+        <div class="crisis-number">988</div>
+        <div class="crisis-detail">Call or text — free, confidential, 24/7</div>
+      </div>
+      <div class="crisis-line">
+        <div class="crisis-name">Crisis Services Canada</div>
+        <div class="crisis-number">1-833-456-4566</div>
+        <div class="crisis-detail">24/7 distress and crisis support</div>
+      </div>
+      <div class="warn-box" style="margin-top:16px;">
+        <strong>MindPath is a self-help tool and is not a substitute for professional mental health care.</strong> If you are struggling significantly, please speak to your GP or a licensed therapist.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ LEARN MODAL ═══════════════ -->
+<div class="overlay" id="learnModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="learnModalTitle">CBT Topic</div>
+      <button class="modal-close" onclick="closeModal('learnModal')">✕</button>
+    </div>
+    <div class="modal-body" id="learnModalBody"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ ENTRY DETAIL MODAL ═══════════════ -->
+<div class="overlay" id="entryModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Journal Entry</div>
+      <button class="modal-close" onclick="closeModal('entryModal')">✕</button>
+    </div>
+    <div class="modal-body" id="entryModalBody"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ WORKSHEET SAVED MODAL ═══════════════ -->
+<div class="overlay" id="savedModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Saved Thought Records</div>
+      <button class="modal-close" onclick="closeModal('savedModal')">✕</button>
+    </div>
+    <div class="modal-body" id="savedModalBody"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ BREATHING MODAL ═══════════════ -->
+<div class="overlay" id="breathingModal">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-header">
+      <div class="modal-title">🌬️ Box Breathing</div>
+      <button class="modal-close" onclick="stopBreathing(); closeModal('breathingModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:4px;text-align:center;">4 counts in · 4 hold · 4 out · 4 hold</p>
+      <div class="breathing-wrap">
+        <div class="breath-circle" id="breathCircle">Ready</div>
+        <div class="breath-label" id="breathLabel">Press Start</div>
+        <div class="breath-count" id="breathCount" style="visibility:hidden;">4</div>
+      </div>
+      <div style="text-align:center;margin-top:8px;">
+        <button class="btn btn-primary" id="breathBtn" onclick="startBreathing()">▶ Start</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ MAIN ═══════════════ -->
+<main>
+
+  <!-- ──────────── GUIDE / CHAT ──────────── -->
+  <section class="section active" id="section-guide">
+    <div class="hero">
+      <h1>Your CBT Companion 🌿</h1>
+      <p>MindPath guides you through evidence-based Cognitive Behavioural Therapy techniques to help you understand and manage depression and anxiety — one step at a time.</p>
+      <div class="hero-disclaimer">⚠️ This app is a supportive self-help tool, not a substitute for professional mental health care. If you're struggling significantly, please speak with a GP or therapist.</div>
+    </div>
+
+    <div class="chat-wrap">
+      <div class="chat-header">
+        <div class="chat-avatar-lg">🧠</div>
+        <div>
+          <div class="chat-name">MindPath Guide</div>
+          <div class="chat-status"><span class="status-dot"></span> Online &amp; ready to help</div>
+        </div>
+      </div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-choices" id="chatChoices"></div>
+      <div class="chat-input-row">
+        <input class="chat-input" id="chatInput" type="text" placeholder="Type your response…" onkeydown="if(event.key==='Enter') sendChatMessage()" />
+        <button class="chat-send" onclick="sendChatMessage()">Send</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────── JOURNAL ──────────── -->
+  <section class="section" id="section-journal">
+    <div class="page-header">
+      <div class="page-title">📔 Thought Journal</div>
+      <div class="page-subtitle">Track your mood and automatic thoughts. Regular journalling builds self-awareness over time.</div>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <div id="journalCount" style="font-size:13px;color:var(--text-muted);"></div>
+      <button class="btn btn-primary" onclick="showAddEntry()">+ New Entry</button>
+    </div>
+
+    <!-- Add Entry Form (hidden by default) -->
+    <div class="card" id="addEntryForm" style="display:none;">
+      <div class="card-title">New Journal Entry</div>
+      <div class="two-col" style="margin-top:14px;">
+        <div class="form-group">
+          <label class="form-label">Situation</label>
+          <input class="form-input" id="jSituation" placeholder="What happened or triggered this?" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Emotion</label>
+          <select class="form-select" id="jEmotion">
+            <option value="sad">😢 Sad</option>
+            <option value="anxious">😰 Anxious</option>
+            <option value="low">😔 Low / Depressed</option>
+            <option value="angry">😠 Angry</option>
+            <option value="neutral">😐 Neutral</option>
+            <option value="hopeful">🌱 Hopeful</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mood Intensity (0–100)</label>
+        <div class="slider-row">
+          <input type="range" min="0" max="100" value="50" id="jMoodSlider" oninput="document.getElementById('jMoodVal').textContent=this.value+'%'" />
+          <span class="slider-val" id="jMoodVal">50%</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Automatic Thought</label>
+        <input class="form-input" id="jThought" placeholder="What went through your mind?" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Notes (optional)</label>
+        <textarea class="form-textarea" id="jNotes" placeholder="Any other thoughts or observations…"></textarea>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-primary" onclick="saveJournalEntry()">Save Entry</button>
+        <button class="btn btn-ghost" onclick="document.getElementById('addEntryForm').style.display='none'">Cancel</button>
+      </div>
+    </div>
+
+    <div class="journal-entries" id="journalList"></div>
+  </section>
+
+  <!-- ──────────── THOUGHT RECORD WORKSHEET ──────────── -->
+  <section class="section" id="section-worksheet">
+    <div class="page-header">
+      <div class="page-title">🧠 Thought Record</div>
+      <div class="page-subtitle">A 7-step CBT worksheet to examine and reframe unhelpful thoughts. Used by therapists worldwide.</div>
+    </div>
+    <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="resetWorksheet()">+ New Thought Record</button>
+      <button class="btn btn-ghost" onclick="showSavedRecords()">📂 View Saved</button>
+    </div>
+
+    <div class="card" id="worksheetCard">
+      <div class="step-progress" id="stepProgress"></div>
+      <div id="worksheetContent"></div>
+    </div>
+  </section>
+
+  <!-- ──────────── ACTIVITIES ──────────── -->
+  <section class="section" id="section-activity">
+    <div class="page-header">
+      <div class="page-title">🌱 Behavioural Activation</div>
+      <div class="page-subtitle">Schedule activities that bring pleasure or accomplishment. Action comes before motivation — not after.</div>
+    </div>
+    <div class="info-box">
+      <strong>Why this works:</strong> Depression often causes us to withdraw from enjoyable activities, which deepens low mood. Deliberately scheduling activities — even small ones — breaks this cycle and restores a sense of engagement and achievement.
+    </div>
+
+    <div class="card">
+      <div class="card-title">Activity Library</div>
+      <div class="card-subtitle" style="margin-bottom:14px;">Click any activity to add it to your planner, or add a custom one below.</div>
+      <div class="activity-library" id="activityLibrary"></div>
+      <hr class="divider">
+      <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
+        <div class="form-group" style="flex:1;margin-bottom:0;">
+          <label class="form-label">Custom Activity</label>
+          <input class="form-input" id="customActivity" placeholder="e.g. Bake a cake, call a friend…" />
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label">When</label>
+          <input class="form-input" type="date" id="activityDate" />
+        </div>
+        <button class="btn btn-primary" onclick="addCustomActivity()">Add</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <div class="card-title" style="margin-bottom:0;">My Activity Plan</div>
+        <span id="activityCount" style="font-size:12px;color:var(--text-muted);"></span>
+      </div>
+      <div class="planned-list" id="plannedList"></div>
+    </div>
+  </section>
+
+  <!-- ──────────── SELF-CHECK ──────────── -->
+  <section class="section" id="section-assess">
+    <div class="page-header">
+      <div class="page-title">📊 Mood Self-Check</div>
+      <div class="page-subtitle">A quick self-assessment to help you understand how you're feeling. This is not a clinical diagnosis — it's a tool for self-awareness.</div>
+    </div>
+    <div class="warn-box">⚠️ This is a self-help awareness tool, not a diagnostic instrument. If you're struggling significantly, please speak to your GP or a mental health professional.</div>
+
+    <div class="card" id="assessCard">
+      <div class="card-title">How are you feeling today?</div>
+      <div class="card-subtitle" style="margin-bottom:18px;">Rate each item based on the past two weeks. Move each slider to reflect your experience.</div>
+      <div id="assessQuestions"></div>
+      <div style="text-align:center;margin-top:20px;">
+        <button class="btn btn-primary" onclick="scoreAssessment()">See My Results</button>
+      </div>
+    </div>
+
+    <div class="card" id="assessResult" style="display:none;"></div>
+
+    <hr class="divider" style="margin-top:28px;">
+    <div class="card">
+      <div class="card-title">⚖️ Theory A vs Theory B Worksheet</div>
+      <div class="card-subtitle" style="margin-bottom:14px;">Compare your anxious interpretation against an alternative explanation. Useful for health anxiety, OCD, and persistent worry.</div>
+      <button class="btn btn-primary" onclick="showTheoryAB()">Start Theory A/B</button>
+    </div>
+    <div class="card" id="theoryABCard" style="display:none;">
+      <div class="card-title" style="margin-bottom:4px;">⚖️ Theory A vs Theory B</div>
+      <div class="card-subtitle" style="margin-bottom:16px;">Create two competing explanations for your experience, then evaluate the evidence for each.</div>
+      <div class="two-col">
+        <div class="form-group">
+          <label class="form-label">Theory A (The Fear)</label>
+          <textarea class="form-textarea" id="theoryA" rows="3" placeholder="My feared interpretation… e.g. 'I have a serious illness'"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Theory B (The Alternative)</label>
+          <textarea class="form-textarea" id="theoryB" rows="3" placeholder="An alternative explanation… e.g. 'I'm anxious about my health'"></textarea>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="form-group">
+          <label class="form-label">Evidence for Theory A</label>
+          <textarea class="form-textarea" id="evidenceA" rows="3" placeholder="What supports Theory A?"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Evidence for Theory B</label>
+          <textarea class="form-textarea" id="evidenceB" rows="3" placeholder="What supports Theory B?"></textarea>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="form-group">
+          <label class="form-label">If Theory A is true, I should…</label>
+          <textarea class="form-textarea" id="actionA" rows="2" placeholder="What actions follow from Theory A?"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">If Theory B is true, I should…</label>
+          <textarea class="form-textarea" id="actionB" rows="2" placeholder="What actions follow from Theory B?"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Which theory best explains ALL the facts?</label>
+        <textarea class="form-textarea" id="theoryConclusion" rows="2" placeholder="On balance, which theory accounts for everything — including my checking, worry, and safety behaviours?"></textarea>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:12px;">
+        <button class="btn btn-primary" onclick="saveTheoryAB()">💾 Save</button>
+        <button class="btn btn-ghost" onclick="document.getElementById('theoryABCard').style.display='none';">Cancel</button>
+      </div>
+    </div>
+
+    <hr class="divider">
+    <div class="card">
+      <div class="card-title">📏 Rules & Assumptions Worksheet</div>
+      <div class="card-subtitle" style="margin-bottom:14px;">Identify the hidden "if-then" rules driving your behaviour and create more flexible alternatives.</div>
+      <button class="btn btn-primary" onclick="showRulesWS()">Start Rules Worksheet</button>
+    </div>
+    <div class="card" id="rulesWSCard" style="display:none;">
+      <div class="card-title" style="margin-bottom:4px;">📏 Rules & Assumptions</div>
+      <div class="card-subtitle" style="margin-bottom:16px;">Examine an unhelpful rule and develop a more balanced alternative.</div>
+      <div class="form-group">
+        <label class="form-label">My Rule or Assumption</label>
+        <textarea class="form-textarea" id="ruleText" rows="2" placeholder="e.g. 'If I don't do everything perfectly, people will reject me'"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Where did this rule come from?</label>
+        <textarea class="form-textarea" id="ruleOrigin" rows="2" placeholder="When did you first develop this belief? What experiences shaped it?"></textarea>
+      </div>
+      <div class="two-col">
+        <div class="form-group">
+          <label class="form-label">Advantages of this rule</label>
+          <textarea class="form-textarea" id="ruleAdvantages" rows="3" placeholder="How has this rule helped or protected you?"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Disadvantages of this rule</label>
+          <textarea class="form-textarea" id="ruleDisadvantages" rows="3" placeholder="How does this rule limit you or cause suffering?"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">A More Flexible Alternative</label>
+        <textarea class="form-textarea" id="ruleAlternative" rows="2" placeholder="A new, more balanced version of this rule…"></textarea>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:12px;">
+        <button class="btn btn-primary" onclick="saveRulesWS()">💾 Save</button>
+        <button class="btn btn-ghost" onclick="document.getElementById('rulesWSCard').style.display='none';">Cancel</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────── LEARN CBT ──────────── -->
+  <section class="section" id="section-learn">
+    <div class="page-header">
+      <div class="page-title">📚 Learn CBT</div>
+      <div class="page-subtitle">Understand the science behind Cognitive Behavioural Therapy and why it works.</div>
+    </div>
+    <div class="learn-grid" id="learnGrid"></div>
+    <hr class="divider" style="margin-top:28px;">
+    <div class="card" style="background:linear-gradient(135deg,#E8F5ED,#F7F5F2);">
+      <div class="card-title">🫁 Box Breathing Exercise</div>
+      <div class="card-subtitle">A simple but powerful technique to calm anxiety in under 3 minutes.</div>
+      <button class="btn btn-secondary" style="margin-top:12px;" onclick="openModal('breathingModal')">Start Guided Exercise</button>
+    </div>
+  </section>
+
+</main>
+
+<!-- ═══════════════ JAVASCRIPT ═══════════════ -->
+<script>
+/* ─────────────── NAVIGATION ─────────────── */
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  document.getElementById('nav-' + id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ─────────────── MODALS ─────────────── */
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.overlay').forEach(el => {
+  el.addEventListener('click', function(e) { if (e.target === this) this.classList.remove('open'); });
+});
+
+/* ─────────────── CHAT ENGINE ─────────────── */
+const chatSession = { step: 'welcome', userThought: '', beliefBefore: null, beliefAfter: null, evidenceFor: '', evidenceAgainst: '', alternativeThought: '', distortions: [], baActivity: '' };
+
+const FLOWS = {
+  welcome: {
+    msgs: ["Hi there 👋 I'm your MindPath guide. I'm here to help you work through Cognitive Behavioural Therapy (CBT) techniques at your own pace.", "There's no judgment here — just a safe space to explore your thoughts and feelings.", "To start — how are you feeling right now?"],
+    choices: [{ t: "😔 Feeling very low or down", n: "low_mood" }, { t: "😰 Anxious or overwhelmed", n: "anxiety_start" }, { t: "😐 Somewhere in the middle", n: "mixed" }, { t: "💚 I'm hard on myself", n: "self_esteem_intro" }, { t: "📚 I want to learn about CBT", n: "learn_intro" }]
+  },
+  low_mood: {
+    msgs: ["I hear you — reaching out like this, even to an app, takes real courage.", "When we're feeling low, it's often because our thoughts are driving our emotions in a negative direction.", "One of the most powerful CBT tools for low mood is examining those thoughts directly. There's also a technique called Behavioural Activation that can really help.", "What feels most relevant to you right now?"],
+    choices: [{ t: "Explore a troubling thought", n: "thought_capture" }, { t: "I've stopped enjoying things I used to love", n: "ba_intro" }, { t: "Help me understand how thoughts cause low mood", n: "cbt_model" }, { t: "I feel worthless", n: "self_esteem_worth" }]
+  },
+  anxiety_start: {
+    msgs: ["Anxiety can feel relentless — like your mind won't slow down. You're not alone in this.", "The good news is that anxiety is one of the conditions that responds really well to CBT.", "What's feeling most difficult?"],
+    choices: [{ t: "Worrying thoughts I can't switch off", n: "thought_capture" }, { t: "Feeling physically tense and on edge", n: "breathing_intro" }, { t: "Avoiding things because of fear or anxiety", n: "ba_intro" }, { t: "I just feel overwhelmed and can't think straight", n: "grounding" }, { t: "I can't cope with uncertainty", n: "distress_intro" }]
+  },
+  mixed: {
+    msgs: ["That's very common — many people feel a mixture of things, or find it hard to put a label on it.", "Let's figure out what might be most useful for you today."],
+    choices: [{ t: "Negative thoughts I keep having", n: "thought_capture" }, { t: "Low energy, not enjoying much", n: "ba_intro" }, { t: "Worry and tension", n: "anxiety_start" }, { t: "I just want to understand myself better", n: "cbt_model" }]
+  },
+  cbt_model: {
+    msgs: ["The heart of CBT is the connection between your Thoughts, Feelings, and Behaviours — what therapists call the 'Cognitive Triangle'.", "Here's how it works:\n\nSituation → Automatic Thought → Emotion → Behaviour", "For example: You send a message and don't get a reply → thought: 'They must be ignoring me' → emotion: hurt and anxious → behaviour: withdraw from people.", "The key insight is that changing the thought changes the whole chain. Ready to try it with something on your mind?"],
+    choices: [{ t: "Yes, let's work on a thought", n: "thought_capture" }, { t: "Tell me about automatic thoughts", n: "auto_thoughts" }, { t: "What are cognitive distortions?", n: "distortions_explain" }]
+  },
+  auto_thoughts: {
+    msgs: ["Automatic thoughts are rapid, involuntary thoughts that pop up in response to situations — so fast we often don't notice them.", "But they're powerful. They shape how we feel without us realising it.", "Examples:\n• Spilling a drink → 'I'm so clumsy and useless'\n• Someone looks at you funny → 'They think I'm weird'\n• Making a mistake → 'I'm going to fail at everything'", "A key CBT skill is learning to slow down and catch these thoughts before they spiral. Want to try?"],
+    choices: [{ t: "Let's identify one of my thoughts", n: "thought_capture" }, { t: "Tell me about cognitive distortions", n: "distortions_explain" }]
+  },
+  distortions_explain: {
+    msgs: ["Cognitive distortions are systematic errors in thinking — mental shortcuts that make us interpret reality more negatively than it actually is.", "They're not character flaws. They're habits the brain develops, often to protect us from threats.", "Common examples:\n\n🔲 All-or-nothing: 'I failed once = I'm a total failure'\n⚡ Catastrophising: 'One mistake → fired → homeless'\n🔮 Mind reading: 'They didn't smile → they hate me'\n🎭 Emotional reasoning: 'I feel stupid, so I must be stupid'\n🏷️ Labelling: 'I'm an idiot' instead of 'I made a mistake'", "Recognise any of these in your own thinking?"],
+    choices: [{ t: "Yes — let's work on one of my thoughts", n: "thought_capture" }, { t: "Tell me more about the CBT model", n: "cbt_model" }, { t: "Back to the start", n: "welcome" }]
+  },
+  thought_capture: {
+    msgs: ["Let's work through a thought together — this is called a Thought Record, and it's one of the most powerful CBT tools there is.", "Think about a recent moment when you felt particularly low, anxious, or distressed.", "What was the automatic thought that went through your mind?\n\n(Type it exactly as it sounded in your head — e.g. 'I'm going to fail', 'Nobody likes me', 'I can't cope with this')"],
+    inputType: "text",
+    placeholder: "Type your thought here…"
+  },
+  thought_belief: {
+    msgs: ["Thank you for sharing that. It takes courage to look at difficult thoughts directly."],
+    inputType: "number",
+    placeholder: "e.g. 75",
+    preMsg: "Before we examine it: on a scale of 0–100, how strongly do you believe this thought right now?"
+  },
+  distortion_intro: {
+    msgs: ["Now let's see if this thought matches any common thinking patterns — called 'cognitive distortions'.", "These patterns make our thoughts more negative than reality warrants. Select any that apply:", ""],
+    special: "distortions"
+  },
+  evidence_for: {
+    msgs: ["Now let's examine the evidence — like a detective, not a judge.", "What actual evidence or facts support this thought? (Be honest — what real-world observations back it up?)"],
+    inputType: "text",
+    placeholder: "Evidence that supports the thought…"
+  },
+  evidence_against: {
+    msgs: ["Good. Now the other side — this is often where the real insight lives.", "What evidence goes against this thought? What facts or experiences challenge it?", "Tip: What would you say to a close friend who had this exact thought?"],
+    inputType: "text",
+    placeholder: "Evidence that challenges the thought…"
+  },
+  alternative_thought: {
+    msgs: ["Excellent work. You've looked at this thought from both sides — just like a therapist would help you do.", "Now try writing a more balanced, realistic version of the thought — one that takes all the evidence into account.", "(It doesn't have to be positive — just fair and honest.)"],
+    inputType: "text",
+    placeholder: "A more balanced, realistic thought…"
+  },
+  recheck_belief: {
+    msgs: ["Almost done! One final step — now that you've examined the evidence, how strongly do you believe the original thought? (0–100)"],
+    inputType: "number",
+    placeholder: "e.g. 40"
+  },
+  thought_complete: {
+    msgs: ["", "That was a complete Thought Record — exactly the kind of exercise therapists use every day.", "If your belief in the original thought went down at all, that's genuine progress. You're literally rewiring how your brain processes this situation.", "This gets easier and more automatic with practice. You can find the full Thought Record worksheet in the 🧠 Thought Record section.", "What would you like to do next?"],
+    choices: [{ t: "Work through another thought", n: "thought_capture" }, { t: "Learn about activity planning", n: "ba_intro" }, { t: "Try a breathing exercise", n: "breathing_intro" }, { t: "I'm done for now", n: "wrap_up" }]
+  },
+  ba_intro: {
+    msgs: ["Behavioural Activation is one of the most evidence-based treatments for depression that exists.", "Here's the vicious cycle it addresses:\n\nLow mood → withdraw from activities → lose pleasure and achievement → mood drops further → withdraw more…", "The solution sounds simple but is genuinely powerful: deliberately schedule activities, even when you don't feel like it. Motivation follows action — not the other way around.", "Has this pattern of withdrawal been happening to you?"],
+    choices: [{ t: "Yes, definitely", n: "ba_explore" }, { t: "A bit, yes", n: "ba_explore" }, { t: "Not really, I stay active", n: "ba_proactive" }]
+  },
+  ba_explore: {
+    msgs: ["That's completely understandable, and incredibly common. Please don't judge yourself for it — it's a symptom, not a character flaw.", "The key is starting small. Even a 10-minute walk or making a cup of tea mindfully counts.", "What's one activity — however small — that you used to enjoy or that might lift your mood even slightly?"],
+    inputType: "text",
+    placeholder: "e.g. a short walk, calling a friend, reading, cooking…"
+  },
+  ba_scheduled: {
+    msgs: ["That's a great choice. Small and manageable is exactly right.", "I've added it to your Activity Planner. Here's a tip: rate your mood out of 10 before and after. People are often surprised — mood usually improves more than expected.", "The Activities section has a full library of suggested activities and a planner to keep you on track."],
+    choices: [{ t: "See the Activity Planner", nav: "activity" }, { t: "Work on a troubling thought", n: "thought_capture" }, { t: "I'm done for now", n: "wrap_up" }]
+  },
+  ba_proactive: {
+    msgs: ["That's great to hear. Even so, Behavioural Activation is a brilliant preventative tool.", "It's about deliberately building in activities that give you both pleasure and a sense of achievement — what CBT calls 'mastery and pleasure' activities.", "Would you like to add some positive activities to your week?"],
+    choices: [{ t: "Yes, let's build a plan", n: "ba_explore" }, { t: "I'd rather work on my thoughts", n: "thought_capture" }, { t: "Show me the activity planner", nav: "activity" }]
+  },
+  breathing_intro: {
+    msgs: ["Box breathing is a remarkably effective technique for calming anxiety quickly.", "It works by activating the parasympathetic nervous system — your body's natural 'rest and digest' mode.", "The pattern: Inhale 4 counts → Hold 4 → Exhale 4 → Hold 4.", "Head over to the 📚 Learn section for a guided animated exercise, or shall I walk you through it here?"],
+    choices: [{ t: "Guide me through it in text", n: "breathing_text" }, { t: "Open the visual exercise", special: "breathing_modal" }, { t: "Work on an anxious thought", n: "thought_capture" }]
+  },
+  breathing_text: {
+    msgs: ["Let's do this together. Find a comfortable position and close your eyes if you can.\n\n🫁 INHALE slowly through your nose for 4 counts: 1… 2… 3… 4…\n\n⏸️ HOLD gently for 4 counts: 1… 2… 3… 4…\n\n💨 EXHALE slowly through your mouth for 4 counts: 1… 2… 3… 4…\n\n⏸️ HOLD for 4 counts: 1… 2… 3… 4…\n\nRepeat this 4–6 times. How do you feel?"],
+    choices: [{ t: "Calmer, thank you", n: "wrap_up" }, { t: "Let me try working on a thought", n: "thought_capture" }, { t: "I'd like more anxiety help", n: "grounding" }]
+  },
+  grounding: {
+    msgs: ["When anxiety is very high, grounding brings you back to the present moment.", "Try the 5-4-3-2-1 technique right now:\n\n👀 Name 5 things you can SEE around you\n✋ 4 things you can physically TOUCH\n👂 3 things you can HEAR\n👃 2 things you can SMELL\n👅 1 thing you can TASTE\n\nTake your time. The goal is to anchor your senses in the present, not the anxious future.", "When you're ready, let me know how you feel."],
+    choices: [{ t: "That helped — I feel more grounded", n: "thought_capture" }, { t: "I'm still feeling very overwhelmed", n: "crisis_check" }, { t: "Let me try something else", n: "welcome" }]
+  },
+  crisis_check: {
+    msgs: ["I'm really glad you're here and talking. When feelings become very intense, it's important to make sure you have the right support.", "If you're having thoughts of harming yourself, please reach out — there are people who can help right now. The 🆘 Crisis Help button at the top has direct numbers.", "Are you having any thoughts of harming yourself?"],
+    choices: [{ t: "No, I'm okay — just struggling", n: "gentle_support" }, { t: "Yes, I need help right now", special: "crisis_modal" }]
+  },
+  gentle_support: {
+    msgs: ["I'm glad you're safe. It's normal and human to feel overwhelmed sometimes — please be gentle with yourself.", "Let's take this one small step at a time."],
+    choices: [{ t: "Work through a difficult thought", n: "thought_capture" }, { t: "Help me calm my anxiety", n: "breathing_intro" }, { t: "Browse the CBT tools", nav: "worksheet" }]
+  },
+  learn_intro: {
+    msgs: ["Great — understanding CBT is the first step to using it effectively.", "Cognitive Behavioural Therapy is one of the most researched psychological treatments in history. It's been proven effective for depression, anxiety, OCD, PTSD, and more.", "The core idea is simple: our thoughts, feelings, and behaviours are all interconnected — and by changing unhelpful thinking patterns, we can change how we feel.", "The 📚 Learn CBT section has detailed explanations of everything. What would you like to start with?"],
+    choices: [{ t: "The CBT model explained", n: "cbt_model" }, { t: "Cognitive distortions", n: "distortions_explain" }, { t: "Meditation & mindfulness", n: "meditation_intro" }, { t: "Try a tool right now", n: "thought_capture" }]
+  },
+  wrap_up: {
+    msgs: ["Well done for taking this time for yourself today. Every time you engage with these tools, you're building new mental habits.", "CBT is a skill — and like any skill, it improves with practice. The fact that you're here is already meaningful.", "If you find yourself struggling significantly, please do speak to a GP or therapist. This app is here to support you, not replace professional care.", "Is there anything else I can help you with?"],
+    choices: [{ t: "Work through another thought", n: "thought_capture" }, { t: "Try meditation", n: "meditation_intro" }, { t: "Go to the Activity Planner", nav: "activity" }, { t: "I'm done for now — thank you", n: "goodbye" }]
+  },
+  goodbye: {
+    msgs: ["Take care of yourself. You're doing something positive and brave by working on your mental health. 💚", "Come back whenever you need — I'll be right here."],
+    choices: [{ t: "Start a new conversation", n: "welcome" }]
+  },
+  distress_intro: {
+    msgs: ["When difficult emotions arise, our instinct is to escape them — through distraction, avoidance, or trying to force them away. But paradoxically, fighting emotions often makes them stronger.", "Distress tolerance is about learning to sit with uncomfortable feelings, knowing they will pass — like a wave rising and falling.", "The key insight: acceptance doesn't mean liking the feeling. It means acknowledging it's there without needing to fix it immediately.", "Would you like to try a distress tolerance exercise?"],
+    choices: [{ t: "Yes, guide me through one", n: "distress_exercise" }, { t: "Tell me more about why acceptance works", n: "distress_why" }, { t: "I'd rather work on my thoughts", n: "thought_capture" }]
+  },
+  distress_exercise: {
+    msgs: ["Let's try a simple acceptance exercise. Think about the uncomfortable emotion you're feeling right now.\n\n1️⃣ Name it: Say to yourself 'I notice I'm feeling [emotion]'\n2️⃣ Allow it: 'It's okay that this feeling is here'\n3️⃣ Locate it: Where do you feel it in your body?\n4️⃣ Breathe into it: Imagine sending gentle breath to that area\n5️⃣ Wait: Notice that the intensity fluctuates — it's not constant", "Try this for 30 seconds right now. What did you notice?"],
+    choices: [{ t: "The intensity did shift a little", n: "distress_reflect" }, { t: "It was hard but I tried", n: "distress_reflect" }, { t: "I couldn't do it — too overwhelming", n: "crisis_check" }]
+  },
+  distress_why: {
+    msgs: ["Think of emotions as waves. They rise, they peak, and they fall — every single time. No emotion lasts forever.", "When we fight a wave, we get exhausted. When we try to suppress it, it comes back stronger. But when we let it wash through us, it passes naturally.", "Research shows that people who practise acceptance of difficult emotions actually experience less distress over time — not more. It's counterintuitive but powerful.", "The Distress Tolerance topic in 📚 Learn CBT has the full explanation."],
+    choices: [{ t: "Let me try the exercise", n: "distress_exercise" }, { t: "Try a breathing exercise", n: "breathing_intro" }, { t: "Work on a troubling thought", n: "thought_capture" }]
+  },
+  distress_reflect: {
+    msgs: ["Well done for trying — that takes real courage. The fact that you noticed anything at all means the exercise is working.", "With practice, this gets easier. You're building a new skill: the ability to be with discomfort without being overwhelmed by it.", "Remember: you don't need to feel better immediately. You just need to know that you can cope."],
+    choices: [{ t: "Try the breathing exercise", n: "breathing_intro" }, { t: "Work on a thought record", n: "thought_capture" }, { t: "I'm done for now", n: "wrap_up" }]
+  },
+  meditation_intro: {
+    msgs: ["Meditation and mindfulness are powerful tools for both anxiety and depression. Even 2–5 minutes a day can make a measurable difference.", "The core skill is simple: focus your attention on something (usually the breath), and when your mind wanders — which it will — gently bring it back. That's it.", "The act of noticing your mind has wandered and redirecting it IS the exercise. It's like a bicep curl for your attention."],
+    choices: [{ t: "Guide me through a quick meditation", n: "meditation_exercise" }, { t: "What type of meditation is best?", n: "meditation_types" }, { t: "I can't meditate — my mind won't stop", n: "meditation_myth" }]
+  },
+  meditation_exercise: {
+    msgs: ["Let's try a 2-minute mindfulness meditation right now.\n\n🧘 Sit comfortably. Close your eyes if you can.\n\n🌬️ Focus on the sensation of your breath entering and leaving your nostrils.\n\n💭 When a thought arises — and it will — notice it without judgment, label it 'thinking', and gently return to the breath.\n\n⏰ Do this for about 2 minutes (roughly 20 breaths).\n\nWhen you're ready, let me know how it went."],
+    choices: [{ t: "That was calming, thank you", n: "meditation_reflect" }, { t: "My mind kept wandering", n: "meditation_myth" }, { t: "I'd like to try something different", n: "welcome" }]
+  },
+  meditation_types: {
+    msgs: ["There are many types, and the best one is whichever you'll actually do consistently. Here are the most popular:\n\n🌬️ Mindfulness: Focus on the breath, observe thoughts without attachment\n💚 Loving-kindness: Repeat goodwill phrases to yourself and others\n🚶 Walking: Slow, deliberate walking with attention on physical sensations\n🎯 Body scan: Move attention through each body part, noticing sensations\n🔤 Mantra: Repeat a calming word like 'peace' or 'calm'", "The 📚 Learn CBT section has details on all of these. Want to try one now?"],
+    choices: [{ t: "Guide me through one now", n: "meditation_exercise" }, { t: "I'll explore the Learn section", nav: "learn" }, { t: "Do something else", n: "welcome" }]
+  },
+  meditation_myth: {
+    msgs: ["Here's the thing everyone gets wrong about meditation: the goal is NOT to stop your thoughts. That's impossible.", "The goal is to notice when you've drifted — and bring yourself back. If your mind wanders 100 times in 2 minutes, bringing it back 100 times IS the practice. That's not failure — that's 100 repetitions of the skill.", "It's exactly like physical exercise: the effort IS the benefit. It gets easier with time, but even when it feels hard, it's working."],
+    choices: [{ t: "Let me try again", n: "meditation_exercise" }, { t: "Try breathing instead", n: "breathing_intro" }, { t: "Work on my thoughts", n: "thought_capture" }]
+  },
+  meditation_reflect: {
+    msgs: ["Wonderful. Even that brief pause can shift your nervous system toward calm.", "Try to do this once a day — same time if possible. Start with 2 minutes and add a minute each week. Within a month, you'll notice a real difference in how you respond to stress."],
+    choices: [{ t: "Try a thought record", n: "thought_capture" }, { t: "Plan some activities", n: "ba_intro" }, { t: "I'm done for now", n: "wrap_up" }]
+  },
+  self_esteem_intro: {
+    msgs: ["Self-esteem isn't about confidence or arrogance — it's about having a fair, balanced view of yourself.", "Many people with depression and anxiety have a harsh inner critic that constantly attacks them. CBT can help you develop self-compassion instead.", "Here's a powerful question: would you speak to a close friend the way you speak to yourself? Usually the answer is no."],
+    choices: [{ t: "I'm very self-critical", n: "self_esteem_exercise" }, { t: "I feel worthless sometimes", n: "self_esteem_worth" }, { t: "Tell me more about self-compassion", n: "self_esteem_compassion" }]
+  },
+  self_esteem_exercise: {
+    msgs: ["Try this right now: think of something you've been criticising yourself for recently.", "Now imagine a close friend came to you and told you they'd done the same thing. What would you say to them?\n\nWrite what you'd tell your friend:"],
+    inputType: "text",
+    placeholder: "What would you tell your friend?"
+  },
+  self_esteem_worth: {
+    msgs: ["Feeling worthless is one of the most painful aspects of depression — and it's also one of the most distorted thoughts depression creates.", "Depression acts like a filter that blocks out all evidence of your value and only lets through evidence that confirms 'I'm not good enough.'", "The truth is: your worth isn't determined by your productivity, your achievements, or other people's opinions. You have inherent value simply by being human.", "Let's challenge the 'worthless' thought with a thought record — treating it as a hypothesis to examine rather than a fact."],
+    choices: [{ t: "Let's examine this thought", n: "thought_capture" }, { t: "Tell me about self-compassion", n: "self_esteem_compassion" }, { t: "I'm struggling significantly", n: "crisis_check" }]
+  },
+  self_esteem_compassion: {
+    msgs: ["Self-compassion has three parts:\n\n💚 Self-kindness: Treating yourself gently, especially when you fail\n🤝 Common humanity: Remembering that everyone struggles — you're not alone\n🧠 Mindfulness: Noticing self-critical thoughts without getting swept away", "Research shows that self-compassion doesn't make you lazy or complacent — it actually increases motivation and resilience. Being kind to yourself gives you the emotional safety to try again after setbacks.", "The 📚 Learn CBT section has more on this. What would you like to do?"],
+    choices: [{ t: "Try the self-compassion exercise", n: "self_esteem_exercise" }, { t: "Work on a difficult thought", n: "thought_capture" }, { t: "I'm done for now", n: "wrap_up" }]
+  },
+  self_esteem_reflect: {
+    msgs: ["Notice the difference? We're naturally kinder and more balanced when talking to others. Learning to extend that same compassion to yourself is one of the most important things you can do for your mental health.", "Try this daily: when you catch yourself being self-critical, pause and ask 'What would I say to a friend?' Then say that to yourself instead."],
+    choices: [{ t: "Work on a thought record", n: "thought_capture" }, { t: "Plan some positive activities", n: "ba_intro" }, { t: "I'm done for now", n: "wrap_up" }]
+  },
+  food_mood_intro: {
+    msgs: ["What you eat has a real, measurable impact on your mental health. This isn't about dieting — it's about understanding the connection between food and feelings.", "Some quick evidence-based tips:\n\n🍳 Eat regularly — blood sugar drops cause irritability and low mood\n💧 Stay hydrated — dehydration affects mood and concentration\n🐟 Omega-3 fatty acids (oily fish, walnuts) support brain function\n🌾 Complex carbs (whole grains, oats) provide steady energy\n🦠 Gut health matters — your gut produces 95% of your serotonin", "The simplest starting point? Keep a food and mood diary for a week. You might spot patterns you never noticed."],
+    choices: [{ t: "What should I eat more of?", n: "food_mood_good" }, { t: "What should I avoid?", n: "food_mood_avoid" }, { t: "Let's focus on something else", n: "welcome" }]
+  },
+  food_mood_good: {
+    msgs: ["Foods that support mental health:\n\n🐟 Oily fish (salmon, mackerel, sardines) — omega-3s reduce inflammation\n🥜 Nuts and seeds — healthy fats and minerals\n🥦 Colourful fruits and vegetables — antioxidants and vitamins\n🌾 Whole grains — steady energy release\n🫘 Beans and lentils — protein and fibre\n🥛 Fermented foods (yoghurt, kimchi) — support gut microbiome", "Small changes add up. Even adding one extra portion of vegetables a day is a meaningful step."],
+    choices: [{ t: "What about things to reduce?", n: "food_mood_avoid" }, { t: "Let me explore other tools", n: "welcome" }, { t: "I'm done for now", n: "wrap_up" }]
+  },
+  food_mood_avoid: {
+    msgs: ["Things that can worsen mood if consumed excessively:\n\n☕ Caffeine — can increase anxiety symptoms. Try reducing gradually.\n🍷 Alcohol — it's a depressant and disrupts sleep quality.\n🍭 Refined sugar — causes energy spikes and crashes that mimic mood swings.\n🍔 Ultra-processed foods — may contain additives that affect mood in some people.", "The goal isn't perfection — it's awareness. Small, gradual changes are more sustainable than dramatic overhauls."],
+    choices: [{ t: "Tell me about helpful foods", n: "food_mood_good" }, { t: "Explore other CBT tools", n: "welcome" }, { t: "I'm done for now", n: "wrap_up" }]
+  }
+};
+
+const DISTORTIONS = [
+  { name: "All-or-nothing thinking", desc: "Seeing things as black or white, with no middle ground" },
+  { name: "Catastrophising", desc: "Expecting the absolute worst possible outcome" },
+  { name: "Mind reading", desc: "Assuming you know what others are thinking (negatively)" },
+  { name: "Fortune telling", desc: "Predicting negative outcomes as if they're definite" },
+  { name: "Emotional reasoning", desc: "'I feel it, so it must be true'" },
+  { name: "Overgeneralisation", desc: "Drawing sweeping conclusions from one event" },
+  { name: "Mental filter", desc: "Focusing only on negatives, filtering out the positives" },
+  { name: "Disqualifying the positive", desc: "Dismissing good things as 'not counting'" },
+  { name: "Should statements", desc: "Rigid rules about how you/others 'should' be" },
+  { name: "Labelling", desc: "Defining yourself: 'I'm a failure' not 'I made a mistake'" },
+  { name: "Personalisation", desc: "Blaming yourself for things outside your control" },
+  { name: "Magnification", desc: "Exaggerating the importance of problems or mistakes" }
+];
+
+let chatQueue = [];
+let chatTyping = false;
+let selectedDistortions = [];
+
+function initChat() {
+  // reset
+  document.getElementById('chatMessages').innerHTML = '';
+  document.getElementById('chatChoices').innerHTML = '';
+  document.getElementById('chatInput').value = '';
+  chatQueue = [];
+  chatTyping = false;
+  Object.assign(chatSession, { step: 'welcome', userThought: '', beliefBefore: null, beliefAfter: null, evidenceFor: '', evidenceAgainst: '', alternativeThought: '', distortions: [], baActivity: '' });
+  selectedDistortions = [];
+  advanceToFlow('welcome');
+}
+
+function advanceToFlow(flowName) {
+  chatSession.step = flowName;
+  const flow = FLOWS[flowName];
+  if (!flow) return;
+  const msgs = flow.msgs || [];
+  msgs.forEach((m, i) => { if (m) queueBotMsg(m, i * 600); });
+  const delay = msgs.length * 600 + 400;
+  setTimeout(() => {
+    const ch = document.getElementById('chatChoices');
+    ch.innerHTML = '';
+    if (flow.special === 'distortions') {
+      renderDistortionChoices();
+    } else if (flow.special === 'breathing_modal') {
+      openModal('breathingModal'); startBreathing();
+    } else if (flow.special === 'crisis_modal') {
+      openModal('crisisModal');
+    } else if (flow.choices) {
+      renderChoices(flow.choices);
+    }
+    if (flow.inputType) {
+      const inp = document.getElementById('chatInput');
+      inp.placeholder = flow.placeholder || 'Type your response…';
+      inp.disabled = false;
+      if (flow.preMsg) queueBotMsg(flow.preMsg, 0);
+    } else {
+      document.getElementById('chatInput').placeholder = 'Choose an option or type…';
+    }
+  }, delay);
+}
+
+function queueBotMsg(text, delay) {
+  setTimeout(() => {
+    const msgs = document.getElementById('chatMessages');
+    const typo = document.createElement('div');
+    typo.className = 'msg msg-bot';
+    typo.id = 'typing-' + Date.now();
+    typo.innerHTML = `<div class="msg-avatar">🧠</div><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
+    msgs.appendChild(typo);
+    msgs.scrollTop = msgs.scrollHeight;
+    setTimeout(() => {
+      typo.remove();
+      addBotMsg(text);
+    }, 900);
+  }, delay);
+}
+
+function addBotMsg(text) {
+  const msgs = document.getElementById('chatMessages');
+  const el = document.createElement('div');
+  el.className = 'msg msg-bot';
+  el.innerHTML = `<div class="msg-avatar">🧠</div><div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div>`;
+  msgs.appendChild(el);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function addUserMsg(text) {
+  const msgs = document.getElementById('chatMessages');
+  const el = document.createElement('div');
+  el.className = 'msg msg-user';
+  el.innerHTML = `<div class="msg-avatar">🙂</div><div class="msg-bubble">${text}</div>`;
+  msgs.appendChild(el);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function renderChoices(choices) {
+  const ch = document.getElementById('chatChoices');
+  ch.innerHTML = '';
+  choices.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = c.t;
+    btn.onclick = () => handleChoice(c);
+    ch.appendChild(btn);
+  });
+}
+
+function renderDistortionChoices() {
+  selectedDistortions = [];
+  const ch = document.getElementById('chatChoices');
+  ch.innerHTML = '<div style="display:flex;flex-wrap:wrap;gap:6px;padding:4px;width:100%;">';
+  DISTORTIONS.forEach(d => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = d.name;
+    btn.title = d.desc;
+    btn.onclick = () => {
+      if (selectedDistortions.includes(d.name)) {
+        selectedDistortions = selectedDistortions.filter(x => x !== d.name);
+        btn.style.background = '';
+        btn.style.color = '';
+      } else {
+        selectedDistortions.push(d.name);
+        btn.style.background = 'var(--primary)';
+        btn.style.color = 'white';
+      }
+    };
+    ch.firstChild.appendChild(btn);
+  });
+  const cont = document.createElement('button');
+  cont.className = 'choice-btn';
+  cont.style.cssText = 'background:var(--accent);color:white;border-color:var(--accent);margin-left:auto;';
+  cont.textContent = '→ Continue';
+  cont.onclick = () => {
+    chatSession.distortions = selectedDistortions;
+    const msg = selectedDistortions.length > 0
+      ? `You identified: ${selectedDistortions.join(', ')}. Recognising these patterns is a huge insight — most people never realise they're doing this. Now let's look at the evidence.`
+      : `No distortion selected — that's fine. Let's look at the evidence for and against this thought.`;
+    addUserMsg(selectedDistortions.length > 0 ? selectedDistortions.join(', ') : 'None selected');
+    ch.innerHTML = '';
+    setTimeout(() => { addBotMsg(msg); setTimeout(() => advanceToFlow('evidence_for'), 800); }, 400);
+  };
+  ch.firstChild.appendChild(cont);
+  ch.firstChild.outerHTML; // already appended
+}
+
+function handleChoice(c) {
+  document.getElementById('chatChoices').innerHTML = '';
+  addUserMsg(c.t);
+  if (c.nav) { setTimeout(() => showSection(c.nav), 300); return; }
+  if (c.special === 'breathing_modal') { openModal('breathingModal'); return; }
+  if (c.special === 'crisis_modal') { openModal('crisisModal'); return; }
+  setTimeout(() => advanceToFlow(c.n), 300);
+}
+
+function sendChatMessage() {
+  const inp = document.getElementById('chatInput');
+  const text = inp.value.trim();
+  if (!text) return;
+  inp.value = '';
+  addUserMsg(text);
+  document.getElementById('chatChoices').innerHTML = '';
+  const step = chatSession.step;
+
+  if (step === 'thought_capture') {
+    chatSession.userThought = text;
+    setTimeout(() => advanceToFlow('thought_belief'), 400);
+  } else if (step === 'thought_belief') {
+    const n = parseInt(text);
+    chatSession.beliefBefore = isNaN(n) ? 70 : Math.min(100, Math.max(0, n));
+    setTimeout(() => advanceToFlow('distortion_intro'), 400);
+  } else if (step === 'evidence_for') {
+    chatSession.evidenceFor = text;
+    setTimeout(() => advanceToFlow('evidence_against'), 400);
+  } else if (step === 'evidence_against') {
+    chatSession.evidenceAgainst = text;
+    setTimeout(() => advanceToFlow('alternative_thought'), 400);
+  } else if (step === 'alternative_thought') {
+    chatSession.alternativeThought = text;
+    setTimeout(() => advanceToFlow('recheck_belief'), 400);
+  } else if (step === 'recheck_belief') {
+    const n = parseInt(text);
+    chatSession.beliefAfter = isNaN(n) ? 40 : Math.min(100, Math.max(0, n));
+    const drop = chatSession.beliefBefore - chatSession.beliefAfter;
+    const resultMsg = drop > 0
+      ? `Your belief dropped from ${chatSession.beliefBefore}% to ${chatSession.beliefAfter}% — that's a ${drop}% shift. That's real, measurable change in how your brain is processing this.`
+      : `Your belief is similar — and that's okay. Sometimes thoughts need multiple examinations, or more life experience, before they shift. Keep practising.`;
+    setTimeout(() => {
+      addBotMsg(resultMsg);
+      chatSession.step = 'thought_complete';
+      setTimeout(() => advanceToFlow('thought_complete'), 1200);
+    }, 400);
+  } else if (step === 'ba_explore') {
+    chatSession.baActivity = text;
+    addActivityToPlanner(text, null);
+    setTimeout(() => advanceToFlow('ba_scheduled'), 400);
+  } else if (step === 'self_esteem_exercise') {
+    setTimeout(() => advanceToFlow('self_esteem_reflect'), 400);
+  } else {
+    // Generic free text in a choice state — acknowledge and re-show
+    setTimeout(() => {
+      addBotMsg("Thanks for sharing that. " + (FLOWS[step]?.msgs?.[FLOWS[step].msgs.length - 1] || "What would you like to do?"));
+      if (FLOWS[step]?.choices) setTimeout(() => renderChoices(FLOWS[step].choices), 800);
+    }, 400);
+  }
+}
+
+/* ─────────────── JOURNAL ─────────────── */
+let journalEntries = [];
+function loadJournal() {
+  try { journalEntries = JSON.parse(localStorage.getItem('mp_journal') || '[]'); } catch(e) { journalEntries = []; }
+}
+function saveJournalToStorage() {
+  localStorage.setItem('mp_journal', JSON.stringify(journalEntries));
+}
+
+const EMOTION_INFO = {
+  sad: { label: 'Sad 😢', cls: 'e-sad' },
+  anxious: { label: 'Anxious 😰', cls: 'e-anxious' },
+  low: { label: 'Low 😔', cls: 'e-low' },
+  angry: { label: 'Angry 😠', cls: 'e-angry' },
+  neutral: { label: 'Neutral 😐', cls: 'e-neutral' },
+  hopeful: { label: 'Hopeful 🌱', cls: 'e-hopeful' }
+};
+
+function showAddEntry() {
+  const f = document.getElementById('addEntryForm');
+  f.style.display = f.style.display === 'none' ? 'block' : 'none';
+  if (f.style.display === 'block') {
+    document.getElementById('jSituation').value = '';
+    document.getElementById('jThought').value = '';
+    document.getElementById('jNotes').value = '';
+    document.getElementById('jMoodSlider').value = 50;
+    document.getElementById('jMoodVal').textContent = '50%';
+    document.getElementById('jEmotion').value = 'sad';
+  }
+}
+
+function saveJournalEntry() {
+  const situation = document.getElementById('jSituation').value.trim();
+  const thought = document.getElementById('jThought').value.trim();
+  if (!situation && !thought) { alert('Please fill in at least one field.'); return; }
+  const entry = {
+    id: Date.now(),
+    date: new Date().toISOString(),
+    situation, thought,
+    emotion: document.getElementById('jEmotion').value,
+    mood: parseInt(document.getElementById('jMoodSlider').value),
+    notes: document.getElementById('jNotes').value.trim()
+  };
+  journalEntries.unshift(entry);
+  saveJournalToStorage();
+  document.getElementById('addEntryForm').style.display = 'none';
+  renderJournal();
+}
+
+function renderJournal() {
+  const list = document.getElementById('journalList');
+  const count = document.getElementById('journalCount');
+  if (journalEntries.length === 0) {
+    list.innerHTML = '<div class="empty"><div class="e-icon">📔</div><p>No journal entries yet. Press <strong>+ New Entry</strong> to record your first thought.</p></div>';
+    count.textContent = '';
+    return;
+  }
+  count.textContent = journalEntries.length + ' entr' + (journalEntries.length === 1 ? 'y' : 'ies');
+  list.innerHTML = journalEntries.map((e, i) => {
+    const ei = EMOTION_INFO[e.emotion] || EMOTION_INFO.neutral;
+    const d = new Date(e.date);
+    const dstr = d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+    return `<div class="entry-card" onclick="showEntryDetail(${i})">
+      <div class="entry-header">
+        <span class="entry-date">${dstr}</span>
+        <span class="emotion-badge ${ei.cls}">${ei.label}</span>
+        <span class="mood-score" style="color:var(--primary);">${e.mood}%</span>
+      </div>
+      ${e.thought ? `<div class="entry-thought">"${e.thought.substring(0,120)}${e.thought.length>120?'…':''}"</div>` : ''}
+      ${e.situation ? `<div class="entry-situation">${e.situation.substring(0,80)}${e.situation.length>80?'…':''}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function showEntryDetail(i) {
+  const e = journalEntries[i];
+  const ei = EMOTION_INFO[e.emotion] || EMOTION_INFO.neutral;
+  const d = new Date(e.date);
+  const dstr = d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  document.getElementById('entryModalBody').innerHTML = `
+    <div style="margin-bottom:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+      <span class="emotion-badge ${ei.cls}">${ei.label}</span>
+      <span style="font-size:12px;color:var(--text-muted);">${dstr}</span>
+      <span class="tag tag-green">Mood: ${e.mood}%</span>
+    </div>
+    ${e.situation ? `<div style="margin-bottom:12px;"><div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:4px;">Situation</div><div style="font-size:14px;">${e.situation}</div></div>` : ''}
+    ${e.thought ? `<div style="margin-bottom:12px;"><div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:4px;">Automatic Thought</div><div style="font-size:14px;font-style:italic;">"${e.thought}"</div></div>` : ''}
+    ${e.notes ? `<div style="margin-bottom:12px;"><div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:4px;">Notes</div><div style="font-size:14px;">${e.notes}</div></div>` : ''}
+    <hr class="divider">
+    <button class="btn btn-danger btn-sm" onclick="deleteEntry(${i});closeModal('entryModal');">🗑 Delete Entry</button>
+  `;
+  openModal('entryModal');
+}
+
+function deleteEntry(i) {
+  journalEntries.splice(i, 1);
+  saveJournalToStorage();
+  renderJournal();
+}
+
+/* ─────────────── WORKSHEET ─────────────── */
+const WS_STEPS = [
+  { key: 'situation', label: 'Step 1 of 7', heading: 'Describe the Situation', desc: 'Briefly describe the situation or event that triggered your difficult feelings. Stick to the facts — no interpretations yet.', type: 'textarea', placeholder: 'What happened? When and where?' },
+  { key: 'emotion', label: 'Step 2 of 7', heading: 'Identify Your Emotions', desc: 'What emotions did you feel? Rate the intensity of each from 0–100%.', type: 'emotion_rate' },
+  { key: 'thought', label: 'Step 3 of 7', heading: 'The Automatic Thought', desc: 'What thought went through your mind at the time? Write it exactly as it sounded — e.g. "I\'m going to fail", "They hate me", "I can\'t cope".', type: 'textarea', placeholder: 'My automatic thought was…' },
+  { key: 'distortions', label: 'Step 4 of 7', heading: 'Identify Thinking Patterns', desc: 'Do any of these cognitive distortions apply to your thought? Recognising them is half the battle.', type: 'distortions' },
+  { key: 'evidenceFor', label: 'Step 5 of 7', heading: 'Evidence For the Thought', desc: 'What facts actually support this thought? Be like a scientist — list only verifiable evidence, not feelings.', type: 'textarea', placeholder: 'Evidence that supports the thought…' },
+  { key: 'evidenceAgainst', label: 'Step 6 of 7', heading: 'Evidence Against the Thought', desc: 'What facts or experiences go against this thought? What would you say to a good friend who had this thought?', type: 'textarea', placeholder: 'Evidence that challenges the thought…' },
+  { key: 'alternative', label: 'Step 7 of 7', heading: 'A More Balanced Thought', desc: 'Based on all the evidence, write a more realistic and balanced version of your original thought. It doesn\'t need to be positive — just fair.', type: 'alternative_finish' }
+];
+
+let wsStep = 0;
+let wsData = {};
+let wsDistortions = [];
+
+function resetWorksheet() {
+  wsStep = 0; wsData = {}; wsDistortions = [];
+  renderWorksheet();
+}
+
+function renderWorksheet() {
+  const prog = document.getElementById('stepProgress');
+  prog.innerHTML = WS_STEPS.map((_, i) =>
+    `<div class="step-pip ${i < wsStep ? 'done' : i === wsStep ? 'active' : ''}"></div>`
+  ).join('');
+
+  const s = WS_STEPS[wsStep];
+  let html = `<div class="step-label">${s.label}</div><div class="step-heading">${s.heading}</div><div class="step-desc">${s.desc}</div>`;
+
+  if (s.type === 'textarea') {
+    html += `<textarea class="form-textarea" id="wsField" rows="4" placeholder="${s.placeholder}">${wsData[s.key] || ''}</textarea>`;
+  } else if (s.type === 'emotion_rate') {
+    html += `
+      <div class="form-group"><label class="form-label">Primary Emotion</label>
+      <select class="form-select" id="wsEmotion"><option value="Sad">Sad</option><option value="Anxious">Anxious</option><option value="Ashamed">Ashamed</option><option value="Angry">Angry</option><option value="Hopeless">Hopeless</option><option value="Guilty">Guilty</option><option value="Fearful">Fearful</option><option value="Hurt">Hurt</option></select></div>
+      <div class="form-group"><label class="form-label">Intensity (0–100)</label>
+      <div class="slider-row"><input type="range" min="0" max="100" value="${wsData.intensity || 60}" id="wsIntensity" oninput="document.getElementById('wsIntVal').textContent=this.value+'%'"/>
+      <span class="slider-val" id="wsIntVal">${wsData.intensity || 60}%</span></div></div>`;
+  } else if (s.type === 'distortions') {
+    wsDistortions = wsData.distortions || [];
+    html += `<div class="distortion-grid">${DISTORTIONS.map(d =>
+      `<div class="distortion-item ${wsDistortions.includes(d.name)?'selected':''}" onclick="toggleWsDistortion(this,'${d.name}')">
+        <input type="checkbox" ${wsDistortions.includes(d.name)?'checked':''} onclick="event.stopPropagation();toggleWsDistortion(this.closest('.distortion-item'),'${d.name}')"/>
+        <div><div class="distortion-name">${d.name}</div><div class="distortion-desc">${d.desc}</div></div>
+      </div>`).join('')}</div>`;
+  } else if (s.type === 'alternative_finish') {
+    html += `<textarea class="form-textarea" id="wsField" rows="3" placeholder="A more balanced, realistic thought…">${wsData.alternative || ''}</textarea>`;
+    html += `<div class="info-box" style="margin-top:14px;"><strong>Tip:</strong> Look at the evidence on both sides and write a thought that acknowledges both — not forced positivity, but honest balance.</div>`;
+  }
+
+  html += `<div class="step-nav">
+    <button class="btn btn-ghost btn-sm" onclick="wsPrev()" ${wsStep===0?'disabled style="opacity:0.4;"':''}>← Back</button>
+    <button class="btn btn-primary btn-sm" onclick="wsNext()">${wsStep===WS_STEPS.length-1 ? '✓ Save Record' : 'Next →'}</button>
+  </div>`;
+
+  document.getElementById('worksheetContent').innerHTML = html;
+  if (s.type === 'emotion_rate' && wsData.emotion) document.getElementById('wsEmotion').value = wsData.emotion;
+}
+
+function toggleWsDistortion(el, name) {
+  if (wsDistortions.includes(name)) { wsDistortions = wsDistortions.filter(x => x !== name); el.classList.remove('selected'); el.querySelector('input').checked = false; }
+  else { wsDistortions.push(name); el.classList.add('selected'); el.querySelector('input').checked = true; }
+}
+
+function wsCollect() {
+  const s = WS_STEPS[wsStep];
+  if (s.type === 'textarea' || s.type === 'alternative_finish') {
+    wsData[s.key] = (document.getElementById('wsField')?.value || '').trim();
+  } else if (s.type === 'emotion_rate') {
+    wsData.emotion = document.getElementById('wsEmotion').value;
+    wsData.intensity = document.getElementById('wsIntensity').value;
+  } else if (s.type === 'distortions') {
+    wsData.distortions = [...wsDistortions];
+  }
+}
+
+function wsNext() {
+  wsCollect();
+  if (wsStep < WS_STEPS.length - 1) { wsStep++; renderWorksheet(); }
+  else {
+    wsData.date = new Date().toISOString();
+    let saved = [];
+    try { saved = JSON.parse(localStorage.getItem('mp_worksheets') || '[]'); } catch(e){}
+    saved.unshift(wsData);
+    localStorage.setItem('mp_worksheets', JSON.stringify(saved));
+    document.getElementById('worksheetContent').innerHTML = `<div style="text-align:center;padding:32px 16px;">
+      <div style="font-size:48px;margin-bottom:12px;">🎉</div>
+      <div style="font-size:20px;font-weight:800;margin-bottom:8px;">Thought Record Complete!</div>
+      <div style="font-size:14px;color:var(--text-muted);margin-bottom:20px;line-height:1.6;">You've completed a full CBT thought record. Each time you do this, you're building the mental habit of examining your thoughts rather than accepting them as facts.</div>
+      <div class="info-box" style="text-align:left;">${wsData.alternative ? `<strong>Your balanced thought:</strong><br>"${wsData.alternative}"` : ''}</div>
+      <button class="btn btn-primary" onclick="resetWorksheet()" style="margin-top:12px;">Start a New Record</button>
+      <button class="btn btn-ghost" onclick="showSavedRecords()" style="margin-top:12px;margin-left:8px;">View Saved Records</button>
+    </div>`;
+    document.getElementById('stepProgress').innerHTML = WS_STEPS.map(() => `<div class="step-pip done"></div>`).join('');
+  }
+}
+
+function wsPrev() {
+  if (wsStep > 0) { wsCollect(); wsStep--; renderWorksheet(); }
+}
+
+function showSavedRecords() {
+  let saved = [];
+  try { saved = JSON.parse(localStorage.getItem('mp_worksheets') || '[]'); } catch(e){}
+  if (saved.length === 0) {
+    document.getElementById('savedModalBody').innerHTML = '<div class="empty"><div class="e-icon">📄</div><p>No saved thought records yet. Complete a worksheet to save your first one.</p></div>';
+  } else {
+    document.getElementById('savedModalBody').innerHTML = saved.map((r, i) => {
+      const d = new Date(r.date);
+      const dstr = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+      return `<div class="saved-record" onclick="showFullRecord(${i})">
+        <div class="saved-record-header"><span class="saved-record-date">${dstr}</span>${r.emotion ? `<span class="tag tag-purple">${r.emotion}</span>` : ''}</div>
+        ${r.thought ? `<div class="saved-record-thought">"${r.thought.substring(0,100)}…"</div>` : ''}
+        ${r.alternative ? `<div style="font-size:12px;color:var(--primary);margin-top:4px;">→ ${r.alternative.substring(0,80)}…</div>` : ''}
+      </div>`;
+    }).join('');
+  }
+  openModal('savedModal');
+}
+
+function showFullRecord(i) {
+  let saved = [];
+  try { saved = JSON.parse(localStorage.getItem('mp_worksheets') || '[]'); } catch(e){}
+  const r = saved[i];
+  const d = new Date(r.date);
+  const fields = [
+    ['Situation', r.situation], ['Emotion', r.emotion ? `${r.emotion} (${r.intensity}%)` : null],
+    ['Automatic Thought', r.thought], ['Thinking Patterns', r.distortions?.join(', ')],
+    ['Evidence For', r.evidenceFor], ['Evidence Against', r.evidenceAgainst], ['Balanced Thought', r.alternative]
+  ];
+  document.getElementById('savedModalBody').innerHTML = `
+    <button class="btn btn-ghost btn-sm" onclick="showSavedRecords()" style="margin-bottom:14px;">← Back to list</button>
+    <div style="font-size:11px;color:var(--text-muted);font-weight:700;text-transform:uppercase;margin-bottom:14px;">${d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</div>
+    ${fields.map(([label, val]) => val ? `<div style="margin-bottom:12px;"><div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:3px;">${label}</div><div style="font-size:13.5px;line-height:1.55;">${val}</div></div>` : '').join('')}
+  `;
+}
+
+/* ─────────────── BEHAVIOURAL ACTIVATION ─────────────── */
+const ACTIVITY_LIBRARY = [
+  { icon: '🚶', name: 'Short walk' }, { icon: '📖', name: 'Read a book' },
+  { icon: '🍵', name: 'Make tea mindfully' }, { icon: '🎵', name: 'Listen to music' },
+  { icon: '📞', name: 'Call a friend' }, { icon: '🌿', name: 'Tend to plants' },
+  { icon: '✏️', name: 'Creative writing' }, { icon: '🧘', name: 'Gentle stretching' },
+  { icon: '🍳', name: 'Cook a meal' }, { icon: '🎨', name: 'Draw or colour' },
+  { icon: '🛁', name: 'Relaxing bath' }, { icon: '🐕', name: 'Play with a pet' },
+  { icon: '🧩', name: 'Puzzle or game' }, { icon: '🌅', name: 'Watch the sunrise' },
+  { icon: '💌', name: 'Write a letter' }, { icon: '🏡', name: 'Tidy one room' },
+  { icon: '🧘', name: '5-min meditation' }, { icon: '🥗', name: 'Prepare a healthy meal' },
+  { icon: '🌳', name: 'Spend time in nature' }, { icon: '📝', name: 'Gratitude journaling' },
+  { icon: '🫁', name: 'Box breathing (4x)' }, { icon: '💧', name: 'Drink 8 glasses of water' },
+  { icon: '🎧', name: 'Listen to a podcast' }, { icon: '🌻', name: 'Do something kind for someone' }
+];
+
+let activities = [];
+function loadActivities() {
+  try { activities = JSON.parse(localStorage.getItem('mp_activities') || '[]'); } catch(e) { activities = []; }
+}
+function saveActivities() { localStorage.setItem('mp_activities', JSON.stringify(activities)); }
+
+function renderActivityLibrary() {
+  document.getElementById('activityLibrary').innerHTML = ACTIVITY_LIBRARY.map(a =>
+    `<button class="activity-tile" onclick="quickAddActivity('${a.icon} ${a.name}')"><span class="tile-icon">${a.icon}</span>${a.name}</button>`
+  ).join('');
+}
+
+function quickAddActivity(name) {
+  addActivityToPlanner(name, null);
+  renderPlannedActivities();
+}
+
+function addCustomActivity() {
+  const name = document.getElementById('customActivity').value.trim();
+  const date = document.getElementById('activityDate').value;
+  if (!name) { alert('Please enter an activity name.'); return; }
+  addActivityToPlanner(name, date);
+  document.getElementById('customActivity').value = '';
+  document.getElementById('activityDate').value = '';
+  renderPlannedActivities();
+}
+
+function addActivityToPlanner(name, date) {
+  activities.unshift({ id: Date.now(), name, date: date || new Date().toISOString().split('T')[0], done: false });
+  saveActivities();
+  renderPlannedActivities();
+}
+
+function completeActivity(id) {
+  const a = activities.find(x => x.id === id);
+  if (a) { a.done = !a.done; saveActivities(); renderPlannedActivities(); }
+}
+
+function deleteActivity(id) {
+  activities = activities.filter(x => x.id !== id);
+  saveActivities(); renderPlannedActivities();
+}
+
+function renderPlannedActivities() {
+  const list = document.getElementById('plannedList');
+  const count = document.getElementById('activityCount');
+  const active = activities.filter(a => !a.done).length;
+  count.textContent = active + ' planned · ' + activities.filter(a => a.done).length + ' completed';
+  if (activities.length === 0) {
+    list.innerHTML = '<div class="empty"><div class="e-icon">🌱</div><p>No activities planned yet. Choose from the library above or add a custom one.</p></div>';
+    return;
+  }
+  list.innerHTML = activities.map(a => `
+    <div class="planned-item ${a.done?'done':''}">
+      <div>
+        <div class="planned-name">${a.name}</div>
+        <div class="planned-date">${a.date ? new Date(a.date + 'T00:00:00').toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }) : ''}</div>
+      </div>
+      <button class="complete-btn" onclick="completeActivity(${a.id})">${a.done ? '↩ Undo' : '✓ Done'}</button>
+      <button class="btn btn-ghost btn-sm" onclick="deleteActivity(${a.id})" style="padding:5px 9px;">✕</button>
+    </div>`).join('');
+}
+
+/* ─────────────── LEARN CBT ─────────────── */
+const LEARN_TOPICS = [
+  { icon: '🔺', title: 'The CBT Model', summary: 'How thoughts, feelings, and behaviours are connected — and why this changes everything.', key: 'cbt_model' },
+  { icon: '⚡', title: 'Automatic Thoughts', summary: 'What they are, why they happen, and how to catch them before they spiral.', key: 'auto_thoughts' },
+  { icon: '🔍', title: 'Cognitive Distortions', summary: 'The 12 most common thinking errors and how to recognise them in yourself.', key: 'distortions' },
+  { icon: '📋', title: 'Thought Records', summary: 'The step-by-step process for examining and reframing unhelpful thoughts.', key: 'thought_records' },
+  { icon: '🌱', title: 'Behavioural Activation', summary: 'Why doing things — even when you don\'t feel like it — is one of the best antidepressants.', key: 'ba' },
+  { icon: '🫁', title: 'Box Breathing', summary: 'A 4-count breathing technique that calms the nervous system in minutes.', key: 'breathing' },
+  { icon: '🛡️', title: 'Distress Tolerance', summary: 'How to sit with difficult emotions instead of fighting them — and why acceptance is not giving up.', key: 'distress_tolerance' },
+  { icon: '🧬', title: 'Mind-Body Connection', summary: 'How your body and mind influence each other — and how to break the stress cycle.', key: 'mind_body' },
+  { icon: '🥗', title: 'Food & Mood', summary: 'How what you eat affects how you feel — practical nutrition tips for mental health.', key: 'food_mood' },
+  { icon: '💚', title: 'Self-Esteem & Self-Compassion', summary: 'Rebuilding your relationship with yourself — from self-criticism to self-kindness.', key: 'self_esteem' },
+  { icon: '📏', title: 'Rules & Assumptions', summary: 'The hidden "if-then" rules driving your behaviour — and how to make them more flexible.', key: 'rules_assumptions' },
+  { icon: '🔄', title: 'Uncertainty Tolerance', summary: 'Learning to cope with not knowing — a key skill for reducing anxiety and worry.', key: 'uncertainty' },
+  { icon: '⚖️', title: 'Theory A vs Theory B', summary: 'A powerful CBT tool for testing whether your fears reflect reality or anxiety.', key: 'theory_ab' },
+  { icon: '🧘', title: 'Meditation & Mindfulness', summary: 'Ten proven meditation techniques to calm the mind and build present-moment awareness.', key: 'meditation' }
+];
+
+const LEARN_CONTENT = {
+  cbt_model: { title: 'The CBT Model', body: `<p>Cognitive Behavioural Therapy is built on one central insight: <strong>our thoughts, feelings, and behaviours are all interconnected</strong> — and changing any one of them changes the others.</p><h4>The Cognitive Triangle</h4><p>Imagine three points of a triangle: Thoughts → Feelings → Behaviours → (back to) Thoughts. Each one influences the others in a continuous cycle.</p><h4>An Example</h4><p><strong>Situation:</strong> You wave at someone and they don't wave back.<br><strong>Thought:</strong> "They don't like me."<br><strong>Feeling:</strong> Hurt, anxious, embarrassed.<br><strong>Behaviour:</strong> Avoid that person.<br><strong>Result:</strong> The thought seems confirmed — the cycle continues.</p><h4>Why This Matters</h4><p>CBT gives you tools to intervene at the thought level. By examining and changing unhelpful thoughts, you can break the cycle and change how you feel and what you do.</p><h4>The Role of Situations</h4><p>Importantly, situations don't directly cause feelings. It's always thoughts — our interpretations of situations — that generate emotions. Two people can experience the same event and feel completely differently, based on their thoughts about it.</p>` },
+  auto_thoughts: { title: 'Automatic Thoughts', body: `<p>Automatic thoughts are rapid, involuntary thoughts that arise in response to situations. They happen so quickly we often don't notice them — but they have a powerful influence on our emotions.</p><h4>Characteristics</h4><p>They are <strong>automatic</strong> (happen without effort), <strong>brief</strong> (often just a word or phrase), and often feel like truth — like a statement of fact rather than an interpretation.</p><h4>Examples</h4><p>• Making a mistake at work → "I'm useless"<br>• Friend cancels plans → "Nobody wants to spend time with me"<br>• Feeling tired → "I'm falling apart"<br>• Silence in a conversation → "They think I'm boring"</p><h4>Why They Feel True</h4><p>Automatic thoughts feel true because they happen so fast and are so habitual. But feeling true doesn't mean being true. The first step is simply noticing them — creating a gap between the event and your response.</p><h4>Catching Your Thoughts</h4><p>When you notice a mood change, ask yourself: <em>"What was just going through my mind?"</em> or <em>"What does this situation mean to me?"</em> This is the first step of a thought record.</p>` },
+  distortions: { title: 'Cognitive Distortions', body: `<p>Cognitive distortions are systematic patterns of thinking that make our interpretations of events more negative than reality warrants. They're not character flaws — they're mental habits, often developed as protective mechanisms.</p><h4>The 12 Most Common Distortions</h4><h4>1. All-or-Nothing Thinking</h4><p>Seeing things in black and white with no middle ground. "If I'm not perfect, I'm a failure."</p><h4>2. Overgeneralisation</h4><p>Drawing a sweeping conclusion from a single event. "This always happens to me."</p><h4>3. Mental Filter</h4><p>Focusing exclusively on one negative detail while ignoring the bigger picture.</p><h4>4. Disqualifying the Positive</h4><p>Dismissing positive experiences as "not counting". "That compliment was just out of politeness."</p><h4>5. Mind Reading</h4><p>Assuming you know what others are thinking (usually something negative).</p><h4>6. Fortune Telling</h4><p>Predicting a negative outcome as if it's already certain.</p><h4>7. Catastrophising</h4><p>Exaggerating the importance or impact of a negative event. "This is a disaster."</p><h4>8. Emotional Reasoning</h4><p>Using your feelings as evidence for the truth. "I feel like a failure, so I must be one."</p><h4>9. Should Statements</h4><p>Rigid rules about yourself or others. "I should always be productive."</p><h4>10. Labelling</h4><p>Attaching a global negative label rather than describing a specific behaviour. "I'm an idiot" vs "I made a mistake."</p><h4>11. Personalisation</h4><p>Taking excessive responsibility for things outside your control.</p><h4>12. Magnification/Minimisation</h4><p>Exaggerating negatives and shrinking positives.</p>` },
+  thought_records: { title: 'Thought Records', body: `<p>A Thought Record (also called a Dysfunctional Thought Record or DTR) is the core practical tool of CBT. It's a structured way to examine an unhelpful thought using evidence — like a scientist would.</p><h4>The 7 Steps</h4><p><strong>1. Situation</strong> — Describe the triggering event factually.<br><strong>2. Emotion</strong> — Name your emotion and rate its intensity (0–100%).<br><strong>3. Automatic Thought</strong> — Write the specific thought that arose.<br><strong>4. Cognitive Distortions</strong> — Identify which thinking patterns might be operating.<br><strong>5. Evidence For</strong> — List factual evidence that supports the thought.<br><strong>6. Evidence Against</strong> — List factual evidence that challenges it.<br><strong>7. Balanced Thought</strong> — Write a more realistic version of the thought.</p><h4>Why It Works</h4><p>The process forces us to slow down and treat thoughts as hypotheses rather than facts. Over time, this becomes automatic — the brain develops the habit of examining thoughts rather than simply accepting them.</p><h4>How Often?</h4><p>Most therapists recommend completing 1–3 thought records per day during active CBT. Even doing one per week will gradually build the skill.</p>` },
+  ba: { title: 'Behavioural Activation', body: `<p>Behavioural Activation (BA) is one of the most well-evidenced treatments for depression. It directly targets the withdrawal-and-avoidance cycle that keeps depression going.</p><h4>The Vicious Cycle</h4><p>Low mood → withdraw from activities → lose pleasure and achievement → mood drops further → withdraw more → mood drops further…</p><h4>The BA Principle</h4><p>Don't wait until you feel motivated to do things — do things first, and the motivation (and improved mood) will follow. This is the opposite of how depression tells you to operate.</p><h4>Mastery and Pleasure Activities</h4><p>CBT identifies two types of beneficial activities:<br>• <strong>Pleasure activities</strong>: things that are enjoyable (a walk, music, reading)<br>• <strong>Mastery activities</strong>: things that give a sense of accomplishment (tidying a room, completing a task)</p><h4>Starting Small</h4><p>Begin with activities that require very little energy — a 5-minute walk, making a cup of tea mindfully, sending one text. Small actions create small mood improvements, which enable larger actions. Momentum is built gradually.</p><h4>Tracking Mood</h4><p>Rating your mood before and after activities helps you see that action does improve mood — even when depression tells you it won't.</p>` },
+  breathing: { title: 'Box Breathing', body: `<p>Box breathing (also called square breathing or 4-4-4-4 breathing) is a simple, evidence-based technique for rapidly reducing anxiety and activating the parasympathetic nervous system.</p><h4>The Science</h4><p>When anxious, our breathing becomes shallow and rapid, which amplifies the stress response. Deep, controlled breathing activates the vagus nerve, which directly signals the brain to calm down — reducing heart rate and cortisol levels.</p><h4>The Pattern</h4><p><strong>1. Inhale</strong> slowly through the nose for 4 counts.<br><strong>2. Hold</strong> gently for 4 counts.<br><strong>3. Exhale</strong> slowly through the mouth for 4 counts.<br><strong>4. Hold</strong> for 4 counts.<br><br>Repeat 4–6 cycles.</p><h4>When to Use It</h4><p>• Before a stressful situation<br>• During a panic or anxiety spike<br>• To help fall asleep<br>• As a daily mindfulness practice (even 2 minutes helps)</p><h4>Tips</h4><p>The exhale is the most important part — it's the exhale that triggers the calming response. If 4 counts feels too long, start with 3. The goal is slow and controlled, not straining.</p><button class="btn btn-primary" onclick="closeModal('learnModal');openModal('breathingModal');" style="margin-top:12px;">Try the Guided Exercise</button>` },
+
+  distress_tolerance: { title: 'Distress Tolerance', body: `<p>Distress tolerance is the ability to sit with uncomfortable emotions without immediately trying to escape, fix, or suppress them. It's a core skill in managing both depression and anxiety.</p><h4>The Paradox of Distress</h4><p>When we experience painful emotions, our instinct is to escape — through avoidance, distraction, substances, or other quick fixes. But these escape methods often make things worse in the long run, creating a vicious cycle.</p><h4>What Is Distress Intolerance?</h4><p>Distress intolerance is the belief that you <strong>cannot cope</strong> with unpleasant emotions. Common beliefs include: "I can't stand feeling anxious", "This feeling will overwhelm me", or "I need to get rid of this feeling immediately."</p><h4>What Acceptance Really Means</h4><p>Acceptance doesn't mean <strong>liking</strong> the emotion or <strong>giving up</strong>. It means acknowledging that the feeling is present, that it's temporary, and that you can tolerate it — even if it's uncomfortable.</p><h4>Seeing Emotions Differently</h4><p>Emotions are like waves — they rise, peak, and fall naturally. No emotion lasts forever. When you stop fighting a wave, it passes more quickly than when you struggle against it.</p><h4>Practising Acceptance</h4><p><strong>1. Notice:</strong> Name the emotion without judgment — "I'm noticing anxiety right now."<br><strong>2. Allow:</strong> Give the emotion permission to be present — "It's okay that I feel this."<br><strong>3. Observe:</strong> Watch where you feel it in your body with curiosity.<br><strong>4. Breathe:</strong> Breathe gently into the sensation without trying to change it.<br><strong>5. Wait:</strong> Notice that the intensity naturally fluctuates and eventually subsides.</p><h4>Common Escape Methods to Watch For</h4><p>Avoidance, excessive reassurance-seeking, overthinking, substance use, emotional eating, or compulsive behaviours. Recognising these patterns is the first step to developing healthier responses.</p>` },
+
+  mind_body: { title: 'The Mind-Body Connection', body: `<p>Your mind and body are not separate systems — they constantly influence each other. Understanding this connection is essential for managing anxiety, depression, and stress.</p><h4>The Fight-or-Flight Response</h4><p>When your brain detects a threat (real or imagined), it triggers a cascade of physical changes: adrenaline release, increased heart rate, muscle tension, shallow breathing, and digestive changes. This "fight-or-flight" response evolved to help us survive physical danger.</p><h4>The Problem</h4><p>Modern stressors (work pressure, social anxiety, financial worries) trigger the same ancient response. Your body reacts to a worried thought the same way it would react to a tiger — but there's no tiger to fight or flee from, so the stress chemicals have nowhere to go.</p><h4>The Stress Cycle</h4><p><strong>Stressful thought → Body activates fight-or-flight → Physical symptoms appear → You notice the symptoms → More anxious thoughts → Body activates further…</strong></p><p>This cycle explains why anxiety often comes with physical symptoms: racing heart, tight chest, stomach problems, headaches, muscle tension, fatigue, and difficulty sleeping.</p><h4>Breaking the Cycle</h4><p><strong>From the body up:</strong> Deep breathing, progressive muscle relaxation, gentle exercise, and grounding techniques all send "safety signals" to your brain.<br><strong>From the mind down:</strong> Cognitive restructuring, thought records, and mindfulness challenge the threatening thoughts that trigger the physical response.</p><h4>Physical Symptoms of Stress</h4><p>Headaches, jaw clenching, neck and shoulder tension, chest tightness, stomach upset, irritable bowel symptoms, shallow breathing, fatigue, insomnia, skin problems, and weakened immune function can all be manifestations of the mind-body stress cycle.</p>` },
+
+  food_mood: { title: 'Food & Mood', body: `<p>What you eat has a direct impact on how you feel. Research increasingly shows a strong connection between diet and mental health — particularly for depression and anxiety.</p><h4>Keep a Food Diary</h4><p>Before changing anything, try keeping a food and mood diary for a week. Note what you eat, when you eat it, and how your mood is before and after. You may spot patterns you didn't expect.</p><h4>Key Principles</h4><p><strong>Eat regularly:</strong> Blood sugar drops cause irritability, fatigue, and low mood. Aim for regular meals rather than long gaps followed by large meals.<br><strong>Stay hydrated:</strong> Even mild dehydration can affect mood and concentration.<br><strong>Don't skip breakfast:</strong> It stabilises blood sugar for the morning and improves focus.</p><h4>Foods That Support Mental Health</h4><p>• <strong>Omega-3 fatty acids:</strong> Found in oily fish, walnuts, and flaxseeds. Linked to reduced inflammation and improved mood.<br>• <strong>Complex carbohydrates:</strong> Whole grains, oats, brown rice. Provide steady energy without blood sugar spikes.<br>• <strong>Protein:</strong> Contains amino acids that are building blocks for neurotransmitters like serotonin.<br>• <strong>Fruits and vegetables:</strong> Rich in vitamins, minerals, and antioxidants that support brain function.</p><h4>Things to Watch Out For</h4><p>• <strong>Caffeine:</strong> Can increase anxiety symptoms — try reducing gradually if you drink a lot.<br>• <strong>Alcohol:</strong> A depressant that disrupts sleep and worsens low mood.<br>• <strong>Highly processed foods:</strong> May contain additives that affect some people's mood.<br>• <strong>Sugar:</strong> Causes energy spikes and crashes that mimic mood swings.</p><h4>Gut Health</h4><p>Your gut produces about 95% of your body's serotonin (a key mood-regulating neurotransmitter). A healthy gut microbiome — supported by fibre, fermented foods, and diverse plant foods — may directly support better mental health.</p>` },
+
+  self_esteem: { title: 'Self-Esteem & Self-Compassion', body: `<p>Low self-esteem and harsh self-criticism are both causes and symptoms of depression and anxiety. CBT offers practical tools for rebuilding a healthier relationship with yourself.</p><h4>Understanding Self-Esteem</h4><p>Self-esteem isn't about arrogance or forced positivity — it's about having a fair, balanced view of yourself that acknowledges both strengths and imperfections.</p><h4>The Self-Criticism Trap</h4><p>Many people believe that being harsh with themselves motivates improvement. Research shows the opposite: self-criticism increases anxiety and depression, while self-compassion actually <strong>increases</strong> motivation and resilience.</p><h4>Self-Compassion: Three Components</h4><p><strong>1. Self-kindness:</strong> Treat yourself as you would a good friend. When you make a mistake, respond with understanding rather than attack.<br><strong>2. Common humanity:</strong> Recognise that imperfection is part of being human — you're not alone in struggling.<br><strong>3. Mindful awareness:</strong> Notice self-critical thoughts without being swept away by them.</p><h4>A Quick Self-Esteem Exercise</h4><p>Close your eyes and imagine yourself as a small child — perhaps 5 or 6 years old. Picture that child clearly. Now imagine saying to that child the things you typically say to yourself when you're self-critical. It usually feels uncomfortable — because you'd never speak to a child that way. This highlights how unfairly we treat ourselves.</p><h4>Practical Steps</h4><p>• Keep a daily "3 good things" list — write down three things you did well, however small.<br>• Challenge "I am" statements: replace "I am useless" with "I made a mistake in one area."<br>• Accept compliments without deflecting — just say "thank you."<br>• Notice your unique qualities — what do you bring that nobody else does in exactly the same way?</p>` },
+
+  rules_assumptions: { title: 'Rules & Assumptions', body: `<p>Beneath our everyday automatic thoughts lie deeper <strong>rules and assumptions</strong> — the "if-then" beliefs that silently govern our behaviour and self-worth.</p><h4>What Are Rules and Assumptions?</h4><p>They're conditional beliefs that usually take the form: <strong>"If [condition], then [consequence]"</strong>. For example:<br>• "If I don't do everything perfectly, people will reject me"<br>• "If I show vulnerability, others will think I'm weak"<br>• "If I let my guard down, I'll get hurt"</p><h4>Where Do They Come From?</h4><p>These rules typically develop in childhood or during significant life experiences. They were often useful at the time — perhaps being a perfectionist helped you succeed at school, or staying guarded protected you from an unpredictable parent.</p><h4>Why They Become Problems</h4><p>Rules that were once protective can become rigid and unhelpful when applied to every situation. A rule like "I must always be strong" might prevent you from seeking support when you really need it.</p><h4>Identifying Your Rules</h4><p>Ask yourself: What do you believe you <strong>must</strong> do to be accepted or safe? What would happen if you didn't? Common themes include perfectionism, approval-seeking, self-sacrifice, and emotional inhibition.</p><h4>Creating More Flexible Alternatives</h4><p>The goal isn't to abandon your rules entirely, but to make them more <strong>flexible</strong>. For example:<br>• Old: "If I make a mistake, it means I'm incompetent"<br>• New: "Making mistakes is how I learn. One mistake doesn't define my competence."<br>• Old: "I must always put others first"<br>• New: "Caring for others is important, and looking after myself helps me do that better."</p><h4>Testing New Rules</h4><p>Design small behavioural experiments to test what actually happens when you don't follow the old rule. Does the feared outcome really occur? Usually, the reality is much less catastrophic than the rule predicts.</p>` },
+
+  uncertainty: { title: 'Uncertainty Tolerance', body: `<p>Intolerance of uncertainty — the difficulty coping with not knowing what will happen — is one of the key drivers of chronic worry, anxiety, and OCD.</p><h4>What Is Uncertainty Intolerance?</h4><p>It's the tendency to react negatively to uncertain situations and events, regardless of how likely the feared outcome actually is. People with high uncertainty intolerance often feel that <strong>any possibility of something bad happening is too much to bear</strong>.</p><h4>How It Fuels Anxiety</h4><p>Uncertainty intolerance drives behaviours like:<br>• Excessive reassurance-seeking<br>• Checking and re-checking<br>• Avoiding new situations<br>• Over-planning and over-preparing<br>• Seeking certainty through endless internet research<br>• Decision paralysis</p><h4>The Core Belief</h4><p>The underlying belief is usually something like: "I need to be 100% certain before I can feel safe." But complete certainty is impossible in life — so this belief guarantees constant anxiety.</p><h4>Building Tolerance</h4><p><strong>1. Recognise uncertainty beliefs:</strong> Notice when you're thinking "I can't cope with not knowing" or "What if something goes wrong?"<br><strong>2. Challenge the belief:</strong> How do you actually cope with uncertainty every day? (You don't know if your car will start, if you'll be healthy tomorrow, etc. — yet you manage.)<br><strong>3. Behavioural experiments:</strong> Deliberately expose yourself to small uncertainties — make a decision without exhaustive research, leave the house without double-checking everything, send a message without re-reading it five times.<br><strong>4. Track outcomes:</strong> Record what you feared vs. what actually happened. Over time, you'll see that uncertain situations rarely lead to the worst-case scenario.</p>` },
+
+  theory_ab: { title: 'Theory A vs Theory B', body: `<p>Theory A vs Theory B is a powerful CBT tool, especially useful for anxiety, OCD, and health anxiety. It helps you step back and consider two competing explanations for your experience.</p><h4>How It Works</h4><p>Instead of asking "Is this thought true?", you create two theories:</p><p><strong>Theory A (the anxiety/fear story):</strong> Your feared interpretation — "The problem is real and dangerous."<br><strong>Theory B (the alternative story):</strong> An alternative explanation — "The problem is that I'm <em>worrying</em> about something that anxiety is making seem dangerous."</p><h4>An Example</h4><p><strong>Theory A:</strong> "I have a serious illness because I keep getting headaches."<br>→ If true: I need medical tests, constant monitoring, and should be very worried.<br><strong>Theory B:</strong> "I am anxious about my health, and this anxiety causes muscle tension and headaches."<br>→ If true: I need to work on my anxiety, practise relaxation, and reduce checking behaviours.</p><h4>Evaluating the Evidence</h4><p>For each theory, list the evidence that supports it. Consider: which theory actually explains <strong>all</strong> the facts better? Which one accounts for the checking, the reassurance-seeking, the physical symptoms?</p><h4>The Key Question</h4><p>"If Theory B is true, what should I do differently?" Usually, Theory B points toward managing anxiety itself rather than the feared situation — through CBT techniques, acceptance, and gradually reducing safety behaviours.</p><h4>When to Use This Tool</h4><p>Theory A/B is particularly helpful when you're stuck in a cycle of worry and can't decide whether your fears are justified. By laying out both theories side by side, you gain perspective that's hard to achieve when caught in the moment.</p>` },
+
+  meditation: { title: 'Meditation & Mindfulness', body: `<p>Meditation is a practice of focused attention and awareness that has been shown to reduce anxiety, depression, stress, and even physical pain. Here are proven techniques you can start with today.</p><h4>1. Mindfulness Meditation</h4><p>Focus on the breath. When your mind wanders (it will), gently return attention to breathing. Start with just 2 minutes. This builds the "mental muscle" of noticing thoughts without being carried away by them.</p><h4>2. Body Scan</h4><p>Slowly move your attention from head to toe, noticing sensations in each area without trying to change them. This builds body awareness and helps release stored tension.</p><h4>3. Loving-Kindness Meditation</h4><p>Silently repeat phrases of goodwill: "May I be happy. May I be healthy. May I be safe." Then extend these wishes to others. Research shows this increases positive emotions and reduces self-criticism.</p><h4>4. Guided Visualisation</h4><p>Imagine a calm, safe place in vivid detail — the sights, sounds, smells, and textures. Your nervous system responds to imagined safety similarly to real safety.</p><h4>5. Walking Meditation</h4><p>Walk slowly and deliberately, feeling each footstep. Focus on the physical sensations: the ground beneath your feet, the movement of your legs, the rhythm of your steps.</p><h4>6. Mantra Meditation</h4><p>Repeat a word or phrase silently — "peace", "calm", "I am enough". The repetition gives the mind an anchor, reducing rumination and worry.</p><h4>Getting Started</h4><p>• Start with just 2–5 minutes per day. Consistency matters more than duration.<br>• There's no "right" way — if your mind wanders 100 times, bringing it back 100 times IS the practice.<br>• Try different techniques to find what resonates with you.<br>• Aim for the same time each day to build the habit.</p>` }
+};
+
+function renderLearnGrid() {
+  document.getElementById('learnGrid').innerHTML = LEARN_TOPICS.map(t =>
+    `<div class="learn-card" onclick="showLearnTopic('${t.key}')">
+      <div class="learn-icon">${t.icon}</div>
+      <h3>${t.title}</h3>
+      <p>${t.summary}</p>
+    </div>`
+  ).join('');
+}
+
+function showLearnTopic(key) {
+  const c = LEARN_CONTENT[key];
+  if (!c) return;
+  document.getElementById('learnModalTitle').textContent = c.title;
+  document.getElementById('learnModalBody').innerHTML = c.body;
+  openModal('learnModal');
+}
+
+/* ─────────────── SELF-CHECK ASSESSMENT ─────────────── */
+const ASSESS_ITEMS = [
+  { id: 'a1', label: 'Feeling sad, down, or hopeless' },
+  { id: 'a2', label: 'Loss of interest or pleasure in things you used to enjoy' },
+  { id: 'a3', label: 'Difficulty sleeping, or sleeping too much' },
+  { id: 'a4', label: 'Feeling tired or having little energy' },
+  { id: 'a5', label: 'Difficulty concentrating or making decisions' },
+  { id: 'a6', label: 'Feeling worthless or excessively self-critical' },
+  { id: 'a7', label: 'Feeling anxious, tense, or on edge' },
+  { id: 'a8', label: 'Worrying thoughts that are hard to control' },
+  { id: 'a9', label: 'Avoiding situations due to fear or anxiety' },
+  { id: 'a10', label: 'Pessimistic thoughts about the future' }
+];
+
+function renderAssessment() {
+  document.getElementById('assessQuestions').innerHTML = ASSESS_ITEMS.map(q => `
+    <div class="form-group">
+      <label class="form-label" style="text-transform:none;letter-spacing:0;font-size:13.5px;">${q.label}</label>
+      <div class="slider-row">
+        <span style="font-size:11px;color:var(--text-muted);min-width:50px;">Not at all</span>
+        <input type="range" min="0" max="4" value="0" id="${q.id}" oninput="document.getElementById('${q.id}v').textContent=['Not at all','A little','Moderately','Quite a lot','Extremely'][this.value]" />
+        <span style="font-size:11px;color:var(--text-muted);min-width:55px;text-align:right;" id="${q.id}v">Not at all</span>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('assessResult').style.display = 'none';
+}
+
+function scoreAssessment() {
+  let total = 0;
+  let depScore = 0, anxScore = 0;
+  ASSESS_ITEMS.forEach((q, i) => {
+    const v = parseInt(document.getElementById(q.id).value);
+    total += v;
+    if (i < 6) depScore += v;
+    if (i >= 6) anxScore += v;
+  });
+
+  let level, color, advice;
+  if (total <= 8) { level = 'Low'; color = 'var(--success)'; advice = 'Your scores suggest you\'re managing relatively well. Keep using the tools here to maintain good mental health habits.'; }
+  else if (total <= 18) { level = 'Mild'; color = 'var(--warning)'; advice = 'Your scores suggest some mild difficulties. The CBT tools in this app — especially thought records and behavioural activation — can be very helpful at this level.'; }
+  else if (total <= 28) { level = 'Moderate'; color = '#C2410C'; advice = 'Your scores suggest moderate difficulties. The tools here can help, but consider speaking with a GP or therapist for additional support.'; }
+  else { level = 'Significant'; color = 'var(--danger)'; advice = 'Your scores suggest you\'re experiencing significant difficulties. Please consider reaching out to a mental health professional. The 🆘 Crisis Help button has contact numbers.'; }
+
+  const depLevel = depScore <= 6 ? 'Low' : depScore <= 12 ? 'Mild-Moderate' : 'Significant';
+  const anxLevel = anxScore <= 4 ? 'Low' : anxScore <= 8 ? 'Mild-Moderate' : 'Significant';
+
+  document.getElementById('assessResult').style.display = 'block';
+  document.getElementById('assessResult').innerHTML = `
+    <div class="card-title" style="margin-bottom:12px;">Your Results</div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px;">
+      <div style="flex:1;min-width:120px;text-align:center;padding:16px;border-radius:10px;background:${color}15;border:2px solid ${color};">
+        <div style="font-size:28px;font-weight:800;color:${color};">${total}/40</div>
+        <div style="font-size:13px;font-weight:700;color:${color};">${level} Distress</div>
+      </div>
+      <div style="flex:1;min-width:120px;text-align:center;padding:16px;border-radius:10px;background:var(--primary-bg);border:2px solid var(--primary);">
+        <div style="font-size:18px;font-weight:800;color:var(--primary);">${depLevel}</div>
+        <div style="font-size:12px;color:var(--text-muted);">Depression indicators</div>
+      </div>
+      <div style="flex:1;min-width:120px;text-align:center;padding:16px;border-radius:10px;background:#FFF7ED;border:2px solid #C2410C;">
+        <div style="font-size:18px;font-weight:800;color:#C2410C;">${anxLevel}</div>
+        <div style="font-size:12px;color:var(--text-muted);">Anxiety indicators</div>
+      </div>
+    </div>
+    <div class="info-box">${advice}</div>
+    <div style="font-size:12px;color:var(--text-muted);margin-top:12px;">This is a self-awareness tool, not a clinical assessment. Scores may fluctuate day to day. Track over time for a more accurate picture.</div>
+    <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
+      <button class="btn btn-secondary btn-sm" onclick="renderAssessment();">↻ Take Again</button>
+      <button class="btn btn-secondary btn-sm" onclick="showSection('guide')">💬 Talk to Guide</button>
+      <button class="btn btn-secondary btn-sm" onclick="showSection('worksheet')">🧠 Start Thought Record</button>
+    </div>
+  `;
+  document.getElementById('assessResult').scrollIntoView({ behavior: 'smooth' });
+}
+
+/* ─────────────── THEORY A/B ─────────────── */
+function showTheoryAB() {
+  const card = document.getElementById('theoryABCard');
+  card.style.display = card.style.display === 'none' ? 'block' : 'none';
+  ['theoryA','theoryB','evidenceA','evidenceB','actionA','actionB','theoryConclusion'].forEach(id => { if(document.getElementById(id)) document.getElementById(id).value = ''; });
+}
+
+function saveTheoryAB() {
+  const data = {
+    date: new Date().toISOString(),
+    theoryA: document.getElementById('theoryA').value.trim(),
+    theoryB: document.getElementById('theoryB').value.trim(),
+    evidenceA: document.getElementById('evidenceA').value.trim(),
+    evidenceB: document.getElementById('evidenceB').value.trim(),
+    actionA: document.getElementById('actionA').value.trim(),
+    actionB: document.getElementById('actionB').value.trim(),
+    conclusion: document.getElementById('theoryConclusion').value.trim()
+  };
+  if (!data.theoryA && !data.theoryB) { alert('Please fill in at least one theory.'); return; }
+  let saved = [];
+  try { saved = JSON.parse(localStorage.getItem('mp_theoryab') || '[]'); } catch(e){}
+  saved.unshift(data);
+  localStorage.setItem('mp_theoryab', JSON.stringify(saved));
+  document.getElementById('theoryABCard').style.display = 'none';
+  alert('Theory A/B worksheet saved! You can review your thought records and worksheets to track your progress.');
+}
+
+/* ─────────────── RULES & ASSUMPTIONS ─────────────── */
+function showRulesWS() {
+  const card = document.getElementById('rulesWSCard');
+  card.style.display = card.style.display === 'none' ? 'block' : 'none';
+  ['ruleText','ruleOrigin','ruleAdvantages','ruleDisadvantages','ruleAlternative'].forEach(id => { if(document.getElementById(id)) document.getElementById(id).value = ''; });
+}
+
+function saveRulesWS() {
+  const data = {
+    date: new Date().toISOString(),
+    rule: document.getElementById('ruleText').value.trim(),
+    origin: document.getElementById('ruleOrigin').value.trim(),
+    advantages: document.getElementById('ruleAdvantages').value.trim(),
+    disadvantages: document.getElementById('ruleDisadvantages').value.trim(),
+    alternative: document.getElementById('ruleAlternative').value.trim()
+  };
+  if (!data.rule) { alert('Please enter your rule or assumption.'); return; }
+  let saved = [];
+  try { saved = JSON.parse(localStorage.getItem('mp_rules') || '[]'); } catch(e){}
+  saved.unshift(data);
+  localStorage.setItem('mp_rules', JSON.stringify(saved));
+  document.getElementById('rulesWSCard').style.display = 'none';
+  alert('Rules & Assumptions worksheet saved!');
+}
+
+/* ─────────────── BREATHING EXERCISE ─────────────── */
+let breathPhase = 0, breathTimer = null, breathCount = 0;
+const PHASES = [
+  { label: 'Inhale…', cls: 'inhale', dur: 4000 },
+  { label: 'Hold', cls: 'inhale', dur: 4000 },
+  { label: 'Exhale…', cls: 'exhale', dur: 4000 },
+  { label: 'Hold', cls: 'exhale', dur: 4000 }
+];
+
+function startBreathing() {
+  stopBreathing();
+  breathPhase = 0; breathCount = 4;
+  document.getElementById('breathBtn').textContent = '■ Stop';
+  document.getElementById('breathBtn').onclick = stopBreathing;
+  document.getElementById('breathCount').style.visibility = 'visible';
+  runBreathPhase();
+}
+
+function runBreathPhase() {
+  const p = PHASES[breathPhase];
+  const circle = document.getElementById('breathCircle');
+  const label = document.getElementById('breathLabel');
+  const counter = document.getElementById('breathCount');
+  circle.className = 'breath-circle ' + p.cls;
+  circle.textContent = p.label.replace('…','');
+  label.textContent = p.label;
+  breathCount = 4;
+  counter.textContent = breathCount;
+  let elapsed = 0;
+  const tick = setInterval(() => {
+    elapsed += 1000;
+    breathCount = Math.max(1, 4 - Math.floor(elapsed / 1000));
+    counter.textContent = breathCount;
+    if (elapsed >= p.dur) {
+      clearInterval(tick);
+      breathPhase = (breathPhase + 1) % 4;
+      breathTimer = setTimeout(runBreathPhase, 200);
+    }
+  }, 1000);
+  breathTimer = tick;
+}
+
+function stopBreathing() {
+  clearInterval(breathTimer); clearTimeout(breathTimer);
+  const circle = document.getElementById('breathCircle');
+  if (circle) { circle.className = 'breath-circle'; circle.textContent = 'Ready'; }
+  const label = document.getElementById('breathLabel');
+  if (label) label.textContent = 'Press Start';
+  const btn = document.getElementById('breathBtn');
+  if (btn) { btn.textContent = '▶ Start'; btn.onclick = startBreathing; }
+  const cnt = document.getElementById('breathCount');
+  if (cnt) cnt.style.visibility = 'hidden';
+}
+
+/* ─────────────── INIT ─────────────── */
+window.addEventListener('load', () => {
+  loadJournal();
+  loadActivities();
+  renderJournal();
+  renderActivityLibrary();
+  renderPlannedActivities();
+  renderLearnGrid();
+  renderAssessment();
+  resetWorksheet();
+  initChat();
+  // set today's date default in activity date input
+  document.getElementById('activityDate').value = new Date().toISOString().split('T')[0];
+});
+</script>
+</body>
+</html>
