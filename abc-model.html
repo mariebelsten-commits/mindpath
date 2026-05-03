@@ -789,18 +789,21 @@
       next_steps:        nl2br(document.getElementById('abcNextSteps').value)
     };
 
-    fetch('https://hooks.zapier.com/hooks/catch/27250519/uvwsp44/', {
-      method: 'POST',
-      body: JSON.stringify(payload)
-    })
-    .then(function() {
-      modal.style.display = 'none';
-      document.getElementById('abcEmail').value = '';
-      alert('Your worksheet is on its way! Check your inbox in the next minute or two.');
-    })
-    .catch(function() {
-      alert('Something went wrong. Please try again.');
-    });
+    fetch('/.netlify/functions/saveWorksheet', {
+method: 'POST',
+headers: {
+'Content-Type': 'application/json'
+},
+body: JSON.stringify(payload)
+})
+.then(function() {
+modal.style.display = 'none';
+document.getElementById('abcEmail').value = '';
+alert('Your worksheet has been saved successfully.');
+})
+.catch(function() {
+alert('Something went wrong. Please try again.');
+});
   });
 </script>
 
