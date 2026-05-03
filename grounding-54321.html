@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>5-4-3-2-1 Grounding – ChatCBT</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #f2f8f4;
+    color: #1a1a1a;
+    min-height: 100vh;
+  }
+
+  /* ── Page header ── */
+  .page-header {
+    background: #0d4a2e;
+    padding: 36px 24px 30px;
+    text-align: center;
+  }
+  .page-header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #ffffff !important;
+    letter-spacing: -0.3px;
+    margin-bottom: 10px;
+  }
+  .page-header p {
+    font-size: 0.97rem;
+    color: #c8e6d4 !important;
+    max-width: 680px;
+    margin: 0 auto;
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  /* ── Layout ── */
+  .container {
+    max-width: 820px;
+    margin: 32px auto;
+    padding: 0 20px 72px;
+  }
+
+  /* ── Info box ── */
+  .info-box {
+    background: #ffffff;
+    border-left: 5px solid #0d4a2e;
+    border-radius: 0 10px 10px 0;
+    padding: 18px 22px;
+    margin-bottom: 24px;
+    font-size: 0.92rem;
+    line-height: 1.75;
+    color: #1a1a1a;
+  }
+  .info-box strong { color: #0d4a2e; }
+
+  /* ── Tips strip ── */
+  .tips-strip {
+    background: #0d4a2e;
+    border-radius: 12px;
+    padding: 22px 26px;
+    margin-bottom: 28px;
+  }
+  .tips-strip h3 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #c8e6d4 !important;
+    margin-bottom: 14px;
+  }
+  .tips-strip ol {
+    list-style: none;
+    counter-reset: steps;
+    padding: 0;
+  }
+  .tips-strip ol li {
+    counter-increment: steps;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 9px;
+    font-size: 0.9rem;
+    color: #ffffff !important;
+    line-height: 1.6;
+  }
+  .tips-strip ol li:last-child { margin-bottom: 0; }
+  .tips-strip ol li::before {
+    content: counter(steps);
+    background: rgba(255,255,255,0.18);
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 0.78rem;
+    min-width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .tips-strip ol li strong {
+    color: #ffffff !important;
+  }
+
+  /* ── Section header ── */
+  .section-header {
+    background: #0d4a2e;
+    color: #ffffff !important;
+    padding: 14px 20px;
+    border-radius: 12px 12px 0 0;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-header .s-icon {
+    font-size: 1.15rem;
+    line-height: 1;
+  }
+
+  /* ── Section body ── */
+  .section-body {
+    background: #ffffff;
+    border: 1px solid #c5dfd0;
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    padding: 24px 22px;
+  }
+
+  /* ── Form elements ── */
+  .field-group { margin-bottom: 22px; }
+  .field-group:last-child { margin-bottom: 0; }
+
+  .field-label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: #0d4a2e;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 8px;
+  }
+  input[type="text"],
+  input[type="date"],
+  textarea {
+    width: 100%;
+    border: 1.5px solid #c5dfd0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    color: #1a1a1a;
+    background: #fafffe;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  input[type="text"]:focus,
+  input[type="date"]:focus,
+  textarea:focus {
+    border-color: #0d4a2e;
+    background: #ffffff;
+  }
+  textarea {
+    resize: vertical;
+    min-height: 84px;
+    line-height: 1.6;
+  }
+
+  /* ── Pyramid visual ── */
+  .pyramid-wrap {
+    background: #f2f8f4;
+    border: 1px solid #c5dfd0;
+    border-radius: 12px;
+    padding: 20px 18px 16px;
+    margin-bottom: 28px;
+  }
+  .pyramid-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: #0d4a2e;
+    margin-bottom: 14px;
+    text-align: center;
+  }
+  .pyramid-row {
+    display: flex;
+    align-items: center;
+    border-radius: 9px;
+    margin-bottom: 7px;
+    padding: 11px 16px;
+    gap: 12px;
+    cursor: default;
+    transition: filter 0.15s;
+  }
+  .pyramid-row:hover { filter: brightness(1.08); }
+  .pyr-5 { background: #0d4a2e; width: 100%; }
+  .pyr-4 { background: #165f3c; width: 83%; }
+  .pyr-3 { background: #1e7a4a; width: 66%; }
+  .pyr-2 { background: #2e9e62; width: 49%; }
+  .pyr-1 { background: #3cb87b; width: 32%; min-width: 160px; }
+  .pyr-num {
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: rgba(255,255,255,0.4) !important;
+    min-width: 28px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .pyr-icon { font-size: 1.2rem; line-height: 1; flex-shrink: 0; }
+  .pyr-text {
+    font-size: 0.87rem;
+    font-weight: 700;
+    color: #ffffff !important;
+    line-height: 1.25;
+  }
+  .pyr-sub {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: rgba(255,255,255,0.72) !important;
+    margin-top: 2px;
+  }
+
+  /* ── Sense input cards ── */
+  .sense-card {
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 18px;
+    border: 1.5px solid #c5dfd0;
+  }
+  .sense-card:last-child { margin-bottom: 0; }
+
+  .sense-card-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 13px 18px;
+  }
+  .sc-5 .sense-card-header { background: #0d4a2e; }
+  .sc-4 .sense-card-header { background: #165f3c; }
+  .sc-3 .sense-card-header { background: #1e7a4a; }
+  .sc-2 .sense-card-header { background: #2e9e62; }
+  .sc-1 .sense-card-header { background: #3cb87b; }
+
+  .sc-big-num {
+    font-size: 2rem;
+    font-weight: 800;
+    color: rgba(255,255,255,0.3) !important;
+    line-height: 1;
+    min-width: 36px;
+    flex-shrink: 0;
+  }
+  .sc-icon { font-size: 1.4rem; flex-shrink: 0; }
+  .sc-label {
+    flex: 1;
+  }
+  .sc-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff !important;
+    line-height: 1.2;
+  }
+  .sc-desc {
+    font-size: 0.77rem;
+    color: rgba(255,255,255,0.72) !important;
+    font-weight: 400;
+    margin-top: 2px;
+  }
+
+  .sense-card-body {
+    background: #fafffe;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .sense-input-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sense-num-badge {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #e8f5ee;
+    border: 1.5px solid #c5dfd0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.77rem;
+    font-weight: 700;
+    color: #0d4a2e;
+    flex-shrink: 0;
+  }
+  .sense-input-row input[type="text"] {
+    flex: 1;
+    margin: 0;
+    padding: 8px 12px;
+    font-size: 0.88rem;
+  }
+
+  /* ── Sliders ── */
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.74rem;
+    color: #6b7280;
+    margin-top: 5px;
+  }
+  input[type="range"] {
+    flex: 1;
+    accent-color: #0d4a2e;
+    cursor: pointer;
+  }
+  .rating-pill {
+    background: #0d4a2e;
+    color: #ffffff;
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-weight: 700;
+    font-size: 0.88rem;
+    min-width: 52px;
+    text-align: center;
+  }
+
+  /* ── Compare panel ── */
+  .compare-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    background: #e8f5ee;
+    border: 1px solid #c5dfd0;
+    border-radius: 10px;
+    padding: 18px;
+    margin-top: 10px;
+  }
+  .compare-col .compare-label {
+    font-weight: 700;
+    color: #0d4a2e;
+    font-size: 0.77rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 8px;
+  }
+  .c-slider-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .c-slider-bar {
+    flex: 1;
+    height: 10px;
+    background: #c5dfd0;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .c-slider-fill {
+    height: 100%;
+    background: #0d4a2e;
+    border-radius: 6px;
+    transition: width 0.3s;
+  }
+  .c-pill {
+    background: #0d4a2e;
+    color: #fff;
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    min-width: 44px;
+    text-align: center;
+  }
+
+  /* ── Tag buttons ── */
+  .tag-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .tag-btn {
+    background: #e8f5ee;
+    border: 1.5px solid #c5dfd0;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: #0d4a2e;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .tag-btn.selected {
+    background: #0d4a2e;
+    color: #ffffff;
+    border-color: #0d4a2e;
+  }
+  .tag-btn:hover:not(.selected) {
+    background: #d4edde;
+    border-color: #0d4a2e;
+  }
+
+  /* ── Two column grid ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  /* ── Submit ── */
+  .submit-wrap { text-align: center; margin-top: 36px; }
+  .submit-btn {
+    background: #0d4a2e;
+    color: #ffffff;
+    border: none;
+    border-radius: 30px;
+    padding: 14px 36px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    letter-spacing: 0.2px;
+  }
+  .submit-btn:hover { background: #0a3a24; transform: translateY(-1px); }
+
+  /* ── Modal ── */
+  #grModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+  }
+  #grModal.open { display: flex; }
+  #grModalBox {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 32px 28px;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  }
+  #grModalBox h2 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #0d4a2e;
+    margin-bottom: 8px;
+  }
+  #grModalBox p {
+    font-size: 0.88rem;
+    color: #4b5563;
+    margin-bottom: 18px;
+    line-height: 1.65;
+  }
+  #grEmail {
+    width: 100%;
+    border: 1.5px solid #c5dfd0;
+    border-radius: 8px;
+    padding: 11px 14px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.92rem;
+    margin-bottom: 16px;
+    outline: none;
+    color: #1a1a1a;
+  }
+  #grEmail:focus { border-color: #0d4a2e; }
+  .modal-btns { display: flex; gap: 10px; justify-content: center; }
+  .btn-send {
+    background: #0d4a2e;
+    color: #fff;
+    border: none;
+    border-radius: 22px;
+    padding: 10px 28px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.92rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-send:hover { background: #0a3a24; }
+  .btn-cancel {
+    background: transparent;
+    color: #6b7280;
+    border: 1.5px solid #d1d5db;
+    border-radius: 22px;
+    padding: 10px 22px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.92rem;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .btn-cancel:hover { border-color: #9ca3af; }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    .two-col { grid-template-columns: 1fr; }
+    .compare-panel { grid-template-columns: 1fr; }
+    .pyr-4, .pyr-3, .pyr-2, .pyr-1 { width: 100%; }
+    .page-header h1 { font-size: 1.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════ HEADER ═══════════════════════════════════ -->
+<div class="page-header">
+  <h1>5-4-3-2-1 Grounding</h1>
+  <p>A five-senses technique to anchor you in the present moment and ease anxiety, overwhelm, or dissociation.</p>
+</div>
+
+<div class="container">
+
+  <!-- Info box -->
+  <div class="info-box">
+    <strong>What is this technique?</strong> The 5-4-3-2-1 exercise is a sensory-based grounding tool that interrupts anxious thought spirals by shifting your focus to your immediate physical environment. By deliberately engaging each of your five senses — sight, touch, hearing, smell, and taste — you anchor yourself in the present moment and reduce the intensity of distressing thoughts. It is especially useful during panic attacks, periods of intense stress, or when you feel detached or overwhelmed.
+  </div>
+
+  <!-- How to practise tips strip -->
+  <div class="tips-strip">
+    <h3>How to Practise</h3>
+    <ol>
+      <li>Take a slow, deep breath — allow your body to begin to settle before you start.</li>
+      <li><strong>See 5 things:</strong> Look around and name five things you can see right now.</li>
+      <li><strong>Feel 4 things:</strong> Focus on textures or sensations on your skin or in your body.</li>
+      <li><strong>Hear 3 things:</strong> Notice sounds in your environment — both near and far.</li>
+      <li><strong>Smell 2 things:</strong> If nothing stands out immediately, think of a scent you enjoy.</li>
+      <li><strong>Taste 1 thing:</strong> This could be a lingering flavour, a sip of water, or a mint.</li>
+    </ol>
+  </div>
+
+  <!-- ═══════════════════ SECTION: BEFORE YOU BEGIN ═══════════════════ -->
+  <div class="section-header"><span class="s-icon">📋</span> Before You Begin</div>
+  <div class="section-body">
+
+    <div class="field-group">
+      <label class="field-label" for="grDate">Date</label>
+      <input type="date" id="grDate"/>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Distress / Anxiety Level — Before</label>
+      <div class="slider-row">
+        <input type="range" id="grDistressBeforeSlider" min="0" max="100" value="50"
+               oninput="grUpdateBefore(this.value)"/>
+        <div class="rating-pill" id="grDistressBeforeDisplay">50</div>
+      </div>
+      <div class="slider-labels"><span>0 — Calm</span><span>100 — Extremely distressed</span></div>
+      <input type="hidden" id="grDistressBeforeVal" value="50"/>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════ SECTION: THE EXERCISE ═══════════════════ -->
+  <div class="section-header"><span class="s-icon">🧠</span> The 5-4-3-2-1 Exercise</div>
+  <div class="section-body">
+
+    <!-- Pyramid visual -->
+    <div class="pyramid-wrap">
+      <div class="pyramid-title">Work through each sense in order ↓</div>
+      <div class="pyramid-row pyr-5">
+        <span class="pyr-num">5</span>
+        <span class="pyr-icon">👁️</span>
+        <span class="pyr-text">SEE <span class="pyr-sub">Five things you can see</span></span>
+      </div>
+      <div class="pyramid-row pyr-4">
+        <span class="pyr-num">4</span>
+        <span class="pyr-icon">✋</span>
+        <span class="pyr-text">FEEL <span class="pyr-sub">Four things you can touch or feel</span></span>
+      </div>
+      <div class="pyramid-row pyr-3">
+        <span class="pyr-num">3</span>
+        <span class="pyr-icon">👂</span>
+        <span class="pyr-text">HEAR <span class="pyr-sub">Three things you can hear</span></span>
+      </div>
+      <div class="pyramid-row pyr-2">
+        <span class="pyr-num">2</span>
+        <span class="pyr-icon">👃</span>
+        <span class="pyr-text">SMELL <span class="pyr-sub">Two things you can smell</span></span>
+      </div>
+      <div class="pyramid-row pyr-1">
+        <span class="pyr-num">1</span>
+        <span class="pyr-icon">👅</span>
+        <span class="pyr-text">TASTE <span class="pyr-sub">One thing you can taste</span></span>
+      </div>
+    </div>
+
+    <!-- SEE — 5 inputs -->
+    <div class="sense-card sc-5">
+      <div class="sense-card-header">
+        <span class="sc-big-num">5</span>
+        <span class="sc-icon">👁️</span>
+        <div class="sc-label">
+          <div class="sc-name">SEE</div>
+          <div class="sc-desc">Name five things you can see right now</div>
+        </div>
+      </div>
+      <div class="sense-card-body">
+        <div class="sense-input-row"><span class="sense-num-badge">1</span><input type="text" id="grSee1" placeholder="e.g. The corner of the window frame"/></div>
+        <div class="sense-input-row"><span class="sense-num-badge">2</span><input type="text" id="grSee2" placeholder="e.g. A blue pen on the desk"/></div>
+        <div class="sense-input-row"><span class="sense-num-badge">3</span><input type="text" id="grSee3" placeholder="e.g. Light reflecting off the wall"/></div>
+        <div class="sense-input-row"><span class="sense-num-badge">4</span><input type="text" id="grSee4" placeholder="e.g. The grain of the wooden floor"/></div>
+        <div class="sense-input-row"><span class="sense-num-badge">5</span><input type="text" id="grSee5" placeholder="e.g. My own hands resting on my lap"/></div>
+      </div>
+    </div>
+
+    <!-- FEEL — 4 inputs -->
+    <div class="sense-card sc-4">
+      <div class="sense-card-header">
+        <span class="sc-big-num">4</span>
+        <span class="sc-icon">✋</span>
+        <div class="sc-label">
+          <div class="sc-name">FEEL</div>
+          <div class="sc-desc">Notice four things you can physically feel or touch</div>
+        </div>
+      </div>
+      <div class="sense-card-body">
+        <div class="sense-input-row"><span class="sense-num-badge">1</span><input type="text" id="grFeel1" placeholder="e.g. The weight of my feet on the floor"/></div>
+        <div class="sense-input-row"><span class="sense-num-badge">2</span><input type="text" id="grFeel2" placeholder="e.g. The texture of my clothes against my skin"/></div>
+        <div class="sense-input-row"><span class="sense-num-badge">3</span><input type="text" id="grFeel3" placeholder="e.g. Coolness of the air on my face"/></div>
+        <div class="sense-input-row"><span class="sense-num-badge">4</span><input type="text" id="grFeel4" placeholder="e.g. My back pressing into the chair"/></div>
+      </div>
+    </div>
+
+    <!-- HEAR — 3 inputs -->
+    <div class="sense-card sc-3">
+      <div class="sense-card-header">
+        <span class="sc-big-num">3</span>
+        <span class="sc-icon">👂</span>
+        <div class="sc-label">
+          <div class="sc-name">HEAR</div>
+          <div class="sc-desc">Listen for three sounds in your environment</div>
+        </div>
+      </div>
+      <div class="sense-card-body">
+        <div class="sense-input-row"><span class="sense-num-badge">1</span><input type="text" id="grHear1" placeholder="e.g. Traffic passing outside"/></div>
+        <div class="sense-input-row"><span class="sense-num-badge">2</span><input type="text" id="grHear2" placeholder="e.g. The hum of the refrigerator"/></div>
+        <div class="sense-input-row"><span class="sense-num-badge">3</span><input type="text" id="grHear3" placeholder="e.g. Birds in the distance"/></div>
+      </div>
+    </div>
+
+    <!-- SMELL — 2 inputs -->
+    <div class="sense-card sc-2">
+      <div class="sense-card-header">
+        <span class="sc-big-num">2</span>
+        <span class="sc-icon">👃</span>
+        <div class="sc-label">
+          <div class="sc-name">SMELL</div>
+          <div class="sc-desc">Identify two things you can smell (or recall a favourite scent)</div>
+        </div>
+      </div>
+      <div class="sense-card-body">
+        <div class="sense-input-row"><span class="sense-num-badge">1</span><input type="text" id="grSmell1" placeholder="e.g. Coffee from the kitchen"/></div>
+        <div class="sense-input-row"><span class="sense-num-badge">2</span><input type="text" id="grSmell2" placeholder="e.g. Fresh air through the window"/></div>
+      </div>
+    </div>
+
+    <!-- TASTE — 1 input -->
+    <div class="sense-card sc-1">
+      <div class="sense-card-header">
+        <span class="sc-big-num">1</span>
+        <span class="sc-icon">👅</span>
+        <div class="sc-label">
+          <div class="sc-name">TASTE</div>
+          <div class="sc-desc">Notice one taste — a lingering flavour, sip of water, or a mint</div>
+        </div>
+      </div>
+      <div class="sense-card-body">
+        <div class="sense-input-row"><span class="sense-num-badge">1</span><input type="text" id="grTaste1" placeholder="e.g. The faint taste of my morning coffee"/></div>
+      </div>
+    </div>
+
+  </div><!-- /section-body: exercise -->
+
+  <!-- ═══════════════════ SECTION: AFTER THE EXERCISE ═══════════════════ -->
+  <div class="section-header"><span class="s-icon">✅</span> After the Exercise</div>
+  <div class="section-body">
+
+    <div class="field-group">
+      <label class="field-label">Distress / Anxiety Level — After</label>
+      <div class="slider-row">
+        <input type="range" id="grDistressAfterSlider" min="0" max="100" value="50"
+               oninput="grUpdateAfter(this.value)"/>
+        <div class="rating-pill" id="grDistressAfterDisplay">50</div>
+      </div>
+      <div class="slider-labels"><span>0 — Calm</span><span>100 — Extremely distressed</span></div>
+      <input type="hidden" id="grDistressAfterVal" value="50"/>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Before vs. After</label>
+      <div class="compare-panel">
+        <div class="compare-col">
+          <div class="compare-label">Before</div>
+          <div class="c-slider-row">
+            <div class="c-slider-bar"><div class="c-slider-fill" id="grCmpBefore" style="width:50%"></div></div>
+            <div class="c-pill" id="grCmpBeforeNum">50</div>
+          </div>
+        </div>
+        <div class="compare-col">
+          <div class="compare-label">After</div>
+          <div class="c-slider-row">
+            <div class="c-slider-bar"><div class="c-slider-fill" id="grCmpAfter" style="width:50%"></div></div>
+            <div class="c-pill" id="grCmpAfterNum">50</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="field-group">
+        <label class="field-label" for="grWhatHelped">What helped most?</label>
+        <textarea id="grWhatHelped" placeholder="e.g. Focusing on sounds pulled my attention away from anxious thoughts most effectively. Noticing the texture of the chair was particularly grounding."></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="grHowFeelNow">How do you feel now?</label>
+        <textarea id="grHowFeelNow" placeholder="e.g. Noticeably calmer and more present. The tightness in my chest has eased and I feel able to think more clearly."></textarea>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════ SECTION: ADDITIONAL GROUNDING ═══════════════════ -->
+  <div class="section-header"><span class="s-icon">➕</span> Additional Grounding Techniques</div>
+  <div class="section-body">
+
+    <p style="font-size:0.88rem;color:#4b5563;line-height:1.65;margin-bottom:22px;">If you need a little more support after the 5-4-3-2-1 technique, these additional exercises can help. Tick any you tried today.</p>
+
+    <div class="field-group">
+      <label class="field-label">Mental Grounding</label>
+      <div class="tag-group" id="grMentalGroup">
+        <button type="button" class="tag-btn" onclick="grToggleTag('mental','Named animals, colours, or countries')">Named animals, colours, or countries</button>
+        <button type="button" class="tag-btn" onclick="grToggleTag('mental','Counted backwards from 100 by sevens')">Counted backwards from 100 by sevens</button>
+        <button type="button" class="tag-btn" onclick="grToggleTag('mental','Described my environment in detail')">Described my environment in detail</button>
+        <button type="button" class="tag-btn" onclick="grToggleTag('mental','Repeated a calming phrase')">Repeated a calming phrase</button>
+      </div>
+      <input type="hidden" id="grAdditionalMentalVal" value=""/>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Physical Grounding</label>
+      <div class="tag-group" id="grPhysicalGroup">
+        <button type="button" class="tag-btn" onclick="grToggleTag('physical','Both feet on the floor')">Both feet on the floor</button>
+        <button type="button" class="tag-btn" onclick="grToggleTag('physical','Held and described an object')">Held and described an object</button>
+        <button type="button" class="tag-btn" onclick="grToggleTag('physical','Stretched or pressed hands together')">Stretched or pressed hands together</button>
+        <button type="button" class="tag-btn" onclick="grToggleTag('physical','Cool or warm water on hands')">Cool or warm water on hands</button>
+      </div>
+      <input type="hidden" id="grAdditionalPhysicalVal" value=""/>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════ SECTION: PERSONAL NOTES ═══════════════════ -->
+  <div class="section-header"><span class="s-icon">📝</span> Personal Notes</div>
+  <div class="section-body">
+    <div class="field-group">
+      <label class="field-label" for="grPersonalNotes">Notes, reflections, or things to remember for next time</label>
+      <textarea id="grPersonalNotes" style="min-height:100px;" placeholder="e.g. This technique worked better than expected in the middle of a stressful situation at work. Starting with sounds felt the most natural for me. Keeping a small textured object nearby could help with the 'feel' step when I am somewhere that is hard to ground in."></textarea>
+    </div>
+  </div>
+
+  <!-- Submit button -->
+  <div class="submit-wrap">
+    <button class="submit-btn" id="grOpenModal">Email Me This Worksheet ✉</button>
+  </div>
+
+</div><!-- /container -->
+
+<!-- ═══════════════════════════════════ MODAL ═══════════════════════════════════ -->
+<div id="grModal">
+  <div id="grModalBox">
+    <h2>Send to your inbox</h2>
+    <p>Enter your email address and we'll send you a PDF copy of your completed worksheet to keep.</p>
+    <input type="email" id="grEmail" placeholder="your@email.com"/>
+    <div class="modal-btns">
+      <button class="btn-send" id="grConfirmSend">Send PDF</button>
+      <button class="btn-cancel" id="grCancelModal">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ── Slider updates ── */
+  function grUpdateBefore(val) {
+    document.getElementById('grDistressBeforeDisplay').textContent = val;
+    document.getElementById('grDistressBeforeVal').value = val;
+    document.getElementById('grCmpBefore').style.width = val + '%';
+    document.getElementById('grCmpBeforeNum').textContent = val;
+  }
+  function grUpdateAfter(val) {
+    document.getElementById('grDistressAfterDisplay').textContent = val;
+    document.getElementById('grDistressAfterVal').value = val;
+    document.getElementById('grCmpAfter').style.width = val + '%';
+    document.getElementById('grCmpAfterNum').textContent = val;
+  }
+
+  /* ── Tag toggle ── */
+  var grTags = {
+    mental:   { hiddenId: 'grAdditionalMentalVal',   selected: [] },
+    physical: { hiddenId: 'grAdditionalPhysicalVal', selected: [] }
+  };
+  function grToggleTag(group, label) {
+    var g   = grTags[group];
+    var btn = Array.from(
+      document.querySelectorAll('#gr' + group.charAt(0).toUpperCase() + group.slice(1) + 'Group .tag-btn')
+    ).find(function(b) { return b.textContent.trim() === label; });
+    if (!btn) return;
+    var idx = g.selected.indexOf(label);
+    if (idx === -1) { g.selected.push(label); btn.classList.add('selected'); }
+    else            { g.selected.splice(idx, 1); btn.classList.remove('selected'); }
+    document.getElementById(g.hiddenId).value = g.selected.join(', ');
+  }
+
+  /* ── Modal ── */
+  document.getElementById('grOpenModal').addEventListener('click', function() {
+    document.getElementById('grModal').classList.add('open');
+  });
+  document.getElementById('grCancelModal').addEventListener('click', function() {
+    document.getElementById('grModal').classList.remove('open');
+  });
+
+  document.getElementById('grConfirmSend').addEventListener('click', function() {
+    var email = document.getElementById('grEmail').value.trim();
+    if (!email) { alert('Please enter your email address.'); return; }
+
+    var payload = {
+      email:               email,
+      date:                document.getElementById('grDate').value,
+      distress_before:     document.getElementById('grDistressBeforeVal').value,
+      see_1:               document.getElementById('grSee1').value,
+      see_2:               document.getElementById('grSee2').value,
+      see_3:               document.getElementById('grSee3').value,
+      see_4:               document.getElementById('grSee4').value,
+      see_5:               document.getElementById('grSee5').value,
+      feel_1:              document.getElementById('grFeel1').value,
+      feel_2:              document.getElementById('grFeel2').value,
+      feel_3:              document.getElementById('grFeel3').value,
+      feel_4:              document.getElementById('grFeel4').value,
+      hear_1:              document.getElementById('grHear1').value,
+      hear_2:              document.getElementById('grHear2').value,
+      hear_3:              document.getElementById('grHear3').value,
+      smell_1:             document.getElementById('grSmell1').value,
+      smell_2:             document.getElementById('grSmell2').value,
+      taste_1:             document.getElementById('grTaste1').value,
+      distress_after:      document.getElementById('grDistressAfterVal').value,
+      what_helped:         document.getElementById('grWhatHelped').value,
+      how_feel_now:        document.getElementById('grHowFeelNow').value,
+      additional_mental:   document.getElementById('grAdditionalMentalVal').value,
+      additional_physical: document.getElementById('grAdditionalPhysicalVal').value,
+      personal_notes:      document.getElementById('grPersonalNotes').value
+    };
+
+    fetch('YOUR_ZAPIER_WEBHOOK_URL_HERE', {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    .then(function() {
+      document.getElementById('grModal').classList.remove('open');
+      alert('Your worksheet has been sent! Check your inbox shortly.');
+    })
+    .catch(function() {
+      alert('Something went wrong. Please try again.');
+    });
+  });
+</script>
+</body>
+</html>

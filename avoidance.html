@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Overcoming Avoidance</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; color: #1a1a1a; line-height: 1.6; background: #f0f9f0; }
+h1, h2, h3, h4 { font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif; }
+
+textarea, input[type="text"] {
+  font-family: 'Inter', sans-serif; font-size: 0.95rem; border: 2px solid #c3e6cb;
+  border-radius: 8px; padding: 10px 12px; background: #fff; color: #1a1a1a;
+  transition: border-color 0.2s, box-shadow 0.2s; width: 100%;
+}
+textarea { resize: vertical; }
+textarea:focus, input:focus { outline: none; border-color: #2d6a4f; box-shadow: 0 0 0 3px rgba(45,106,79,0.15); }
+input::placeholder, textarea::placeholder { color: #999; font-style: italic; }
+
+.page-hero { padding: 70px 40px 60px; background: linear-gradient(135deg, rgba(212,237,218,0.88) 0%, rgba(232,245,233,0.85) 40%, rgba(240,249,232,0.88) 100%); }
+.page-hero h1 { font-size: 3rem; color: #0d4a2e; margin-bottom: 20px; letter-spacing: -0.5px; }
+.badge { display: inline-block; background: #d4f1dd; color: #0d4a2e; font-size: 0.78rem; font-weight: 700; letter-spacing: 1.5px; padding: 6px 14px; border-radius: 6px; margin-bottom: 24px; text-transform: uppercase; border: 1px solid #b8dbc0; }
+.page-hero .intro { font-size: 1.05rem; color: #333; max-width: 900px; margin-bottom: 40px; line-height: 1.7; }
+
+.cycle-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 1100px; }
+.cycle-card { border-radius: 12px; padding: 24px 26px; border: 1.5px solid; }
+.cycle-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+.cycle-card ul { margin-left: 16px; }
+.cycle-card ul li { font-size: 0.92rem; margin-bottom: 4px; line-height: 1.5; }
+.cycle-card p { font-size: 0.92rem; line-height: 1.55; margin-bottom: 8px; }
+.card-anxiety { background: rgba(255,243,220,0.6); border-color: #f0c040; }
+.card-anxiety h3 { color: #8a6000; }
+.card-avoidance { background: rgba(219,234,254,0.6); border-color: #93c5fd; }
+.card-avoidance h3 { color: #1e40af; }
+.card-relief { background: rgba(220,252,231,0.6); border-color: #86efac; }
+.card-relief h3 { color: #166534; }
+.card-intensification { background: rgba(254,226,226,0.6); border-color: #fca5a5; }
+.card-intensification h3 { color: #991b1b; }
+
+.page-howto { padding: 70px 40px 60px; background: linear-gradient(160deg, #e8f5e9 0%, #f0f9f0 50%, #d4edda 100%); }
+.page-howto h2 { font-size: 2.4rem; color: #0d4a2e; margin-bottom: 16px; }
+.page-howto .lead { font-size: 1rem; color: #333; max-width: 900px; margin-bottom: 34px; line-height: 1.7; }
+.steps-stack { display: flex; flex-direction: column; gap: 14px; max-width: 1100px; }
+.step-row { display: grid; grid-template-columns: 70px 1fr; background: rgba(212,237,218,0.45); border: 1.5px solid #b8dbc0; border-radius: 10px; padding: 18px 22px; align-items: start; }
+.step-letter { font-family: 'Montserrat', sans-serif; font-size: 2.2rem; font-weight: 900; color: #0d4a2e; text-align: center; }
+.step-body h3 { font-size: 1.2rem; color: #0d4a2e; margin-bottom: 6px; font-weight: 700; }
+.step-body p { font-size: 0.95rem; color: #333; line-height: 1.6; }
+.info-box { margin-top: 30px; background: #b5e8c4; border-radius: 10px; padding: 20px 24px; max-width: 1100px; color: #0d4a2e; font-size: 0.95rem; line-height: 1.65; }
+
+.page-worksheet { padding: 70px 40px 60px; background: linear-gradient(160deg, #d4edda 0%, #e8f5e9 40%, #f0f9e8 100%); }
+.page-worksheet h2 { font-size: 2.4rem; color: #0d4a2e; margin-bottom: 14px; }
+.page-worksheet .lead { font-size: 1rem; color: #333; max-width: 900px; margin-top: 24px; margin-bottom: 34px; line-height: 1.7; }
+.ws-wrapper { max-width: 1100px; }
+.ws-title { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; font-weight: 700; color: #0d4a2e; margin: 40px 0 16px; padding-bottom: 10px; border-bottom: 2px solid #b8dbc0; }
+.ws-title:first-of-type { margin-top: 0; }
+.section-block { margin-bottom: 16px; }
+.section-header { padding: 14px 20px; border-radius: 10px 10px 0 0; background: #0d4a2e; font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700; color: #ffffff !important; }
+.section-body { background: rgba(212,237,218,0.45); border: 1.5px solid #b8dbc0; border-top: none; border-radius: 0 0 10px 10px; padding: 20px; }
+.section-body > p { font-size: 0.95rem; color: #333; margin-bottom: 12px; line-height: 1.6; }
+.field-label { font-size: 0.88rem; font-weight: 600; color: #2d6a4f; margin-bottom: 6px; display: block; }
+.field-group { margin-bottom: 14px; }
+.field-group:last-child { margin-bottom: 0; }
+
+.cycle-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.cycle-form-card { border-radius: 8px; padding: 16px; border: 1.5px solid; }
+.cycle-form-card .card-title { font-family: 'Montserrat', sans-serif; font-size: 0.9rem; font-weight: 700; margin-bottom: 10px; }
+.cfc-anxiety { background: rgba(255,243,220,0.5); border-color: #f0c040; }
+.cfc-anxiety .card-title { color: #8a6000; }
+.cfc-avoidance { background: rgba(219,234,254,0.5); border-color: #93c5fd; }
+.cfc-avoidance .card-title { color: #1e40af; }
+.cfc-relief { background: rgba(220,252,231,0.5); border-color: #86efac; }
+.cfc-relief .card-title { color: #166534; }
+.cfc-intensification { background: rgba(254,226,226,0.5); border-color: #fca5a5; }
+.cfc-intensification .card-title { color: #991b1b; }
+.cfc-anxiety textarea, .cfc-anxiety input { border-color: #f0c040; }
+.cfc-avoidance textarea, .cfc-avoidance input { border-color: #93c5fd; }
+.cfc-relief textarea, .cfc-relief input { border-color: #86efac; }
+.cfc-intensification textarea, .cfc-intensification input { border-color: #fca5a5; }
+
+.sentence-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+.sentence-stem { font-size: 0.92rem; color: #333; font-weight: 500; white-space: nowrap; padding-top: 11px; min-width: 260px; }
+.sentence-row textarea { min-height: 44px; }
+
+.cb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 14px; }
+.cb-label { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; color: #333; cursor: pointer; padding: 7px 10px; border-radius: 6px; transition: background 0.15s; border: 1.5px solid transparent; }
+.cb-label:hover { background: rgba(45,106,79,0.08); border-color: #c3e6cb; }
+.cb-label input[type="checkbox"] { width: 17px; height: 17px; min-width: 17px; border: 2px solid #2d6a4f; border-radius: 4px; cursor: pointer; accent-color: #0d4a2e; }
+
+.face-header { display: flex; align-items: center; gap: 14px; }
+.face-letter { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 50%; background: #0d4a2e; color: #ffffff !important; font-family: 'Montserrat', sans-serif; font-size: 1.4rem; font-weight: 900; flex-shrink: 0; }
+.face-header-text h3 { font-size: 1.1rem; color: #0d4a2e; font-weight: 700; margin: 0; }
+.face-header-text p { font-size: 0.88rem; color: #555; margin: 0; }
+
+.review-questions { background: rgba(212,237,218,0.6); border: 1.5px solid #b8dbc0; border-radius: 8px; padding: 14px 18px; margin-bottom: 14px; }
+.review-questions ol { margin-left: 18px; }
+.review-questions ol li { font-size: 0.92rem; color: #333; margin-bottom: 6px; line-height: 1.55; }
+.review-questions ol li em { font-style: italic; }
+
+.ws-divider { border: none; border-top: 2px dashed #b8dbc0; margin: 36px 0; }
+.remember-box { margin-top: 30px; background: #b5e8c4; border-radius: 10px; padding: 20px 24px; max-width: 1100px; color: #0d4a2e; font-size: 0.95rem; line-height: 1.65; }
+.submit-area { padding: 40px 40px 60px; background: linear-gradient(160deg, #d4edda 0%, #f0f9f0 100%); }
+
+#submitAvoidance { display:inline-block; background:#1a5c3a; color:#ffffff !important; padding:14px 30px; border-radius:8px; font-size:1rem; font-weight:600; font-family:'Inter',sans-serif; border:2px solid #1a5c3a; cursor:pointer; transition:background 0.2s; }
+#submitAvoidance:hover { background:#14482d; }
+
+@media (max-width: 760px) {
+  .cycle-grid, .cycle-form-grid, .cb-grid { grid-template-columns: 1fr; }
+  .page-hero, .page-howto, .page-worksheet, .submit-area { padding: 50px 22px; }
+  .page-hero h1 { font-size: 2.2rem; }
+  .page-howto h2, .page-worksheet h2 { font-size: 1.9rem; }
+  .step-row { grid-template-columns: 44px 1fr; }
+  .step-letter { font-size: 1.6rem; }
+  .sentence-stem { white-space: normal; min-width: unset; }
+  .sentence-row { flex-direction: column; gap: 4px; }
+}
+</style>
+</head>
+<body>
+
+<section class="page-hero">
+  <h1>Overcoming Avoidance</h1>
+  <div class="badge">Cognitive Behavioural Therapy</div>
+  <p class="intro">Avoidance is one of the most powerful ways anxiety maintains itself. When we avoid what frightens us, we get short-term relief — but at a long-term cost. This worksheet helps you understand your own cycle of avoidance, examine what it is really costing you, and use the FACE framework to begin approaching what you have been avoiding.</p>
+
+  <div class="cycle-grid">
+    <div class="cycle-card card-anxiety">
+      <h3>⚠️ Anxiety</h3>
+      <p>A situation triggers an anxious response:</p>
+      <ul>
+        <li><strong>Thoughts:</strong> fixation on worst-case scenarios, doubts about ability to cope</li>
+        <li><strong>Physical:</strong> shallow breathing, racing heart, shaking, sweating</li>
+        <li><strong>Feelings:</strong> dread, irritability, restlessness</li>
+      </ul>
+    </div>
+    <div class="cycle-card card-avoidance">
+      <h3>🚪 Avoidance</h3>
+      <p>You avoid the trigger to escape the uncomfortable symptoms:</p>
+      <ul>
+        <li>You cancel a holiday due to fear of flying</li>
+        <li>You use alcohol to "loosen up" before socialising</li>
+        <li>You procrastinate on an important task</li>
+      </ul>
+    </div>
+    <div class="cycle-card card-intensification">
+      <h3>📈 Intensification</h3>
+      <p>You associate avoidance with feeling better, so next time anxiety is worse and avoidance even more tempting:</p>
+      <ul>
+        <li>You give up on ever taking a holiday</li>
+        <li>You use <em>more</em> alcohol to socialise</li>
+        <li>You start doing poorly at work due to rushed projects</li>
+      </ul>
+    </div>
+    <div class="cycle-card card-relief">
+      <h3>☁️ Relief</h3>
+      <p>Avoidance lessens the discomfort — but the relief is temporary and comes at a cost:</p>
+      <ul>
+        <li>You miss out on your dream holiday</li>
+        <li>You come to rely on alcohol to socialise</li>
+        <li>You have to rush an important task due to procrastinating</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="page-howto">
+  <h2>How to Use This Worksheet</h2>
+  <p class="lead">This worksheet has three parts. Start by mapping your own cycle of avoidance. Then examine the real costs of your avoidance strategies. Finally, use the FACE framework to plan how to begin approaching what you have been avoiding.</p>
+  <div class="steps-stack">
+    <div class="step-row"><div class="step-letter">1</div><div class="step-body"><h3>Map Your Cycle of Avoidance</h3><p>Identify your specific anxiety trigger and trace how it moves through the four stages: anxiety response, avoidance, temporary relief, and intensification over time.</p></div></div>
+    <div class="step-row"><div class="step-letter">2</div><div class="step-body"><h3>Examine the Costs</h3><p>List every strategy you have ever used to avoid or escape unpleasant thoughts and feelings. Then ask yourself honestly: did these strategies work long term? What did they cost you?</p></div></div>
+    <div class="step-row"><div class="step-letter">F</div><div class="step-body"><h3>Find Your Target</h3><p>Identify what you would like to be able to FACE, rather than avoid. Write a list of targets, then choose one that is not too distressing to start with.</p></div></div>
+    <div class="step-row"><div class="step-letter">A</div><div class="step-body"><h3>Action Planning</h3><p>Decide on the steps you need to take. Break the goal down into manageable steps — like rungs on a ladder — and take them one at a time, starting at the bottom.</p></div></div>
+    <div class="step-row"><div class="step-letter">C</div><div class="step-body"><h3>Coping Strategies</h3><p>Write down all your coping strategies and identify which will be most useful for this situation.</p></div></div>
+    <div class="step-row"><div class="step-letter">E</div><div class="step-body"><h3>Evaluate</h3><p>After attempting each step, review how it went. What went well? What didn't? What would you do differently next time?</p></div></div>
+  </div>
+  <div class="info-box">
+    💡 <strong>Remember:</strong> The goal is not to eliminate anxiety — it is to stop letting anxiety dictate what you do and don't do. Each time you approach rather than avoid, you teach your brain that the situation is survivable and that you are capable of coping.
+  </div>
+</section>
+
+<section class="page-worksheet">
+  <h2>My Overcoming Avoidance Worksheet</h2>
+  <div class="badge">Complete This Section</div>
+  <p class="lead">Work through all three parts in order. Be honest and specific — the more clearly you can see your own patterns, the more effectively you can change them.</p>
+
+  <div class="ws-wrapper">
+
+    <div class="ws-title">Part 1: My Cycle of Avoidance</div>
+
+    <div class="section-block">
+      <div class="section-header">My Anxiety Trigger</div>
+      <div class="section-body">
+        <div class="field-group">
+          <label class="field-label" for="anxiety_trigger">What situation, thought, feeling, or memory triggers your anxiety and avoidance?</label>
+          <textarea id="anxiety_trigger" rows="3" placeholder="e.g. Being in crowded places, making phone calls, thinking about a difficult conversation I need to have..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-header">My Anxiety Response, Avoidance, Relief &amp; Intensification</div>
+      <div class="section-body">
+        <p>Map out how your cycle of avoidance plays out across all four stages.</p>
+        <div class="cycle-form-grid">
+          <div class="cycle-form-card cfc-anxiety">
+            <div class="card-title">⚠️ Anxiety Response</div>
+            <div class="field-group"><label class="field-label" for="anxiety_thoughts">My anxious thoughts:</label><textarea id="anxiety_thoughts" rows="3" placeholder="What do you think when anxiety hits?"></textarea></div>
+            <div class="field-group"><label class="field-label" for="anxiety_physical">My physical symptoms:</label><textarea id="anxiety_physical" rows="2" placeholder="What do you notice in your body?"></textarea></div>
+            <div class="field-group"><label class="field-label" for="anxiety_feelings">My feelings and emotions:</label><textarea id="anxiety_feelings" rows="2" placeholder="What emotions show up?"></textarea></div>
+          </div>
+          <div class="cycle-form-card cfc-avoidance">
+            <div class="card-title">🚪 How I Avoid</div>
+            <div class="field-group"><label class="field-label" for="avoidance_how">What do you do to avoid the trigger or escape the anxiety?</label><textarea id="avoidance_how" rows="8" placeholder="e.g. Cancel plans, stay at home, distract myself, procrastinate, use alcohol, ask for reassurance..."></textarea></div>
+          </div>
+          <div class="cycle-form-card cfc-intensification">
+            <div class="card-title">📈 How It Makes Things Worse</div>
+            <div class="field-group"><label class="field-label" for="intensification">How does avoidance make your anxiety worse or more limiting over time?</label><textarea id="intensification" rows="8" placeholder="e.g. My world has got smaller, I rely on others more, I've missed important opportunities..."></textarea></div>
+          </div>
+          <div class="cycle-form-card cfc-relief">
+            <div class="card-title">☁️ Temporary Relief &amp; Real Cost</div>
+            <div class="field-group"><label class="field-label" for="relief_temp">What short-term relief does avoidance give you?</label><textarea id="relief_temp" rows="3" placeholder="e.g. Anxiety drops, I feel calmer in the short term..."></textarea></div>
+            <div class="field-group"><label class="field-label" for="relief_cost">What does that relief cost you in the longer term?</label><textarea id="relief_cost" rows="3" placeholder="e.g. I miss out on things I care about, my confidence has decreased..."></textarea></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="ws-divider">
+
+    <div class="ws-title">Part 2: The Costs of Avoidance</div>
+
+    <div class="section-block">
+      <div class="section-header">Complete These Sentences</div>
+      <div class="section-body">
+        <p>Take a moment to identify what you most want to escape from.</p>
+        <div class="sentence-row"><span class="sentence-stem">The thoughts I'd most like to get rid of are:</span><textarea id="costs_thoughts" rows="2"></textarea></div>
+        <div class="sentence-row"><span class="sentence-stem">The feelings I'd most like to get rid of are:</span><textarea id="costs_feelings" rows="2"></textarea></div>
+        <div class="sentence-row"><span class="sentence-stem">The sensations I'd most like to get rid of are:</span><textarea id="costs_sensations" rows="2"></textarea></div>
+        <div class="sentence-row"><span class="sentence-stem">The memories I'd most like to get rid of are:</span><textarea id="costs_memories" rows="2"></textarea></div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-header">My Avoidance Strategies Inventory</div>
+      <div class="section-body">
+        <p>Write a list of everything you have ever tried in order to avoid or get rid of these unpleasant thoughts, feelings, sensations, or memories.</p>
+        <div class="field-group">
+          <label class="field-label">Distraction — everything you have done to distract yourself, zone out, or take your mind off painful inner experiences:</label>
+          <textarea id="costs_distraction" rows="4" placeholder="e.g. Scrolling on my phone, watching TV for hours, keeping excessively busy, gaming, overworking..."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Opting Out — activities, interests, events, people, or places you have avoided or withdrawn from:</label>
+          <textarea id="costs_opting_out" rows="4" placeholder="e.g. Stopped seeing friends, avoided social events, gave up hobbies, turned down job opportunities..."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Thinking Strategies — tick all the ways of thinking you have used when painful thoughts and feelings showed up:</label>
+          <div class="cb-grid">
+            <label class="cb-label"><input type="checkbox" id="cb_worrying" value="Worrying"> Worrying</label>
+            <label class="cb-label"><input type="checkbox" id="cb_dwelling" value="Dwelling on the past"> Dwelling on the past</label>
+            <label class="cb-label"><input type="checkbox" id="cb_fantasizing" value="Fantasizing about the future"> Fantasizing about the future</label>
+            <label class="cb-label"><input type="checkbox" id="cb_escape" value="Imagining escape scenarios"> Imagining escape scenarios</label>
+            <label class="cb-label"><input type="checkbox" id="cb_revenge" value="Imagining revenge scenarios"> Imagining revenge scenarios</label>
+            <label class="cb-label"><input type="checkbox" id="cb_notfair" value="Thinking 'It's not fair'"> Thinking 'It's not fair…'</label>
+            <label class="cb-label"><input type="checkbox" id="cb_ifonly" value="Thinking 'If only'"> Thinking 'If only…'</label>
+            <label class="cb-label"><input type="checkbox" id="cb_blame_self" value="Blaming yourself"> Blaming yourself</label>
+            <label class="cb-label"><input type="checkbox" id="cb_blame_others" value="Blaming others"> Blaming others</label>
+            <label class="cb-label"><input type="checkbox" id="cb_blame_world" value="Blaming the world"> Blaming the world</label>
+            <label class="cb-label"><input type="checkbox" id="cb_talk_logical" value="Talking logically to yourself"> Talking logically to yourself</label>
+            <label class="cb-label"><input type="checkbox" id="cb_talk_positive" value="Talking positively to yourself"> Talking positively to yourself</label>
+            <label class="cb-label"><input type="checkbox" id="cb_talk_negative" value="Talking negatively to yourself"> Talking negatively to yourself</label>
+            <label class="cb-label"><input type="checkbox" id="cb_analyze_self" value="Analyzing yourself"> Analyzing yourself</label>
+            <label class="cb-label"><input type="checkbox" id="cb_analyze_sit" value="Analyzing the situation"> Analyzing the situation</label>
+            <label class="cb-label"><input type="checkbox" id="cb_analyze_others" value="Analyzing others"> Analyzing others</label>
+          </div>
+          <label class="field-label" for="costs_thinking_other">Other thinking strategies I have used:</label>
+          <textarea id="costs_thinking_other" rows="2" placeholder="Any others not listed above..."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="costs_substances">Substances — foods, drinks, cigarettes, recreational drugs, prescription drugs used to feel better or numb out:</label>
+          <textarea id="costs_substances" rows="3" placeholder="e.g. Alcohol, cannabis, comfort eating, excessive caffeine..."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="costs_anything_else">Anything else you have tried to make yourself feel better or less bad:</label>
+          <textarea id="costs_anything_else" rows="3" placeholder="Anything else not covered above..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-header">Reviewing the Costs</div>
+      <div class="section-body">
+        <div class="review-questions">
+          <p style="font-size:0.92rem; color:#333; margin-bottom:8px;">Go through your list above and for each item, ask yourself:</p>
+          <ol>
+            <li>Did this get rid of my painful thoughts and feelings <em>in the long term</em>?</li>
+            <li>Did it bring me closer to a rich, full, and meaningful life?</li>
+            <li>If the answer to question 2 is "no" — what did this cost me in terms of time, energy, money, health, relationships, and vitality?</li>
+          </ol>
+        </div>
+        <div class="field-group"><label class="field-label" for="costs_longterm">Did these strategies get rid of painful thoughts and feelings in the long term?</label><textarea id="costs_longterm" rows="3" placeholder="Reflect honestly on whether your avoidance strategies have worked over time..."></textarea></div>
+        <div class="field-group"><label class="field-label" for="costs_meaningful">Did they bring you closer to a rich, full, and meaningful life?</label><textarea id="costs_meaningful" rows="3" placeholder="Have these strategies helped you live the life you want?"></textarea></div>
+        <div class="field-group"><label class="field-label" for="costs_actual">What have these strategies cost you in time, energy, money, health, relationships, and vitality?</label><textarea id="costs_actual" rows="4" placeholder="Be honest about the real price of avoidance in your life..."></textarea></div>
+      </div>
+    </div>
+
+    <hr class="ws-divider">
+
+    <div class="ws-title">Part 3: FACE My Avoidance</div>
+
+    <div class="section-block">
+      <div class="section-header">
+        <div class="face-header">
+          <span class="face-letter">F</span>
+          <div class="face-header-text">
+            <h3 style="color:#ffffff !important;">Find Your Target</h3>
+            <p style="color:#a8d5b5 !important;">Identify what you would like to be able to FACE, rather than avoid</p>
+          </div>
+        </div>
+      </div>
+      <div class="section-body">
+        <p>Write a list of situations you would like to be able to face. Then choose one to start with that is not too distressing.</p>
+        <textarea id="face_find" rows="6" placeholder="e.g. I want to be able to attend social events without drinking first, make phone calls to strangers, travel by plane...&#10;&#10;I will start with: attending a small gathering of close friends without alcohol..."></textarea>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-header">
+        <div class="face-header">
+          <span class="face-letter">A</span>
+          <div class="face-header-text">
+            <h3 style="color:#ffffff !important;">Action — My Step-by-Step Plan</h3>
+            <p style="color:#a8d5b5 !important;">Break it down into manageable steps, starting at the bottom and working up</p>
+          </div>
+        </div>
+      </div>
+      <div class="section-body">
+        <p>Break your goal down into manageable steps — like rungs on a ladder. Take one step at a time, starting with the least challenging.</p>
+        <textarea id="face_action" rows="8" placeholder="Step 1 (easiest): ...&#10;Step 2: ...&#10;Step 3: ...&#10;Step 4: ...&#10;Step 5 (most challenging): ..."></textarea>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-header">
+        <div class="face-header">
+          <span class="face-letter">C</span>
+          <div class="face-header-text">
+            <h3 style="color:#ffffff !important;">Coping — My Strategies</h3>
+            <p style="color:#a8d5b5 !important;">Identify and prepare the coping strategies you will use</p>
+          </div>
+        </div>
+      </div>
+      <div class="section-body">
+        <p>Write down all your coping strategies and identify which will be most useful for this situation.</p>
+        <textarea id="face_coping" rows="6" placeholder="e.g. Slow breathing to manage physical symptoms, grounding technique (5-4-3-2-1), reminding myself that anxiety is uncomfortable but not dangerous, calling a friend beforehand..."></textarea>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-header">
+        <div class="face-header">
+          <span class="face-letter">E</span>
+          <div class="face-header-text">
+            <h3 style="color:#ffffff !important;">Evaluate — How Did It Go?</h3>
+            <p style="color:#a8d5b5 !important;">After taking your steps, review what happened</p>
+          </div>
+        </div>
+      </div>
+      <div class="section-body">
+        <p>After you have attempted your steps, review how it went. What went well? What didn't? What would you do differently next time?</p>
+        <textarea id="face_evaluate" rows="6" placeholder="What went well: ...&#10;&#10;What didn't go so well: ...&#10;&#10;What I would do differently: ...&#10;&#10;Next step: Repeat this step / Move to step ___"></textarea>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="remember-box">
+    🌿 <strong>Remember:</strong> Every time you approach rather than avoid, you are doing something genuinely courageous. The discomfort you feel during approach is not a sign that something is wrong — it is a sign that learning is happening. Over time, approach gets easier and avoidance loses its grip.
+  </div>
+
+</section>
+
+<section class="submit-area">
+  <button id="submitAvoidance">Send me my worksheet</button>
+</section>
+
+<div id="avoidanceModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
+  <div style="background:#fff; padding:30px; border-radius:12px; max-width:420px; width:90%; text-align:center; box-shadow:0 8px 32px rgba(0,0,0,0.18);">
+    <h3 style="font-family:'Montserrat',sans-serif; color:#0d4a2e; margin-bottom:8px;">Where should we send your worksheet?</h3>
+    <p style="font-size:0.9rem; color:#555; margin-bottom:16px;">We'll generate a PDF of your completed worksheet and send it to your inbox.</p>
+    <input type="email" id="avoidanceEmail" placeholder="Enter your email address" style="width:100%; padding:10px 12px; border-radius:8px; border:2px solid #c3e6cb; font-size:0.95rem; margin-bottom:14px;" required>
+    <button id="confirmSendAvoidance" style="background:#1a5c3a; color:#fff !important; border:none; padding:12px 24px; border-radius:8px; font-size:0.95rem; font-weight:600; cursor:pointer; width:100%;">Send PDF</button>
+  </div>
+</div>
+
+<script>
+function clean(id) {
+  const el = document.getElementById(id);
+  if (!el) return '';
+  return el.value.replace(/\r\n/g,' ').replace(/\r/g,' ').replace(/\n/g,' ').replace(/"/g,"'");
+}
+
+document.getElementById('submitAvoidance').addEventListener('click', () => {
+  document.getElementById('avoidanceModal').style.display = 'flex';
+});
+
+document.getElementById('confirmSendAvoidance').addEventListener('click', function () {
+  const email = document.getElementById('avoidanceEmail').value;
+  if (!email) { alert('Please enter your email'); return; }
+
+  const checkboxIds = [
+    'cb_worrying','cb_dwelling','cb_fantasizing','cb_escape','cb_revenge',
+    'cb_notfair','cb_ifonly','cb_blame_self','cb_blame_others','cb_blame_world',
+    'cb_talk_logical','cb_talk_positive','cb_talk_negative',
+    'cb_analyze_self','cb_analyze_sit','cb_analyze_others'
+  ];
+  const checked = checkboxIds
+    .filter(id => document.getElementById(id)?.checked)
+    .map(id => document.getElementById(id).value)
+    .join(', ');
+
+  const data = {
+    anxiety_trigger:       clean('anxiety_trigger'),
+    anxiety_thoughts:      clean('anxiety_thoughts'),
+    anxiety_physical:      clean('anxiety_physical'),
+    anxiety_feelings:      clean('anxiety_feelings'),
+    avoidance_how:         clean('avoidance_how'),
+    relief_temp:           clean('relief_temp'),
+    relief_cost:           clean('relief_cost'),
+    intensification:       clean('intensification'),
+    costs_thoughts:        clean('costs_thoughts'),
+    costs_feelings:        clean('costs_feelings'),
+    costs_sensations:      clean('costs_sensations'),
+    costs_memories:        clean('costs_memories'),
+    costs_distraction:     clean('costs_distraction'),
+    costs_opting_out:      clean('costs_opting_out'),
+    costs_thinking:        checked,
+    costs_thinking_other:  clean('costs_thinking_other'),
+    costs_substances:      clean('costs_substances'),
+    costs_anything_else:   clean('costs_anything_else'),
+    costs_longterm:        clean('costs_longterm'),
+    costs_meaningful:      clean('costs_meaningful'),
+    costs_actual:          clean('costs_actual'),
+    face_find:             clean('face_find'),
+    face_action:           clean('face_action'),
+    face_coping:           clean('face_coping'),
+    face_evaluate:         clean('face_evaluate'),
+    email:                 email
+  };
+
+  let iframe = document.getElementById('zapier-iframe');
+  if (!iframe) {
+    iframe = document.createElement('iframe');
+    iframe.id = 'zapier-iframe';
+    iframe.name = 'zapier-iframe';
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+  }
+
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = 'https://hooks.zapier.com/hooks/catch/27250519/uvmzs0m/';
+  form.target = 'zapier-iframe';
+  form.style.display = 'none';
+
+  Object.keys(data).forEach(key => {
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = key;
+    input.value = data[key] || '';
+    form.appendChild(input);
+  });
+
+  document.body.appendChild(form);
+  form.submit();
+  document.body.removeChild(form);
+
+  alert('Sent successfully 📩');
+  document.getElementById('avoidanceModal').style.display = 'none';
+});
+</script>
+
+</body>
+</html>

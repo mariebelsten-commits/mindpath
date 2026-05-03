@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Anger Diary – ChatCBT</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #f2f8f4;
+    color: #1a1a1a;
+    min-height: 100vh;
+  }
+
+  /* ── Page header ── */
+  .page-header {
+    background: #0d4a2e;
+    padding: 36px 24px 30px;
+    text-align: center;
+  }
+  .page-header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #ffffff !important;
+    letter-spacing: -0.3px;
+    margin-bottom: 10px;
+  }
+  .page-header p {
+    font-size: 0.97rem;
+    color: #c8e6d4 !important;
+    max-width: 680px;
+    margin: 0 auto;
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  /* ── Layout ── */
+  .container {
+    max-width: 820px;
+    margin: 32px auto;
+    padding: 0 20px 72px;
+  }
+
+  /* ── Info box ── */
+  .info-box {
+    background: #ffffff;
+    border-left: 5px solid #0d4a2e;
+    border-radius: 0 10px 10px 0;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+  }
+  .info-box h2 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #0d4a2e;
+    margin-bottom: 8px;
+  }
+  .info-box p { font-size: 0.88rem; line-height: 1.75; color: #444; }
+  .info-box p + p { margin-top: 8px; }
+
+  /* ── Terms table ── */
+  .terms-table {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1.5px solid #c5dfd0;
+    margin-bottom: 22px;
+  }
+  .terms-row {
+    display: grid;
+    grid-template-columns: 140px 1fr 1fr;
+    border-bottom: 1px solid #c5dfd0;
+  }
+  .terms-row:last-child { border-bottom: none; }
+  @media (max-width: 580px) {
+    .terms-row { grid-template-columns: 1fr; }
+    .terms-header div:not(:first-child) { display: none; }
+  }
+  .terms-header { background: #0d4a2e; }
+  .terms-header div {
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: #ffffff !important;
+    padding: 11px 16px;
+  }
+  .terms-row:not(.terms-header) > div {
+    padding: 12px 16px;
+    font-size: 0.84rem;
+    line-height: 1.65;
+    color: #444;
+    border-right: 1px solid #c5dfd0;
+  }
+  .terms-row:not(.terms-header) > div:last-child { border-right: none; }
+  .terms-row:nth-child(even):not(.terms-header) { background: #f7fdf9; }
+  .terms-row:nth-child(odd):not(.terms-header) { background: #ffffff; }
+  .term-name {
+    font-weight: 700;
+    color: #0d4a2e !important;
+    background: #e8f5ee !important;
+  }
+  .term-examples { font-style: italic; color: #5a8a6a !important; }
+
+  /* ── Light tips strip ── */
+  .tips-light {
+    background: #e8f5ee;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+  }
+  .tips-light h3 {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #0d4a2e;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .tips-light ul { list-style: none; padding: 0; }
+  .tips-light ul li {
+    font-size: 0.83rem;
+    color: #2a5a3a;
+    padding: 3px 0 3px 20px;
+    position: relative;
+    line-height: 1.55;
+  }
+  .tips-light ul li::before {
+    content: '?';
+    position: absolute;
+    left: 0;
+    color: #0d4a2e;
+    font-weight: 700;
+  }
+  .tips-light ul li + li { margin-top: 3px; }
+
+  /* ── Quote strip ── */
+  .quote-strip {
+    background: #e8f5ee;
+    border-radius: 10px;
+    padding: 15px 22px;
+    margin-bottom: 28px;
+    font-style: italic;
+    font-size: 0.92rem;
+    color: #0d4a2e;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  /* ── Card ── */
+  .card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 14px rgba(13,74,46,0.08);
+    margin-bottom: 22px;
+    overflow: hidden;
+  }
+
+  .section-header {
+    background: #0d4a2e;
+    padding: 14px 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-header .badge {
+    background: rgba(255,255,255,0.2);
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 0.8rem;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .section-header span.title {
+    font-size: 0.97rem;
+    font-weight: 700;
+    color: #ffffff !important;
+    flex: 1;
+  }
+
+  .section-body { padding: 22px 24px; }
+
+  /* ── Fields ── */
+  .field-group { margin-bottom: 18px; }
+  .field-group:last-child { margin-bottom: 0; }
+
+  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #0d4a2e;
+    margin-bottom: 6px;
+  }
+  .hint {
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: #7a9a86;
+    margin-left: 3px;
+  }
+
+  input[type="date"],
+  textarea {
+    width: 100%;
+    border: 1.5px solid #c5dfd0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.88rem;
+    color: #1a1a1a;
+    background: #f7fdf9;
+    transition: border-color 0.2s, background 0.2s;
+    resize: vertical;
+  }
+  input[type="date"]:focus,
+  textarea:focus {
+    outline: none;
+    border-color: #0d4a2e;
+    background: #ffffff;
+  }
+  textarea { min-height: 90px; }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 560px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* ── Slider ── */
+  .slider-wrap { margin-top: 2px; }
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .slider-row input[type="range"] {
+    flex: 1;
+    min-width: 80px;
+    border: none;
+    padding: 0;
+    background: transparent;
+    accent-color: #0d4a2e;
+    cursor: pointer;
+    height: 4px;
+  }
+  .rating-pill {
+    background: #0d4a2e;
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 0.92rem;
+    min-width: 54px;
+    text-align: center;
+    border-radius: 8px;
+    padding: 6px 10px;
+    flex-shrink: 0;
+  }
+  .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    color: #9ab0a0;
+    margin-top: 5px;
+  }
+
+  /* ── Divider ── */
+  .divider {
+    border: none;
+    border-top: 2px dashed #d0eadb;
+    margin: 20px 0;
+  }
+
+  /* ── Section note ── */
+  .section-note {
+    font-size: 0.86rem;
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  /* ── Multi-select tag buttons ── */
+  .tag-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .tag-btn {
+    border: 1.5px solid #c5dfd0;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #3a6e50;
+    background: #f7fdf9;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+    line-height: 1.4;
+  }
+  .tag-btn:hover { border-color: #0d4a2e; background: #e8f5ee; color: #0d4a2e; }
+  .tag-btn.selected { background: #0d4a2e; border-color: #0d4a2e; color: #ffffff !important; }
+  .tag-note {
+    font-size: 0.75rem;
+    color: #9ab0a0;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    font-style: italic;
+  }
+
+  /* ── Anger Thermometer ── */
+  .thermometer-wrap {
+    display: flex;
+    gap: 22px;
+    align-items: stretch;
+  }
+  .thermo-graphic {
+    flex-shrink: 0;
+    width: 52px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .thermo-tube {
+    width: 30px;
+    flex: 1;
+    min-height: 200px;
+    border: 2px solid #bbb;
+    border-radius: 15px 15px 0 0;
+    overflow: hidden;
+    background: #f0f0f0;
+    position: relative;
+  }
+  .thermo-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: linear-gradient(to top, #fbbf24 0%, #f59e0b 20%, #ea580c 50%, #dc2626 75%, #7f1d1d 100%);
+  }
+  .thermo-bulb {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #7f1d1d;
+    border: 2px solid #bbb;
+    margin-top: -3px;
+    flex-shrink: 0;
+  }
+
+  .thermo-levels {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .thermo-level {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 14px 0;
+    border-bottom: 1.5px dashed #d0eadb;
+  }
+  .thermo-level:last-child { border-bottom: none; padding-bottom: 0; }
+  .thermo-level:first-child { padding-top: 0; }
+  .level-badge {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.88rem;
+    font-weight: 800;
+    flex-shrink: 0;
+    color: #ffffff;
+    margin-top: 2px;
+  }
+  .lvl-5 { background: #7f1d1d; }
+  .lvl-4 { background: #dc2626; }
+  .lvl-3 { background: #ea580c; }
+  .lvl-2 { background: #d97706; }
+  .lvl-1 { background: #ca8a04; }
+
+  .level-info { flex: 1; }
+  .level-name {
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: #0d4a2e;
+    margin-bottom: 6px;
+  }
+  .level-name span {
+    font-weight: 400;
+    font-size: 0.78rem;
+    color: #7a9a86;
+    margin-left: 6px;
+  }
+
+  /* ── Diary entry card ── */
+  .entry-header {
+    background: #0d4a2e;
+    padding: 12px 22px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .entry-num {
+    font-size: 0.97rem;
+    font-weight: 800;
+    color: #ffffff !important;
+  }
+  .entry-date-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+  }
+  .entry-date-wrap label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #c8e6d4 !important;
+    margin: 0;
+    white-space: nowrap;
+  }
+  .entry-date-input {
+    border: 1.5px solid rgba(255,255,255,0.3) !important;
+    border-radius: 6px !important;
+    background: rgba(255,255,255,0.12) !important;
+    color: #ffffff !important;
+    font-size: 0.82rem !important;
+    padding: 5px 10px !important;
+    width: auto !important;
+    min-width: 140px;
+  }
+  .entry-date-input:focus {
+    border-color: rgba(255,255,255,0.6) !important;
+    background: rgba(255,255,255,0.2) !important;
+    outline: none !important;
+  }
+
+  .entry-body { padding: 18px 22px; }
+
+  .anger-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 18px;
+    background: #f7fdf9;
+    border: 1.5px solid #c5dfd0;
+    border-radius: 10px;
+    padding: 12px 16px;
+  }
+  .anger-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #0d4a2e;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .anger-row input[type="range"] {
+    flex: 1;
+    border: none;
+    padding: 0;
+    background: transparent;
+    accent-color: #c0392b;
+    cursor: pointer;
+    height: 4px;
+  }
+  .anger-pill {
+    font-weight: 700;
+    font-size: 0.88rem;
+    min-width: 42px;
+    text-align: center;
+    border-radius: 7px;
+    padding: 5px 9px;
+    flex-shrink: 0;
+    color: #ffffff;
+    background: #7f1d1d;
+    transition: background 0.2s;
+  }
+
+  .entry-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 560px) { .entry-grid { grid-template-columns: 1fr; } }
+
+  .entry-cell label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #0d4a2e;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    font-size: 0.75rem;
+  }
+  .entry-cell textarea {
+    min-height: 80px;
+    font-size: 0.85rem;
+  }
+
+  /* ── Submit button ── */
+  .submit-btn {
+    display: block;
+    width: 100%;
+    background: #0d4a2e;
+    color: #ffffff !important;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    padding: 16px 36px;
+    cursor: pointer;
+    letter-spacing: 0.2px;
+    transition: background 0.2s, transform 0.1s;
+    margin-top: 8px;
+  }
+  .submit-btn:hover { background: #0a3a22; }
+  .submit-btn:active { transform: scale(0.99); }
+
+  /* ── Modal ── */
+  #adModal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.52);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 20px;
+  }
+  #adModalBox {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 34px 30px;
+    max-width: 440px;
+    width: 100%;
+    box-shadow: 0 10px 48px rgba(0,0,0,0.28);
+  }
+  #adModalBox h2 { font-size: 1.18rem; font-weight: 800; color: #0d4a2e; margin-bottom: 8px; }
+  #adModalBox p { font-size: 0.88rem; color: #555; line-height: 1.65; margin-bottom: 20px; }
+  #adEmail {
+    width: 100%;
+    border: 1.5px solid #c5dfd0;
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.92rem;
+    color: #1a1a1a;
+    background: #f7fdf9;
+    margin-bottom: 18px;
+    box-sizing: border-box;
+    display: block;
+  }
+  #adEmail:focus { outline: none; border-color: #0d4a2e; background: #fff; }
+  .modal-btns { display: flex; gap: 10px; }
+  .btn-send {
+    flex: 1;
+    background: #0d4a2e;
+    color: #ffffff !important;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.92rem;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-send:hover { background: #0a3a22; }
+  .btn-cancel {
+    flex: 1;
+    background: #f0f0f0;
+    color: #555;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 0.92rem;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-cancel:hover { background: #e4e4e4; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════ HEADER ═══════════════════════════════════ -->
+<div class="page-header">
+  <h1>Anger Diary</h1>
+  <p>Anger builds silently, outside of awareness. This diary helps you spot your personal triggers and warning signs — so you can catch your anger while it's still small enough to manage.</p>
+</div>
+
+<div class="container">
+
+  <!-- About -->
+  <div class="info-box">
+    <h2>How to use this diary</h2>
+    <p>Anger has a tendency to build like the hum of a refrigerator — you can hear it, but you don't notice it until it's grown too big to manage. Keeping an Anger Diary helps you understand the pattern: what sets your anger off, what it looks and feels like as it builds, how you react, and what happens as a result.</p>
+    <p>Start by completing <strong>Part 1</strong> (your personal warning signs) and <strong>Part 2</strong> (your anger thermometer). These help you build self-awareness before using the diary. Then complete a <strong>diary entry</strong> after each anger episode. After a few entries, review them for patterns using the <strong>Reflection</strong> section at the end.</p>
+  </div>
+
+  <!-- Terms reference table -->
+  <div class="terms-table">
+    <div class="terms-row terms-header">
+      <div>Term</div>
+      <div>Definition</div>
+      <div>Examples</div>
+    </div>
+    <div class="terms-row">
+      <div class="term-name">Trigger</div>
+      <div>Something that sets off your anger</div>
+      <div class="term-examples">Getting laughed at, dirty dishes left out, a dismissive comment, not getting a job offer</div>
+    </div>
+    <div class="terms-row">
+      <div class="term-name">Warning Signs</div>
+      <div>The feelings, sensations, and behaviours that tell you your anger is building</div>
+      <div class="term-examples">Feeling irritated, clenching your fists, wanting to argue, raising your voice, getting defensive</div>
+    </div>
+    <div class="terms-row">
+      <div class="term-name">Response</div>
+      <div>Your reaction when your anger is at its peak</div>
+      <div class="term-examples">Swearing, yelling, saying something hurtful, storming out, going silent</div>
+    </div>
+    <div class="terms-row">
+      <div class="term-name">Outcomes</div>
+      <div>The result of your anger response</div>
+      <div class="term-examples">Scaring people around you, damaging a relationship, feeling guilty afterwards, getting fired</div>
+    </div>
+  </div>
+
+  <!-- Review questions -->
+  <div class="tips-light">
+    <h3>After completing a few entries, ask yourself:</h3>
+    <ul>
+      <li>Do you notice any patterns in your anger triggers? Are certain situations, people, or times of day more likely to set it off?</li>
+      <li>Which warning signs best indicate that your anger is growing — and which appear earliest, while you still have time to intervene?</li>
+      <li>What coping skills could you use to stop the anger from escalating? (The Four Ds worksheet can help with this.)</li>
+    </ul>
+  </div>
+
+  <div class="quote-strip">
+    "Anger is not the enemy. The challenge is catching it early enough to choose what happens next."
+  </div>
+
+  <!-- ═══════════════════════════════════ PART 1: WARNING SIGNS ═══════════════════════════════════ -->
+  <div class="card">
+    <div class="section-header">
+      <div class="badge">1</div>
+      <span class="title">My Anger Warning Signs</span>
+    </div>
+    <div class="section-body">
+      <p class="section-note">Anger starts small — a quiet simmer you might not notice until it's already boiling. These are the physical sensations, thoughts, and behaviours that signal your anger is building. Select the ones that apply to you, paying special attention to the <em>earliest</em> signs — the subtle ones you experience when you're only slightly irritated. Those are the ones that give you the most time to act.</p>
+
+      <div class="field-group">
+        <label>Select your warning signs <span class="hint">— tick all that apply to you</span></label>
+        <div class="tag-group" id="warningTagGroup">
+          <button type="button" class="tag-btn" data-group="warning" data-value="My mind goes blank">My mind goes blank</button>
+          <button type="button" class="tag-btn" data-group="warning" data-value="I use insults">I use insults</button>
+          <button type="button" class="tag-btn" data-group="warning" data-value="My face turns red">My face turns red</button>
+          <button type="button" class="tag-btn" data-group="warning" data-value="My body or hands shake">My body or hands shake</button>
+          <button type="button" class="tag-btn" data-group="warning" data-value="I start sweating">I start sweating</button>
+          <button type="button" class="tag-btn" data-group="warning" data-value="My breathing gets faster">My breathing gets faster</button>
+          <button type="button" class="tag-btn" data-group="warning" data-value="I struggle to concentrate">I struggle to concentrate</button>
+          <button type="button" class="tag-btn" data-group="warning" data-value="I raise my voice or shout">I raise my voice or shout</button>
+          <button type="button" class="tag-btn" data-group="warning" data-value="I clench my fists">I clench my fists</button>
+          <button type="button" class="tag-btn" data-group="warning" data-value="I feel sick to my stomach">I feel sick to my stomach</button>
+          <button type="button" class="tag-btn" data-group="warning" data-value="I break things">I break things</button>
+          <button type="button" class="tag-btn" data-group="warning" data-value="I feel hot">I feel hot</button>
+          <button type="button" class="tag-btn" data-group="warning" data-value="I become aggressive">I become aggressive</button>
+          <button type="button" class="tag-btn" data-group="warning" data-value="I become argumentative">I become argumentative</button>
+          <button type="button" class="tag-btn" data-group="warning" data-value="I go quiet or shut down">I go quiet or shut down</button>
+          <button type="button" class="tag-btn" data-group="warning" data-value="I start crying">I start crying</button>
+          <button type="button" class="tag-btn" data-group="warning" data-value="I become restless or antsy">I become restless or antsy</button>
+          <button type="button" class="tag-btn" data-group="warning" data-value="I get a headache">I get a headache</button>
+          <button type="button" class="tag-btn" data-group="warning" data-value="I obsess about the problem">I obsess about the problem</button>
+          <button type="button" class="tag-btn" data-group="warning" data-value="My heart races">My heart races</button>
+          <button type="button" class="tag-btn" data-group="warning" data-value="I avoid others">I avoid others</button>
+          <button type="button" class="tag-btn" data-group="warning" data-value="I stare or scowl">I stare or scowl</button>
+          <button type="button" class="tag-btn" data-group="warning" data-value="I feel dizzy">I feel dizzy</button>
+          <button type="button" class="tag-btn" data-group="warning" data-value="I feel annoyed">I feel annoyed</button>
+        </div>
+        <p class="tag-note">Any others not listed above?</p>
+        <textarea id="adWarningOther" style="min-height:60px;" placeholder="e.g. I go very still, my jaw tightens, I start speaking in a clipped, overly controlled voice..."></textarea>
+        <input type="hidden" id="adWarningSigns" value=""/>
+      </div>
+
+      <div class="field-group">
+        <label for="adEarliestSigns">Which of your warning signs appear earliest — when anger is still only small? <span class="hint">— These are your most valuable signals</span></label>
+        <textarea id="adEarliestSigns" style="min-height:70px;" placeholder="e.g. The very first sign for me is a slight tightening in my chest and my thoughts starting to speed up. By the time my jaw is clenching, the anger is already much bigger."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ PART 2: THERMOMETER ═══════════════════════════════════ -->
+  <div class="card">
+    <div class="section-header">
+      <div class="badge">2</div>
+      <span class="title">My Anger Thermometer</span>
+    </div>
+    <div class="section-body">
+      <p class="section-note">Anger rarely jumps from cold to hot in an instant — it builds gradually. On the scale below, <strong>5 = enraged</strong> (the angriest you could ever be) and <strong>1 = slightly irritated</strong>. For each level, describe the warning signs — thoughts, feelings, physical sensations, or behaviours — that you experience at that stage. The earlier you can spot the anger, the easier it is to manage.</p>
+
+      <div class="thermometer-wrap">
+        <!-- CSS thermometer graphic -->
+        <div class="thermo-graphic">
+          <div class="thermo-tube">
+            <div class="thermo-fill"></div>
+          </div>
+          <div class="thermo-bulb"></div>
+        </div>
+
+        <!-- 5 levels (top = 5, bottom = 1) -->
+        <div class="thermo-levels">
+          <div class="thermo-level">
+            <div class="level-badge lvl-5">5</div>
+            <div class="level-info">
+              <div class="level-name">Enraged <span>— the angriest you could ever be</span></div>
+              <textarea id="adThermo5" placeholder="e.g. I've completely lost control. I'm yelling, saying things I'll deeply regret, possibly slamming doors or leaving the building..."></textarea>
+            </div>
+          </div>
+          <div class="thermo-level">
+            <div class="level-badge lvl-4">4</div>
+            <div class="level-info">
+              <div class="level-name">Really angry <span>— intense, hard to think straight</span></div>
+              <textarea id="adThermo4" placeholder="e.g. My voice is raised and I'm struggling to listen. I want to say something harsh. Heart pounding, face flushed, hands shaking..."></textarea>
+            </div>
+          </div>
+          <div class="thermo-level">
+            <div class="level-badge lvl-3">3</div>
+            <div class="level-info">
+              <div class="level-name">Angry <span>— clearly angry, but still some control</span></div>
+              <textarea id="adThermo3" placeholder="e.g. I'm snapping at people, speaking sharply. I can still stop myself but it takes effort. Jaw is tight, shoulders are tense..."></textarea>
+            </div>
+          </div>
+          <div class="thermo-level">
+            <div class="level-badge lvl-2">2</div>
+            <div class="level-info">
+              <div class="level-name">Irritated <span>— bothered, noticeably on edge</span></div>
+              <textarea id="adThermo2" placeholder="e.g. I'm short with people, finding things more annoying than usual. A slight chest tightness. Not overtly angry but clearly not calm..."></textarea>
+            </div>
+          </div>
+          <div class="thermo-level">
+            <div class="level-badge lvl-1">1</div>
+            <div class="level-info">
+              <div class="level-name">Slightly irritated <span>— barely noticeable, early hum</span></div>
+              <textarea id="adThermo1" placeholder="e.g. A faint underlying restlessness. I notice I'm reading into things a little more. A tiny flicker of tension I could easily miss..."></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ DIARY ENTRIES ═══════════════════════════════════ -->
+
+  <!-- Entry 1 -->
+  <div class="card">
+    <div class="entry-header">
+      <span class="entry-num">Entry #1</span>
+      <div class="entry-date-wrap">
+        <label for="adEntry1Date">Date</label>
+        <input type="date" id="adEntry1Date" class="entry-date-input"/>
+      </div>
+    </div>
+    <div class="entry-body">
+      <div class="anger-row">
+        <span class="anger-label">Anger intensity</span>
+        <input type="range" id="adEntry1AngerSlider" min="1" max="5" step="1" value="3"/>
+        <span class="anger-pill" id="adEntry1AngerDisplay">3 / 5</span>
+        <input type="hidden" id="adEntry1AngerVal" value="3"/>
+      </div>
+      <div class="entry-grid">
+        <div class="entry-cell">
+          <label for="adEntry1Trigger">Trigger</label>
+          <textarea id="adEntry1Trigger" placeholder="What set off the anger? What happened?"></textarea>
+        </div>
+        <div class="entry-cell">
+          <label for="adEntry1Warning">Warning Signs</label>
+          <textarea id="adEntry1Warning" placeholder="What feelings, sensations, or behaviours did you notice as the anger built?"></textarea>
+        </div>
+        <div class="entry-cell">
+          <label for="adEntry1Response">Response</label>
+          <textarea id="adEntry1Response" placeholder="How did you react when the anger was at its peak?"></textarea>
+        </div>
+        <div class="entry-cell">
+          <label for="adEntry1Outcomes">Outcomes</label>
+          <textarea id="adEntry1Outcomes" placeholder="What happened as a result of your response?"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Entry 2 -->
+  <div class="card">
+    <div class="entry-header">
+      <span class="entry-num">Entry #2</span>
+      <div class="entry-date-wrap">
+        <label for="adEntry2Date">Date</label>
+        <input type="date" id="adEntry2Date" class="entry-date-input"/>
+      </div>
+    </div>
+    <div class="entry-body">
+      <div class="anger-row">
+        <span class="anger-label">Anger intensity</span>
+        <input type="range" id="adEntry2AngerSlider" min="1" max="5" step="1" value="3"/>
+        <span class="anger-pill" id="adEntry2AngerDisplay">3 / 5</span>
+        <input type="hidden" id="adEntry2AngerVal" value="3"/>
+      </div>
+      <div class="entry-grid">
+        <div class="entry-cell">
+          <label for="adEntry2Trigger">Trigger</label>
+          <textarea id="adEntry2Trigger" placeholder="What set off the anger? What happened?"></textarea>
+        </div>
+        <div class="entry-cell">
+          <label for="adEntry2Warning">Warning Signs</label>
+          <textarea id="adEntry2Warning" placeholder="What feelings, sensations, or behaviours did you notice as the anger built?"></textarea>
+        </div>
+        <div class="entry-cell">
+          <label for="adEntry2Response">Response</label>
+          <textarea id="adEntry2Response" placeholder="How did you react when the anger was at its peak?"></textarea>
+        </div>
+        <div class="entry-cell">
+          <label for="adEntry2Outcomes">Outcomes</label>
+          <textarea id="adEntry2Outcomes" placeholder="What happened as a result of your response?"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Entry 3 -->
+  <div class="card">
+    <div class="entry-header">
+      <span class="entry-num">Entry #3</span>
+      <div class="entry-date-wrap">
+        <label for="adEntry3Date">Date</label>
+        <input type="date" id="adEntry3Date" class="entry-date-input"/>
+      </div>
+    </div>
+    <div class="entry-body">
+      <div class="anger-row">
+        <span class="anger-label">Anger intensity</span>
+        <input type="range" id="adEntry3AngerSlider" min="1" max="5" step="1" value="3"/>
+        <span class="anger-pill" id="adEntry3AngerDisplay">3 / 5</span>
+        <input type="hidden" id="adEntry3AngerVal" value="3"/>
+      </div>
+      <div class="entry-grid">
+        <div class="entry-cell">
+          <label for="adEntry3Trigger">Trigger</label>
+          <textarea id="adEntry3Trigger" placeholder="What set off the anger? What happened?"></textarea>
+        </div>
+        <div class="entry-cell">
+          <label for="adEntry3Warning">Warning Signs</label>
+          <textarea id="adEntry3Warning" placeholder="What feelings, sensations, or behaviours did you notice as the anger built?"></textarea>
+        </div>
+        <div class="entry-cell">
+          <label for="adEntry3Response">Response</label>
+          <textarea id="adEntry3Response" placeholder="How did you react when the anger was at its peak?"></textarea>
+        </div>
+        <div class="entry-cell">
+          <label for="adEntry3Outcomes">Outcomes</label>
+          <textarea id="adEntry3Outcomes" placeholder="What happened as a result of your response?"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ REFLECTION ═══════════════════════════════════ -->
+  <div class="card">
+    <div class="section-header">
+      <div class="badge">3</div>
+      <span class="title">Patterns &amp; Reflection</span>
+    </div>
+    <div class="section-body">
+      <p class="section-note">Once you've completed a few diary entries, review them together and look for patterns. The questions below will help you make sense of what you've recorded — and work out where to focus your coping efforts.</p>
+
+      <div class="field-group">
+        <label for="adTriggerPatterns">Do you notice any patterns in your anger triggers? <span class="hint">— Common situations, people, times of day, or themes</span></label>
+        <textarea id="adTriggerPatterns" placeholder="e.g. Most of my entries involve feeling dismissed or not listened to — especially at work. I also notice I'm much more easily triggered when I'm tired or stressed about something else."></textarea>
+      </div>
+
+      <div class="field-group">
+        <label for="adKeyWarningSigns">Which warning signs appear most reliably, and which appear earliest? <span class="hint">— These are the ones to watch for most closely</span></label>
+        <textarea id="adKeyWarningSigns" placeholder="e.g. The heart racing and chest tightness are the most consistent signals. The urge to go quiet appears before I raise my voice — that's the best early indicator for me."></textarea>
+      </div>
+
+      <div class="field-group">
+        <label for="adCopingSkills">What coping skills could you use to stop the anger from escalating? <span class="hint">— Drawing on your warning signs, what might you try next time?</span></label>
+        <textarea id="adCopingSkills" placeholder="e.g. If I notice the chest tightness early, I'll try leaving the situation for 10 minutes before responding. I want to practise the 4-7-8 breathing and try naming the underlying feeling (usually hurt or fear) before I react."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Submit -->
+  <button class="submit-btn" id="adOpenModal">Email Me This Worksheet ✉</button>
+
+</div><!-- /container -->
+
+<!-- ═══════════════════════════════════ MODAL ═══════════════════════════════════ -->
+<div id="adModal">
+  <div id="adModalBox">
+    <h2>Send to your inbox</h2>
+    <p>Enter your email address and we'll send you a PDF copy of your completed diary to keep.</p>
+    <input type="email" id="adEmail" placeholder="your@email.com"/>
+    <div class="modal-btns">
+      <button class="btn-send" id="adConfirmSend">Send PDF</button>
+      <button class="btn-cancel" id="adCancelModal">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ── Warning sign tags (multi-select) ── */
+  var tagGroups = {
+    warning: { hiddenId: 'adWarningSigns', selected: [] }
+  };
+
+  document.querySelectorAll('.tag-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var group = btn.getAttribute('data-group');
+      var val   = btn.getAttribute('data-value');
+      var g = tagGroups[group];
+      if (!g) return;
+      btn.classList.toggle('selected');
+      if (btn.classList.contains('selected')) {
+        g.selected.push(val);
+      } else {
+        g.selected = g.selected.filter(function(v) { return v !== val; });
+      }
+      document.getElementById(g.hiddenId).value = g.selected.join(', ');
+    });
+  });
+
+  /* ── Entry anger sliders (1–5 scale, heat colour) ── */
+  var heatColors = { 1:'#ca8a04', 2:'#d97706', 3:'#ea580c', 4:'#dc2626', 5:'#7f1d1d' };
+
+  [1, 2, 3].forEach(function(n) {
+    var slider  = document.getElementById('adEntry' + n + 'AngerSlider');
+    var display = document.getElementById('adEntry' + n + 'AngerDisplay');
+    var hidden  = document.getElementById('adEntry' + n + 'AngerVal');
+    slider.addEventListener('input', function() {
+      var v = slider.value;
+      display.textContent = v + ' / 5';
+      display.style.background = heatColors[v] || '#7f1d1d';
+      hidden.value = v;
+    });
+  });
+
+  /* ── Modal ── */
+  var modal = document.getElementById('adModal');
+
+  document.getElementById('adOpenModal').addEventListener('click', function() {
+    modal.style.display = 'flex';
+  });
+  document.getElementById('adCancelModal').addEventListener('click', function() {
+    modal.style.display = 'none';
+    document.getElementById('adEmail').value = '';
+  });
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+      document.getElementById('adEmail').value = '';
+    }
+  });
+
+  /* ── Send ── */
+  document.getElementById('adConfirmSend').addEventListener('click', function() {
+    var email = document.getElementById('adEmail').value.trim();
+    if (!email) { alert('Please enter your email address.'); return; }
+
+    var payload = {
+      email:            email,
+      warning_signs:    document.getElementById('adWarningSigns').value,
+      warning_other:    document.getElementById('adWarningOther').value,
+      earliest_signs:   document.getElementById('adEarliestSigns').value,
+      thermo_5:         document.getElementById('adThermo5').value,
+      thermo_4:         document.getElementById('adThermo4').value,
+      thermo_3:         document.getElementById('adThermo3').value,
+      thermo_2:         document.getElementById('adThermo2').value,
+      thermo_1:         document.getElementById('adThermo1').value,
+      entry1_date:      document.getElementById('adEntry1Date').value,
+      entry1_anger:     document.getElementById('adEntry1AngerVal').value,
+      entry1_trigger:   document.getElementById('adEntry1Trigger').value,
+      entry1_warning:   document.getElementById('adEntry1Warning').value,
+      entry1_response:  document.getElementById('adEntry1Response').value,
+      entry1_outcomes:  document.getElementById('adEntry1Outcomes').value,
+      entry2_date:      document.getElementById('adEntry2Date').value,
+      entry2_anger:     document.getElementById('adEntry2AngerVal').value,
+      entry2_trigger:   document.getElementById('adEntry2Trigger').value,
+      entry2_warning:   document.getElementById('adEntry2Warning').value,
+      entry2_response:  document.getElementById('adEntry2Response').value,
+      entry2_outcomes:  document.getElementById('adEntry2Outcomes').value,
+      entry3_date:      document.getElementById('adEntry3Date').value,
+      entry3_anger:     document.getElementById('adEntry3AngerVal').value,
+      entry3_trigger:   document.getElementById('adEntry3Trigger').value,
+      entry3_warning:   document.getElementById('adEntry3Warning').value,
+      entry3_response:  document.getElementById('adEntry3Response').value,
+      entry3_outcomes:  document.getElementById('adEntry3Outcomes').value,
+      trigger_patterns: document.getElementById('adTriggerPatterns').value,
+      key_warning_signs:document.getElementById('adKeyWarningSigns').value,
+      coping_skills:    document.getElementById('adCopingSkills').value
+    };
+
+    fetch('https://hooks.zapier.com/hooks/catch/27250519/uvlkpwn/', {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    })
+    .then(function() {
+      modal.style.display = 'none';
+      document.getElementById('adEmail').value = '';
+      alert('Your diary is on its way! Check your inbox in the next minute or two.');
+    })
+    .catch(function() {
+      alert('Something went wrong. Please try again.');
+    });
+  });
+</script>
+
+</body>
+</html>

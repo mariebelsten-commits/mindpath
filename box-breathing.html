@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Box Breathing – ChatCBT</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #f2f8f4;
+    color: #1a1a1a;
+    min-height: 100vh;
+  }
+
+  /* ── Page header ── */
+  .page-header {
+    background: #0d4a2e;
+    padding: 36px 24px 30px;
+    text-align: center;
+  }
+  .page-header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #ffffff !important;
+    letter-spacing: -0.3px;
+    margin-bottom: 10px;
+  }
+  .page-header p {
+    font-size: 0.97rem;
+    color: #c8e6d4 !important;
+    max-width: 680px;
+    margin: 0 auto;
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  /* ── Layout ── */
+  .container {
+    max-width: 820px;
+    margin: 32px auto;
+    padding: 0 20px 72px;
+  }
+
+  /* ── Info box ── */
+  .info-box {
+    background: #ffffff;
+    border-left: 5px solid #0d4a2e;
+    border-radius: 0 10px 10px 0;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+  }
+  .info-box h2 { font-size: 0.95rem; font-weight: 700; color: #0d4a2e; margin-bottom: 8px; }
+  .info-box p { font-size: 0.88rem; line-height: 1.75; color: #444; }
+  .info-box p + p { margin-top: 8px; }
+
+  /* ── Dark tips strip ── */
+  .tips-strip {
+    background: #0d4a2e;
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-bottom: 18px;
+  }
+  .tips-strip h3 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #ffffff !important;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .tips-strip ol, .tips-strip ul { padding-left: 0; list-style: none; }
+  .tips-strip ol li, .tips-strip ul li {
+    font-size: 0.84rem;
+    color: #c8e6d4 !important;
+    padding: 4px 0 4px 22px;
+    position: relative;
+    line-height: 1.55;
+  }
+  .tips-strip ol { counter-reset: step-counter; }
+  .tips-strip ol li { counter-increment: step-counter; }
+  .tips-strip ol li::before {
+    content: counter(step-counter);
+    position: absolute;
+    left: 0;
+    background: rgba(255,255,255,0.2);
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 0.7rem;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 5px;
+  }
+  .tips-strip ul li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: #6dbf8a !important;
+    font-weight: 700;
+  }
+  .tips-strip ol li + li, .tips-strip ul li + li { margin-top: 2px; }
+  .tips-strip .tip-note {
+    font-size: 0.8rem;
+    color: #6dbf8a !important;
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  /* ── Light tips strip ── */
+  .tips-light {
+    background: #e8f5ee;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+  }
+  .tips-light h3 {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #0d4a2e;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .tips-light ul { list-style: none; padding: 0; }
+  .tips-light ul li {
+    font-size: 0.83rem;
+    color: #2a5a3a;
+    padding: 3px 0 3px 20px;
+    position: relative;
+    line-height: 1.55;
+  }
+  .tips-light ul li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: #0d4a2e;
+    font-weight: 700;
+  }
+  .tips-light ul li + li { margin-top: 3px; }
+
+  /* ── Quote strip ── */
+  .quote-strip {
+    background: #e8f5ee;
+    border-radius: 10px;
+    padding: 15px 22px;
+    margin-bottom: 28px;
+    font-style: italic;
+    font-size: 0.92rem;
+    color: #0d4a2e;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  /* ════════════════════════════════════════════
+     BOX BREATHING DIAGRAM
+  ════════════════════════════════════════════ */
+  .bb-diagram-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 14px rgba(13,74,46,0.08);
+    padding: 28px 24px 24px;
+    margin-bottom: 22px;
+  }
+  .bb-diagram-title {
+    text-align: center;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #0d4a2e;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+  }
+
+  .bb-diagram-wrap {
+    max-width: 440px;
+    margin: 0 auto;
+    user-select: none;
+  }
+
+  .bb-label-top,
+  .bb-label-bottom {
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #0d4a2e;
+    letter-spacing: -0.2px;
+    padding: 10px 0;
+  }
+
+  .bb-middle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .bb-label-left {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 1rem;
+    font-weight: 800;
+    color: #0d4a2e;
+    white-space: nowrap;
+    flex-shrink: 0;
+    letter-spacing: -0.2px;
+  }
+  .bb-label-right {
+    writing-mode: vertical-rl;
+    font-size: 1rem;
+    font-weight: 800;
+    color: #0d4a2e;
+    white-space: nowrap;
+    flex-shrink: 0;
+    letter-spacing: -0.2px;
+  }
+
+  .bb-square {
+    flex: 1;
+    aspect-ratio: 1;
+    border: 10px solid #0d4a2e;
+    border-radius: 6px;
+    background: #f7fdf9;
+    position: relative;
+    overflow: visible;
+  }
+
+  .bb-dot {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    background: #0d4a2e;
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    left: 0%;
+    top: 100%;
+    z-index: 10;
+    display: none;
+    box-shadow: 0 2px 8px rgba(13,74,46,0.5);
+    pointer-events: none;
+  }
+
+  .bb-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 85%;
+    pointer-events: none;
+  }
+  .bb-phase-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0d4a2e;
+    margin-bottom: 4px;
+    min-height: 1.4em;
+  }
+  .bb-countdown {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #0d4a2e;
+    line-height: 1;
+    margin-bottom: 4px;
+    min-height: 1em;
+  }
+  .bb-cycle-info {
+    font-size: 0.72rem;
+    color: #7a9a86;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .bb-start-bubble {
+    position: absolute;
+    bottom: -18px;
+    left: -18px;
+    width: 58px;
+    height: 58px;
+    background: #e8f5ee;
+    border: 2.5px solid #0d4a2e;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #0d4a2e;
+    text-align: center;
+    line-height: 1.3;
+    z-index: 5;
+  }
+
+  /* Controls */
+  .bb-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 22px;
+    flex-wrap: wrap;
+  }
+  .bb-start-btn {
+    background: #0d4a2e;
+    color: #ffffff !important;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    padding: 11px 28px;
+    cursor: pointer;
+    transition: background 0.2s;
+    letter-spacing: 0.2px;
+  }
+  .bb-start-btn:hover { background: #0a3a22; }
+  .bb-start-btn.running { background: #6b2020; }
+  .bb-start-btn.running:hover { background: #521818; }
+  .bb-cycles-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .bb-cycles-wrap label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #0d4a2e;
+    margin: 0;
+    white-space: nowrap;
+  }
+  .bb-cycles-wrap select {
+    border: 1.5px solid #c5dfd0;
+    border-radius: 7px;
+    padding: 7px 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.82rem;
+    color: #1a1a1a;
+    background: #f7fdf9;
+    cursor: pointer;
+  }
+  .bb-complete-msg {
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #0d4a2e;
+    margin-top: 12px;
+    min-height: 1.2em;
+    font-style: italic;
+  }
+
+  /* ── Card ── */
+  .card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 14px rgba(13,74,46,0.08);
+    margin-bottom: 22px;
+    overflow: hidden;
+  }
+
+  .section-header {
+    background: #0d4a2e;
+    padding: 14px 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-header .badge {
+    background: rgba(255,255,255,0.2);
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 0.8rem;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .section-header span {
+    font-size: 0.97rem;
+    font-weight: 700;
+    color: #ffffff !important;
+  }
+
+  .section-body { padding: 22px 24px; }
+
+  /* ── Fields ── */
+  .field-group { margin-bottom: 18px; }
+  .field-group:last-child { margin-bottom: 0; }
+
+  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #0d4a2e;
+    margin-bottom: 6px;
+  }
+  .hint {
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: #7a9a86;
+    margin-left: 3px;
+  }
+
+  input[type="date"],
+  textarea {
+    width: 100%;
+    border: 1.5px solid #c5dfd0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.88rem;
+    color: #1a1a1a;
+    background: #f7fdf9;
+    transition: border-color 0.2s, background 0.2s;
+    resize: vertical;
+  }
+  input[type="date"]:focus,
+  textarea:focus {
+    outline: none;
+    border-color: #0d4a2e;
+    background: #ffffff;
+  }
+  textarea { min-height: 100px; }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 560px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* ── Slider / rating ── */
+  .slider-wrap { margin-top: 2px; }
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .slider-row input[type="range"] {
+    flex: 1;
+    min-width: 80px;
+    border: none;
+    padding: 0;
+    background: transparent;
+    accent-color: #0d4a2e;
+    cursor: pointer;
+    height: 4px;
+  }
+  .rating-pill {
+    background: #0d4a2e;
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 0.92rem;
+    min-width: 54px;
+    text-align: center;
+    border-radius: 8px;
+    padding: 6px 10px;
+    flex-shrink: 0;
+  }
+  .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    color: #9ab0a0;
+    margin-top: 5px;
+  }
+
+  /* ── Cycles stepper ── */
+  .cycles-stepper {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    width: fit-content;
+  }
+  .step-btn {
+    width: 36px;
+    height: 36px;
+    border: 1.5px solid #c5dfd0;
+    background: #f7fdf9;
+    color: #0d4a2e;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+    font-family: 'Poppins', sans-serif;
+  }
+  .step-btn:first-child { border-radius: 8px 0 0 8px; }
+  .step-btn:last-child { border-radius: 0 8px 8px 0; }
+  .step-btn:hover { background: #e8f5ee; }
+  .step-val {
+    width: 52px;
+    text-align: center;
+    border-top: 1.5px solid #c5dfd0;
+    border-bottom: 1.5px solid #c5dfd0;
+    border-left: none;
+    border-right: none;
+    height: 36px;
+    line-height: 36px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #0d4a2e;
+    background: #ffffff;
+  }
+
+  /* ── Compare panel ── */
+  .compare-panel {
+    background: #e8f5ee;
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 20px;
+  }
+  .compare-panel-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #0d4a2e;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 14px;
+  }
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 500px) { .compare-grid { grid-template-columns: 1fr; } }
+  .compare-item .clabel {
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: #3a6e50;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 4px;
+  }
+  .compare-item .cval {
+    background: #ffffff;
+    border-radius: 7px;
+    padding: 7px 11px;
+    font-size: 0.87rem;
+    color: #1a1a1a;
+    min-height: 34px;
+    font-weight: 500;
+  }
+
+  /* ── Divider ── */
+  .divider {
+    border: none;
+    border-top: 2px dashed #d0eadb;
+    margin: 20px 0;
+  }
+
+  /* ── Section note ── */
+  .section-note {
+    font-size: 0.86rem;
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  /* ── Tag buttons ── */
+  .tag-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .tag-btn {
+    border: 1.5px solid #c5dfd0;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #3a6e50;
+    background: #f7fdf9;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .tag-btn:hover { border-color: #0d4a2e; background: #e8f5ee; color: #0d4a2e; }
+  .tag-btn.selected { background: #0d4a2e; border-color: #0d4a2e; color: #ffffff !important; }
+  .tag-note { font-size: 0.75rem; color: #9ab0a0; margin-top: 6px; margin-bottom: 6px; font-style: italic; }
+
+  /* ── Submit button ── */
+  .submit-btn {
+    display: block;
+    width: 100%;
+    background: #0d4a2e;
+    color: #ffffff !important;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    padding: 16px 36px;
+    cursor: pointer;
+    letter-spacing: 0.2px;
+    transition: background 0.2s, transform 0.1s;
+    margin-top: 8px;
+  }
+  .submit-btn:hover { background: #0a3a22; }
+  .submit-btn:active { transform: scale(0.99); }
+
+  /* ── Modal ── */
+  #bbModal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.52);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 20px;
+  }
+  #bbModalBox {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 34px 30px;
+    max-width: 440px;
+    width: 100%;
+    box-shadow: 0 10px 48px rgba(0,0,0,0.28);
+  }
+  #bbModalBox h2 { font-size: 1.18rem; font-weight: 800; color: #0d4a2e; margin-bottom: 8px; }
+  #bbModalBox p { font-size: 0.88rem; color: #555; line-height: 1.65; margin-bottom: 20px; }
+  #bbEmail {
+    width: 100%;
+    border: 1.5px solid #c5dfd0;
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.92rem;
+    color: #1a1a1a;
+    background: #f7fdf9;
+    margin-bottom: 18px;
+    box-sizing: border-box;
+    display: block;
+  }
+  #bbEmail:focus { outline: none; border-color: #0d4a2e; background: #fff; }
+  .modal-btns { display: flex; gap: 10px; }
+  .btn-send {
+    flex: 1;
+    background: #0d4a2e;
+    color: #ffffff !important;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.92rem;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-send:hover { background: #0a3a22; }
+  .btn-cancel {
+    flex: 1;
+    background: #f0f0f0;
+    color: #555;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 0.92rem;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-cancel:hover { background: #e4e4e4; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════ HEADER ═══════════════════════════════════ -->
+<div class="page-header">
+  <h1>Box Breathing</h1>
+  <p>A structured breathing technique that directly calms your nervous system — in under two minutes, with no equipment and no special setting.</p>
+</div>
+
+<div class="container">
+
+  <!-- About -->
+  <div class="info-box">
+    <h2>Why box breathing works</h2>
+    <p>Your breath is the only part of your autonomic nervous system you can consciously control — which makes it your most direct lever for shifting from anxiety to calm. When you breathe slowly and steadily (especially with a longer or equal exhale), you activate the <strong>vagus nerve</strong>, the primary nerve of the parasympathetic system. This slows your heart rate, lowers blood pressure, relaxes muscles, and signals to your brain: <em>we're safe.</em></p>
+    <p>Box breathing adds a counting structure that simultaneously occupies your prefrontal cortex — the thinking part of your brain — giving anxious thoughts less room to run. It has been shown to reduce cortisol, lower heart rate, and improve performance under pressure. The effects are measurable within minutes, often within a single cycle.</p>
+  </div>
+
+  <!-- Interactive Box Diagram -->
+  <div class="bb-diagram-card">
+    <div class="bb-diagram-title">Use the guide below to practise — press Start when you're ready</div>
+
+    <div class="bb-diagram-wrap">
+      <!-- Top label -->
+      <div class="bb-label-top">Hold for 4</div>
+
+      <!-- Middle: left label + square + right label -->
+      <div class="bb-middle">
+        <div class="bb-label-left">Breathe in for 4</div>
+
+        <div class="bb-square" id="bbSquare">
+          <!-- Animated dot -->
+          <div class="bb-dot" id="bbDot"></div>
+          <!-- Centre display -->
+          <div class="bb-center">
+            <div class="bb-phase-name" id="bbPhaseName">Box Breathing</div>
+            <div class="bb-countdown" id="bbCountdown">4</div>
+            <div class="bb-cycle-info" id="bbCycleInfo">Press Start to begin</div>
+          </div>
+          <!-- Start-here bubble -->
+          <div class="bb-start-bubble">Start<br>here</div>
+        </div>
+
+        <div class="bb-label-right">Breathe out for 4</div>
+      </div>
+
+      <!-- Bottom label -->
+      <div class="bb-label-bottom">Hold for 4</div>
+
+      <!-- Controls -->
+      <div class="bb-controls">
+        <button class="bb-start-btn" id="bbStartBtn" onclick="bbToggle()">Start Practice</button>
+        <div class="bb-cycles-wrap">
+          <label for="bbCyclesSelect">Cycles:</label>
+          <select id="bbCyclesSelect">
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5" selected>5</option>
+            <option value="6">6</option>
+          </select>
+        </div>
+      </div>
+      <div class="bb-complete-msg" id="bbCompleteMsg"></div>
+    </div>
+  </div>
+
+  <!-- Step-by-step instructions -->
+  <div class="tips-strip">
+    <h3>How to practise box breathing</h3>
+    <ol>
+      <li><strong style="color:#ffffff !important;">Start</strong> at the bottom left corner of the square above (or imagine one in your mind).</li>
+      <li><strong style="color:#ffffff !important;">Breathe in</strong> slowly and steadily through your nose for 4 counts — trace up the left side. Breathe into your belly, not just your chest.</li>
+      <li><strong style="color:#ffffff !important;">Hold</strong> gently at the top for 4 counts — trace along the top. Don't clamp or strain. A calm, comfortable pause.</li>
+      <li><strong style="color:#ffffff !important;">Breathe out</strong> slowly through your mouth for 4 counts — trace down the right side. Let the air leave completely.</li>
+      <li><strong style="color:#ffffff !important;">Hold</strong> at the bottom for 4 counts — trace along the bottom. If this feels uncomfortable, shorten it to 2–3 counts at first.</li>
+      <li><strong style="color:#ffffff !important;">Repeat</strong> for 3–6 cycles. Most people notice a shift within the first 2–3.</li>
+    </ol>
+    <p class="tip-note">Tip: You can trace the square with your finger on your thigh, on a desk, or just in your mind. Closing your eyes deepens the focus — open eyes work well in public settings.</p>
+  </div>
+
+  <!-- When to use it -->
+  <div class="tips-light">
+    <h3>When to use box breathing</h3>
+    <ul>
+      <li><strong>Before a stressful event</strong> — presentations, difficult conversations, exams, medical appointments. Two minutes beforehand can bring you from overwhelmed to functional.</li>
+      <li><strong>During a panic or anxiety spike</strong> — counting to four repeatedly occupies the cognitive resources that would otherwise generate catastrophic thoughts. You cannot count and catastrophise at the same time.</li>
+      <li><strong>When anger flares</strong> — the same physiological response drives anger and anxiety. Box breathing creates the gap between trigger and reaction.</li>
+      <li><strong>At bedtime</strong> — for racing thoughts, use 4–6 cycles as part of a wind-down routine. The rhythmic pattern can become a sleep cue.</li>
+      <li><strong>As a daily practice</strong> — two minutes morning and evening builds baseline nervous system resilience. The more familiar the skill, the faster it works in a crisis.</li>
+    </ul>
+  </div>
+
+  <div class="quote-strip">
+    "Four seconds in. Four seconds hold. Four seconds out. Four seconds hold. Again and again — until the storm passes and you're still here, breathing, steady, and whole."
+  </div>
+
+  <!-- ─────────────────── SECTION 1: LOG THIS SESSION ─────────────────── -->
+  <div class="card">
+    <div class="section-header">
+      <div class="badge">1</div>
+      <span>Log This Session</span>
+    </div>
+    <div class="section-body">
+      <p class="section-note">Complete this section after your practice session. Recording how it went helps you understand what works for you and builds awareness of the technique's effects over time.</p>
+
+      <div class="field-group">
+        <label for="bbDate">Date</label>
+        <input type="date" id="bbDate"/>
+      </div>
+
+      <div class="field-group">
+        <label>What prompted you to use box breathing today? <span class="hint">— Select all that apply</span></label>
+        <div class="tag-group">
+          <button type="button" class="tag-btn" data-group="context" data-value="Before a stressful event">Before a stressful event</button>
+          <button type="button" class="tag-btn" data-group="context" data-value="During anxiety or panic">During anxiety or panic</button>
+          <button type="button" class="tag-btn" data-group="context" data-value="Feeling angry or frustrated">Feeling angry or frustrated</button>
+          <button type="button" class="tag-btn" data-group="context" data-value="Racing thoughts at bedtime">Racing thoughts at bedtime</button>
+          <button type="button" class="tag-btn" data-group="context" data-value="Feeling overwhelmed or stressed">Feeling overwhelmed</button>
+          <button type="button" class="tag-btn" data-group="context" data-value="Regular daily practice">Regular daily practice</button>
+        </div>
+        <p class="tag-note">Anything else?</p>
+        <textarea id="bbContextOther" style="min-height:56px;" placeholder="e.g. I was in a difficult meeting and needed to stay calm without it being obvious..."></textarea>
+        <input type="hidden" id="bbContextUsed" value=""/>
+      </div>
+
+      <hr class="divider"/>
+
+      <div class="field-group">
+        <label>How would you rate your stress or arousal <strong>before</strong> the session? <span class="hint">(0 = completely calm, 100 = extreme distress)</span></label>
+        <div class="slider-wrap">
+          <div class="slider-row">
+            <input type="range" id="bbArousalBeforeSlider" min="0" max="100" value="50"/>
+            <div class="rating-pill" id="bbArousalBeforeDisplay">50</div>
+          </div>
+          <div class="slider-labels"><span>0 — Completely calm</span><span>50 — Moderate</span><span>100 — Extreme distress</span></div>
+        </div>
+        <input type="hidden" id="bbArousalBeforeVal" value="50"/>
+      </div>
+
+      <div class="field-group">
+        <label>How many cycles did you complete?</label>
+        <div class="cycles-stepper">
+          <button type="button" class="step-btn" id="bbCyclesMinus">−</button>
+          <div class="step-val" id="bbCyclesDisplay">5</div>
+          <button type="button" class="step-btn" id="bbCyclesPlus">+</button>
+        </div>
+        <input type="hidden" id="bbCyclesVal" value="5"/>
+      </div>
+
+      <hr class="divider"/>
+
+      <!-- Compare panel -->
+      <div class="compare-panel">
+        <div class="compare-panel-title">Stress Level — Before &amp; After</div>
+        <div class="compare-grid">
+          <div class="compare-item">
+            <div class="clabel">Before</div>
+            <div class="cval" id="cmpBefore">50 / 100</div>
+          </div>
+          <div class="compare-item">
+            <div class="clabel">After</div>
+            <div class="cval" id="cmpAfter">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>How would you rate your stress or arousal <strong>after</strong> the session? <span class="hint">(0 = completely calm, 100 = extreme distress)</span></label>
+        <div class="slider-wrap">
+          <div class="slider-row">
+            <input type="range" id="bbArousalAfterSlider" min="0" max="100" value="50"/>
+            <div class="rating-pill" id="bbArousalAfterDisplay">50</div>
+          </div>
+          <div class="slider-labels"><span>0 — Completely calm</span><span>50 — Moderate</span><span>100 — Extreme distress</span></div>
+        </div>
+        <input type="hidden" id="bbArousalAfterVal" value="50"/>
+      </div>
+
+      <hr class="divider"/>
+
+      <div class="two-col">
+        <div class="field-group">
+          <label for="bbWhatNoticed">What did you notice during or after the session? <span class="hint">— Physical, mental, emotional</span></label>
+          <textarea id="bbWhatNoticed" placeholder="e.g. My heart rate slowed noticeably after the third cycle. The tight feeling in my chest eased. I found it easier to think clearly by the end."></textarea>
+        </div>
+        <div class="field-group">
+          <label for="bbDifficulties">Any difficulties, or adaptations you made? <span class="hint">— e.g. shortened the holds, eyes open</span></label>
+          <textarea id="bbDifficulties" placeholder="e.g. I found the bottom hold slightly uncomfortable at first so I shortened it to 2 counts. By cycle 4 I was managing the full 4 seconds."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────── SECTION 2: MAKING IT A HABIT ─────────────────── -->
+  <div class="card">
+    <div class="section-header">
+      <div class="badge">2</div>
+      <span>Making it a Habit</span>
+    </div>
+    <div class="section-body">
+      <p class="section-note">Box breathing works best when it's already familiar — practising during calm moments means the skill is instinctive when you need it most. The more you practise, the faster your nervous system responds.</p>
+
+      <div class="field-group">
+        <label>When are the best times for me to practise regularly? <span class="hint">— Select all that feel realistic</span></label>
+        <div class="tag-group">
+          <button type="button" class="tag-btn" data-group="habit" data-value="Morning, before getting up">Morning, before getting up</button>
+          <button type="button" class="tag-btn" data-group="habit" data-value="On my commute">On my commute</button>
+          <button type="button" class="tag-btn" data-group="habit" data-value="Lunchtime break">Lunchtime break</button>
+          <button type="button" class="tag-btn" data-group="habit" data-value="Before difficult meetings or calls">Before difficult meetings</button>
+          <button type="button" class="tag-btn" data-group="habit" data-value="Evening wind-down">Evening wind-down</button>
+          <button type="button" class="tag-btn" data-group="habit" data-value="In bed before sleep">In bed before sleep</button>
+        </div>
+        <input type="hidden" id="bbHabitTimes" value=""/>
+      </div>
+
+      <div class="field-group">
+        <label for="bbSituations">Which specific situations will I use box breathing for? <span class="hint">— Be as specific as you can</span></label>
+        <textarea id="bbSituations" placeholder="e.g. Before my weekly team meetings, which I always find stressful. When I notice I'm getting irritated with my kids in the evenings. Any time I'm lying awake with racing thoughts."></textarea>
+      </div>
+
+      <div class="field-group">
+        <label for="bbPersonalNotes">Personal notes or reminders for next time <span class="hint">— anything you want to remember about how this works for you</span></label>
+        <textarea id="bbPersonalNotes" placeholder="e.g. The extended exhale variation (inhale 4, hold 4, exhale 6) worked really well for me when I was very anxious. Close my eyes when possible — it makes a big difference. Keep the focus on the counting, not on the worries."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Submit -->
+  <button class="submit-btn" id="bbOpenModal">Email Me This Worksheet ✉</button>
+
+</div><!-- /container -->
+
+<!-- ═══════════════════════════════════ MODAL ═══════════════════════════════════ -->
+<div id="bbModal">
+  <div id="bbModalBox">
+    <h2>Send to your inbox</h2>
+    <p>Enter your email address and we'll send you a PDF copy of your completed worksheet to keep.</p>
+    <input type="email" id="bbEmail" placeholder="your@email.com"/>
+    <div class="modal-btns">
+      <button class="btn-send" id="bbConfirmSend">Send PDF</button>
+      <button class="btn-cancel" id="bbCancelModal">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ════════════════════════════════════════════
+     BOX BREATHING ANIMATION
+  ════════════════════════════════════════════ */
+  var bbPhases = [
+    { name: 'Breathe in...', endLeft: 0,   endTop: 0   },
+    { name: 'Hold...',       endLeft: 100, endTop: 0   },
+    { name: 'Breathe out...', endLeft: 100, endTop: 100 },
+    { name: 'Hold...',       endLeft: 0,   endTop: 100 }
+  ];
+
+  var bbRunning    = false;
+  var bbPhaseIdx   = -1;
+  var bbCycleNum   = 1;
+  var bbTotalCyc   = 5;
+  var bbSecs       = 4;
+  var bbCountVal   = 4;
+  var bbPhaseTmo   = null;
+  var bbCountInt   = null;
+
+  function bbToggle() {
+    if (bbRunning) { bbStop(); } else { bbStart(); }
+  }
+
+  function bbStart() {
+    bbRunning  = true;
+    bbTotalCyc = parseInt(document.getElementById('bbCyclesSelect').value, 10);
+    bbCycleNum = 1;
+    bbPhaseIdx = -1;
+
+    var dot = document.getElementById('bbDot');
+    dot.style.transition = 'none';
+    dot.style.left = '0%';
+    dot.style.top  = '100%';
+    dot.style.display = 'block';
+
+    var btn = document.getElementById('bbStartBtn');
+    btn.textContent = 'Stop';
+    btn.classList.add('running');
+    document.getElementById('bbCompleteMsg').textContent = '';
+    document.getElementById('bbCycleInfo').textContent = 'Cycle 1 of ' + bbTotalCyc;
+
+    setTimeout(function() { bbNextPhase(); }, 120);
+  }
+
+  function bbNextPhase() {
+    bbPhaseIdx = (bbPhaseIdx + 1) % 4;
+    var phase = bbPhases[bbPhaseIdx];
+    var dot   = document.getElementById('bbDot');
+
+    /* Move dot along edge */
+    dot.style.transition = 'left ' + bbSecs + 's linear, top ' + bbSecs + 's linear';
+    setTimeout(function() {
+      dot.style.left = phase.endLeft + '%';
+      dot.style.top  = phase.endTop  + '%';
+    }, 20);
+
+    /* Update labels */
+    document.getElementById('bbPhaseName').textContent  = phase.name;
+    document.getElementById('bbCycleInfo').textContent  = 'Cycle ' + bbCycleNum + ' of ' + bbTotalCyc;
+
+    /* Countdown */
+    bbCountVal = bbSecs;
+    document.getElementById('bbCountdown').textContent = bbCountVal;
+    clearInterval(bbCountInt);
+    bbCountInt = setInterval(function() {
+      bbCountVal--;
+      document.getElementById('bbCountdown').textContent = Math.max(0, bbCountVal);
+    }, 1000);
+
+    /* Schedule next phase */
+    clearTimeout(bbPhaseTmo);
+    bbPhaseTmo = setTimeout(function() {
+      clearInterval(bbCountInt);
+      if (bbPhaseIdx === 3) {
+        if (bbCycleNum >= bbTotalCyc) { bbComplete(); return; }
+        bbCycleNum++;
+      }
+      bbNextPhase();
+    }, bbSecs * 1000);
+  }
+
+  function bbStop() {
+    bbRunning = false;
+    clearTimeout(bbPhaseTmo);
+    clearInterval(bbCountInt);
+
+    var dot = document.getElementById('bbDot');
+    dot.style.transition = 'none';
+    dot.style.left = '0%';
+    dot.style.top  = '100%';
+    dot.style.display = 'none';
+
+    var btn = document.getElementById('bbStartBtn');
+    btn.textContent = 'Start Practice';
+    btn.classList.remove('running');
+
+    document.getElementById('bbPhaseName').textContent = 'Box Breathing';
+    document.getElementById('bbCountdown').textContent = '4';
+    document.getElementById('bbCycleInfo').textContent = 'Press Start to begin';
+    document.getElementById('bbCompleteMsg').textContent = '';
+  }
+
+  function bbComplete() {
+    bbRunning = false;
+    clearTimeout(bbPhaseTmo);
+    clearInterval(bbCountInt);
+
+    var dot = document.getElementById('bbDot');
+    dot.style.display = 'none';
+
+    var btn = document.getElementById('bbStartBtn');
+    btn.textContent = 'Start Again';
+    btn.classList.remove('running');
+
+    document.getElementById('bbPhaseName').textContent = 'Session complete';
+    document.getElementById('bbCountdown').textContent = '';
+    document.getElementById('bbCycleInfo').textContent = '';
+    document.getElementById('bbCompleteMsg').textContent = 'Take a moment to notice how you feel — then log your session below.';
+  }
+
+  /* ── Cycles stepper ── */
+  var cyclesVal = 5;
+  document.getElementById('bbCyclesMinus').addEventListener('click', function() {
+    if (cyclesVal > 1) { cyclesVal--; updateCycles(); }
+  });
+  document.getElementById('bbCyclesPlus').addEventListener('click', function() {
+    if (cyclesVal < 10) { cyclesVal++; updateCycles(); }
+  });
+  function updateCycles() {
+    document.getElementById('bbCyclesDisplay').textContent = cyclesVal;
+    document.getElementById('bbCyclesVal').value = cyclesVal;
+  }
+
+  /* ── Tag buttons ── */
+  var tagGroups = {
+    context: { hiddenId: 'bbContextUsed', selected: [] },
+    habit:   { hiddenId: 'bbHabitTimes',  selected: [] }
+  };
+  document.querySelectorAll('.tag-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var group = btn.getAttribute('data-group');
+      var val   = btn.getAttribute('data-value');
+      var g = tagGroups[group];
+      if (!g) return;
+      btn.classList.toggle('selected');
+      if (btn.classList.contains('selected')) {
+        g.selected.push(val);
+      } else {
+        g.selected = g.selected.filter(function(v) { return v !== val; });
+      }
+      document.getElementById(g.hiddenId).value = g.selected.join(', ');
+    });
+  });
+
+  /* ── Sliders ── */
+  var sliders = [
+    { slider: 'bbArousalBeforeSlider', display: 'bbArousalBeforeDisplay', hidden: 'bbArousalBeforeVal', cmp: 'cmpBefore' },
+    { slider: 'bbArousalAfterSlider',  display: 'bbArousalAfterDisplay',  hidden: 'bbArousalAfterVal',  cmp: 'cmpAfter'  }
+  ];
+  sliders.forEach(function(s) {
+    var el = document.getElementById(s.slider);
+    if (!el) return;
+    el.addEventListener('input', function() {
+      var v = el.value;
+      document.getElementById(s.display).textContent = v;
+      document.getElementById(s.hidden).value = v;
+      if (s.cmp) document.getElementById(s.cmp).textContent = v + ' / 100';
+    });
+  });
+  document.getElementById('cmpBefore').textContent = '50 / 100';
+
+  /* ── Modal ── */
+  var modal = document.getElementById('bbModal');
+  document.getElementById('bbOpenModal').addEventListener('click', function() {
+    modal.style.display = 'flex';
+  });
+  document.getElementById('bbCancelModal').addEventListener('click', function() {
+    modal.style.display = 'none';
+    document.getElementById('bbEmail').value = '';
+  });
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+      document.getElementById('bbEmail').value = '';
+    }
+  });
+
+  /* ── Send ── */
+  document.getElementById('bbConfirmSend').addEventListener('click', function() {
+    var email = document.getElementById('bbEmail').value.trim();
+    if (!email) { alert('Please enter your email address.'); return; }
+
+    var payload = {
+      email:          email,
+      date:           document.getElementById('bbDate').value,
+      context_used:   document.getElementById('bbContextUsed').value,
+      context_other:  document.getElementById('bbContextOther').value,
+      arousal_before: document.getElementById('bbArousalBeforeVal').value,
+      cycles:         document.getElementById('bbCyclesVal').value,
+      arousal_after:  document.getElementById('bbArousalAfterVal').value,
+      what_noticed:   document.getElementById('bbWhatNoticed').value,
+      difficulties:   document.getElementById('bbDifficulties').value,
+      habit_times:    document.getElementById('bbHabitTimes').value,
+      situations:     document.getElementById('bbSituations').value,
+      personal_notes: document.getElementById('bbPersonalNotes').value
+    };
+
+    fetch('https://hooks.zapier.com/hooks/catch/27250519/uverjoq/', {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    })
+    .then(function() {
+      modal.style.display = 'none';
+      document.getElementById('bbEmail').value = '';
+      alert('Your worksheet is on its way! Check your inbox in the next minute or two.');
+    })
+    .catch(function() {
+      alert('Something went wrong. Please try again.');
+    });
+  });
+</script>
+
+</body>
+</html>

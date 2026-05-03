@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Worry Diary – ChatCBT</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #f2f8f4;
+    color: #1a1a1a;
+    min-height: 100vh;
+  }
+
+  /* ── Page header ── */
+  .page-header {
+    background: #0d4a2e;
+    padding: 36px 24px 30px;
+    text-align: center;
+  }
+  .page-header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #ffffff !important;
+    letter-spacing: -0.3px;
+    margin-bottom: 10px;
+  }
+  .page-header p {
+    font-size: 0.97rem;
+    color: #c8e6d4 !important;
+    max-width: 660px;
+    margin: 0 auto;
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  /* ── Layout ── */
+  .container {
+    max-width: 820px;
+    margin: 32px auto;
+    padding: 0 20px 72px;
+  }
+
+  /* ── Info box ── */
+  .info-box {
+    background: #ffffff;
+    border-left: 5px solid #0d4a2e;
+    border-radius: 0 10px 10px 0;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+  }
+  .info-box h2 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #0d4a2e;
+    margin-bottom: 8px;
+  }
+  .info-box p {
+    font-size: 0.88rem;
+    line-height: 1.75;
+    color: #444;
+  }
+  .info-box p + p { margin-top: 8px; }
+
+  /* ── Quote strip ── */
+  .quote-strip {
+    background: #e8f5ee;
+    border-radius: 10px;
+    padding: 15px 22px;
+    margin-bottom: 28px;
+    font-style: italic;
+    font-size: 0.92rem;
+    color: #0d4a2e;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  /* ── Card ── */
+  .card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 14px rgba(13,74,46,0.08);
+    margin-bottom: 22px;
+    overflow: hidden;
+  }
+
+  .section-header {
+    background: #0d4a2e;
+    padding: 14px 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-header .badge {
+    background: rgba(255,255,255,0.2);
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 0.8rem;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .section-header span.title {
+    font-size: 0.97rem;
+    font-weight: 700;
+    color: #ffffff !important;
+  }
+
+  .section-body { padding: 22px 24px; }
+
+  /* ── Fields ── */
+  .field-group { margin-bottom: 18px; }
+  .field-group:last-child { margin-bottom: 0; }
+
+  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #0d4a2e;
+    margin-bottom: 6px;
+  }
+  .hint {
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: #7a9a86;
+    margin-left: 3px;
+  }
+
+  input[type="date"],
+  textarea,
+  select {
+    width: 100%;
+    border: 1.5px solid #c5dfd0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.88rem;
+    color: #1a1a1a;
+    background: #f7fdf9;
+    transition: border-color 0.2s, background 0.2s;
+    resize: vertical;
+  }
+  input[type="date"]:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
+    border-color: #0d4a2e;
+    background: #ffffff;
+  }
+  textarea { min-height: 100px; }
+  select { resize: none; cursor: pointer; }
+
+  /* ── Slider / rating ── */
+  .slider-wrap { margin-top: 2px; }
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .slider-row input[type="range"] {
+    flex: 1;
+    min-width: 80px;
+    border: none;
+    padding: 0;
+    background: transparent;
+    accent-color: #0d4a2e;
+    cursor: pointer;
+    height: 4px;
+  }
+  .rating-pill {
+    background: #0d4a2e;
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 0.92rem;
+    min-width: 54px;
+    text-align: center;
+    border-radius: 8px;
+    padding: 6px 10px;
+    flex-shrink: 0;
+  }
+  .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    color: #9ab0a0;
+    margin-top: 5px;
+  }
+
+  /* ── Divider ── */
+  .divider {
+    border: none;
+    border-top: 2px dashed #d0eadb;
+    margin: 20px 0;
+  }
+
+  /* ── At-a-glance panel ── */
+  .glance-panel {
+    background: #e8f5ee;
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 20px;
+  }
+  .glance-panel-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #0d4a2e;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 14px;
+  }
+  .glance-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 540px) { .glance-grid { grid-template-columns: 1fr; } }
+  .glance-item .glabel {
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: #3a6e50;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 4px;
+  }
+  .glance-item .gval {
+    background: #ffffff;
+    border-radius: 7px;
+    padding: 7px 11px;
+    font-size: 0.87rem;
+    color: #1a1a1a;
+    min-height: 34px;
+    font-weight: 500;
+  }
+
+  /* ── Outcome radio pills ── */
+  .outcome-pills {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+  .outcome-pill-label {
+    flex: 1;
+    min-width: 120px;
+    cursor: pointer;
+  }
+  .outcome-pill-label input[type="radio"] {
+    display: none;
+  }
+  .outcome-pill-inner {
+    display: block;
+    text-align: center;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1.5px solid #c5dfd0;
+    background: #f7fdf9;
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: #0d4a2e;
+    transition: all 0.18s;
+    cursor: pointer;
+  }
+  .outcome-pill-label input[type="radio"]:checked + .outcome-pill-inner {
+    background: #0d4a2e;
+    border-color: #0d4a2e;
+    color: #ffffff !important;
+  }
+  .outcome-pill-inner:hover {
+    border-color: #0d4a2e;
+    background: #eef8f2;
+  }
+
+  /* ── Section note ── */
+  .section-note {
+    font-size: 0.86rem;
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  /* ── Submit button ── */
+  .submit-btn {
+    display: block;
+    width: 100%;
+    background: #0d4a2e;
+    color: #ffffff !important;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    padding: 16px 36px;
+    cursor: pointer;
+    letter-spacing: 0.2px;
+    transition: background 0.2s, transform 0.1s;
+    margin-top: 8px;
+  }
+  .submit-btn:hover { background: #0a3a22; }
+  .submit-btn:active { transform: scale(0.99); }
+
+  /* ── Modal ── */
+  #wdModal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.52);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 20px;
+  }
+  #wdModalBox {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 34px 30px;
+    max-width: 440px;
+    width: 100%;
+    box-shadow: 0 10px 48px rgba(0,0,0,0.28);
+  }
+  #wdModalBox h2 {
+    font-size: 1.18rem;
+    font-weight: 800;
+    color: #0d4a2e;
+    margin-bottom: 8px;
+  }
+  #wdModalBox p {
+    font-size: 0.88rem;
+    color: #555;
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+  #wdEmail {
+    width: 100%;
+    border: 1.5px solid #c5dfd0;
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.92rem;
+    color: #1a1a1a;
+    background: #f7fdf9;
+    margin-bottom: 18px;
+    box-sizing: border-box;
+    display: block;
+  }
+  #wdEmail:focus { outline: none; border-color: #0d4a2e; background: #fff; }
+  .modal-btns { display: flex; gap: 10px; }
+  .btn-send {
+    flex: 1;
+    background: #0d4a2e;
+    color: #ffffff !important;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.92rem;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-send:hover { background: #0a3a22; }
+  .btn-cancel {
+    flex: 1;
+    background: #f0f0f0;
+    color: #555;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 0.92rem;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-cancel:hover { background: #e4e4e4; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════ HEADER ═══════════════════════════════════ -->
+<div class="page-header">
+  <h1>Worry Diary</h1>
+  <p>Track anxious situations, your thoughts, emotions, physical sensations, and how you responded. Regular practice helps you notice patterns and build awareness of your coping strategies.</p>
+</div>
+
+<div class="container">
+
+  <!-- About -->
+  <div class="info-box">
+    <h2>How to use this diary</h2>
+    <p>Fill this in as soon as you can after a worrying or anxious episode, while the details are still fresh. Work through each section honestly — the more specific you are, the more useful the patterns become over time.</p>
+    <p>There are no right or wrong answers. The goal is observation, not judgement. You're building a picture of how your anxiety works so you can start to work with it, not against it.</p>
+  </div>
+
+  <div class="quote-strip">
+    "Worrying does not empty tomorrow of its troubles — it empties today of its strength."
+  </div>
+
+  <!-- ─────────────────── SECTION 1: SITUATION ─────────────────── -->
+  <div class="card">
+    <div class="section-header">
+      <div class="badge">1</div>
+      <span class="title">The Situation</span>
+    </div>
+    <div class="section-body">
+      <div class="field-group">
+        <label for="wdDate">Date</label>
+        <input type="date" id="wdDate"/>
+      </div>
+      <div class="field-group">
+        <label for="wdSituation">Briefly describe what was happening <span class="hint">— Where were you? Who was involved? What triggered the worry?</span></label>
+        <textarea id="wdSituation" placeholder="e.g. I was at work waiting for feedback on a project I'd submitted. My manager hadn't replied to my email for two days."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────── SECTION 2: THOUGHTS ─────────────────── -->
+  <div class="card">
+    <div class="section-header">
+      <div class="badge">2</div>
+      <span class="title">Thoughts</span>
+    </div>
+    <div class="section-body">
+      <div class="field-group">
+        <label for="wdThoughts">What outcome were you expecting? What thoughts or worries came up? <span class="hint">— Write them as they appeared in your mind</span></label>
+        <textarea id="wdThoughts" placeholder="e.g. My manager is unhappy with my work. They're going to tell me it wasn't good enough. I should have done it differently. Maybe I'm going to lose my job."></textarea>
+      </div>
+
+      <hr class="divider"/>
+
+      <div class="field-group">
+        <label>How strongly did you believe these thoughts at the time? <span class="hint">(0 = not at all, 100 = completely certain)</span></label>
+        <div class="slider-wrap">
+          <div class="slider-row">
+            <input type="range" id="wdBeliefSlider" min="0" max="100" value="50"/>
+            <div class="rating-pill" id="wdBeliefDisplay">50%</div>
+          </div>
+          <div class="slider-labels"><span>0% — No belief</span><span>50% — Moderate</span><span>100% — Absolute certainty</span></div>
+        </div>
+        <input type="hidden" id="wdBeliefVal" value="50"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────── SECTION 3: EMOTIONS & PHYSICAL ─────────────────── -->
+  <div class="card">
+    <div class="section-header">
+      <div class="badge">3</div>
+      <span class="title">Emotions &amp; Physical Sensations</span>
+    </div>
+    <div class="section-body">
+      <div class="field-group">
+        <label for="wdEmotions">What emotions did you feel, and what physical sensations did you notice? <span class="hint">— Name them as specifically as you can</span></label>
+        <textarea id="wdEmotions" placeholder="e.g. Anxious, dread, a knot in my stomach. My chest felt tight. I kept checking my email every few minutes and couldn't concentrate on anything else."></textarea>
+      </div>
+
+      <hr class="divider"/>
+
+      <div class="field-group">
+        <label>How strong were those feelings? <span class="hint">(0 = barely noticeable, 100 = overwhelming)</span></label>
+        <div class="slider-wrap">
+          <div class="slider-row">
+            <input type="range" id="wdIntensitySlider" min="0" max="100" value="50"/>
+            <div class="rating-pill" id="wdIntensityDisplay">50</div>
+          </div>
+          <div class="slider-labels"><span>0 — Barely noticeable</span><span>50 — Moderate</span><span>100 — Overwhelming</span></div>
+        </div>
+        <input type="hidden" id="wdIntensityVal" value="50"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────── SECTION 4: RESPONSE ─────────────────── -->
+  <div class="card">
+    <div class="section-header">
+      <div class="badge">4</div>
+      <span class="title">Response</span>
+    </div>
+    <div class="section-body">
+      <p class="section-note">Your response is everything you did — or didn't do — to manage the situation or how you were feeling. This includes coping strategies, avoidance, seeking reassurance, distraction, or anything else.</p>
+      <div class="field-group">
+        <label for="wdResponse">What did you do to manage the situation or your feelings?</label>
+        <textarea id="wdResponse" placeholder="e.g. I kept refreshing my email. I messaged a colleague asking if they'd heard anything. I tried to distract myself with other tasks but couldn't focus. Eventually I sent my manager a follow-up email."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────── SECTION 5: OUTCOME ─────────────────── -->
+  <div class="card">
+    <div class="section-header">
+      <div class="badge">5</div>
+      <span class="title">Outcome</span>
+    </div>
+    <div class="section-body">
+      <div class="field-group">
+        <label for="wdOutcome">What were the results? What happened afterwards?</label>
+        <textarea id="wdOutcome" placeholder="e.g. My manager replied and said the project was fine — they'd just been busy. None of my feared outcomes came true. I realised I'd spent most of the day anxious about something that wasn't a problem."></textarea>
+      </div>
+
+      <hr class="divider"/>
+
+      <div class="field-group">
+        <label>Did your response make the situation better, worse, or about the same?</label>
+        <div class="outcome-pills">
+          <label class="outcome-pill-label">
+            <input type="radio" name="wdOutcomeRating" value="Better" id="wdOutcomeBetter"/>
+            <span class="outcome-pill-inner">✓ Better</span>
+          </label>
+          <label class="outcome-pill-label">
+            <input type="radio" name="wdOutcomeRating" value="About the same" id="wdOutcomeSame"/>
+            <span class="outcome-pill-inner">↔ About the same</span>
+          </label>
+          <label class="outcome-pill-label">
+            <input type="radio" name="wdOutcomeRating" value="Worse" id="wdOutcomeWorse"/>
+            <span class="outcome-pill-inner">↓ Worse</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────── SECTION 6: REFLECTION ─────────────────── -->
+  <div class="card">
+    <div class="section-header">
+      <div class="badge">6</div>
+      <span class="title">Reflection &amp; Patterns</span>
+    </div>
+    <div class="section-body">
+
+      <!-- At-a-glance summary -->
+      <div class="glance-panel">
+        <div class="glance-panel-title">This entry at a glance</div>
+        <div class="glance-grid">
+          <div class="glance-item">
+            <div class="glabel">Belief in thoughts</div>
+            <div class="gval" id="glanceBelief">50%</div>
+          </div>
+          <div class="glance-item">
+            <div class="glabel">Feeling intensity</div>
+            <div class="gval" id="glanceIntensity">50 / 100</div>
+          </div>
+          <div class="glance-item">
+            <div class="glabel">Response outcome</div>
+            <div class="gval" id="glanceOutcome">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="wdReflection">What do you notice from completing this entry? <span class="hint">— What patterns are emerging? What would you do differently?</span></label>
+        <textarea id="wdReflection" placeholder="e.g. I notice that my feared outcomes almost never actually happen. Checking my email repeatedly made the anxiety worse, not better. Next time I could try setting a specific time to check rather than constantly monitoring."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Submit -->
+  <button class="submit-btn" id="wdOpenModal">Email Me This Diary Entry ✉</button>
+
+</div><!-- /container -->
+
+<!-- ═══════════════════════════════════ MODAL ═══════════════════════════════════ -->
+<div id="wdModal">
+  <div id="wdModalBox">
+    <h2>Send to your inbox</h2>
+    <p>Enter your email address and we'll send you a PDF copy of this diary entry to keep.</p>
+    <input type="email" id="wdEmail" placeholder="your@email.com"/>
+    <div class="modal-btns">
+      <button class="btn-send" id="wdConfirmSend">Send PDF</button>
+      <button class="btn-cancel" id="wdCancelModal">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ── Slider helpers ── */
+  var sliders = [
+    { slider: 'wdBeliefSlider',    display: 'wdBeliefDisplay',    hidden: 'wdBeliefVal',    suffix: '%', glance: 'glanceBelief',    glanceSuffix: '%'      },
+    { slider: 'wdIntensitySlider', display: 'wdIntensityDisplay', hidden: 'wdIntensityVal', suffix: '',  glance: 'glanceIntensity', glanceSuffix: ' / 100' }
+  ];
+
+  sliders.forEach(function(s) {
+    var el = document.getElementById(s.slider);
+    if (!el) return;
+    el.addEventListener('input', function() {
+      var v = el.value;
+      document.getElementById(s.display).textContent = v + s.suffix;
+      document.getElementById(s.hidden).value = v;
+      if (s.glance) {
+        document.getElementById(s.glance).textContent = v + s.glanceSuffix;
+      }
+    });
+  });
+
+  /* Seed glance panel */
+  document.getElementById('glanceBelief').textContent    = '50%';
+  document.getElementById('glanceIntensity').textContent = '50 / 100';
+
+  /* ── Outcome radio → glance panel ── */
+  document.querySelectorAll('input[name="wdOutcomeRating"]').forEach(function(r) {
+    r.addEventListener('change', function() {
+      document.getElementById('glanceOutcome').textContent = r.value;
+    });
+  });
+
+  function getOutcomeRating() {
+    var checked = document.querySelector('input[name="wdOutcomeRating"]:checked');
+    return checked ? checked.value : '';
+  }
+
+  /* ── Modal ── */
+  var modal = document.getElementById('wdModal');
+
+  document.getElementById('wdOpenModal').addEventListener('click', function() {
+    modal.style.display = 'flex';
+  });
+  document.getElementById('wdCancelModal').addEventListener('click', function() {
+    modal.style.display = 'none';
+    document.getElementById('wdEmail').value = '';
+  });
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+      document.getElementById('wdEmail').value = '';
+    }
+  });
+
+  /* ── Send ── */
+  document.getElementById('wdConfirmSend').addEventListener('click', function() {
+    var email = document.getElementById('wdEmail').value.trim();
+    if (!email) { alert('Please enter your email address.'); return; }
+
+    var payload = {
+      email:          email,
+      date:           document.getElementById('wdDate').value,
+      situation:      document.getElementById('wdSituation').value,
+      thoughts:       document.getElementById('wdThoughts').value,
+      belief:         document.getElementById('wdBeliefVal').value,
+      emotions:       document.getElementById('wdEmotions').value,
+      intensity:      document.getElementById('wdIntensityVal').value,
+      response:       document.getElementById('wdResponse').value,
+      outcome:        document.getElementById('wdOutcome').value,
+      outcome_rating: getOutcomeRating(),
+      reflection:     document.getElementById('wdReflection').value
+    };
+
+    fetch('https://hooks.zapier.com/hooks/catch/27250519/uvqumz1/', {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    })
+    .then(function() {
+      modal.style.display = 'none';
+      document.getElementById('wdEmail').value = '';
+      alert('Your diary entry is on its way! Check your inbox in the next minute or two.');
+    })
+    .catch(function() {
+      alert('Something went wrong. Please try again.');
+    });
+  });
+</script>
+
+</body>
+</html>
