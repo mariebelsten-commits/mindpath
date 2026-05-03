@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accomplishments Worksheet</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f0f9f0; color: #1a3a2a; min-height: 100vh; }
+
+    .hero {
+      background: linear-gradient(135deg, #0d4a2e 0%, #1a5c3a 100%);
+      padding: 48px 32px 40px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 6px 16px; border-radius: 20px; margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.4rem; font-weight: 800;
+      color: #ffffff !important; margin-bottom: 12px; line-height: 1.2;
+    }
+    .hero p {
+      color: rgba(255,255,255,0.85); font-size: 1.05rem;
+      max-width: 620px; margin: 0 auto; line-height: 1.7;
+    }
+
+    .feature-cards {
+      display: flex; gap: 16px;
+      padding: 28px 24px 4px;
+      max-width: 860px; margin: 0 auto; flex-wrap: wrap;
+    }
+    .feature-card {
+      flex: 1; min-width: 200px; background: #fff;
+      border-radius: 12px; padding: 20px;
+      border-left: 4px solid #0d4a2e;
+      box-shadow: 0 2px 8px rgba(13,74,46,0.08);
+    }
+    .feature-card h3 {
+      font-family: 'Montserrat', sans-serif; font-size: 0.85rem;
+      font-weight: 700; color: #0d4a2e; margin-bottom: 8px;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .feature-card p { font-size: 0.88rem; color: #4a6a5a; line-height: 1.55; }
+
+    .instructions-box {
+      background: #e8f5ee; border: 1px solid #b8ddc8;
+      border-radius: 12px; padding: 18px 22px;
+      max-width: 812px; margin: 20px auto 8px;
+    }
+    .instructions-box p { font-size: 0.92rem; color: #2a5a3a; line-height: 1.6; }
+    .instructions-box strong { color: #0d4a2e; }
+
+    .page-worksheet {
+      max-width: 860px; margin: 0 auto; padding: 20px 24px 20px;
+    }
+
+    .sections-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 580px) {
+      .sections-grid { grid-template-columns: 1fr; }
+    }
+
+    .acc-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(13,74,46,0.08);
+      overflow: hidden;
+    }
+    .acc-card-header {
+      background: linear-gradient(135deg, #0d4a2e 0%, #1a5c3a 100%);
+      padding: 14px 18px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.82rem; font-weight: 800;
+      color: #ffffff !important;
+      letter-spacing: 0.8px; text-transform: uppercase;
+      text-align: center;
+    }
+    .acc-card-body { padding: 16px 18px; }
+
+    .acc-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 0;
+      border-bottom: 1px solid #edf7f1;
+    }
+    .acc-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .acc-row:first-child { padding-top: 0; }
+
+    .acc-check {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 2px solid #c8e6d4;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      color: #c8e6d4;
+      font-size: 14px; font-weight: 700;
+      transition: all 0.2s;
+      background: #f8fdf9;
+    }
+    .acc-check.filled {
+      background: #0d4a2e;
+      border-color: #0d4a2e;
+      color: #fff;
+    }
+
+    .acc-input {
+      flex: 1;
+      padding: 8px 12px;
+      border: 2px solid #d0ecd8;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem; color: #1a3a2a;
+      outline: none; background: #fafffe;
+      transition: border-color 0.2s;
+    }
+    .acc-input:focus { border-color: #0d4a2e; background: #fff; }
+    .acc-input::placeholder { color: #a8c8b8; font-size: 0.85rem; }
+
+    .reflection-block {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(13,74,46,0.08);
+      margin-top: 20px;
+      overflow: hidden;
+    }
+    .reflection-header {
+      background: linear-gradient(135deg, #0d4a2e 0%, #1a5c3a 100%);
+      padding: 18px 24px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .reflection-icon {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .reflection-header-text h2 {
+      font-family: 'Montserrat', sans-serif; font-size: 1.1rem;
+      font-weight: 700; color: #ffffff !important; margin-bottom: 3px;
+    }
+    .reflection-header-text p { font-size: 0.85rem; color: rgba(255,255,255,0.8); }
+    .reflection-body { padding: 24px; }
+    .field-group { margin-bottom: 20px; }
+    .field-group:last-child { margin-bottom: 0; }
+    .field-label {
+      font-size: 0.85rem; font-weight: 600; color: #0d4a2e;
+      margin-bottom: 7px; display: block;
+    }
+    textarea {
+      width: 100%; padding: 12px 14px;
+      border: 2px solid #d0ecd8; border-radius: 10px;
+      font-family: 'Inter', sans-serif; font-size: 0.92rem;
+      color: #1a3a2a; resize: vertical; min-height: 80px;
+      outline: none; background: #fafffe;
+      transition: border-color 0.2s; line-height: 1.55;
+    }
+    textarea:focus { border-color: #0d4a2e; background: #fff; }
+
+    .progress-wrap {
+      max-width: 860px; margin: 0 auto 4px;
+      padding: 0 24px;
+    }
+    .progress-label {
+      display: flex; justify-content: space-between;
+      font-size: 0.82rem; color: #4a6a5a; margin-bottom: 6px; font-weight: 500;
+    }
+    .progress-bar-bg {
+      height: 8px; background: #d0ecd8; border-radius: 4px; overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%; background: linear-gradient(90deg, #0d4a2e, #2ecc71);
+      border-radius: 4px; width: 0%; transition: width 0.3s;
+    }
+
+    .submit-area { text-align: center; padding: 32px 24px 52px; }
+    .btn-submit {
+      background: linear-gradient(135deg, #0d4a2e 0%, #1a5c3a 100%);
+      color: #fff; border: none; padding: 16px 52px;
+      font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.1rem;
+      border-radius: 50px; cursor: pointer;
+      box-shadow: 0 4px 20px rgba(13,74,46,0.3); transition: all 0.2s;
+    }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(13,74,46,0.4); }
+
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.55); z-index: 9999;
+      align-items: center; justify-content: center;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: #fff; border-radius: 20px; padding: 40px;
+      max-width: 460px; width: 90%;
+      text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    }
+    .modal-icon {
+      width: 64px; height: 64px; background: #e8f5ee;
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; margin: 0 auto 20px; font-size: 28px;
+    }
+    .modal h2 { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; color: #0d4a2e; margin-bottom: 10px; }
+    .modal p { color: #4a6a5a; margin-bottom: 24px; font-size: 0.95rem; line-height: 1.6; }
+    .modal input[type="email"] {
+      width: 100%; padding: 14px 18px;
+      border: 2px solid #d0ecd8; border-radius: 10px;
+      font-family: 'Inter', sans-serif; font-size: 1rem;
+      color: #1a3a2a; margin-bottom: 16px; outline: none;
+    }
+    .modal input[type="email"]:focus { border-color: #0d4a2e; }
+    .btn-send {
+      width: 100%; padding: 14px;
+      background: linear-gradient(135deg, #0d4a2e, #1a5c3a);
+      color: #fff; border: none; border-radius: 10px;
+      font-family: 'Montserrat', sans-serif; font-weight: 700;
+      font-size: 1rem; cursor: pointer; margin-bottom: 12px;
+    }
+    .btn-cancel { background: none; border: none; color: #888; cursor: pointer; font-size: 0.9rem; }
+    .modal-success { display: none; }
+    .modal-success.active { display: block; }
+  </style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">CBT Worksheet</div>
+  <h1>Accomplishments</h1>
+  <p>A dedicated space to acknowledge your achievements, strengths, and positive traits. Take a moment to reflect on what you are proud of, the qualities you value in yourself, and the positive feedback you've received from others. Every achievement matters — no matter how small.</p>
+</div>
+
+<div class="feature-cards">
+  <div class="feature-card">
+    <h3>Build Self-Worth</h3>
+    <p>When self-criticism is loud, intentionally listing your strengths and achievements rebalances your perspective.</p>
+  </div>
+  <div class="feature-card">
+    <h3>Challenge Negative Beliefs</h3>
+    <p>Evidence of your accomplishments and qualities is powerful counter-evidence against the thought "I'm not good enough."</p>
+  </div>
+  <div class="feature-card">
+    <h3>Come Back to This</h3>
+    <p>Save your completed worksheet and revisit it whenever self-doubt creeps in — it's a reminder of who you really are.</p>
+  </div>
+</div>
+
+<div class="instructions-box">
+  <p><strong>How to use this worksheet:</strong> Fill in as many items as you can in each section. Don't filter or judge — if something comes to mind, write it down. The checkmark icon will turn green as you go. Finish with a short reflection at the bottom.</p>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-label">
+    <span>Your progress</span>
+    <span id="progressText">0 of 24 filled</span>
+  </div>
+  <div class="progress-bar-bg">
+    <div class="progress-bar-fill" id="progressFill"></div>
+  </div>
+</div>
+
+<div class="page-worksheet">
+
+  <div class="sections-grid">
+
+    <div class="acc-card">
+      <div class="acc-card-header">Things I'm Good At</div>
+      <div class="acc-card-body">
+        <div class="acc-row"><div class="acc-check" id="chk-good_at_1">✓</div><input type="text" class="acc-input" id="good_at_1" placeholder="e.g. Listening to others…"></div>
+        <div class="acc-row"><div class="acc-check" id="chk-good_at_2">✓</div><input type="text" class="acc-input" id="good_at_2" placeholder="e.g. Staying calm under pressure…"></div>
+        <div class="acc-row"><div class="acc-check" id="chk-good_at_3">✓</div><input type="text" class="acc-input" id="good_at_3" placeholder="e.g. Problem solving…"></div>
+      </div>
+    </div>
+
+    <div class="acc-card">
+      <div class="acc-card-header">Things That Make Me Unique</div>
+      <div class="acc-card-body">
+        <div class="acc-row"><div class="acc-check" id="chk-unique_1">✓</div><input type="text" class="acc-input" id="unique_1" placeholder="e.g. My sense of humour…"></div>
+        <div class="acc-row"><div class="acc-check" id="chk-unique_2">✓</div><input type="text" class="acc-input" id="unique_2" placeholder="e.g. The way I see the world…"></div>
+        <div class="acc-row"><div class="acc-check" id="chk-unique_3">✓</div><input type="text" class="acc-input" id="unique_3" placeholder="e.g. My creativity…"></div>
+      </div>
+    </div>
+
+    <div class="acc-card">
+      <div class="acc-card-header">What I Like About Me</div>
+      <div class="acc-card-body">
+        <div class="acc-row"><div class="acc-check" id="chk-like_about_me_1">✓</div><input type="text" class="acc-input" id="like_about_me_1" placeholder="e.g. I care deeply about people…"></div>
+        <div class="acc-row"><div class="acc-check" id="chk-like_about_me_2">✓</div><input type="text" class="acc-input" id="like_about_me_2" placeholder="e.g. I keep going even when it's hard…"></div>
+        <div class="acc-row"><div class="acc-check" id="chk-like_about_me_3">✓</div><input type="text" class="acc-input" id="like_about_me_3" placeholder="e.g. I'm honest…"></div>
+      </div>
+    </div>
+
+    <div class="acc-card">
+      <div class="acc-card-header">I'm a Good Friend Because</div>
+      <div class="acc-card-body">
+        <div class="acc-row"><div class="acc-check" id="chk-good_friend_1">✓</div><input type="text" class="acc-input" id="good_friend_1" placeholder="e.g. I show up when people need me…"></div>
+        <div class="acc-row"><div class="acc-check" id="chk-good_friend_2">✓</div><input type="text" class="acc-input" id="good_friend_2" placeholder="e.g. I remember the little things…"></div>
+        <div class="acc-row"><div class="acc-check" id="chk-good_friend_3">✓</div><input type="text" class="acc-input" id="good_friend_3" placeholder="e.g. I keep confidences…"></div>
+      </div>
+    </div>
+
+    <div class="acc-card">
+      <div class="acc-card-header">Compliments I Have Received</div>
+      <div class="acc-card-body">
+        <div class="acc-row"><div class="acc-check" id="chk-compliments_1">✓</div><input type="text" class="acc-input" id="compliments_1" placeholder="e.g. &quot;You're so kind…&quot;"></div>
+        <div class="acc-row"><div class="acc-check" id="chk-compliments_2">✓</div><input type="text" class="acc-input" id="compliments_2" placeholder="e.g. &quot;You always know what to say…&quot;"></div>
+        <div class="acc-row"><div class="acc-check" id="chk-compliments_3">✓</div><input type="text" class="acc-input" id="compliments_3" placeholder="e.g. &quot;You're so reliable…&quot;"></div>
+      </div>
+    </div>
+
+    <div class="acc-card">
+      <div class="acc-card-header">I've Helped Others By</div>
+      <div class="acc-card-body">
+        <div class="acc-row"><div class="acc-check" id="chk-helped_others_1">✓</div><input type="text" class="acc-input" id="helped_others_1" placeholder="e.g. Being there during a hard time…"></div>
+        <div class="acc-row"><div class="acc-check" id="chk-helped_others_2">✓</div><input type="text" class="acc-input" id="helped_others_2" placeholder="e.g. Volunteering my time…"></div>
+        <div class="acc-row"><div class="acc-check" id="chk-helped_others_3">✓</div><input type="text" class="acc-input" id="helped_others_3" placeholder="e.g. Giving good advice…"></div>
+      </div>
+    </div>
+
+    <div class="acc-card">
+      <div class="acc-card-header">Challenges I Have Overcome</div>
+      <div class="acc-card-body">
+        <div class="acc-row"><div class="acc-check" id="chk-challenges_1">✓</div><input type="text" class="acc-input" id="challenges_1" placeholder="e.g. A difficult period at work…"></div>
+        <div class="acc-row"><div class="acc-check" id="chk-challenges_2">✓</div><input type="text" class="acc-input" id="challenges_2" placeholder="e.g. Learning to ask for help…"></div>
+        <div class="acc-row"><div class="acc-check" id="chk-challenges_3">✓</div><input type="text" class="acc-input" id="challenges_3" placeholder="e.g. Getting through a loss…"></div>
+      </div>
+    </div>
+
+    <div class="acc-card">
+      <div class="acc-card-header">My Biggest Accomplishments</div>
+      <div class="acc-card-body">
+        <div class="acc-row"><div class="acc-check" id="chk-accomplishments_1">✓</div><input type="text" class="acc-input" id="accomplishments_1" placeholder="e.g. Completing my qualification…"></div>
+        <div class="acc-row"><div class="acc-check" id="chk-accomplishments_2">✓</div><input type="text" class="acc-input" id="accomplishments_2" placeholder="e.g. Raising my children…"></div>
+        <div class="acc-row"><div class="acc-check" id="chk-accomplishments_3">✓</div><input type="text" class="acc-input" id="accomplishments_3" placeholder="e.g. Starting over after a setback…"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="reflection-block">
+    <div class="reflection-header">
+      <div class="reflection-icon">✦</div>
+      <div class="reflection-header-text">
+        <h2>Reflection</h2>
+        <p>Take a moment to sit with what you've written.</p>
+      </div>
+    </div>
+    <div class="reflection-body">
+      <div class="field-group">
+        <label class="field-label">Looking at everything you've written, what surprises you most?</label>
+        <textarea id="reflection_surprise" placeholder="e.g. I hadn't realised how many challenges I've actually got through…"></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Which item are you most proud of, and why?</label>
+        <textarea id="reflection_proud" placeholder="e.g. I'm most proud of… because it took real courage…"></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">How does it feel to see your strengths and accomplishments written down?</label>
+        <textarea id="reflection_feeling" placeholder="e.g. It feels strange — I'm not used to focusing on the good things about myself…"></textarea>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="submit-area">
+  <button class="btn-submit" onclick="openModal()">✉ Send My Worksheet</button>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modalBox">
+    <div id="modalForm">
+      <div class="modal-icon">✉️</div>
+      <h2>Get Your Worksheet</h2>
+      <p>Enter your email address and we'll send you a beautifully formatted PDF of your Accomplishments worksheet.</p>
+      <input type="email" id="userEmail" placeholder="your@email.com">
+      <button class="btn-send" onclick="submitWorksheet()">Send My PDF</button>
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+    </div>
+    <div class="modal-success" id="modalSuccess">
+      <div class="modal-icon">✅</div>
+      <h2>On Its Way!</h2>
+      <p>Your Accomplishments worksheet is being prepared. Check your inbox in a few minutes.</p>
+      <button class="btn-send" style="margin-top:8px;" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  var inputIds = [
+    'good_at_1','good_at_2','good_at_3',
+    'unique_1','unique_2','unique_3',
+    'like_about_me_1','like_about_me_2','like_about_me_3',
+    'good_friend_1','good_friend_2','good_friend_3',
+    'compliments_1','compliments_2','compliments_3',
+    'helped_others_1','helped_others_2','helped_others_3',
+    'challenges_1','challenges_2','challenges_3',
+    'accomplishments_1','accomplishments_2','accomplishments_3'
+  ];
+
+  var total = inputIds.length;
+
+  function updateProgress() {
+    var filled = inputIds.filter(function(id) {
+      return document.getElementById(id).value.trim().length > 0;
+    }).length;
+    var pct = Math.round((filled / total) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = filled + ' of ' + total + ' filled';
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    inputIds.forEach(function(id) {
+      var inp = document.getElementById(id);
+      var chk = document.getElementById('chk-' + id);
+      inp.addEventListener('input', function() {
+        var hasVal = this.value.trim().length > 0;
+        chk.classList.toggle('filled', hasVal);
+        updateProgress();
+      });
+    });
+  });
+
+  function openModal() {
+    var overlay = document.getElementById('modalOverlay');
+    overlay.style.display = 'flex';
+    overlay.style.alignItems = 'center';
+    overlay.style.justifyContent = 'center';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').style.display = 'none';
+    document.getElementById('modalForm').style.display = 'block';
+    document.getElementById('modalSuccess').classList.remove('active');
+  }
+
+  function collectData() {
+    var data = {};
+    inputIds.forEach(function(id) {
+      data[id] = document.getElementById(id).value;
+    });
+    data.reflection_surprise = document.getElementById('reflection_surprise').value.replace(/\r?\n|\r/g, ' | ');
+    data.reflection_proud    = document.getElementById('reflection_proud').value.replace(/\r?\n|\r/g, ' | ');
+    data.reflection_feeling  = document.getElementById('reflection_feeling').value.replace(/\r?\n|\r/g, ' | ');
+    return data;
+  }
+
+  function submitWorksheet() {
+    var email = document.getElementById('userEmail').value.trim();
+    if (!email || !email.includes('@')) { alert('Please enter a valid email address.'); return; }
+    var data = collectData();
+    data.email = email;
+
+    fetch('https://hooks.zapier.com/hooks/catch/27250519/uv6md07/', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    })
+    .then(function() {
+      document.getElementById('modalForm').style.display = 'none';
+      document.getElementById('modalSuccess').classList.add('active');
+    })
+    .catch(function() {
+      document.getElementById('modalForm').style.display = 'none';
+      document.getElementById('modalSuccess').classList.add('active');
+    });
+  }
+</script>
+
+</body>
+</html>
