@@ -1,1 +1,436 @@
+<div class="activity-scheduling-container">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
+    .activity-scheduling-container {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      color: #333;
+      background-color: #faf6ef;
+    }
+
+    /* Hero Banner */
+    .hero-banner {
+      position: relative;
+      height: 500px;
+      background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1500&q=85&fm=jpg&crop=entropy&cs=srgb');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+    }
+
+    .hero-banner-content h1 {
+      font-size: 3em;
+      font-weight: 700;
+      margin-bottom: 15px;
+      line-height: 1.2;
+    }
+
+    .hero-banner-content p {
+      font-size: 1.3em;
+      font-weight: 300;
+      line-height: 1.6;
+      max-width: 600px;
+    }
+
+    /* General Section Styling */
+    .section {
+      padding: 70px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      background-color: #faf6ef;
+    }
+
+    .section-title {
+      color: #1f7a5a;
+      font-size: 2.2em;
+      font-weight: 700;
+      margin-bottom: 30px;
+      line-height: 1.3;
+    }
+
+    .section-text {
+      font-size: 1.05em;
+      line-height: 1.8;
+      color: #333;
+      margin-bottom: 25px;
+    }
+
+    .section-text p {
+      margin-bottom: 20px;
+    }
+
+    .section-text ul {
+      margin-left: 25px;
+      margin-bottom: 25px;
+    }
+
+    .section-text li {
+      margin-bottom: 12px;
+    }
+
+    /* Two-Column Layout */
+    .two-column {
+      display: grid;
+      grid-template-columns: 55% 45%;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .two-column.reverse {
+      grid-template-columns: 45% 55%;
+    }
+
+    .two-column-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .two-column-image {
+      display: flex;
+      justify-content: center;
+    }
+
+    .two-column-image img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    /* Sub-section Styling */
+    .subsection {
+      margin-top: 40px;
+      margin-bottom: 40px;
+    }
+
+    .subsection h3 {
+      color: #1f7a5a;
+      font-size: 1.35em;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .subsection p {
+      font-size: 1.05em;
+      line-height: 1.8;
+      color: #333;
+    }
+
+    /* Obstacle Quote Style */
+    .obstacle-heading {
+      font-style: italic;
+      color: #1f7a5a;
+      font-weight: 600;
+      font-size: 1.1em;
+      margin-bottom: 12px;
+    }
+
+    /* Key Takeaway Section */
+    .key-takeaway {
+      background-color: #f0ebe3;
+      padding: 70px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .key-takeaway .section-title {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .key-takeaway .section-text {
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* Footer Callout */
+    .footer-callout {
+      background-color: #faf6ef;
+      padding: 70px 40px;
+      text-align: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      border-top: 2px solid #e8dcc8;
+    }
+
+    .footer-callout p {
+      font-size: 1.05em;
+      line-height: 1.8;
+      color: #333;
+    }
+
+    .footer-callout a {
+      color: #1f7a5a;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    .footer-callout a:hover {
+      color: #155242;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .two-column,
+      .two-column.reverse {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .hero-banner {
+        height: 350px;
+      }
+
+      .hero-banner-content h1 {
+        font-size: 2em;
+      }
+
+      .hero-banner-content p {
+        font-size: 1.1em;
+      }
+
+      .section,
+      .key-takeaway,
+      .footer-callout {
+        padding: 50px 30px;
+      }
+
+      .section-title {
+        font-size: 1.8em;
+      }
+
+      .section-text,
+      .subsection p {
+        font-size: 1em;
+      }
+    }
+  </style>
+
+  <!-- Hero Banner -->
+  <div class="hero-banner">
+    <div class="hero-banner-content">
+      <h1>Activity Scheduling</h1>
+      <p>How to Structure Your Day When Depression Has Stolen Your Routine</p>
+    </div>
+  </div>
+
+  <!-- Section 1: When the Days Blur Together -->
+  <div class="section">
+    <h2 class="section-title">When the Days Blur Together</h2>
+    <div class="two-column">
+      <div class="two-column-text">
+        <div class="section-text">
+          <p>One of the quieter symptoms of depression — one that doesn't get talked about as much as sadness or hopelessness — is the loss of structure. Days stop having shape. You wake up without a plan, drift through the hours, and go to bed wondering where the time went. Meals happen at random. Sleep becomes erratic. The things that used to anchor your day — a morning routine, regular exercise, social plans, work tasks — gradually fall away until there's nothing left but a formless stretch of time filled mostly with rumination and inactivity.</p>
+          <p>This loss of structure isn't just a side effect of depression. It actively makes the depression worse. Without scheduled activities, there are no natural opportunities for pleasure, achievement, or connection. Without time anchors, sleep patterns deteriorate. Without a plan, every single action requires a fresh decision — and when you're depressed, decision-making is exhausting. So you default to doing nothing, and nothing feeds the depression.</p>
+          <p>Activity scheduling is the practical, structured response to this problem. It's a core technique within behavioural activation that gives your day shape, purpose, and built-in opportunities for mood improvement — even when your motivation is at zero.</p>
+        </div>
+      </div>
+      <div class="two-column-image">
+        <img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=1500&q=85&fm=jpg&crop=entropy&cs=srgb" alt="Sunrise over a new day, symbolizing fresh starts and renewed structure">
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2: What Activity Scheduling Actually Is -->
+  <div class="section">
+    <h2 class="section-title">What Activity Scheduling Actually Is</h2>
+    <div class="two-column reverse">
+      <div class="two-column-image">
+        <img src="https://images.unsplash.com/photo-1517842645767-c639042777db?w=1500&q=85&fm=jpg&crop=entropy&cs=srgb" alt="Person journaling and writing in a notebook, planning their day">
+      </div>
+      <div class="two-column-text">
+        <div class="section-text">
+          <p>At its simplest, activity scheduling means planning your activities in advance and writing them into a timetable. Not a vague to-do list. Not a mental note. A specific schedule that tells you what you'll be doing, and when.</p>
+          <p>It might look like this:</p>
+          <ul>
+            <li>8:00am — Get up, shower, get dressed</li>
+            <li>8:30am — Breakfast (sit at the table, not in bed)</li>
+            <li>9:00am — 15-minute walk around the block</li>
+            <li>9:30am — Work task: reply to three emails</li>
+            <li>10:30am — Tea break, 10 minutes outside</li>
+            <li>11:00am — Work task: project review</li>
+            <li>12:30pm — Lunch</li>
+            <li>1:00pm — Phone call with a friend</li>
+            <li>2:00pm — Work task or household task</li>
+            <li>3:30pm — Activity: read for 20 minutes</li>
+            <li>5:00pm — Cook dinner</li>
+            <li>6:30pm — Evening activity: watch one episode of something enjoyable</li>
+            <li>9:30pm — Wind-down routine</li>
+            <li>10:30pm — Lights out</li>
+          </ul>
+          <p>This might look unremarkable — like any ordinary day. And that's exactly the point. Depression strips away the ordinary. Activity scheduling rebuilds it.</p>
+          <p>The schedule isn't meant to be rigid or punishing. It's meant to be a scaffold — a structure that holds your day together when your internal motivation can't. Think of it like a cast on a broken bone: it provides external support while the internal healing happens.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: Why It Works -->
+  <div class="section">
+    <h2 class="section-title">Why It Works</h2>
+    <div class="section-text">
+      <p>Activity scheduling is effective for several interconnected reasons.</p>
+    </div>
+
+    <div class="subsection">
+      <h3>It Removes the Decision Burden</h3>
+      <p>When you're depressed, every decision is a battle. "Should I get up?" "Should I shower?" "What should I eat?" "Should I reply to that message?" Each of these micro-decisions requires mental energy that depression has already depleted. The result is decision paralysis — where doing nothing becomes the default, not because you've chosen it, but because choosing anything else feels impossibly effortful.</p>
+      <p>A pre-made schedule eliminates these decisions. You don't have to decide whether to go for a walk at 9am — the schedule says you're going for a walk at 9am. The decision was made yesterday, when you sat down to plan. All that's left is execution, which requires less energy than the constant deliberation of an unstructured day.</p>
+    </div>
+
+    <div class="subsection">
+      <h3>It Creates Natural Mood Lifts</h3>
+      <p>A well-designed schedule includes a mix of activities that target different aspects of wellbeing: physical movement, social connection, productive tasks, enjoyable activities, and self-care. Each of these has the potential to improve mood, even modestly. Across a full day, these small lifts accumulate.</p>
+      <p>Without a schedule, none of these mood lifts happen — because you're not doing any of the things that produce them.</p>
+    </div>
+
+    <div class="subsection">
+      <h3>It Prevents Rumination</h3>
+      <p>Unstructured time is rumination's favourite habitat. When you have nothing planned, your mind fills the void with repetitive, negative thinking — rehashing the past, predicting catastrophic futures, cataloguing your failures. This isn't deliberate. It's what a depressed brain does when it has no competing input.</p>
+      <p>Scheduled activities give your mind something to engage with besides itself. They don't eliminate rumination entirely, but they significantly reduce the amount of empty time in which rumination can take hold.</p>
+    </div>
+
+    <div class="subsection">
+      <h3>It Restores Sleep Patterns</h3>
+      <p>Depression frequently disrupts sleep — either through insomnia or through excessive sleeping. Both are worsened by lack of daytime structure. When you have no reason to get up at a particular time, sleep drifts. When there's nothing to tire you during the day, nighttime sleep suffers.</p>
+      <p>A consistent schedule with a set wake time, daytime activity, and an evening wind-down routine helps regulate your circadian rhythm naturally, which in turn improves sleep quality.</p>
+    </div>
+
+    <div class="subsection">
+      <h3>It Provides Evidence Against Hopelessness</h3>
+      <p>Depression tells you that you can't do anything, that nothing will help, that you're incapable. Every activity you complete — no matter how small — provides direct evidence against these beliefs. Over the course of a day, a schedule full of completed activities becomes a tangible record of capability that's hard for the depressive narrative to dismiss.</p>
+    </div>
+  </div>
+
+  <!-- Section 4: How to Build Your Schedule -->
+  <div class="section">
+    <h2 class="section-title">How to Build Your Schedule</h2>
+
+    <div class="subsection">
+      <h3>Start with Anchors</h3>
+      <p>Identify the non-negotiable anchor points of your day — the things that happen regardless. Wake-up time. Meals. Bedtime. Work hours, if applicable. These create the skeleton of your schedule.</p>
+      <p>If you currently don't have any anchors (if wake times and meals are completely irregular), establishing just three — a consistent wake time, lunch, and bedtime — is a powerful first step.</p>
+    </div>
+
+    <div class="subsection">
+      <h3>Add Basic Self-Care</h3>
+      <p>Before anything else, schedule the fundamentals: showering, getting dressed, eating regular meals, drinking water. When you're depressed, these basics often slip, and their absence compounds the problem. A scheduled shower at 8:15am isn't trivial — it's an act of self-respect that sets a different tone for the day than staying in pyjamas until noon.</p>
+    </div>
+
+    <div class="subsection">
+      <h3>Include Movement</h3>
+      <p>Physical activity is one of the most reliably mood-boosting things you can do. It doesn't need to be intense. A 10-minute walk counts. A few minutes of stretching counts. The threshold for benefit is much lower than most people assume.</p>
+      <p>Schedule movement early in the day if possible — it helps regulate energy and sets a positive trajectory. But any time is better than no time.</p>
+    </div>
+
+    <div class="subsection">
+      <h3>Balance Pleasure and Mastery</h3>
+      <p>Ensure your schedule includes both activities you enjoy (or used to enjoy) and activities that give you a sense of accomplishment. Depression tends to eliminate both, and rebuilding both is important.</p>
+      <p>Pleasure activities restore your capacity to feel positive emotion. Mastery activities restore your sense of competence and agency. Together, they address two of depression's most damaging effects.</p>
+    </div>
+
+    <div class="subsection">
+      <h3>Build in Social Contact</h3>
+      <p>Even brief social interaction can shift mood. This doesn't mean you need to schedule a dinner party. It might mean a five-minute phone call, a text exchange, or a walk with a neighbour. The key is making it specific and scheduled, so it actually happens rather than remaining a vague intention that depression talks you out of.</p>
+    </div>
+
+    <div class="subsection">
+      <h3>Include Downtime — But Define It</h3>
+      <p>Rest and relaxation are legitimate parts of a healthy schedule. But "do nothing" is different from "watch one episode of a show I enjoy." Undefined downtime tends to become rumination time. Defined downtime — a specific enjoyable activity with a start and end point — provides genuine rest without the spiral.</p>
+    </div>
+
+    <div class="subsection">
+      <h3>Leave Margins</h3>
+      <p>Don't schedule every minute. Leave buffers between activities for transitions, unexpected delays, or simply breathing room. An overpacked schedule creates pressure, which creates opportunities for failure, which feeds the depression. Aim for a realistic, comfortable rhythm — not a military operation.</p>
+    </div>
+  </div>
+
+  <!-- Section 5: The Rating System -->
+  <div class="section">
+    <h2 class="section-title">The Rating System</h2>
+    <div class="two-column">
+      <div class="two-column-text">
+        <div class="section-text">
+          <p>To get the most from activity scheduling, rate each activity after you complete it on two dimensions:</p>
+          <p><strong>Pleasure (P):</strong> How enjoyable was this, on a scale of 0 to 10?</p>
+          <p><strong>Mastery (M):</strong> How much of a sense of achievement did this give me, on a scale of 0 to 10?</p>
+          <p>Write these ratings next to each activity on your schedule. After a week, review the data. You'll discover which activities consistently produce the highest pleasure and mastery ratings — and these are the activities to prioritise going forward.</p>
+          <p>You might be surprised by the results. The things you predicted would help most might not rank as highly as unexpected sources of satisfaction. Data beats assumption.</p>
+          <p>A note on expectations: when you're depressed, a pleasure rating of 3 out of 10 is meaningful. You're not comparing against how things felt before depression — you're tracking relative mood within your current experience. A 3 is better than a 0, and activities that reliably produce a 3 are worth scheduling regularly.</p>
+        </div>
+      </div>
+      <div class="two-column-image">
+        <img src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=1500&q=85&fm=jpg&crop=entropy&cs=srgb" alt="Person walking outdoors in nature, experiencing the benefits of scheduled movement">
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 6: Common Obstacles and Solutions -->
+  <div class="section">
+    <h2 class="section-title">Common Obstacles and Solutions</h2>
+
+    <div class="subsection">
+      <p class="obstacle-heading">"I can't stick to the schedule"</p>
+      <p>Nobody follows a schedule perfectly. The goal isn't 100% adherence — it's approximate structure. If you complete 60% of your scheduled activities, that's 60% more structure than you had without a schedule. Don't use imperfect adherence as a reason to abandon the approach entirely. That's all-or-nothing thinking — and it's a cognitive distortion, not a rational conclusion.</p>
+    </div>
+
+    <div class="subsection">
+      <p class="obstacle-heading">"It feels pointless"</p>
+      <p>This is depression talking. "Pointless" is an emotional assessment generated by a depressed brain, not an objective evaluation of the activity's value. The evidence consistently shows that structured activity improves mood — but the improvement is gradual, not instant. Give it at least two weeks of consistent effort before evaluating whether it's helping.</p>
+    </div>
+
+    <div class="subsection">
+      <p class="obstacle-heading">"I don't have the energy"</p>
+      <p>Start smaller. If a 30-minute walk feels impossible, schedule a 5-minute walk. If cooking feels like too much, schedule making a sandwich. If showering feels overwhelming, schedule washing your face. Meet yourself where you actually are, and build from there.</p>
+      <p>The energy objection often resolves itself once activity begins — because activity generates energy. The hardest part is the first step. Once you're moving, momentum takes over.</p>
+    </div>
+
+    <div class="subsection">
+      <p class="obstacle-heading">"I feel worse when I don't complete everything"</p>
+      <p>Redesign the schedule to be more achievable. If you're consistently falling short, the schedule is too ambitious — not because you're failing, but because it was set at the wrong level. Scale back, succeed at the easier version, and build up gradually.</p>
+    </div>
+
+    <div class="subsection">
+      <p class="obstacle-heading">"Weekends are the hardest"</p>
+      <p>Weekdays often have some built-in structure through work. Weekends can feel like a void. Schedule weekends with the same care you schedule weekdays — perhaps with more pleasure activities and fewer obligation-based ones, but still with a clear shape to the day.</p>
+    </div>
+  </div>
+
+  <!-- Section 7: Making It Sustainable -->
+  <div class="section">
+    <h2 class="section-title">Making It Sustainable</h2>
+    <div class="two-column reverse">
+      <div class="two-column-image">
+        <img src="https://images.unsplash.com/photo-1495364141860-b0d03eccd065?w=1500&q=85&fm=jpg&crop=entropy&cs=srgb" alt="Clock showing time, representing the importance of consistent scheduling">
+      </div>
+      <div class="two-column-text">
+        <div class="section-text">
+          <p>Activity scheduling works best when it becomes a weekly habit rather than a crisis intervention. Each Sunday evening (or whatever works for you), spend 10 to 15 minutes planning the week ahead. Review last week's ratings, note what worked, adjust what didn't, and write out the coming week's schedule.</p>
+          <p>Over time, many of the scheduled activities will become habits — things you do automatically without needing them written down. When that happens, you can simplify the schedule, focusing only on the activities that still need external prompting. The goal isn't to live by a written schedule forever. It's to use the schedule as scaffolding while you rebuild the internal structure that depression dismantled.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Key Takeaway Section -->
+  <div class="key-takeaway">
+    <h2 class="section-title">Key Takeaway</h2>
+    <div class="section-text">
+      <p>Activity scheduling gives your day the structure that depression takes away. By planning activities in advance — specific actions at specific times — you remove the paralysing burden of moment-to-moment decision-making, create regular opportunities for pleasure and achievement, reduce rumination, and build a daily record of evidence that you are more capable than depression tells you. It's not about filling every hour or being ruthlessly productive. It's about giving your day enough shape that healing has room to happen.</p>
+    </div>
+  </div>
+
+  <!-- Footer Callout -->
+  <div class="footer-callout">
+    <p>This article is part of the ChatCBT Resource Vault — free, evidence-based CBT resources for healthier minds. For interactive CBT tools, try <a href="https://chatcbt.online/mindpath">MindPath</a>.</p>
+  </div>
+</div>
