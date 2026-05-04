@@ -190,69 +190,74 @@ After: <span id="cmpAfter">50%</span>
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 
-  // ── Get elements safely ──
-  const beliefBeforeSlider = document.getElementById("beliefBeforeSlider");
-  const beliefBeforeDisplay = document.getElementById("beliefBeforeDisplay");
-  const emotionSlider = document.getElementById("emotionSlider");
-  const emotionDisplay = document.getElementById("emotionDisplay");
-  const beliefAfterSlider = document.getElementById("beliefAfterSlider");
-  const beliefAfterDisplay = document.getElementById("beliefAfterDisplay");
-
-  const cmpBefore = document.getElementById("cmpBefore");
-  const cmpAfter = document.getElementById("cmpAfter");
-  const entriesDiv = document.getElementById("entries");
-
-  // ── Slider handler ──
-  function bindSlider(slider, display, suffix = "") {
-    if (!slider) return;
-    const update = () => {
-      display.textContent = slider.value + suffix;
-    };
-    slider.addEventListener("input", update);
-    update(); // initialise
+  // ── Safe element getter ──
+  function el(id) {
+    return document.getElementById(id);
   }
 
-  bindSlider(beliefBeforeSlider, beliefBeforeDisplay, "%");
-  bindSlider(emotionSlider, emotionDisplay);
-  bindSlider(beliefAfterSlider, beliefAfterDisplay, "%");
+  const entriesDiv = el("entries");
 
-  // ── Comparison sync ──
+  // ── Sliders ──
+  function bindSlider(sliderId, displayId, suffix = "") {
+    const slider = el(sliderId);
+    const display = el(displayId);
+    if (!slider || !display) return;
+
+    function update() {
+      display.textContent = slider.value + suffix;
+    }
+
+    slider.addEventListener("input", update);
+    update();
+  }
+
+  bindSlider("beliefBeforeSlider", "beliefBeforeDisplay", "%");
+  bindSlider("emotionSlider", "emotionDisplay");
+  bindSlider("beliefAfterSlider", "beliefAfterDisplay", "%");
+
+  // ── Comparison panel ──
+  const beliefBeforeSlider = el("beliefBeforeSlider");
+  const beliefAfterSlider = el("beliefAfterSlider");
+  const cmpBefore = el("cmpBefore");
+  const cmpAfter = el("cmpAfter");
+
   if (beliefBeforeSlider && cmpBefore) {
+    cmpBefore.textContent = beliefBeforeSlider.value + "%";
     beliefBeforeSlider.addEventListener("input", () => {
       cmpBefore.textContent = beliefBeforeSlider.value + "%";
     });
-    cmpBefore.textContent = beliefBeforeSlider.value + "%";
   }
 
   if (beliefAfterSlider && cmpAfter) {
+    cmpAfter.textContent = beliefAfterSlider.value + "%";
     beliefAfterSlider.addEventListener("input", () => {
       cmpAfter.textContent = beliefAfterSlider.value + "%";
     });
-    cmpAfter.textContent = beliefAfterSlider.value + "%";
   }
 
-  // ── Save function ──
-  window.saveEntry = function() {
+  // ── SAVE FUNCTION ──
+  function saveEntry() {
+
     const data = {
-      date: document.getElementById("date").value,
-      situation: document.getElementById("situation").value,
-      thoughts: document.getElementById("thoughts").value,
-      meanings: document.getElementById("meanings").value,
-      hot: document.getElementById("hot").value,
-      beliefBefore: beliefBeforeSlider.value,
-      emotions: document.getElementById("emotions").value,
-      emotion: emotionSlider.value,
-      physical: document.getElementById("physical").value,
-      behaviours: document.getElementById("behaviours").value,
-      for: document.getElementById("for").value,
-      against: document.getElementById("against").value,
-      balanced: document.getElementById("balanced").value,
-      newBelief: document.getElementById("newBelief").value,
-      beliefAfter: beliefAfterSlider.value,
-      newFeeling: document.getElementById("newFeeling").value,
-      next: document.getElementById("next").value,
+      date: el("date")?.value || "",
+      situation: el("situation")?.value || "",
+      thoughts: el("thoughts")?.value || "",
+      meanings: el("meanings")?.value || "",
+      hot: el("hot")?.value || "",
+      beliefBefore: el("beliefBeforeSlider")?.value || "",
+      emotions: el("emotions")?.value || "",
+      emotion: el("emotionSlider")?.value || "",
+      physical: el("physical")?.value || "",
+      behaviours: el("behaviours")?.value || "",
+      for: el("for")?.value || "",
+      against: el("against")?.value || "",
+      balanced: el("balanced")?.value || "",
+      newBelief: el("newBelief")?.value || "",
+      beliefAfter: el("beliefAfterSlider")?.value || "",
+      newFeeling: el("newFeeling")?.value || "",
+      next: el("next")?.value || "",
       time: new Date().toLocaleString()
     };
 
@@ -261,24 +266,35 @@ document.addEventListener("DOMContentLoaded", function() {
     localStorage.setItem("abc", JSON.stringify(entries));
 
     render();
-  };
+  }
 
-// ✅ CONNECT BUTTON (must NOT be commented)
-document.getElementById("saveBtn").addEventListener("click", saveEntry);
+  // ── RENDER ──
+  function render() {
+    const entries = JSON.parse(localStorage.getItem("abc") || "[]");
 
-// ── Render saved entries ──
-function render() {
-  let entries = JSON.parse(localStorage.getItem("abc") || "[]");
+    if (!entriesDiv) return;
 
-  entriesDiv.innerHTML = entries.map(e => `
-    <div class="entry">
-      <strong>${e.date || "No date"}</strong><br>
-      ${e.hot || ""}<br>
-      <em>${e.newBelief || ""}</em>
-    </div>
-  `).join("");
-}
+    entriesDiv.innerHTML = entries.map(e => `
+      <div class="entry">
+        <strong>${e.date || "No date"}</strong><br>
+        ${e.hot || ""}<br>
+        <em>${e.newBelief || ""}</em>
+      </div>
+    `).join("");
+  }
 
+  // ── BUTTON BINDING (bulletproof) ──
+  const btn = el("saveBtn");
+
+  if (btn) {
+    btn.addEventListener("click", function () {
+      saveEntry();
+    });
+  } else {
+    console.error("❌ saveBtn not found in DOM");
+  }
+
+  // ── INIT ──
   render();
 
 });
