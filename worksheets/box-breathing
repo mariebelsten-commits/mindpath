@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Box Breathing – ChatCBT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+<style>
+/* ───────── BASE ───────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #f2f8f4;
+  color: #1a1a1a;
+}
+
+/* ───────── HEADER ───────── */
+.page-header {
+  background: #0d4a2e;
+  padding: 36px 24px;
+  text-align: center;
+}
+.page-header h1 {
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 800;
+}
+.page-header p {
+  color: #c8e6d4;
+  max-width: 680px;
+  margin: 10px auto 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* ───────── LAYOUT ───────── */
+.container {
+  max-width: 820px;
+  margin: 30px auto;
+  padding: 0 20px 80px;
+}
+
+/* ───────── INFO ───────── */
+.info-box {
+  background: #fff;
+  border-left: 5px solid #0d4a2e;
+  padding: 20px;
+  border-radius: 0 10px 10px 0;
+  margin-bottom: 20px;
+}
+
+/* ───────── BOX BREATHING ───────── */
+.bb-wrap {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 14px rgba(13,74,46,0.08);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.bb-square {
+  width: 260px;
+  height: 260px;
+  margin: 20px auto;
+  border: 10px solid #0d4a2e;
+  border-radius: 8px;
+  position: relative;
+}
+
+.bb-dot {
+  width: 18px;
+  height: 18px;
+  background: #0d4a2e;
+  border-radius: 50%;
+  position: absolute;
+  top: 100%;
+  left: 0%;
+  display: none;
+  transform: translate(-50%, -50%);
+}
+
+.bb-phase {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.bb-count {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #0d4a2e;
+}
+
+/* ───────── BUTTONS ───────── */
+button {
+  font-family: 'Poppins', sans-serif;
+}
+
+.primary-btn {
+  background: #0d4a2e;
+  color: #fff;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.primary-btn:hover { background: #0a3a22; }
+
+.secondary-btn {
+  background: #e8f5ee;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #0d4a2e;
+}
+
+/* ───────── LOG SECTION ───────── */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 22px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 14px rgba(13,74,46,0.08);
+}
+
+label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+  color: #0d4a2e;
+}
+
+textarea, input[type="date"], input[type="range"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1.5px solid #c5dfd0;
+  background: #f7fdf9;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ───────── SAVE BUTTON ───────── */
+.save-btn {
+  width: 100%;
+  background: #0d4a2e;
+  color: #fff;
+  border: none;
+  padding: 16px;
+  border-radius: 10px;
+  font-weight: 800;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.save-btn:hover { background: #0a3a22; }
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="page-header">
+  <h1>Box Breathing</h1>
+  <p>A simple reset for your nervous system using structured breathing.</p>
+</div>
+
+<div class="container">
+
+<!-- INFO -->
+<div class="info-box">
+  <strong>Why this works:</strong>
+  Controlled breathing signals safety to your nervous system and reduces physiological arousal within minutes.
+</div>
+
+<!-- PRACTICE -->
+<div class="bb-wrap">
+  <div class="bb-phase" id="phase">Ready</div>
+  <div class="bb-count" id="count">4</div>
+
+  <div class="bb-square">
+    <div class="bb-dot" id="dot"></div>
+  </div>
+
+  <button class="primary-btn" onclick="toggle()">Start</button>
+</div>
+
+<!-- LOG -->
+<div class="card">
+  <h3>Log This Session</h3><br/>
+
+  <label>Date</label>
+  <input type="date" id="date"/>
+
+  <label>Stress before (0–100)</label>
+  <input type="range" id="before" min="0" max="100" value="50"/>
+
+  <label>Stress after (0–100)</label>
+  <input type="range" id="after" min="0" max="100" value="50"/>
+
+  <label>What did you notice?</label>
+  <textarea id="notes"></textarea>
+
+  <button class="save-btn" onclick="save()">Save to My Worksheets</button>
+</div>
+
+</div>
+
+<script>
+let running = false;
+let phase = 0;
+let interval;
+
+function toggle() {
+  if (running) return stop();
+  start();
+}
+
+function start() {
+  running = true;
+  phase = 0;
+  document.getElementById('dot').style.display = 'block';
+  runPhase();
+}
+
+function runPhase() {
+  const phases = ["Inhale", "Hold", "Exhale", "Hold"];
+  let count = 4;
+
+  document.getElementById('phase').innerText = phases[phase];
+
+  clearInterval(interval);
+  interval = setInterval(() => {
+    document.getElementById('count').innerText = count;
+    count--;
+
+    if (count < 0) {
+      clearInterval(interval);
+      phase = (phase + 1) % 4;
+      runPhase();
+    }
+  }, 1000);
+}
+
+function stop() {
+  running = false;
+  clearInterval(interval);
+  document.getElementById('phase').innerText = "Ready";
+  document.getElementById('count').innerText = "4";
+}
+
+function save() {
+  const entry = {
+    type: "Box Breathing",
+    date: document.getElementById('date').value,
+    before: document.getElementById('before').value,
+    after: document.getElementById('after').value,
+    notes: document.getElementById('notes').value,
+    savedAt: new Date().toISOString()
+  };
+
+  let existing = JSON.parse(localStorage.getItem("myWorksheets") || "[]");
+  existing.push(entry);
+  localStorage.setItem("myWorksheets", JSON.stringify(existing));
+
+  alert("Saved to My Worksheets");
+}
+</script>
+
+</body>
+</html>
