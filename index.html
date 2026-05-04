@@ -261,6 +261,18 @@
   <button class="nav-btn"        id="nav-learn"    onclick="showSection('learn')">📚 Learn CBT</button>
   <button class="nav-crisis"     onclick="openModal('crisisModal')">🆘 Crisis Help</button>
 </nav>
+  <button onclick="checkStorage()">Check Saved Worksheets</button>
+
+<script>
+function checkStorage() {
+  const data = localStorage.getItem('worksheets');
+  if (!data) {
+    alert("Nothing saved yet ❌");
+  } else {
+    alert("Saved data found ✅\n\n" + data);
+  }
+}
+</script>
 
 <!-- ═══════════════ CRISIS MODAL ═══════════════ -->
 <div class="overlay" id="crisisModal">
