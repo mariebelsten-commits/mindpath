@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Behavioural Experiment Worksheet | ChatCBT</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    color: #1a1a1a;
+    line-height: 1.6;
+    background: #f0f9f0;
+  }
+
+  h1, h2, h3, h4 { font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif; }
+
+  textarea, input[type="text"], input[type="number"] {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    border: 2px solid #c3e6cb;
+    border-radius: 8px;
+    padding: 10px 12px;
+    background: #fff;
+    color: #1a1a1a;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+  }
+  textarea { resize: vertical; }
+  textarea:focus, input:focus {
+    outline: none;
+    border-color: #2d6a4f;
+    box-shadow: 0 0 0 3px rgba(45,106,79,0.15);
+  }
+
+  input.pct-input { width: 90px; flex: none; }
+
+  /* HERO */
+  .page-hero {
+    padding: 70px 40px 60px;
+    background: linear-gradient(135deg, rgba(212,237,218,0.88) 0%, rgba(232,245,233,0.85) 40%, rgba(240,249,232,0.88) 100%);
+  }
+  .page-hero h1 {
+    font-size: 3rem;
+    color: #0d4a2e;
+    margin-bottom: 20px;
+  }
+  .badge {
+    display: inline-block;
+    background: #d4f1dd;
+    color: #0d4a2e;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 6px;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+    border: 1px solid #b8dbc0;
+  }
+
+  .page-hero .intro {
+    font-size: 1.05rem;
+    max-width: 900px;
+    margin-bottom: 40px;
+  }
+
+  /* GRID + CARDS (kept compact for brevity but unchanged visually) */
+  .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 1100px; }
+  .feature-card {
+    background: rgba(212,237,218,0.55);
+    border: 1.5px solid #b8dbc0;
+    border-radius: 12px;
+    padding: 26px 28px;
+  }
+
+  /* SECTIONS */
+  .page-howto, .page-worksheet {
+    padding: 70px 40px 60px;
+  }
+
+  .ws-card {
+    background: rgba(212,237,218,0.55);
+    border: 1.5px solid #b8dbc0;
+    border-left: 5px solid #1a5c3a;
+    border-radius: 10px;
+    padding: 22px 24px;
+    margin-bottom: 20px;
+    max-width: 1100px;
+  }
+
+  .ws-card.highlight {
+    background: rgba(212,237,218,0.85);
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .rating-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+
+  .summary-box {
+    background: rgba(212,237,218,0.55);
+    border: 1.5px solid #b8dbc0;
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+
+  .remember-box {
+    margin-top: 30px;
+    background: #b5e8c4;
+    border-radius: 10px;
+    padding: 20px 24px;
+  }
+
+  /* BUTTON */
+  #submitBehaviouralExperiment {
+    display: inline-block;
+    background: #1a5c3a;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    margin-top: 24px;
+  }
+  #submitBehaviouralExperiment:hover { background: #14482d; }
+
+  /* SUCCESS MESSAGE */
+  .success-message {
+    display: none;
+    margin-top: 20px;
+    padding: 16px;
+    background: #d4f1dd;
+    border: 1px solid #b8dbc0;
+    border-radius: 8px;
+    color: #0d4a2e;
+    font-weight: 600;
+  }
+
+  @media (max-width: 760px) {
+    .feature-grid, .two-col { grid-template-columns: 1fr; }
+    .page-hero { padding: 50px 22px; }
+    .page-hero h1 { font-size: 2.2rem; }
+  }
+</style>
+</head>
+
+<body>
+
+<section class="page-hero">
+  <h1>Behavioural Experiment Worksheet</h1>
+  <div class="badge">Cognitive Behavioural Therapy</div>
+  <p class="intro">
+    A structured CBT tool to test beliefs, challenge assumptions, and gather real-world evidence.
+  </p>
+
+  <div class="feature-grid">
+    <div class="feature-card">🧪 Test beliefs in real life</div>
+    <div class="feature-card">🔍 Gather evidence, not assumptions</div>
+  </div>
+</section>
+
+<section class="page-worksheet">
+  <h2>My Behavioural Experiment</h2>
+
+  <div class="ws-card">
+    <h3>Step 1 — Belief</h3>
+    <textarea id="belief-statement"></textarea>
+  </div>
+
+  <div class="ws-card">
+    <h3>Step 2 — Belief Strength</h3>
+    <input type="number" id="belief-before-input" class="pct-input" min="0" max="100">
+  </div>
+
+  <div class="ws-card">
+    <h3>Step 3 — Experiment Design</h3>
+    <textarea id="situation"></textarea>
+    <textarea id="action"></textarea>
+  </div>
+
+  <div class="ws-card">
+    <h3>Step 4 — Prediction</h3>
+    <textarea id="prediction"></textarea>
+  </div>
+
+  <div class="ws-card">
+    <h3>Step 5 — Outcome</h3>
+    <textarea id="what-happened"></textarea>
+  </div>
+
+  <div class="ws-card highlight">
+    <h3>Step 6 — Reflection</h3>
+    <textarea id="new-belief"></textarea>
+  </div>
+
+  <button id="submitBehaviouralExperiment">Submit Worksheet</button>
+
+  <div id="successMessage" class="success-message">
+    Worksheet submitted successfully.
+  </div>
+
+</section>
+
+<script>
+function collectWorksheetData() {
+  return {
+    belief_statement: document.getElementById('belief-statement').value,
+    belief_strength_before: document.getElementById('belief-before-input').value,
+    situation: document.getElementById('situation').value,
+    action: document.getElementById('action').value,
+    prediction: document.getElementById('prediction').value,
+    what_happened: document.getElementById('what-happened').value,
+    new_belief: document.getElementById('new-belief').value
+  };
+}
+
+document.getElementById('submitBehaviouralExperiment').addEventListener('click', async function () {
+
+  const data = collectWorksheetData();
+
+  try {
+    await fetch('/.netlify/functions/behaviouralExperiment', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    document.getElementById('successMessage').style.display = 'block';
+
+  } catch (err) {
+    alert('Something went wrong. Please try again.');
+  }
+});
+</script>
+
+</body>
+</html>
