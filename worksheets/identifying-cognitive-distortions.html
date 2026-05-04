@@ -173,6 +173,7 @@ const data = {
     should_statements: document.getElementById('cd_should_statements')?.checked || false,
     labelling: document.getElementById('cd_labelling')?.checked || false
   }
+  balanced: document.getElementById('balanced').value,
 };
 
   let worksheets = JSON.parse(localStorage.getItem('worksheets') || "[]");
