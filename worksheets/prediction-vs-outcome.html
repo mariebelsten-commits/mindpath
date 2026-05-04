@@ -153,6 +153,25 @@ Test anxious predictions against reality. This helps weaken unhelpful beliefs by
   <textarea id="difference" placeholder="Compare prediction vs reality"></textarea>
 </div>
 
+  <div class="section">
+  <label>How strongly do you still believe your prediction after the event? (0–100)</label>
+
+  <div class="slider-wrap">
+    <div class="slider-row">
+      <input type="range" id="postBelief" min="0" max="100" value="50">
+      <div class="rating-pill" id="postBeliefDisplay">50%</div>
+    </div>
+
+    <div class="slider-labels">
+      <span>0% — Not at all</span>
+      <span>50% — Partially</span>
+      <span>100% — Fully convinced</span>
+    </div>
+  </div>
+
+  <input type="hidden" id="postBeliefValue" value="50">
+</div>
+  
 <div class="section">
   <label>What did you learn from this?</label>
   <textarea id="learning" placeholder="What does this tell you about your thinking patterns?"></textarea>
@@ -174,6 +193,7 @@ function saveWorksheet() {
     belief: document.getElementById('belief').value,
     outcome: document.getElementById('outcome').value,
     difference: document.getElementById('difference').value,
+    postBelief: document.getElementById('postBeliefValue').value,
     learning: document.getElementById('learning').value
   };
 
@@ -183,6 +203,11 @@ function saveWorksheet() {
 
   alert("Saved to My Worksheets ✅");
 }
+  document.getElementById('postBelief').addEventListener('input', function () {
+  document.getElementById('postBeliefDisplay').textContent = this.value + '%';
+  document.getElementById('postBeliefValue').value = this.value;
+});
+  
 </script>
 
 </body>
