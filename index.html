@@ -237,7 +237,7 @@
   <div class="nav-brand">Mind<span>Path</span></div>
   <button class="nav-btn active" id="nav-guide"   onclick="showSection('guide')">🧭 Guide</button>
   <button class="nav-btn"        id="nav-journal"  onclick="showSection('journal')">📔 Journal</button>
-  <button class="nav-btn"        id="nav-worksheets" onclick="showSection('worksheets')">📚 Worksheets</button>
+  <button class="nav-btn"        id="nav-worksheets" onclick="showSection('section-worksheets')">📚 Worksheets</button>
   <button class="nav-btn"        id="nav-worksheet" onclick="showSection('worksheet')">🧠 Thought Record</button>
   <button class="nav-btn"        id="nav-activity" onclick="showSection('activity')">🌱 Activities</button>
   <button class="nav-btn"        id="nav-assess"   onclick="showSection('assess')">📊 Self-Check</button>
@@ -419,26 +419,22 @@
     <div class="journal-entries" id="journalList"></div>
   </section>
     <!-- ──────────── WORKSHEETS ──────────── -->
-  <div id="worksheets" class="section">
-  <h2>Worksheets</h2>
+<section class="section" id="section-worksheets">  
+  <div class="section-inner">
+    <h2>Worksheets</h2>
+    <p>Choose a worksheet to get started:</p>
 
-  <div class="grid">
+    <div class="worksheet-list">
+      <a href="/worksheets/box-breathing.html" class="worksheet-card">
+        🫁 Box Breathing
+      </a>
 
-    <div class="card">
-      <h3>Box Breathing</h3>
-      <p>Structured breathing to regulate stress and calm the nervous system.</p>
-      <a href="box-breathing.html">Open</a>
+      <a href="/worksheets/abc-model.html" class="worksheet-card">
+        🧠 ABC Thought Record
+      </a>
     </div>
-
-    <div class="card">
-      <h3>ABC Model</h3>
-      <p>Map thoughts, beliefs, and consequences in CBT style.</p>
-      <a href="abc-model.html">Open</a>
-    </div>
-
   </div>
-</div>
-
+</section>
   <!-- ──────────── THOUGHT RECORD WORKSHEET ──────────── -->
   <section class="section" id="section-worksheet">
     <div class="page-header">
