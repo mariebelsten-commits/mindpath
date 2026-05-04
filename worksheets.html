@@ -8,6 +8,65 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 
 <style>
+  /* ── Entries list ── */
+#allEntries {
+  margin-top: 20px;
+}
+
+.entry-card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 10px rgba(13,74,46,0.08);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+.entry-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(13,74,46,0.12);
+}
+
+.entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.entry-date {
+  font-weight: 700;
+  color: #0d4a2e;
+  font-size: 0.9rem;
+}
+
+.entry-preview {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 4px;
+}
+
+.entry-toggle {
+  font-size: 0.8rem;
+  color: #0d4a2e;
+  font-weight: 600;
+}
+
+.entry-body {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed #d0eadb;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.entry-section {
+  margin-bottom: 10px;
+}
+
+.entry-section strong {
+  color: #0d4a2e;
+}
   body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
@@ -154,27 +213,61 @@ function getAllData() {
 function render() {
   const all = getAllData();
 
-  container.innerHTML = all.map(group => {
-    if (!group.data.length) return "";
+  container.innerHTML = entries.map((e, i) => `
+  <div class="entry-card">
 
-    return `
-      <div style="margin-bottom:30px;">
-        <h3>${group.type}</h3>
+    <div class="entry-header" onclick="toggleEntry(${i})">
+      <div>
+        <div class="entry-date">
+          ${e.date || "No date"}
+        </div>
+        <div class="entry-preview">
+          ${e.hot || e.situation || "View entry"}
+        </div>
+      </div>
 
-        ${group.data.map((e, i) => `
-          <div style="border-left:4px solid #0d4a2e; padding:10px; margin-bottom:10px; border-radius:6px; background:#fff;">
+      <div class="entry-toggle">
+        View
+      </div>
+    </div>
 
-            <div style="cursor:pointer;" onclick="toggleEntry('${group.type}', ${i})">
-              <strong>${e.date || "No date"}</strong>  
-              — ${e.hot || e.situation || "View entry"}  
-            </div>
+    <div id="entry-${i}" class="entry-body" style="display:none;">
 
-            <div id="${group.type}-${i}" style="display:none; margin-top:10px;">
-              ${renderDetails(e)}
-            </div>
+      <div class="entry-section">
+        <strong>A:</strong> ${e.situation || ""}
+      </div>
 
-          </div>
-        `).join("")}
+      <div class="entry-section">
+        <strong>B:</strong><br>
+        ${e.thoughts || ""}<br>
+        ${e.meanings || ""}
+      </div>
+
+      <div class="entry-section">
+        <strong>C:</strong><br>
+        ${e.emotions || ""}<br>
+        ${e.physical || ""}<br>
+        ${e.behaviours || ""}
+      </div>
+
+      <div class="entry-section">
+        <strong>D:</strong><br>
+        For: ${e.for || ""}<br>
+        Against: ${e.against || ""}<br>
+        ${e.balanced || ""}
+      </div>
+
+      <div class="entry-section">
+        <strong>E:</strong><br>
+        ${e.newBelief || ""}<br>
+        ${e.newFeeling || ""}<br>
+        ${e.next || ""}
+      </div>
+
+    </div>
+
+  </div>
+`).join("");
 
       </div>
     `;
