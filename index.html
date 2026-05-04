@@ -332,11 +332,11 @@
 </div>
 
 <!-- ═══════════════ BREATHING MODAL ═══════════════ -->
-<div class="overlay" id="breathingModal">
+<div class="overlay" id="quickBreathModal">
   <div class="modal" style="max-width:400px;">
     <div class="modal-header">
       <div class="modal-title">🌬️ Box Breathing</div>
-      <button class="modal-close" onclick="stopBreathing(); closeModal('breathingModal')">✕</button>
+      <button class="modal-close" onclick="stopBreathing(); closeModal('quickBreathModal')">✕</button>
     </div>
     <div class="modal-body">
       <p style="font-size:13px;color:var(--text-muted);margin-bottom:4px;text-align:center;">4 counts in · 4 hold · 4 out · 4 hold</p>
@@ -637,7 +637,7 @@
     <div class="card" style="background:linear-gradient(135deg,#E8F5ED,#F7F5F2);">
       <div class="card-title">🫁 Box Breathing Exercise</div>
       <div class="card-subtitle">A simple but powerful technique to calm anxiety in under 3 minutes.</div>
-      <button class="btn btn-secondary" style="margin-top:12px;" onclick="openModal('breathingModal')">Start Guided Exercise</button>
+<button class="btn btn-secondary" style="margin-top:12px;" onclick="openModal('quickBreathModal')">Start Guided Exercise</button>
     </div>
   </section>
 
@@ -896,7 +896,7 @@ function advanceToFlow(flowName) {
     if (flow.special === 'distortions') {
       renderDistortionChoices();
     } else if (flow.special === 'breathing_modal') {
-      openModal('breathingModal'); startBreathing();
+   openModal('quickBreathModal'); startBreathing();
     } else if (flow.special === 'crisis_modal') {
       openModal('crisisModal');
     } else if (flow.choices) {
@@ -1002,7 +1002,7 @@ function handleChoice(c) {
   document.getElementById('chatChoices').innerHTML = '';
   addUserMsg(c.t);
   if (c.nav) { setTimeout(() => showSection(c.nav), 300); return; }
-  if (c.special === 'breathing_modal') { openModal('breathingModal'); return; }
+  if (c.special === 'breathing_modal') { openModal('quickBreathModal'); return; }
   if (c.special === 'crisis_modal') { openModal('crisisModal'); return; }
   setTimeout(() => advanceToFlow(c.n), 300);
 }
