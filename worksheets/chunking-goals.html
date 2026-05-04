@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Goal Chunking | ChatCBT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f0f9f0; color: #1a1a1a; }
+
+    /* ── Hero ── */
+    .page-hero { background: #0d4a2e; padding: 56px 24px 48px; text-align: center; }
+    .hero-badge { display: inline-block; background: rgba(255,255,255,0.15); color: #fff !important; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; }
+    .page-hero h1 { font-family: 'Montserrat', sans-serif; font-size: 2.6rem; font-weight: 800; color: #ffffff !important; margin-bottom: 12px; letter-spacing: -0.5px; }
+    .page-hero p { font-size: 1.1rem; color: rgba(255,255,255,0.88) !important; max-width: 580px; margin: 0 auto; line-height: 1.6; }
+
+    /* ── Features ── */
+    .features-section { background: #1a5c3a; padding: 40px 24px; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 20px; max-width: 960px; margin: 0 auto; }
+    .feature-card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 22px 18px; text-align: center; }
+    .feature-card .icon { font-size: 1.8rem; margin-bottom: 10px; }
+    .feature-card h3 { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 700; color: #ffffff !important; margin-bottom: 7px; }
+    .feature-card p { font-size: 0.83rem; color: rgba(255,255,255,0.85) !important; line-height: 1.5; }
+
+    /* ── Instructions ── */
+    .instructions-box { background: #e8f5e9; border-left: 4px solid #1a5c3a; padding: 18px 24px; max-width: 800px; margin: 32px auto 0; border-radius: 0 8px 8px 0; }
+    .instructions-box h3 { font-family: 'Montserrat', sans-serif; font-size: 0.92rem; font-weight: 700; color: #0d4a2e; margin-bottom: 6px; }
+    .instructions-box p { font-size: 0.87rem; color: #2d4a35; line-height: 1.65; }
+
+    /* ── Worksheet wrapper ── */
+    .page-worksheet { max-width: 800px; margin: 28px auto 48px; padding: 0 16px; }
+
+    /* ── Step blocks ── */
+    .step-block { background: #fff; border-radius: 12px; padding: 28px 28px 24px; margin-bottom: 8px; border: 1px solid #d0ecd8; box-shadow: 0 2px 8px rgba(13,74,46,0.06); }
+    .step-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .step-number { width: 36px; height: 36px; background: #1a5c3a; color: #fff !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.9rem; flex-shrink: 0; }
+    .step-title { font-family: 'Montserrat', sans-serif; font-size: 1.08rem; font-weight: 700; color: #0d4a2e; }
+    .step-desc { font-size: 0.88rem; color: #4a7a5a; margin-bottom: 16px; line-height: 1.6; }
+
+    /* ── Flow arrow ── */
+    .flow-arrow { text-align: center; font-size: 1.4rem; color: #4a7a5a; line-height: 1; margin: 6px 0; }
+
+    /* ── Prompt box ── */
+    .prompt-box { background: #e8f5e9; border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; font-size: 0.86rem; color: #1a3d28; line-height: 1.65; }
+    .prompt-box strong { font-family: 'Montserrat', sans-serif; font-size: 0.82rem; font-weight: 700; color: #0d4a2e; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 5px; }
+
+    /* ── Example chips ── */
+    .example-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 14px; }
+    .example-chip { background: #f0f9f0; border: 1px solid #b0d8bc; border-radius: 20px; padding: 4px 12px; font-size: 0.78rem; color: #1a5c3a; font-style: italic; }
+
+    /* ── Form elements ── */
+    .field-label { display: block; font-size: 0.87rem; font-weight: 600; color: #1a3d28; margin-bottom: 6px; margin-top: 20px; }
+    .field-label:first-of-type { margin-top: 0; }
+    textarea, input[type="text"], select {
+      width: 100%; padding: 10px 12px; border: 1px solid #b0d8bc; border-radius: 8px;
+      font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #1a1a1a; background: #fff; line-height: 1.5;
+    }
+    textarea { resize: vertical; }
+    textarea:focus, input[type="text"]:focus, select:focus {
+      outline: none; border-color: #1a5c3a; box-shadow: 0 0 0 3px rgba(26,92,58,0.1);
+    }
+
+    /* ── Staircase visual (decorative) ── */
+    .staircase-visual {
+      display: flex; align-items: flex-end; height: 110px; gap: 3px;
+      margin: 16px 0 20px; padding: 0 2px;
+    }
+    .stair-bar {
+      flex: 1; border-radius: 3px 3px 0 0;
+      display: flex; align-items: flex-start; justify-content: center; padding-top: 4px;
+      font-family: 'Montserrat', sans-serif; font-size: 0.62rem; font-weight: 700;
+    }
+    .stair-bar:nth-child(1)  { height: 10%; background: #c8e6d0; color: #1a5c3a !important; }
+    .stair-bar:nth-child(2)  { height: 20%; background: #aed8bc; color: #1a5c3a !important; }
+    .stair-bar:nth-child(3)  { height: 30%; background: #8fc4a0; color: #fff !important; }
+    .stair-bar:nth-child(4)  { height: 40%; background: #70b088; color: #fff !important; }
+    .stair-bar:nth-child(5)  { height: 50%; background: #52a070; color: #fff !important; }
+    .stair-bar:nth-child(6)  { height: 60%; background: #3a9060; color: #fff !important; }
+    .stair-bar:nth-child(7)  { height: 70%; background: #2a7a50; color: #fff !important; }
+    .stair-bar:nth-child(8)  { height: 80%; background: #1e6840; color: #fff !important; }
+    .stair-bar:nth-child(9)  { height: 90%; background: #1a5c3a; color: #fff !important; }
+    .stair-bar:nth-child(10) { height: 100%; background: #0d4a2e; color: #fff !important; }
+
+    /* ── Step cards (for the chunking grid) ── */
+    .steps-grid { display: flex; flex-direction: column; gap: 6px; }
+    .step-row { display: flex; align-items: center; gap: 12px; }
+    .stair-badge {
+      width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.78rem;
+    }
+    .stair-badge.goal  { background: #0d4a2e; color: #fff !important; }
+    .stair-badge.start { background: #d0ecd8; color: #1a5c3a; border: 1.5px solid #9acaaa; }
+    .stair-badge.mid   { background: #e8f5e9; color: #1a5c3a; border: 1.5px solid #b0d8bc; }
+    .step-fixed {
+      flex: 1; font-size: 0.87rem; font-style: italic; color: #4a7a5a;
+      background: #f8fdf8; border: 1px solid #d0ecd8; border-radius: 8px;
+      padding: 9px 12px; line-height: 1.45; min-height: 40px;
+    }
+    .step-fixed.goal-fixed { border-color: #1a5c3a; background: #e8f5e9; color: #0d4a2e; font-style: normal; font-weight: 600; }
+
+    /* ── SMART grid ── */
+    .smart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .smart-label {
+      display: flex; align-items: center; gap: 8px;
+      font-family: 'Montserrat', sans-serif; font-size: 0.87rem; font-weight: 700;
+      color: #0d4a2e; margin-bottom: 6px;
+    }
+    .smart-letter {
+      width: 22px; height: 22px; background: #1a5c3a; color: #fff !important;
+      border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 800; flex-shrink: 0;
+    }
+    @media (max-width: 560px) { .smart-grid { grid-template-columns: 1fr; } }
+
+    /* ── Activity schedule ── */
+    .schedule-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 16px; border-radius: 8px; }
+    .schedule-table { border-collapse: collapse; width: 100%; min-width: 620px; }
+    .schedule-table th {
+      background: #1a5c3a; color: #fff !important; font-family: 'Montserrat', sans-serif;
+      font-size: 0.78rem; font-weight: 700; padding: 0; border: 1px solid #0d4a2e; text-align: center;
+    }
+    .schedule-table th.label-col { background: #0d4a2e; text-align: left; min-width: 130px; padding: 10px 12px; font-size: 0.76rem; }
+    .schedule-table th input.day-input {
+      background: transparent; border: none; color: #fff !important; font-family: 'Montserrat', sans-serif;
+      font-size: 0.78rem; font-weight: 700; text-align: center; width: 100%; padding: 10px 6px;
+    }
+    .schedule-table th input.day-input::placeholder { color: rgba(255,255,255,0.65) !important; }
+    .schedule-table th input.day-input:focus { outline: none; background: rgba(255,255,255,0.1); }
+    .schedule-table td { border: 1px solid #d0ecd8; padding: 4px; vertical-align: top; }
+    .schedule-table td.row-label {
+      background: #f0f9f0; font-family: 'Montserrat', sans-serif; font-size: 0.76rem;
+      font-weight: 600; color: #1a3d28; padding: 8px 10px; vertical-align: middle;
+    }
+    .schedule-table td textarea, .schedule-table td input[type="text"] {
+      border: none; background: transparent; padding: 5px 6px; font-size: 0.83rem;
+      width: 100%; box-shadow: none;
+    }
+    .schedule-table td textarea:focus, .schedule-table td input[type="text"]:focus {
+      outline: 1px solid #1a5c3a; border-radius: 4px; background: #f8fdf8; box-shadow: none;
+    }
+
+    /* ── Remember ── */
+    .remember-box { background: #e8f5e9; border-radius: 12px; padding: 20px 24px; margin-top: 8px; font-size: 0.88rem; color: #1a3d28; line-height: 1.7; text-align: center; }
+
+    /* ── Submit ── */
+    .submit-section { text-align: center; padding: 24px 0 16px; }
+    #submitChunking {
+      display: inline-block; background: #1a5c3a; color: #ffffff !important;
+      padding: 14px 36px; border-radius: 8px; font-family: 'Montserrat', sans-serif;
+      font-size: 1rem; font-weight: 700; border: none; cursor: pointer; transition: background 0.2s; margin-top: 8px;
+    }
+    #submitChunking:hover { background: #14482d; }
+
+    @media (max-width: 600px) {
+      .page-hero h1 { font-size: 2rem; }
+      .step-block { padding: 20px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section class="page-hero">
+  <div class="hero-badge">CBT Worksheet</div>
+  <h1>Goal Chunking</h1>
+  <p>Break a daunting goal into manageable steps — then schedule your way to the top, one step at a time.</p>
+</section>
+
+<!-- ══ FEATURES ══ -->
+<section class="features-section">
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="icon">🎯</div>
+      <h3>Set Your Goal</h3>
+      <p>Define what success looks like — specific, meaningful, and something that matters to you right now</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🪜</div>
+      <h3>Chunk It Down</h3>
+      <p>Break a daunting task into small, achievable steps so it stops feeling impossible to start</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">📅</div>
+      <h3>Schedule It</h3>
+      <p>Commit to specific times and days so your first steps turn into real action, not good intentions</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🌱</div>
+      <h3>Build Momentum</h3>
+      <p>Each completed step is evidence that you can do it — and makes the next step feel a little easier</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ INSTRUCTIONS ══ -->
+<div class="instructions-box">
+  <h3>How to use this worksheet</h3>
+  <p>Start by choosing a goal that matters to you — something you have been avoiding or putting off. Write down what "done" looks like at step 10, then figure out where you are today. Fill in the steps in between. You don't need to plan everything at once — focus on just the next one or two steps, schedule them, and build from there.</p>
+</div>
+
+<!-- ══ WORKSHEET ══ -->
+<div class="page-worksheet">
+
+  <!-- Step 1: Set Your Goal -->
+  <div class="step-block" style="margin-top: 28px;">
+    <div class="step-header">
+      <div class="step-number">1</div>
+      <div class="step-title">Set Your Goal</div>
+    </div>
+    <p class="step-desc">Choose a goal that is personally meaningful to you — something you have been avoiding, or that feels left undone and is affecting how you feel. Think about what you're not doing that, if you tackled it, would make a real difference.</p>
+
+    <div class="example-chips">
+      <span class="example-chip">Dealing with unopened post</span>
+      <span class="example-chip">Starting to exercise</span>
+      <span class="example-chip">Sorting a cluttered room</span>
+      <span class="example-chip">Reconnecting with a friend</span>
+      <span class="example-chip">Looking for a new job</span>
+      <span class="example-chip">Sorting finances</span>
+    </div>
+
+    <label class="field-label" for="goal_statement">My goal:</label>
+    <input type="text" id="goal_statement" placeholder="e.g. Clear the pile of unopened post on my hall table" />
+
+    <label class="field-label" for="step_10_looks_like">What will it look like when I have reached my goal? (This is your Step 10 — write it as though it is already done.)</label>
+    <textarea id="step_10_looks_like" rows="3" placeholder="e.g. All junk mail thrown away, bank statements filed, any bills paid or set up as direct debits, the table in the hall completely clear..."></textarea>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 2: Where Are You Now? -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">2</div>
+      <div class="step-title">Where Are You Now?</div>
+    </div>
+    <p class="step-desc">Before you map your steps, work out where you are starting from. Step 1 is "made no progress at all" and step 10 is "goal fully achieved." Where does your situation sit right now?</p>
+
+    <div class="prompt-box">
+      <strong>Tip</strong>
+      Things may not be quite as bad as step 1. Even a small amount of progress — or a situation that could be worse — might mean you are already at step 2 or 3. Be honest, but also be fair to yourself.
+    </div>
+
+    <label class="field-label" for="current_step_number">I am currently at step:</label>
+    <select id="current_step_number">
+      <option value="">— select a step —</option>
+      <option value="1">Step 1 — Made no progress at all</option>
+      <option value="2">Step 2</option>
+      <option value="3">Step 3</option>
+      <option value="4">Step 4</option>
+      <option value="5">Step 5</option>
+      <option value="6">Step 6</option>
+      <option value="7">Step 7</option>
+      <option value="8">Step 8</option>
+      <option value="9">Step 9 — Almost there</option>
+    </select>
+
+    <label class="field-label" for="current_step_evidence">What tells me I am at this step (what puts me here, and not lower):</label>
+    <textarea id="current_step_evidence" rows="3" placeholder="e.g. I haven't opened any of the post yet, but at least I've piled it all neatly on the hall table rather than leaving it scattered everywhere..."></textarea>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 3: Map Your Steps -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">3</div>
+      <div class="step-title">Map Your Steps — The Staircase</div>
+    </div>
+    <p class="step-desc">Now fill in the steps between where you are now and your completed goal. Each step should feel like a manageable stretch — not too big to tackle, but enough to move you forward. Start with the steps nearest to where you are now; you don't have to plan every step straight away.</p>
+
+    <!-- Decorative staircase -->
+    <div class="staircase-visual" aria-hidden="true">
+      <div class="stair-bar">1</div>
+      <div class="stair-bar">2</div>
+      <div class="stair-bar">3</div>
+      <div class="stair-bar">4</div>
+      <div class="stair-bar">5</div>
+      <div class="stair-bar">6</div>
+      <div class="stair-bar">7</div>
+      <div class="stair-bar">8</div>
+      <div class="stair-bar">9</div>
+      <div class="stair-bar">10</div>
+    </div>
+
+    <div class="steps-grid">
+      <div class="step-row">
+        <div class="stair-badge goal">10</div>
+        <div class="step-fixed goal-fixed" id="step_10_display">Your completed goal — fill in Step 1 above to see it here</div>
+      </div>
+      <div class="step-row">
+        <div class="stair-badge mid">9</div>
+        <input type="text" id="step_9" placeholder="What would step 9 look like?" />
+      </div>
+      <div class="step-row">
+        <div class="stair-badge mid">8</div>
+        <input type="text" id="step_8" placeholder="What would step 8 look like?" />
+      </div>
+      <div class="step-row">
+        <div class="stair-badge mid">7</div>
+        <input type="text" id="step_7" placeholder="What would step 7 look like?" />
+      </div>
+      <div class="step-row">
+        <div class="stair-badge mid">6</div>
+        <input type="text" id="step_6" placeholder="What would step 6 look like?" />
+      </div>
+      <div class="step-row">
+        <div class="stair-badge mid">5</div>
+        <input type="text" id="step_5" placeholder="What would step 5 look like?" />
+      </div>
+      <div class="step-row">
+        <div class="stair-badge mid">4</div>
+        <input type="text" id="step_4" placeholder="What would step 4 look like?" />
+      </div>
+      <div class="step-row">
+        <div class="stair-badge mid">3</div>
+        <input type="text" id="step_3" placeholder="What would step 3 look like?" />
+      </div>
+      <div class="step-row">
+        <div class="stair-badge mid">2</div>
+        <input type="text" id="step_2" placeholder="What would step 2 look like?" />
+      </div>
+      <div class="step-row">
+        <div class="stair-badge start">1</div>
+        <div class="step-fixed">Made no progress</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 4: SMART -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">4</div>
+      <div class="step-title">Make It SMART</div>
+    </div>
+    <p class="step-desc">A goal is much more likely to be achieved if it is SMART. Work through each prompt below, focusing on your first one or two steps — the ones you are going to tackle this week.</p>
+
+    <div class="smart-grid">
+      <div>
+        <div class="smart-label"><span class="smart-letter">S</span>Specific — not vague</div>
+        <textarea id="smart_specific" rows="3" placeholder="What exactly will you do? Be as precise as you can..."></textarea>
+      </div>
+      <div>
+        <div class="smart-label"><span class="smart-letter">M</span>Measurable — you'll know when it's done</div>
+        <textarea id="smart_measurable" rows="3" placeholder="How will you know when this step is complete?"></textarea>
+      </div>
+      <div>
+        <div class="smart-label"><span class="smart-letter">A</span>Achievable — it will achieve what you hope</div>
+        <textarea id="smart_achievable" rows="3" placeholder="Is this step genuinely within your reach right now?"></textarea>
+      </div>
+      <div>
+        <div class="smart-label"><span class="smart-letter">R</span>Realistic — within your power to do it</div>
+        <textarea id="smart_realistic" rows="3" placeholder="Do you have the time, energy, and resources to do this?"></textarea>
+      </div>
+      <div style="grid-column: 1 / -1;">
+        <div class="smart-label"><span class="smart-letter">T</span>Time-limited — you know exactly when you'll do it</div>
+        <textarea id="smart_time_limited" rows="2" placeholder="e.g. Thursday evening at 6:30pm, straight after dinner, for 15 minutes"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 5: Activity Schedule -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">5</div>
+      <div class="step-title">Activity Schedule</div>
+    </div>
+    <p class="step-desc">Schedule your next steps into the coming week. Enter the day, the activity (which step you'll tackle), the time you'll do it, and — once you've done it — fill in the consequences row: what changed in your thoughts, feelings, actions, or impact on others.</p>
+
+    <div class="prompt-box">
+      <strong>Remember</strong>
+      You don't need to plan all five days now. Start with just the first step or two. After completing each one, fill in the "Consequences" row — this reflection is an important part of breaking the avoidance cycle.
+    </div>
+
+    <div class="schedule-scroll">
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th class="label-col"></th>
+            <th><input class="day-input" type="text" id="day1_name" placeholder="Day:" /></th>
+            <th><input class="day-input" type="text" id="day2_name" placeholder="Day:" /></th>
+            <th><input class="day-input" type="text" id="day3_name" placeholder="Day:" /></th>
+            <th><input class="day-input" type="text" id="day4_name" placeholder="Day:" /></th>
+            <th><input class="day-input" type="text" id="day5_name" placeholder="Day:" /></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-label">Planned activity</td>
+            <td><textarea id="day1_activity" rows="3" placeholder="e.g. Sort post into piles"></textarea></td>
+            <td><textarea id="day2_activity" rows="3"></textarea></td>
+            <td><textarea id="day3_activity" rows="3"></textarea></td>
+            <td><textarea id="day4_activity" rows="3"></textarea></td>
+            <td><textarea id="day5_activity" rows="3"></textarea></td>
+          </tr>
+          <tr>
+            <td class="row-label">Time of day to do activity</td>
+            <td><input type="text" id="day1_time" placeholder="e.g. 6:30pm" /></td>
+            <td><input type="text" id="day2_time" /></td>
+            <td><input type="text" id="day3_time" /></td>
+            <td><input type="text" id="day4_time" /></td>
+            <td><input type="text" id="day5_time" /></td>
+          </tr>
+          <tr>
+            <td class="row-label">Consequences — what changed: thoughts, actions, feelings, impact on others?</td>
+            <td><textarea id="day1_consequences" rows="5" placeholder="e.g. Felt relief — wasn't as bad as I'd imagined..."></textarea></td>
+            <td><textarea id="day2_consequences" rows="5"></textarea></td>
+            <td><textarea id="day3_consequences" rows="5"></textarea></td>
+            <td><textarea id="day4_consequences" rows="5"></textarea></td>
+            <td><textarea id="day5_consequences" rows="5"></textarea></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 6: Reflect -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">6</div>
+      <div class="step-title">Reflect on Your Progress</div>
+    </div>
+    <p class="step-desc">After completing your first step or two, take a moment to reflect. What did the experience teach you? Did the reality match the fear you had about doing it?</p>
+
+    <div class="prompt-box">
+      <strong>Questions to consider</strong>
+      Was the step as hard as you expected? Did your worry about doing it match what actually happened? What have you learned about how you deal with tasks you've been avoiding?
+    </div>
+
+    <label class="field-label" for="reflection">My reflection:</label>
+    <textarea id="reflection" rows="6" placeholder="e.g. I had been putting it off for weeks and it only took 15 minutes. I realised I had been letting the fear of the worst-case scenario stop me from taking the first step. I know now that getting started was the hardest part..."></textarea>
+  </div>
+
+  <div class="remember-box">
+    🪜 <strong>Remember:</strong> You don't have to climb the whole staircase today. One step at a time is enough. Each step you complete is evidence that you can do it — and the next step will feel a little easier because of it.
+  </div>
+
+  <div class="submit-section">
+    <button id="submitChunking">Send me my worksheet</button>
+  </div>
+
+</div>
+
+<!-- ══ MODAL ══ -->
+<div id="chunkingModal" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.55);display:none;justify-content:center;align-items:center;z-index:9999;">
+  <div style="background:#fff;padding:28px 28px 24px;border-radius:12px;max-width:400px;width:90%;text-align:center;font-family:'Inter',sans-serif;box-shadow:0 8px 32px rgba(0,0,0,0.18);">
+    <h3 style="font-family:'Montserrat',sans-serif;color:#0d4a2e;font-size:1.1rem;margin-bottom:8px;">Where should we send your worksheet?</h3>
+    <p style="font-size:0.87rem;color:#555;margin-bottom:16px;">We'll email you a PDF copy of your completed Goal Chunking worksheet.</p>
+    <input type="email" id="chunkingEmail" placeholder="Enter your email address" style="width:100%;padding:10px 12px;border:1px solid #b0d8bc;border-radius:8px;font-family:'Inter',sans-serif;font-size:0.9rem;margin-bottom:12px;box-sizing:border-box;" />
+    <button id="confirmSendChunking" style="background:#1a5c3a;color:#fff !important;border:none;padding:12px 24px;border-radius:8px;font-family:'Montserrat',sans-serif;font-size:0.95rem;font-weight:700;cursor:pointer;width:100%;">Send PDF →</button>
+    <p style="font-size:0.78rem;color:#999;margin-top:10px;">Your answers are only used to generate your PDF.</p>
+  </div>
+</div>
+
+<script>
+  // Mirror goal text into the step 10 display card
+  document.getElementById('step_10_looks_like').addEventListener('input', function () {
+    var val = this.value.trim();
+    var display = document.getElementById('step_10_display');
+    display.textContent = val || 'Your completed goal — fill in Step 1 above to see it here';
+  });
+
+  function collectChunking() {
+    var ids = [
+      'goal_statement', 'step_10_looks_like',
+      'current_step_number', 'current_step_evidence',
+      'step_2', 'step_3', 'step_4', 'step_5', 'step_6', 'step_7', 'step_8', 'step_9',
+      'smart_specific', 'smart_measurable', 'smart_achievable', 'smart_realistic', 'smart_time_limited',
+      'day1_name', 'day1_activity', 'day1_time', 'day1_consequences',
+      'day2_name', 'day2_activity', 'day2_time', 'day2_consequences',
+      'day3_name', 'day3_activity', 'day3_time', 'day3_consequences',
+      'day4_name', 'day4_activity', 'day4_time', 'day4_consequences',
+      'day5_name', 'day5_activity', 'day5_time', 'day5_consequences',
+      'reflection'
+    ];
+    var data = {};
+    ids.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) { data[id] = (el.value || '').replace(/\r?\n|\r/g, ' | '); }
+    });
+    return data;
+  }
+
+  document.getElementById('submitChunking').addEventListener('click', function () {
+    document.getElementById('chunkingModal').style.display = 'flex';
+  });
+
+  document.getElementById('confirmSendChunking').addEventListener('click', function () {
+    var email = document.getElementById('chunkingEmail').value;
+    if (!email) { alert('Please enter your email address.'); return; }
+    var data = collectChunking();
+    data.email = email;
+    fetch('https://hooks.zapier.com/hooks/catch/27250519/uvhbrau/', {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(function () {
+      document.getElementById('chunkingModal').style.display = 'none';
+      alert('Your worksheet is on its way! Check your inbox in the next minute or two.');
+    })
+    .catch(function () {
+      alert('Something went wrong. Please try again.');
+    });
+  });
+</script>
+
+</body>
+</html>
