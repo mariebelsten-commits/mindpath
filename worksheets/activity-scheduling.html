@@ -1,58 +1,138 @@
-<div class="activity-scheduling-container">
-  <style>
-    /* ALL ORIGINAL STYLES UNCHANGED */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Activity Scheduling — MindPath</title>
 
-    .activity-scheduling-container {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      color: #333;
-      background-color: #faf6ef;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 
-    /* ... rest of your CSS unchanged ... */
-  </style>
+<style>
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #f2f8f4;
+  margin: 0;
+  color: #1a1a1a;
+}
 
-  <!-- HERO -->
-  <div class="hero-banner">
-    <div class="hero-banner-content">
-      <h1>Activity Scheduling</h1>
-      <p>How to Structure Your Day When Depression Has Stolen Your Routine</p>
-    </div>
-  </div>
+.container {
+  max-width: 820px;
+  margin: 40px auto;
+  padding: 20px;
+}
 
-  <!-- ALL CONTENT UNCHANGED -->
-  <!-- (sections 1–7 + footer remain exactly as you provided) -->
+h1 {
+  color: #0d4a2e;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+p {
+  color: #444;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin: 10px 0 6px;
+  color: #0d4a2e;
+  font-size: 0.9rem;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #c5dfd0;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  background: #f7fdf9;
+  margin-bottom: 12px;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #0d4a2e;
+  background: #fff;
+}
+
+textarea {
+  min-height: 90px;
+}
+
+.submit-btn {
+  display: block;
+  width: 100%;
+  background: #0d4a2e;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  padding: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.submit-btn:hover {
+  background: #0a3a22;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>📅 Activity Scheduling</h1>
+
+<p>
+Plan activities in advance to help improve mood, structure your day, and reduce avoidance patterns. Start small and realistic — consistency matters more than intensity.
+</p>
+
+<label>Activity</label>
+<input id="activity" placeholder="e.g. Go for a 10-minute walk"/>
+
+<label>When will you do it?</label>
+<input id="time" placeholder="e.g. Tomorrow at 10am"/>
+
+<label>How much do you expect to enjoy it? (0–10)</label>
+<input id="expectedEnjoyment" type="number" min="0" max="10"/>
+
+<label>After completing it: how much did you enjoy it? (0–10)</label>
+<input id="actualEnjoyment" type="number" min="0" max="10"/>
+
+<label>Notes</label>
+<textarea id="notes" placeholder="What did you notice? Any barriers? How did it feel afterwards?"></textarea>
+
+<button class="submit-btn" onclick="saveWorksheet()">💾 Save To My Worksheets</button>
 
 </div>
 
-<!-- OPTIONAL NETLIFY HOOK (not currently used, but future-ready) -->
 <script>
-  /**
-   * Future hook if you ever want to:
-   * - save scroll completion
-   * - track engagement
-   * - or convert this into an interactive worksheet
-   */
-  function sendActivityPageEvent(eventType) {
-    fetch('/.netlify/functions/saveWorksheet', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        type: 'activity_scheduling_page',
-        event: eventType,
-        timestamp: new Date().toISOString()
-      })
-    }).catch(function(err) {
-      console.log('Tracking disabled or failed:', err);
-    });
-  }
+function saveWorksheet() {
 
-  // Example optional trigger:
-  // sendActivityPageEvent('page_loaded');
+  const data = {
+    type: "Activity Scheduling",
+    date: new Date().toISOString(),
+
+    activity: document.getElementById('activity').value,
+    time: document.getElementById('time').value,
+    expectedEnjoyment: document.getElementById('expectedEnjoyment').value,
+    actualEnjoyment: document.getElementById('actualEnjoyment').value,
+    notes: document.getElementById('notes').value
+  };
+
+  let worksheets = JSON.parse(localStorage.getItem('worksheets') || "[]");
+  worksheets.push(data);
+  localStorage.setItem('worksheets', JSON.stringify(worksheets));
+
+  alert("Saved to My Worksheets ✅");
+}
 </script>
+
+</body>
+</html>
