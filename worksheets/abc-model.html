@@ -181,8 +181,7 @@ After: <span id="cmpAfter">50%</span>
 </div>
 </div>
 
-<button class="submit-btn" onclick="saveEntry()">Save Worksheet</button>
-
+<button class="submit-btn" id="saveBtn">Save Worksheet</button>
 <div class="saved">
 <h3>Saved Entries</h3>
 <div id="entries"></div>
@@ -264,18 +263,21 @@ document.addEventListener("DOMContentLoaded", function() {
     render();
   };
 
-  // ── Render saved entries ──
-  function render() {
-    let entries = JSON.parse(localStorage.getItem("abc") || "[]");
+// ✅ CONNECT BUTTON (must NOT be commented)
+document.getElementById("saveBtn").addEventListener("click", saveEntry);
 
-    entriesDiv.innerHTML = entries.map(e => `
-      <div class="entry">
-        <strong>${e.date || "No date"}</strong><br>
-        ${e.hot || ""}<br>
-        <em>${e.newBelief || ""}</em>
-      </div>
-    `).join("");
-  }
+// ── Render saved entries ──
+function render() {
+  let entries = JSON.parse(localStorage.getItem("abc") || "[]");
+
+  entriesDiv.innerHTML = entries.map(e => `
+    <div class="entry">
+      <strong>${e.date || "No date"}</strong><br>
+      ${e.hot || ""}<br>
+      <em>${e.newBelief || ""}</em>
+    </div>
+  `).join("");
+}
 
   render();
 
