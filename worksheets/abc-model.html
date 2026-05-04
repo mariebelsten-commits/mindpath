@@ -65,14 +65,19 @@ body {
 <script>
 function saveWorksheet() {
 
+  const situationEl = document.getElementById('abcSituation');
+  const thoughtsEl = document.getElementById('abcThoughts');
+  const emotionsEl = document.getElementById('abcEmotions');
+  const beliefEl = document.getElementById('abcNewBelief');
+
   const data = {
     type: "ABC Model",
     date: new Date().toISOString(),
 
-    situation: document.getElementById('abcSituation').value,
-    thoughts: document.getElementById('abcThoughts').value,
-    feelings: document.getElementById('abcEmotions').value,
-    newBelief: document.getElementById('abcNewBelief').value
+    situation: situationEl ? situationEl.value : "",
+    thoughts: thoughtsEl ? thoughtsEl.value : "",
+    feelings: emotionsEl ? emotionsEl.value : "",
+    newBelief: beliefEl ? beliefEl.value : ""
   };
 
   let worksheets = JSON.parse(localStorage.getItem('worksheets') || "[]");
