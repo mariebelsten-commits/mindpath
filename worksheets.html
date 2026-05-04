@@ -140,6 +140,78 @@
   </div>
 
 </div>
+  <script>
+const container = document.getElementById("allEntries");
+
+function getAllData() {
+  return [
+    { type: "ABC Model", data: JSON.parse(localStorage.getItem("abc") || "[]") },
+    { type: "Thought Record", data: JSON.parse(localStorage.getItem("thoughtRecord") || "[]") },
+    { type: "Behavioural Experiment", data: JSON.parse(localStorage.getItem("experiment") || "[]") }
+  ];
+}
+
+function render() {
+  const all = getAllData();
+
+  container.innerHTML = all.map(group => {
+    if (!group.data.length) return "";
+
+    return `
+      <div style="margin-bottom:30px;">
+        <h3>${group.type}</h3>
+
+        ${group.data.map((e, i) => `
+          <div style="border-left:4px solid #0d4a2e; padding:10px; margin-bottom:10px; border-radius:6px; background:#fff;">
+
+            <div style="cursor:pointer;" onclick="toggleEntry('${group.type}', ${i})">
+              <strong>${e.date || "No date"}</strong>  
+              — ${e.hot || e.situation || "View entry"}  
+            </div>
+
+            <div id="${group.type}-${i}" style="display:none; margin-top:10px;">
+              ${renderDetails(e)}
+            </div>
+
+          </div>
+        `).join("")}
+
+      </div>
+    `;
+  }).join("");
+}
+
+function renderDetails(e) {
+  return `
+    ${e.situation ? `<strong>A:</strong> ${e.situation}<br><br>` : ""}
+
+    ${e.thoughts ? `<strong>B:</strong> ${e.thoughts}<br>` : ""}
+    ${e.meanings ? `Meanings: ${e.meanings}<br><br>` : ""}
+
+    ${e.emotions ? `<strong>C:</strong> ${e.emotions}<br>` : ""}
+    ${e.physical ? `Physical: ${e.physical}<br>` : ""}
+    ${e.behaviours ? `Behaviour: ${e.behaviours}<br><br>` : ""}
+
+    ${e.for ? `<strong>D:</strong> For: ${e.for}<br>` : ""}
+    ${e.against ? `Against: ${e.against}<br>` : ""}
+    ${e.balanced ? `Balanced: ${e.balanced}<br><br>` : ""}
+
+    ${e.newBelief ? `<strong>E:</strong> ${e.newBelief}<br>` : ""}
+    ${e.newFeeling ? `Feeling: ${e.newFeeling}<br>` : ""}
+    ${e.next ? `Next: ${e.next}<br>` : ""}
+  `;
+}
+
+function toggleEntry(type, i) {
+  const id = `${type}-${i}`;
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  el.style.display = el.style.display === "none" ? "block" : "none";
+}
+
+render();
+</script>
 
 </body>
 </html>
