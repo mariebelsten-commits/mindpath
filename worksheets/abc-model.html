@@ -75,12 +75,10 @@ function saveWorksheet() {
     newBelief: document.getElementById('abcNewBelief').value
   };
 
-  let worksheets = JSON.parse(localStorage.getItem('worksheets') || "[]");
-
+let worksheets = JSON.parse(window.parent.localStorage.getItem('worksheets') || "[]");
   worksheets.push(data);
 
-  localStorage.setItem('worksheets', JSON.stringify(worksheets));
-
+window.parent.localStorage.setItem('worksheets', JSON.stringify(worksheets));
   alert("Saved to My Worksheets ✅");
 }
 </script>
