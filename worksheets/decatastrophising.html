@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Decatastrophising – ChatCBT</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #f2f8f4;
+    color: #1a1a1a;
+    min-height: 100vh;
+  }
+
+  /* ── Page header ── */
+  .page-header {
+    background: #0d4a2e;
+    padding: 36px 24px 30px;
+    text-align: center;
+  }
+  .page-header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #ffffff !important;
+    letter-spacing: -0.3px;
+    margin-bottom: 10px;
+  }
+  .page-header p {
+    font-size: 0.97rem;
+    color: #c8e6d4 !important;
+    max-width: 660px;
+    margin: 0 auto;
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  /* ── Layout ── */
+  .container {
+    max-width: 820px;
+    margin: 32px auto;
+    padding: 0 20px 72px;
+  }
+
+  /* ── Info box ── */
+  .info-box {
+    background: #ffffff;
+    border-left: 5px solid #0d4a2e;
+    border-radius: 0 10px 10px 0;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+  }
+  .info-box h2 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #0d4a2e;
+    margin-bottom: 8px;
+  }
+  .info-box p {
+    font-size: 0.88rem;
+    line-height: 1.75;
+    color: #444;
+  }
+  .info-box p + p { margin-top: 8px; }
+
+  /* ── Tips strip ── */
+  .tips-strip {
+    background: #0d4a2e;
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-bottom: 24px;
+  }
+  .tips-strip h3 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #ffffff !important;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .tips-strip ul { list-style: none; padding: 0; }
+  .tips-strip ul li {
+    font-size: 0.84rem;
+    color: #c8e6d4 !important;
+    padding: 4px 0 4px 20px;
+    position: relative;
+    line-height: 1.55;
+  }
+  .tips-strip ul li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: #6dbf8a !important;
+    font-weight: 700;
+  }
+
+  /* ── Quote strip ── */
+  .quote-strip {
+    background: #e8f5ee;
+    border-radius: 10px;
+    padding: 15px 22px;
+    margin-bottom: 28px;
+    font-style: italic;
+    font-size: 0.92rem;
+    color: #0d4a2e;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  /* ── Card ── */
+  .card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 14px rgba(13,74,46,0.08);
+    margin-bottom: 22px;
+    overflow: hidden;
+  }
+
+  .section-header {
+    background: #0d4a2e;
+    padding: 14px 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-header .badge {
+    background: rgba(255,255,255,0.2);
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 0.8rem;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .section-header span {
+    font-size: 0.97rem;
+    font-weight: 700;
+    color: #ffffff !important;
+  }
+
+  .section-body { padding: 22px 24px; }
+
+  /* ── Fields ── */
+  .field-group { margin-bottom: 18px; }
+  .field-group:last-child { margin-bottom: 0; }
+
+  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #0d4a2e;
+    margin-bottom: 6px;
+  }
+  .hint {
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: #7a9a86;
+    margin-left: 3px;
+  }
+
+  input[type="date"],
+  textarea {
+    width: 100%;
+    border: 1.5px solid #c5dfd0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.88rem;
+    color: #1a1a1a;
+    background: #f7fdf9;
+    transition: border-color 0.2s, background 0.2s;
+    resize: vertical;
+  }
+  input[type="date"]:focus,
+  textarea:focus {
+    outline: none;
+    border-color: #0d4a2e;
+    background: #ffffff;
+  }
+  textarea { min-height: 100px; }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 560px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* ── Slider / rating ── */
+  .slider-wrap { margin-top: 2px; }
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .slider-row input[type="range"] {
+    flex: 1;
+    min-width: 80px;
+    border: none;
+    padding: 0;
+    background: transparent;
+    accent-color: #0d4a2e;
+    cursor: pointer;
+    height: 4px;
+  }
+  .rating-pill {
+    background: #0d4a2e;
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 0.92rem;
+    min-width: 54px;
+    text-align: center;
+    border-radius: 8px;
+    padding: 6px 10px;
+    flex-shrink: 0;
+  }
+  .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    color: #9ab0a0;
+    margin-top: 5px;
+  }
+
+  /* ── Compare panel ── */
+  .compare-panel {
+    background: #e8f5ee;
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 20px;
+  }
+  .compare-panel-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #0d4a2e;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 14px;
+  }
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 500px) { .compare-grid { grid-template-columns: 1fr; } }
+  .compare-item .clabel {
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: #3a6e50;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 4px;
+  }
+  .compare-item .cval {
+    background: #ffffff;
+    border-radius: 7px;
+    padding: 7px 11px;
+    font-size: 0.87rem;
+    color: #1a1a1a;
+    min-height: 34px;
+    font-weight: 500;
+  }
+
+  /* ── Divider ── */
+  .divider {
+    border: none;
+    border-top: 2px dashed #d0eadb;
+    margin: 20px 0;
+  }
+
+  /* ── Prompt list ── */
+  .prompt-list {
+    background: #e8f5ee;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 14px;
+  }
+  .prompt-list p {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #0d4a2e;
+    margin-bottom: 6px;
+  }
+  .prompt-list ul { list-style: none; padding: 0; }
+  .prompt-list ul li {
+    font-size: 0.82rem;
+    color: #3a6e50;
+    padding: 3px 0 3px 18px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .prompt-list ul li::before {
+    content: '?';
+    position: absolute;
+    left: 0;
+    color: #0d4a2e;
+    font-weight: 700;
+  }
+
+  /* ── Section note ── */
+  .section-note {
+    font-size: 0.86rem;
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  /* ── Submit button ── */
+  .submit-btn {
+    display: block;
+    width: 100%;
+    background: #0d4a2e;
+    color: #ffffff !important;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    padding: 16px 36px;
+    cursor: pointer;
+    letter-spacing: 0.2px;
+    transition: background 0.2s, transform 0.1s;
+    margin-top: 8px;
+  }
+  .submit-btn:hover { background: #0a3a22; }
+  .submit-btn:active { transform: scale(0.99); }
+
+  /* ── Modal ── */
+  #dcatModal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.52);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 20px;
+  }
+  #dcatModalBox {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 34px 30px;
+    max-width: 440px;
+    width: 100%;
+    box-shadow: 0 10px 48px rgba(0,0,0,0.28);
+  }
+  #dcatModalBox h2 {
+    font-size: 1.18rem;
+    font-weight: 800;
+    color: #0d4a2e;
+    margin-bottom: 8px;
+  }
+  #dcatModalBox p {
+    font-size: 0.88rem;
+    color: #555;
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+  #dcatEmail {
+    width: 100%;
+    border: 1.5px solid #c5dfd0;
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.92rem;
+    color: #1a1a1a;
+    background: #f7fdf9;
+    margin-bottom: 18px;
+    box-sizing: border-box;
+    display: block;
+  }
+  #dcatEmail:focus { outline: none; border-color: #0d4a2e; background: #fff; }
+  .modal-btns { display: flex; gap: 10px; }
+  .btn-send {
+    flex: 1;
+    background: #0d4a2e;
+    color: #ffffff !important;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.92rem;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-send:hover { background: #0a3a22; }
+  .btn-cancel {
+    flex: 1;
+    background: #f0f0f0;
+    color: #555;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 0.92rem;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-cancel:hover { background: #e4e4e4; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════ HEADER ═══════════════════════════════════ -->
+<div class="page-header">
+  <h1>Decatastrophising</h1>
+  <p>'What if' thoughts often expect the worst and create anxiety. This worksheet helps you examine those fears honestly, weigh up the evidence, and arrive at a more balanced — and more accurate — view.</p>
+</div>
+
+<div class="container">
+
+  <!-- About -->
+  <div class="info-box">
+    <h2>What is catastrophising?</h2>
+    <p>Catastrophising means mentally jumping to the worst possible outcome and treating it as though it's almost certain. 'What if' thoughts are the most common form: "What if I fail? What if people judge me? What if everything falls apart?" These thoughts increase anxiety and make situations feel far more threatening than they really are.</p>
+    <p>This worksheet helps you slow down, look at the actual evidence, consider more balanced possibilities, and remind yourself that you can cope — even if things don't go perfectly. Changing your thinking takes practice, but it gets easier every time you try.</p>
+  </div>
+
+  <!-- Tips strip -->
+  <div class="tips-strip">
+    <h3>Challenging your thinking — tips &amp; tricks</h3>
+    <ul>
+      <li><strong style="color:#ffffff !important;">Look at the evidence</strong> — focus on facts, not feelings or opinions. Ask: do I have solid, objective proof? Think like you're in a courtroom — only clear facts count.</li>
+      <li><strong style="color:#ffffff !important;">Find alternative explanations</strong> — ask whether there are other ways to interpret this situation that you haven't considered.</li>
+      <li><strong style="color:#ffffff !important;">Consider the advantages and disadvantages</strong> — does thinking this way help you reach your goals and feel better, or does it hold you back?</li>
+      <li><strong style="color:#ffffff !important;">Remind yourself you can cope</strong> — and view change as a chance for growth and new opportunities, not just as a threat.</li>
+    </ul>
+  </div>
+
+  <div class="quote-strip">
+    "You have survived every difficult day so far. Your track record is 100%."
+  </div>
+
+  <!-- ─────────────────── SECTION 1: MY 'WHAT IF' THOUGHT ─────────────────── -->
+  <div class="card">
+    <div class="section-header">
+      <div class="badge">1</div>
+      <span>My 'What If' Thought</span>
+    </div>
+    <div class="section-body">
+      <div class="field-group">
+        <label for="dcatDate">Date</label>
+        <input type="date" id="dcatDate"/>
+      </div>
+      <div class="field-group">
+        <label for="dcatWhatIf">Write down the catastrophic thought you want to examine <span class="hint">— What is the 'what if' fear?</span></label>
+        <textarea id="dcatWhatIf" placeholder="e.g. What if I completely freeze during my presentation and everyone thinks I'm incompetent?"></textarea>
+      </div>
+
+      <hr class="divider"/>
+
+      <div class="field-group">
+        <label>How strongly do you believe this will happen? <span class="hint">(0 = not at all, 100 = absolutely certain)</span></label>
+        <div class="slider-wrap">
+          <div class="slider-row">
+            <input type="range" id="dcatBeliefBeforeSlider" min="0" max="100" value="50"/>
+            <div class="rating-pill" id="dcatBeliefBeforeDisplay">50%</div>
+          </div>
+          <div class="slider-labels"><span>0% — No belief</span><span>50% — Moderate</span><span>100% — Absolute certainty</span></div>
+        </div>
+        <input type="hidden" id="dcatBeliefBeforeVal" value="50"/>
+      </div>
+
+      <div class="field-group">
+        <label>How anxious does this thought make you feel right now? <span class="hint">(0 = none, 100 = extreme)</span></label>
+        <div class="slider-wrap">
+          <div class="slider-row">
+            <input type="range" id="dcatAnxietyBeforeSlider" min="0" max="100" value="50"/>
+            <div class="rating-pill" id="dcatAnxietyBeforeDisplay">50</div>
+          </div>
+          <div class="slider-labels"><span>0 — None</span><span>50 — Moderate</span><span>100 — Extreme</span></div>
+        </div>
+        <input type="hidden" id="dcatAnxietyBeforeVal" value="50"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────── SECTION 2: WORST CASE ─────────────────── -->
+  <div class="card">
+    <div class="section-header">
+      <div class="badge">2</div>
+      <span>The Worst Case Scenario</span>
+    </div>
+    <div class="section-body">
+      <div class="field-group">
+        <label for="dcatWorstCase">What is the worst that could realistically happen? <span class="hint">— Describe it specifically</span></label>
+        <textarea id="dcatWorstCase" placeholder="e.g. I freeze completely, lose my place, and have to stop. People look uncomfortable. My manager pulls me aside afterwards."></textarea>
+      </div>
+
+      <div class="field-group">
+        <label>How likely is this worst case, really? <span class="hint">(0 = almost impossible, 100 = virtually certain)</span></label>
+        <div class="slider-wrap">
+          <div class="slider-row">
+            <input type="range" id="dcatLikelihoodSlider" min="0" max="100" value="50"/>
+            <div class="rating-pill" id="dcatLikelihoodDisplay">50%</div>
+          </div>
+          <div class="slider-labels"><span>0% — Almost impossible</span><span>50% — Fifty-fifty</span><span>100% — Virtually certain</span></div>
+        </div>
+        <input type="hidden" id="dcatLikelihoodVal" value="50"/>
+      </div>
+
+      <div class="field-group">
+        <label for="dcatCope">Even if the worst happened — how would you cope? <span class="hint">— What resources, support, or strengths could you draw on?</span></label>
+        <textarea id="dcatCope" placeholder="e.g. I'd be embarrassed, but I could take a breath and continue. My colleagues have seen others struggle before. I would survive this."></textarea>
+      </div>
+
+      <div class="field-group">
+        <label for="dcatRealistic">What is the most realistic outcome? <span class="hint">— Not the worst, not the best — what would probably actually happen?</span></label>
+        <textarea id="dcatRealistic" placeholder="e.g. I'd probably feel nervous and stumble over a few words, but I'd get through it. Most people wouldn't even notice."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────── SECTION 3: EVIDENCE ─────────────────── -->
+  <div class="card">
+    <div class="section-header">
+      <div class="badge">3</div>
+      <span>Look at the Evidence</span>
+    </div>
+    <div class="section-body">
+      <p class="section-note">Think like you're in a courtroom. Focus on facts, not feelings or opinions. Only clear, objective evidence counts — not hunches or assumptions.</p>
+      <div class="two-col">
+        <div class="field-group">
+          <label for="dcatEvidenceFor">Evidence that supports the thought</label>
+          <textarea id="dcatEvidenceFor" style="min-height:130px;" placeholder="e.g. I have frozen before in stressful situations. This presentation is to senior staff."></textarea>
+        </div>
+        <div class="field-group">
+          <label for="dcatEvidenceAgainst">Evidence against the thought</label>
+          <textarea id="dcatEvidenceAgainst" style="min-height:130px;" placeholder="e.g. I've given presentations before and got through them. I know this topic well. I've had positive feedback before."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────── SECTION 4: CHALLENGE ─────────────────── -->
+  <div class="card">
+    <div class="section-header">
+      <div class="badge">4</div>
+      <span>Challenge Your Thinking</span>
+    </div>
+    <div class="section-body">
+      <div class="field-group">
+        <div class="prompt-list">
+          <p>Consider these questions as you look for alternative explanations:</p>
+          <ul>
+            <li>What else could explain my assumptions or conclusions?</li>
+            <li>Is there a more positive way to view this?</li>
+            <li>Am I focusing only on the negative and ignoring other possibilities?</li>
+          </ul>
+        </div>
+        <label for="dcatAlternatives">What alternative explanations or perspectives can you find?</label>
+        <textarea id="dcatAlternatives" placeholder="e.g. My anxiety about it doesn't mean it will go badly. Others might be rooting for me. Nervousness is normal and doesn't mean failure."></textarea>
+      </div>
+
+      <hr class="divider"/>
+
+      <div class="two-col">
+        <div class="field-group">
+          <label for="dcatTrustedPerson">What would someone you trust think about this situation?</label>
+          <textarea id="dcatTrustedPerson" style="min-height:110px;" placeholder="e.g. My friend would say I always catastrophise before presentations and they always go fine."></textarea>
+        </div>
+        <div class="field-group">
+          <label for="dcatAdviceFriend">What advice would you give to a friend with this same worry?</label>
+          <textarea id="dcatAdviceFriend" style="min-height:110px;" placeholder="e.g. I'd tell them to remember all the times they got through things they were scared of, and that one moment doesn't define them."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────── SECTION 5: ADVANTAGES & DISADVANTAGES ─────────────────── -->
+  <div class="card">
+    <div class="section-header">
+      <div class="badge">5</div>
+      <span>Advantages &amp; Disadvantages of Thinking This Way</span>
+    </div>
+    <div class="section-body">
+      <p class="section-note">Ask yourself: does thinking this way help you reach your goals, support your relationships, improve how you feel, and offer more benefits than drawbacks?</p>
+      <div class="two-col">
+        <div class="field-group">
+          <label for="dcatAdvantages">Advantages of thinking this way</label>
+          <textarea id="dcatAdvantages" style="min-height:110px;" placeholder="e.g. It motivates me to prepare thoroughly. It keeps me alert to potential problems."></textarea>
+        </div>
+        <div class="field-group">
+          <label for="dcatDisadvantages">Disadvantages of thinking this way</label>
+          <textarea id="dcatDisadvantages" style="min-height:110px;" placeholder="e.g. It makes me anxious for days beforehand. It makes the situation feel bigger than it is. It stops me from enjoying the lead-up."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────── SECTION 6: BALANCED THOUGHT ─────────────────── -->
+  <div class="card">
+    <div class="section-header">
+      <div class="badge">6</div>
+      <span>My Balanced Thought</span>
+    </div>
+    <div class="section-body">
+      <div class="field-group">
+        <label for="dcatBalanced">Using everything you've explored, write a more balanced, realistic thought <span class="hint">— not forced positivity, just a fairer view</span></label>
+        <textarea id="dcatBalanced" placeholder="e.g. I might feel nervous, but I know my material. I have coped with presentations before and I can cope again — even if it's not perfect."></textarea>
+      </div>
+
+      <hr class="divider"/>
+
+      <!-- Live comparison panel -->
+      <div class="compare-panel">
+        <div class="compare-panel-title">Before &amp; After — Your Ratings</div>
+        <div class="compare-grid">
+          <div class="compare-item">
+            <div class="clabel">Belief in thought (before)</div>
+            <div class="cval" id="cmpBeliefBefore">50%</div>
+          </div>
+          <div class="compare-item">
+            <div class="clabel">Belief in thought (after)</div>
+            <div class="cval" id="cmpBeliefAfter">—</div>
+          </div>
+          <div class="compare-item">
+            <div class="clabel">Anxiety (before)</div>
+            <div class="cval" id="cmpAnxBefore">50 / 100</div>
+          </div>
+          <div class="compare-item">
+            <div class="clabel">Anxiety (after)</div>
+            <div class="cval" id="cmpAnxAfter">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>How strongly do you now believe the original thought? <span class="hint">(0 = no longer believe it at all, 100 = still completely certain)</span></label>
+        <div class="slider-wrap">
+          <div class="slider-row">
+            <input type="range" id="dcatBeliefAfterSlider" min="0" max="100" value="50"/>
+            <div class="rating-pill" id="dcatBeliefAfterDisplay">50%</div>
+          </div>
+          <div class="slider-labels"><span>0% — No longer believe it</span><span>50% — Moderate</span><span>100% — Still certain</span></div>
+        </div>
+        <input type="hidden" id="dcatBeliefAfterVal" value="50"/>
+      </div>
+
+      <div class="field-group">
+        <label>How anxious do you feel now? <span class="hint">(0 = none, 100 = extreme)</span></label>
+        <div class="slider-wrap">
+          <div class="slider-row">
+            <input type="range" id="dcatAnxietyAfterSlider" min="0" max="100" value="50"/>
+            <div class="rating-pill" id="dcatAnxietyAfterDisplay">50</div>
+          </div>
+          <div class="slider-labels"><span>0 — None</span><span>50 — Moderate</span><span>100 — Extreme</span></div>
+        </div>
+        <input type="hidden" id="dcatAnxietyAfterVal" value="50"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────── SECTION 7: REFLECTION ─────────────────── -->
+  <div class="card">
+    <div class="section-header">
+      <div class="badge">7</div>
+      <span>Reflection</span>
+    </div>
+    <div class="section-body">
+      <div class="field-group">
+        <label for="dcatReflection">What did you notice from doing this exercise? <span class="hint">— What do you want to remember for next time?</span></label>
+        <textarea id="dcatReflection" placeholder="e.g. My anxiety made the situation feel much more dangerous than it actually was. When I look at the evidence, the worst case is unlikely — and even if it happened, I'd cope."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Submit -->
+  <button class="submit-btn" id="dcatOpenModal">Email Me This Worksheet ✉</button>
+
+</div><!-- /container -->
+
+<!-- ═══════════════════════════════════ MODAL ═══════════════════════════════════ -->
+<div id="dcatModal">
+  <div id="dcatModalBox">
+    <h2>Send to your inbox</h2>
+    <p>Enter your email address and we'll send you a PDF copy of your completed worksheet to keep.</p>
+    <input type="email" id="dcatEmail" placeholder="your@email.com"/>
+    <div class="modal-btns">
+      <button class="btn-send" id="dcatConfirmSend">Send PDF</button>
+      <button class="btn-cancel" id="dcatCancelModal">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ── Slider helpers ── */
+  var sliders = [
+    { slider: 'dcatBeliefBeforeSlider',  display: 'dcatBeliefBeforeDisplay',  hidden: 'dcatBeliefBeforeVal',  suffix: '%', cmp: 'cmpBeliefBefore' },
+    { slider: 'dcatAnxietyBeforeSlider', display: 'dcatAnxietyBeforeDisplay', hidden: 'dcatAnxietyBeforeVal', suffix: '',  cmp: 'cmpAnxBefore'   },
+    { slider: 'dcatLikelihoodSlider',    display: 'dcatLikelihoodDisplay',    hidden: 'dcatLikelihoodVal',    suffix: '%', cmp: null              },
+    { slider: 'dcatBeliefAfterSlider',   display: 'dcatBeliefAfterDisplay',   hidden: 'dcatBeliefAfterVal',   suffix: '%', cmp: 'cmpBeliefAfter'  },
+    { slider: 'dcatAnxietyAfterSlider',  display: 'dcatAnxietyAfterDisplay',  hidden: 'dcatAnxietyAfterVal',  suffix: '',  cmp: 'cmpAnxAfter'    }
+  ];
+
+  sliders.forEach(function(s) {
+    var el = document.getElementById(s.slider);
+    if (!el) return;
+    el.addEventListener('input', function() {
+      var v = el.value;
+      document.getElementById(s.display).textContent = v + s.suffix;
+      document.getElementById(s.hidden).value = v;
+      if (s.cmp) {
+        var suffix2 = (s.suffix === '%') ? '%' : ' / 100';
+        document.getElementById(s.cmp).textContent = v + suffix2;
+      }
+    });
+  });
+
+  /* Seed compare panel on load */
+  document.getElementById('cmpBeliefBefore').textContent = '50%';
+  document.getElementById('cmpAnxBefore').textContent    = '50 / 100';
+
+  /* ── Modal ── */
+  var modal = document.getElementById('dcatModal');
+
+  document.getElementById('dcatOpenModal').addEventListener('click', function() {
+    modal.style.display = 'flex';
+  });
+  document.getElementById('dcatCancelModal').addEventListener('click', function() {
+    modal.style.display = 'none';
+    document.getElementById('dcatEmail').value = '';
+  });
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+      document.getElementById('dcatEmail').value = '';
+    }
+  });
+
+  /* ── Send ── */
+  document.getElementById('dcatConfirmSend').addEventListener('click', function() {
+    var email = document.getElementById('dcatEmail').value.trim();
+    if (!email) { alert('Please enter your email address.'); return; }
+
+    var payload = {
+      email:            email,
+      date:             document.getElementById('dcatDate').value,
+      what_if:          document.getElementById('dcatWhatIf').value,
+      belief_before:    document.getElementById('dcatBeliefBeforeVal').value,
+      anxiety_before:   document.getElementById('dcatAnxietyBeforeVal').value,
+      worst_case:       document.getElementById('dcatWorstCase').value,
+      likelihood:       document.getElementById('dcatLikelihoodVal').value,
+      cope:             document.getElementById('dcatCope').value,
+      realistic:        document.getElementById('dcatRealistic').value,
+      evidence_for:     document.getElementById('dcatEvidenceFor').value,
+      evidence_against: document.getElementById('dcatEvidenceAgainst').value,
+      alternatives:     document.getElementById('dcatAlternatives').value,
+      trusted_person:   document.getElementById('dcatTrustedPerson').value,
+      advice_friend:    document.getElementById('dcatAdviceFriend').value,
+      advantages:       document.getElementById('dcatAdvantages').value,
+      disadvantages:    document.getElementById('dcatDisadvantages').value,
+      balanced:         document.getElementById('dcatBalanced').value,
+      belief_after:     document.getElementById('dcatBeliefAfterVal').value,
+      anxiety_after:    document.getElementById('dcatAnxietyAfterVal').value,
+      reflection:       document.getElementById('dcatReflection').value
+    };
+
+    fetch('https://hooks.zapier.com/hooks/catch/27250519/uvgubuz/', {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    })
+    .then(function() {
+      modal.style.display = 'none';
+      document.getElementById('dcatEmail').value = '';
+      alert('Your worksheet is on its way! Check your inbox in the next minute or two.');
+    })
+    .catch(function() {
+      alert('Something went wrong. Please try again.');
+    });
+  });
+</script>
+
+</body>
+</html>
