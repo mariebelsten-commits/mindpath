@@ -3,257 +3,139 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Anger Diary – ChatCBT</title>
+<title>Anger Diary — MindPath</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
 body {
   font-family: 'Poppins', sans-serif;
   background: #f2f8f4;
+  margin: 0;
   color: #1a1a1a;
 }
 
-/* HEADER */
-.page-header {
-  background: #0d4a2e;
-  padding: 36px 24px;
-  text-align: center;
-}
-
-.page-header h1 {
-  color: #fff;
-  font-size: 2rem;
-  font-weight: 800;
-}
-
-.page-header p {
-  color: #c8e6d4;
-  max-width: 700px;
-  margin: 10px auto 0;
-  line-height: 1.6;
-}
-
-/* LAYOUT */
 .container {
   max-width: 820px;
-  margin: 30px auto;
-  padding: 0 20px 60px;
+  margin: 40px auto;
+  padding: 20px;
 }
 
-/* INFO */
-.info-box {
-  background: #fff;
-  border-left: 5px solid #0d4a2e;
-  padding: 18px 22px;
-  border-radius: 0 10px 10px 0;
+h1 {
+  color: #0d4a2e;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+p {
+  color: #444;
+  font-size: 0.95rem;
+  line-height: 1.6;
   margin-bottom: 20px;
 }
 
-/* TAGS */
-.tag-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+label {
+  display: block;
+  font-weight: 600;
+  margin: 10px 0 6px;
+  color: #0d4a2e;
+  font-size: 0.9rem;
 }
 
-.tag-btn {
-  border: 1.5px solid #c5dfd0;
-  border-radius: 20px;
-  padding: 6px 14px;
-  font-size: 0.78rem;
-  background: #f7fdf9;
-  cursor: pointer;
-}
-
-.tag-btn.selected {
-  background: #0d4a2e;
-  color: #fff;
-}
-
-/* INPUTS */
-textarea, input {
+input, textarea {
   width: 100%;
-  border: 1.5px solid #c5dfd0;
+  padding: 12px;
   border-radius: 8px;
-  padding: 10px;
-  font-family: 'Poppins';
+  border: 1px solid #c5dfd0;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
   background: #f7fdf9;
+  margin-bottom: 12px;
 }
 
-textarea:focus, input:focus {
+input:focus, textarea:focus {
   outline: none;
   border-color: #0d4a2e;
   background: #fff;
 }
 
-/* SLIDER */
-.slider-wrap {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 10px;
+textarea {
+  min-height: 90px;
 }
 
-.slider-value {
-  background: #7f1d1d;
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 6px;
-  min-width: 50px;
-  text-align: center;
-}
-
-/* BUTTONS */
-.btn {
+.submit-btn {
+  display: block;
   width: 100%;
   background: #0d4a2e;
   color: #fff;
-  border: none;
-  padding: 14px;
-  border-radius: 10px;
+  font-size: 1rem;
   font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  padding: 16px;
   cursor: pointer;
-  margin-top: 20px;
-}
-
-.btn.secondary {
-  background: #555;
   margin-top: 10px;
 }
 
-/* CARDS */
-.card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 18px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+.submit-btn:hover {
+  background: #0a3a22;
 }
 </style>
 </head>
 
 <body>
 
-<div class="page-header">
-  <h1>Anger Diary</h1>
-  <p>Track triggers, warning signs and responses to understand your anger patterns.</p>
-</div>
-
 <div class="container">
 
-  <!-- INFO -->
-  <div class="info-box">
-    <strong>How this works:</strong><br/>
-    Fill in entries after emotional episodes. Your data is stored locally in your browser or can be downloaded.
-  </div>
+<h1>😡 Anger Diary</h1>
 
-  <!-- WARNING SIGNS -->
-  <div class="card">
-    <h3>Warning Signs</h3>
-    <div class="tag-group" id="tags">
-      <button class="tag-btn" data-value="Clenched fists">Clenched fists</button>
-      <button class="tag-btn" data-value="Raised voice">Raised voice</button>
-      <button class="tag-btn" data-value="Racing heart">Racing heart</button>
-    </div>
+<p>
+Use this worksheet to understand what triggers your anger, how it builds, and what thoughts sit underneath it. The aim is awareness first — not judgement.
+</p>
 
-    <input type="hidden" id="warningSigns"/>
-  </div>
+<label>Situation</label>
+<textarea id="situation" placeholder="What happened? Where were you? Who was involved?"></textarea>
 
-  <!-- ENTRY -->
-  <div class="card">
-    <h3>Entry #1</h3>
+<label>Trigger thoughts</label>
+<textarea id="triggerThoughts" placeholder="What went through your mind in the moment?"></textarea>
 
-    <label>Trigger</label>
-    <textarea id="trigger"></textarea>
+<label>Intensity of anger (0–10)</label>
+<input id="intensity" type="number" min="0" max="10"/>
 
-    <label>Warning Signs Noticed</label>
-    <textarea id="warning"></textarea>
+<label>Physical sensations</label>
+<textarea id="physical" placeholder="What did you notice in your body?"></textarea>
 
-    <label>Response</label>
-    <textarea id="response"></textarea>
+<label>What did you do?</label>
+textarea id="behaviour" placeholder="How did you respond? What actions did you take?"></textarea>
 
-    <label>Outcome</label>
-    <textarea id="outcome"></textarea>
+<label>What would have helped?</label>
+<textarea id="alternative" placeholder="If you could rewind, what might you try instead?"></textarea>
 
-    <label>Anger Level</label>
-    <div class="slider-wrap">
-      <input type="range" id="anger" min="1" max="5" value="3"/>
-      <div class="slider-value" id="angerVal">3/5</div>
-    </div>
-  </div>
-
-  <!-- SAVE -->
-  <button class="btn" id="save">Save To My Worksheets</button>
-  <button class="btn secondary" id="download">Download JSON</button>
+<button class="submit-btn" onclick="saveWorksheet()">💾 Save To My Worksheets</button>
 
 </div>
 
 <script>
-/* ================= TAGS ================= */
-const selected = [];
-const hidden = document.getElementById('warningSigns');
+function saveWorksheet() {
 
-document.querySelectorAll('.tag-btn').forEach(btn => {
-  btn.onclick = () => {
-    const val = btn.dataset.value;
-    btn.classList.toggle('selected');
+  const data = {
+    type: "Anger Diary",
+    date: new Date().toISOString(),
 
-    if (btn.classList.contains('selected')) {
-      if (!selected.includes(val)) selected.push(val);
-    } else {
-      const i = selected.indexOf(val);
-      if (i > -1) selected.splice(i, 1);
-    }
-
-    hidden.value = selected.join(', ');
-  };
-});
-
-/* ================= SLIDER ================= */
-const anger = document.getElementById('anger');
-const angerVal = document.getElementById('angerVal');
-
-anger.oninput = () => {
-  angerVal.textContent = anger.value + "/5";
-};
-
-/* ================= SAVE LOCAL ================= */
-document.getElementById('save').onclick = () => {
-  const entry = {
-    warningSigns: selected,
-    trigger: document.getElementById('trigger').value,
-    warning: document.getElementById('warning').value,
-    response: document.getElementById('response').value,
-    outcome: document.getElementById('outcome').value,
-    anger: anger.value,
-    date: new Date().toISOString()
+    situation: document.getElementById('situation').value,
+    triggerThoughts: document.getElementById('triggerThoughts').value,
+    intensity: document.getElementById('intensity').value,
+    physical: document.getElementById('physical').value,
+    behaviour: document.getElementById('behaviour').value,
+    alternative: document.getElementById('alternative').value
   };
 
-  let existing = JSON.parse(localStorage.getItem('angerDiary') || '[]');
-  existing.push(entry);
+  let worksheets = JSON.parse(localStorage.getItem('worksheets') || "[]");
+  worksheets.push(data);
+  localStorage.setItem('worksheets', JSON.stringify(worksheets));
 
-  localStorage.setItem('angerDiary', JSON.stringify(existing));
-
-  alert("Saved locally in this browser.");
-};
-
-/* ================= DOWNLOAD ================= */
-document.getElementById('download').onclick = () => {
-  const data = localStorage.getItem('angerDiary') || '[]';
-
-  const blob = new Blob([data], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = "anger-diary.json";
-  a.click();
-
-  URL.revokeObjectURL(url);
-};
+  alert("Saved to My Worksheets ✅");
+}
 </script>
 
 </body>
