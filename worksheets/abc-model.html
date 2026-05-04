@@ -71,14 +71,14 @@ function saveWorksheet() {
 
     situation: document.getElementById('abcSituation').value,
     thoughts: document.getElementById('abcThoughts').value,
-    feelings: document.getElementById('abcFeelings').value,
+    feelings: document.getElementById('abcEmotions').value,
     newBelief: document.getElementById('abcNewBelief').value
   };
 
-let worksheets = JSON.parse(window.parent.localStorage.getItem('worksheets') || "[]");
+  let worksheets = JSON.parse(localStorage.getItem('worksheets') || "[]");
   worksheets.push(data);
+  localStorage.setItem('worksheets', JSON.stringify(worksheets));
 
-window.parent.localStorage.setItem('worksheets', JSON.stringify(worksheets));
   alert("Saved to My Worksheets ✅");
 }
 </script>
