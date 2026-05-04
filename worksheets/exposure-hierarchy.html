@@ -1,671 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Exposure Hierarchy: The Fear Ladder | ChatCBT</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Exposure Hierarchy — MindPath</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
+  background: #f2f8f4;
+  margin: 0;
   color: #1a1a1a;
-  line-height: 1.6;
-  background: #f0f9f0;
 }
 
-h1, h2, h3, h4 { font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif; }
-
-textarea, input[type="text"], input[type="number"] {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.95rem;
-  border: 2px solid #c3e6cb;
-  border-radius: 8px;
-  padding: 10px 12px;
-  background: #fff;
-  color: #1a1a1a;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  width: 100%;
-}
-textarea { resize: vertical; }
-textarea:focus, input:focus {
-  outline: none;
-  border-color: #2d6a4f;
-  box-shadow: 0 0 0 3px rgba(45,106,79,0.15);
-}
-input::placeholder, textarea::placeholder { color: #999; font-style: italic; }
-
-/* ===== HERO ===== */
-.page-hero {
-  padding: 70px 40px 60px;
-  background: linear-gradient(135deg, rgba(212,237,218,0.88) 0%, rgba(232,245,233,0.85) 40%, rgba(240,249,232,0.88) 100%);
-}
-.page-hero h1 { font-size: 3rem; color: #0d4a2e; margin-bottom: 20px; letter-spacing: -0.5px; }
-.badge {
-  display: inline-block;
-  background: #d4f1dd;
-  color: #0d4a2e;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  padding: 6px 14px;
-  border-radius: 6px;
-  margin-bottom: 24px;
-  text-transform: uppercase;
-  border: 1px solid #b8dbc0;
-}
-.page-hero .intro { font-size: 1.05rem; color: #333; max-width: 900px; margin-bottom: 40px; line-height: 1.7; }
-.feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 1100px; }
-.feature-card { background: rgba(212,237,218,0.55); border: 1.5px solid #b8dbc0; border-radius: 12px; padding: 26px 28px; }
-.feature-card h3 { font-size: 1.2rem; color: #0d4a2e; margin-bottom: 10px; font-weight: 700; }
-.feature-card p { font-size: 0.95rem; color: #333; line-height: 1.55; }
-
-/* ===== HOW IT WORKS ===== */
-.page-howto { padding: 70px 40px 60px; background: linear-gradient(160deg, #e8f5e9 0%, #f0f9f0 50%, #d4edda 100%); }
-.page-howto h2 { font-size: 2.4rem; color: #0d4a2e; margin-bottom: 16px; }
-.page-howto .lead { font-size: 1rem; color: #333; max-width: 900px; margin-bottom: 34px; line-height: 1.7; }
-.steps-stack { display: flex; flex-direction: column; gap: 14px; max-width: 1100px; }
-.step-row {
-  display: grid;
-  grid-template-columns: 70px 1fr;
-  background: rgba(212,237,218,0.45);
-  border: 1.5px solid #b8dbc0;
-  border-radius: 10px;
-  padding: 18px 22px;
-  align-items: start;
-}
-.step-num { font-family: 'Montserrat', sans-serif; font-size: 2rem; font-weight: 700; color: #0d4a2e; text-align: center; }
-.step-body h3 { font-size: 1.2rem; color: #0d4a2e; margin-bottom: 6px; font-weight: 700; }
-.step-body p { font-size: 0.95rem; color: #333; line-height: 1.6; }
-.info-box { margin-top: 30px; background: #b5e8c4; border-radius: 10px; padding: 20px 24px; max-width: 1100px; color: #0d4a2e; font-size: 0.95rem; line-height: 1.65; }
-
-/* ===== EXPOSURE TYPES TABLE ===== */
-.exposure-types {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 0;
-  max-width: 1100px;
-  border: 1.5px solid #b8dbc0;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 36px;
-}
-.exposure-type-header {
-  background: #0d4a2e;
-  color: #ffffff !important;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 700;
-  padding: 14px 18px;
-  text-align: center;
-}
-.exposure-type-body {
-  background: rgba(212,237,218,0.4);
-  border-top: 1.5px solid #b8dbc0;
-  padding: 16px 18px;
-  font-size: 0.92rem;
-  color: #333;
-  line-height: 1.55;
-  text-align: center;
-}
-.exposure-types > *:not(:last-child):not(:nth-child(3)) {
-  border-right: 1.5px solid #b8dbc0;
-}
-
-/* ===== WORKSHEET ===== */
-.page-worksheet { padding: 70px 40px 60px; background: linear-gradient(160deg, #d4edda 0%, #e8f5e9 40%, #f0f9e8 100%); }
-.page-worksheet h2 { font-size: 2.4rem; color: #0d4a2e; margin-bottom: 14px; }
-.page-worksheet .lead { font-size: 1rem; color: #333; max-width: 900px; margin-top: 24px; margin-bottom: 34px; line-height: 1.7; }
-
-.ws-wrapper { max-width: 1100px; }
-
-.ws-title {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #0d4a2e;
-  margin: 40px 0 16px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #b8dbc0;
-}
-.ws-title:first-of-type { margin-top: 0; }
-
-.section-block { margin-bottom: 16px; }
-
-.section-header {
-  padding: 14px 20px;
-  border-radius: 10px 10px 0 0;
-  background: #0d4a2e;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #ffffff !important;
-}
-
-.section-body {
-  background: rgba(212,237,218,0.45);
-  border: 1.5px solid #b8dbc0;
-  border-top: none;
-  border-radius: 0 0 10px 10px;
+.container {
+  max-width: 860px;
+  margin: 40px auto;
   padding: 20px;
 }
-.section-body p { font-size: 0.95rem; color: #333; margin-bottom: 12px; line-height: 1.6; }
 
-.field-label { font-size: 0.88rem; font-weight: 600; color: #2d6a4f; margin-bottom: 6px; display: block; }
-.field-group { margin-bottom: 14px; }
-.field-group:last-child { margin-bottom: 0; }
+h1 {
+  color: #0d4a2e;
+  margin-bottom: 10px;
+}
 
-/* SUDS reference */
-.suds-ref {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
+p {
+  color: #444;
+  font-size: 0.95rem;
+  line-height: 1.6;
   margin-bottom: 18px;
 }
-.suds-chip {
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 0.82rem;
-  font-weight: 700;
-  white-space: nowrap;
+
+label {
+  display: block;
+  font-weight: 600;
+  margin: 10px 0 6px;
+  color: #0d4a2e;
+  font-size: 0.9rem;
 }
 
-/* Fear ladder table */
-.ladder-wrap { overflow-x: auto; }
-
-.ladder-table {
+input, textarea {
   width: 100%;
-  border-collapse: collapse;
-}
-
-.ladder-table th {
-  background: #0d4a2e;
-  color: #ffffff !important;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.82rem;
-  font-weight: 700;
-  padding: 12px 14px;
-  text-align: center;
-  letter-spacing: 0.4px;
-  border: 1px solid #1a5c3a;
-}
-.ladder-table th:first-child { border-radius: 0; width: 100px; }
-.ladder-table th:last-child { width: 120px; }
-
-.ladder-table td {
-  border: 1.5px solid #c3e6cb;
-  padding: 8px;
-  background: #fff;
-  vertical-align: middle;
-}
-
-.ladder-table td input[type="text"] {
-  border: 1.5px solid #c3e6cb;
-  border-radius: 6px;
-  padding: 8px 10px;
-  font-size: 0.9rem;
-}
-.ladder-table td input[type="number"] {
-  border: 1.5px solid #c3e6cb;
-  border-radius: 6px;
-  padding: 8px 6px;
-  font-size: 0.9rem;
-  width: 90px;
-  text-align: center;
-}
-
-.step-badge {
-  display: block;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  line-height: 44px;
-  text-align: center;
-  margin: 0 auto;
-}
-
-.ladder-label {
-  text-align: center;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  padding: 8px;
-  border-radius: 6px;
-  margin-bottom: 6px;
-}
-.ladder-label.top { background: rgba(192,57,43,0.12); color: #c0392b; }
-.ladder-label.bottom { background: rgba(46,125,50,0.12); color: #2e7d32; margin-bottom: 0; margin-top: 6px; }
-
-/* SUDS tracker */
-.suds-tracker {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 14px;
-  margin-bottom: 14px;
-}
-.suds-tracker-cell {
-  background: rgba(212,237,218,0.6);
-  border: 1.5px solid #b8dbc0;
-  border-radius: 10px;
-  padding: 16px;
-  text-align: center;
-}
-.suds-tracker-cell .tracker-label {
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: #2d6a4f;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 8px;
-}
-.suds-tracker-cell input[type="number"] {
-  width: 80px;
-  text-align: center;
-  font-size: 1.1rem;
-  font-weight: 600;
-  padding: 8px;
-  margin: 0 auto;
-  display: block;
-}
-
-.ws-divider { border: none; border-top: 2px dashed #b8dbc0; margin: 36px 0; }
-.remember-box { margin-top: 30px; background: #b5e8c4; border-radius: 10px; padding: 20px 24px; max-width: 1100px; color: #0d4a2e; font-size: 0.95rem; line-height: 1.65; }
-
-/* Submit */
-.submit-area { padding: 40px 40px 60px; background: linear-gradient(160deg, #d4edda 0%, #f0f9f0 100%); }
-#submitExposure {
-  display: inline-block;
-  background: #1a5c3a;
-  color: #ffffff !important;
-  padding: 14px 30px;
+  padding: 12px;
   border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  font-family: 'Inter', sans-serif;
-  border: 2px solid #1a5c3a;
-  cursor: pointer;
-  transition: background 0.2s;
+  border: 1px solid #c5dfd0;
+  font-family: inherit;
+  font-size: 0.95rem;
+  background: #f7fdf9;
+  margin-bottom: 12px;
 }
-#submitExposure:hover { background: #14482d; }
 
-@media (max-width: 760px) {
-  .feature-grid, .exposure-types, .suds-tracker { grid-template-columns: 1fr; }
-  .page-hero, .page-howto, .page-worksheet, .submit-area { padding: 50px 22px; }
-  .page-hero h1 { font-size: 2.2rem; }
-  .page-howto h2, .page-worksheet h2 { font-size: 1.9rem; }
-  .step-row { grid-template-columns: 44px 1fr; }
-  .step-num { font-size: 1.6rem; }
-  .exposure-types > *:not(:last-child):not(:nth-child(3)) { border-right: none; border-bottom: 1.5px solid #b8dbc0; }
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #0d4a2e;
+  background: #fff;
+}
+
+textarea {
+  min-height: 90px;
+}
+
+.btn {
+  width: 100%;
+  padding: 14px;
+  background: #0d4a2e;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #0a3a22;
+}
+
+.section {
+  margin-bottom: 18px;
 }
 </style>
 </head>
+
 <body>
 
-<!-- ===== HERO ===== -->
-<section class="page-hero">
-  <h1>Exposure Hierarchy: The Fear Ladder</h1>
-  <div class="badge">Cognitive Behavioural Therapy</div>
-  <p class="intro">Exposure therapy helps reduce fear and avoidance by approaching the situations, sensations, or memories that trigger anxiety — gradually and repeatedly, in a planned way. Over time, the trigger feels less powerful and you gain confidence in your ability to cope. This worksheet helps you build your personal fear ladder and plan your exposures step by step.</p>
-  <div class="feature-grid">
-    <div class="feature-card">
-      <h3>🧠 New Learning</h3>
-      <p>Your brain learns that the feared outcome is less likely — or more manageable — than it predicted. Each exposure rewrites the threat message.</p>
-    </div>
-    <div class="feature-card">
-      <h3>💪 Confidence Through Action</h3>
-      <p>Each approach step shows you that you can cope, which reduces reliance on avoidance and safety habits that keep anxiety going.</p>
-    </div>
-    <div class="feature-card">
-      <h3>🔍 Attention Shift</h3>
-      <p>You begin to notice the full picture rather than only the threat cue — breaking the cycle of hypervigilance and anxiety.</p>
-    </div>
-    <div class="feature-card">
-      <h3>🪜 Gradual Steps</h3>
-      <p>Starting with easier situations and working up the ladder builds momentum — each step making the next one more manageable.</p>
-    </div>
-  </div>
-</section>
+<div class="container">
 
-<!-- ===== TYPES OF EXPOSURE ===== -->
-<section class="page-howto">
-  <h2>Types of Exposure</h2>
-  <p class="lead">Exposure can take different forms depending on the nature of the fear. Your therapist will help you decide which type is most appropriate for your situation.</p>
-  <div class="exposure-types">
-    <div class="exposure-type-header">In Vivo</div>
-    <div class="exposure-type-header">Interoceptive</div>
-    <div class="exposure-type-header">Imaginal</div>
-    <div class="exposure-type-body">Facing real life situations — for example driving on a motorway, using a lift, or entering a crowded shop.</div>
-    <div class="exposure-type-body">Bringing on body sensations linked to panic — for example spinning to feel dizzy or running in place to raise heart rate.</div>
-    <div class="exposure-type-body">Recalling a feared memory or image step by step — used when direct exposure is not possible or when working with trauma in a structured plan.</div>
-  </div>
+<h1>🪜 Exposure Hierarchy</h1>
 
-  <h2 style="margin-top:0;">How Exposure Works</h2>
-  <p class="lead" style="margin-bottom:26px;">Follow these five steps each time you do an exposure. Over time, this process retrains your brain's threat response.</p>
-  <div class="steps-stack">
-    <div class="step-row">
-      <div class="step-num">1</div>
-      <div class="step-body">
-        <h3>Define the Target</h3>
-        <p>Name the feared cue or situation as clearly and specifically as you can. Vague targets make it hard to know when you have succeeded.</p>
-      </div>
-    </div>
-    <div class="step-row">
-      <div class="step-num">2</div>
-      <div class="step-body">
-        <h3>Predict</h3>
-        <p>Write down the feared outcome and how intense you expect the anxiety to feel (using SUDS 0–100). This gives you something concrete to test against reality.</p>
-      </div>
-    </div>
-    <div class="step-row">
-      <div class="step-num">3</div>
-      <div class="step-body">
-        <h3>Approach on Purpose</h3>
-        <p>Enter the situation and stay long enough for learning to occur. Leaving too quickly can reinforce the fear — aim to stay until anxiety reduces or levels off.</p>
-      </div>
-    </div>
-    <div class="step-row">
-      <div class="step-num">4</div>
-      <div class="step-body">
-        <h3>Drop Safety Behaviours</h3>
-        <p>Reduce behaviours that hide real learning — such as constant reassurance seeking, distraction, or carrying safety objects. Your brain needs to experience coping without them.</p>
-      </div>
-    </div>
-    <div class="step-row">
-      <div class="step-num">5</div>
-      <div class="step-body">
-        <h3>Repeat and Review</h3>
-        <p>Practise across different places and times until fear reduces and confidence grows. Record your SUDS before, during, and after each exposure to track progress.</p>
-      </div>
-    </div>
-  </div>
-  <div class="info-box">
-    💡 <strong>What to expect:</strong> Anxiety usually rises first, then levels or drops as you stay in the situation. The goal is <em>learning</em>, not forcing the feeling to disappear. You may feel uncomfortable — that is expected and normal. The discomfort is temporary; the learning is lasting.
-  </div>
-</section>
+<p>
+Build a step-by-step ladder to face fears gradually, starting small and working upwards.
+</p>
 
-<!-- ===== WORKSHEET ===== -->
-<section class="page-worksheet">
-  <h2>My Exposure Hierarchy Worksheet</h2>
-  <div class="badge">Complete This Section</div>
-  <p class="lead">Work through the worksheet in three parts: first build your fear ladder, then plan a specific exposure, then record what happened afterwards.</p>
+<div class="section">
+  <label>What is the fear or situation you want to work on?</label>
+  <textarea id="fear" placeholder="Describe the situation you avoid or feel anxious about"></textarea>
+</div>
 
-  <div class="ws-wrapper">
+<div class="section">
+  <label>Why does this feel difficult?</label>
+  <textarea id="reason" placeholder="What makes this feel threatening or uncomfortable?"></textarea>
+</div>
 
-    <!-- PART 1: FEAR LADDER -->
-    <div class="ws-title">Part 1: My Fear Ladder</div>
+<div class="section">
+  <label>Step 1 (easiest exposure)</label>
+  <textarea id="step1" placeholder="Very small, manageable version of the fear"></textarea>
+</div>
 
-    <div class="section-block">
-      <div class="section-header">What I Am Working On</div>
-      <div class="section-body">
-        <div class="field-group">
-          <label class="field-label" for="fear_topic">Briefly describe the situation or area you want to work on:</label>
-          <textarea id="fear_topic" rows="3" placeholder="e.g. Social situations, travelling on public transport, health anxiety..."></textarea>
-        </div>
-      </div>
-    </div>
+<div class="section">
+  <label>Step 2</label>
+  <textarea id="step2" placeholder="Slightly more challenging step"></textarea>
+</div>
 
-    <div class="section-block">
-      <div class="section-header">My Exposure Hierarchy</div>
-      <div class="section-body">
-        <p>List situations that cause you anxiety, from easiest (Step 1) to most challenging (Step 10). Rate each one using the SUDS scale below.</p>
+<div class="section">
+  <label>Step 3</label>
+  <textarea id="step3" placeholder="Moderate difficulty step"></textarea>
+</div>
 
-        <!-- SUDS Reference -->
-        <div class="suds-ref">
-          <span class="suds-chip" style="background:#fde8e8; color:#c0392b; border:1px solid #e8b4b4;">90–100: Extreme — feel out of control</span>
-          <span class="suds-chip" style="background:#fdf0e0; color:#d35400; border:1px solid #f0c080;">70–89: Very distressed, physical symptoms</span>
-          <span class="suds-chip" style="background:#fef9e7; color:#b7770d; border:1px solid #f0dc80;">50–69: Moderate to strong anxiety</span>
-          <span class="suds-chip" style="background:#eafaf1; color:#1a7a3a; border:1px solid #a0d8b0;">30–49: Mild to moderate anxiety</span>
-          <span class="suds-chip" style="background:#e8f8f0; color:#0d4a2e; border:1px solid #80c890;">0–29: Minimal — alert and calm</span>
-        </div>
+<div class="section">
+  <label>Step 4</label>
+  <textarea id="step4" placeholder="Harder step"></textarea>
+</div>
 
-        <div class="ladder-label top">↑ Top of ladder — most challenging</div>
-        <div class="ladder-wrap">
-          <table class="ladder-table">
-            <thead>
-              <tr>
-                <th>Step</th>
-                <th>Situation — What is the anxiety-provoking situation?</th>
-                <th>SUDS (0–100) — How strong is the fear?</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><span class="step-badge" style="background:#c0392b; color:#fff;">10</span></td>
-                <td><input type="text" id="situation_10" placeholder="Most challenging situation..."></td>
-                <td><input type="number" id="suds_10" min="0" max="100" placeholder="0–100"></td>
-              </tr>
-              <tr>
-                <td><span class="step-badge" style="background:#e74c3c; color:#fff;">9</span></td>
-                <td><input type="text" id="situation_9" placeholder=""></td>
-                <td><input type="number" id="suds_9" min="0" max="100" placeholder="0–100"></td>
-              </tr>
-              <tr>
-                <td><span class="step-badge" style="background:#e67e22; color:#fff;">8</span></td>
-                <td><input type="text" id="situation_8" placeholder=""></td>
-                <td><input type="number" id="suds_8" min="0" max="100" placeholder="0–100"></td>
-              </tr>
-              <tr>
-                <td><span class="step-badge" style="background:#f39c12; color:#fff;">7</span></td>
-                <td><input type="text" id="situation_7" placeholder=""></td>
-                <td><input type="number" id="suds_7" min="0" max="100" placeholder="0–100"></td>
-              </tr>
-              <tr>
-                <td><span class="step-badge" style="background:#f1c40f; color:#1a1a1a;">6</span></td>
-                <td><input type="text" id="situation_6" placeholder=""></td>
-                <td><input type="number" id="suds_6" min="0" max="100" placeholder="0–100"></td>
-              </tr>
-              <tr>
-                <td><span class="step-badge" style="background:#d4e157; color:#1a1a1a;">5</span></td>
-                <td><input type="text" id="situation_5" placeholder=""></td>
-                <td><input type="number" id="suds_5" min="0" max="100" placeholder="0–100"></td>
-              </tr>
-              <tr>
-                <td><span class="step-badge" style="background:#aed581; color:#1a1a1a;">4</span></td>
-                <td><input type="text" id="situation_4" placeholder=""></td>
-                <td><input type="number" id="suds_4" min="0" max="100" placeholder="0–100"></td>
-              </tr>
-              <tr>
-                <td><span class="step-badge" style="background:#81c784; color:#1a1a1a;">3</span></td>
-                <td><input type="text" id="situation_3" placeholder=""></td>
-                <td><input type="number" id="suds_3" min="0" max="100" placeholder="0–100"></td>
-              </tr>
-              <tr>
-                <td><span class="step-badge" style="background:#4caf50; color:#fff;">2</span></td>
-                <td><input type="text" id="situation_2" placeholder=""></td>
-                <td><input type="number" id="suds_2" min="0" max="100" placeholder="0–100"></td>
-              </tr>
-              <tr>
-                <td><span class="step-badge" style="background:#2e7d32; color:#fff;">1</span></td>
-                <td><input type="text" id="situation_1" placeholder="Easiest situation — start here..."></td>
-                <td><input type="number" id="suds_1" min="0" max="100" placeholder="0–100"></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="ladder-label bottom">↓ Bottom of ladder — start here (easiest)</div>
-      </div>
-    </div>
+<div class="section">
+  <label>Step 5 (final goal exposure)</label>
+  <textarea id="step5" placeholder="Full exposure to the feared situation"></textarea>
+</div>
 
-    <hr class="ws-divider">
+<div class="section">
+  <label>How will you support yourself through this?</label>
+  <textarea id="support" placeholder="Coping strategies, self-talk, safety behaviours to reduce or remove"></textarea>
+</div>
 
-    <!-- PART 2: PLAN MY EXPOSURE -->
-    <div class="ws-title">Part 2: Plan My Exposure</div>
+<button class="btn" onclick="saveWorksheet()">💾 Save To My Worksheets</button>
 
-    <div class="section-block">
-      <div class="section-header">Step 1: Define the Target</div>
-      <div class="section-body">
-        <div class="field-group">
-          <label class="field-label" for="target">Which specific step from your ladder will you attempt? Describe it clearly:</label>
-          <textarea id="target" rows="4" placeholder="e.g. I will go to the supermarket on Saturday morning and stay for at least 20 minutes without leaving early..."></textarea>
-        </div>
-      </div>
-    </div>
-
-    <div class="section-block">
-      <div class="section-header">Step 2: My Prediction</div>
-      <div class="section-body">
-        <div class="field-group">
-          <label class="field-label" for="prediction">What do you fear will happen? How anxious do you predict you will feel (SUDS 0–100)?</label>
-          <textarea id="prediction" rows="4" placeholder="e.g. I predict my anxiety will reach 70/100. I fear I will panic and have to leave, and people will notice something is wrong with me..."></textarea>
-        </div>
-      </div>
-    </div>
-
-    <div class="section-block">
-      <div class="section-header">Step 4: Safety Behaviours I Will Drop</div>
-      <div class="section-body">
-        <p style="font-size:0.92rem; color:#555; margin-bottom:12px;">Safety behaviours give short-term relief but block learning. Aim to reduce or remove them during this exposure.</p>
-        <div class="field-group">
-          <label class="field-label" for="safety_behaviours_to_drop">List the safety behaviours you will aim to drop:</label>
-          <textarea id="safety_behaviours_to_drop" rows="4" placeholder="e.g. I will not carry water, I will not sit near the exit, I will not use my phone as a distraction..."></textarea>
-        </div>
-      </div>
-    </div>
-
-    <hr class="ws-divider">
-
-    <!-- PART 3: AFTER MY EXPOSURE -->
-    <div class="ws-title">Part 3: After My Exposure</div>
-
-    <div class="section-block">
-      <div class="section-header">Track My Anxiety (SUDS 0–100)</div>
-      <div class="section-body">
-        <p>Rate your anxiety before, at the highest point during, and after the exposure.</p>
-        <div class="suds-tracker">
-          <div class="suds-tracker-cell">
-            <div class="tracker-label">Before</div>
-            <input type="number" id="suds_before" min="0" max="100" placeholder="0–100">
-          </div>
-          <div class="suds-tracker-cell">
-            <div class="tracker-label">During (highest)</div>
-            <input type="number" id="suds_during" min="0" max="100" placeholder="0–100">
-          </div>
-          <div class="suds-tracker-cell">
-            <div class="tracker-label">After</div>
-            <input type="number" id="suds_after" min="0" max="100" placeholder="0–100">
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="section-block">
-      <div class="section-header">What Actually Happened?</div>
-      <div class="section-body">
-        <div class="field-group">
-          <label class="field-label" for="what_happened">Describe what happened during the exposure. Did your prediction come true?</label>
-          <textarea id="what_happened" rows="5" placeholder="e.g. I stayed for 25 minutes. My anxiety peaked at around 65 then gradually came down to 30. My worst fear did not happen..."></textarea>
-        </div>
-      </div>
-    </div>
-
-    <div class="section-block">
-      <div class="section-header">What Did I Learn?</div>
-      <div class="section-body">
-        <div class="field-group">
-          <label class="field-label" for="what_learned">What does this experience teach you about your feared situation or your ability to cope?</label>
-          <textarea id="what_learned" rows="5" placeholder="e.g. I learned that even though I felt very anxious, I was able to stay and my anxiety did reduce. The feared outcome did not happen. I coped better than I expected..."></textarea>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="remember-box">
-    🌿 <strong>Remember:</strong> The goal of exposure is not to eliminate anxiety — it is to learn that you can tolerate it and that your feared outcomes are less likely or less catastrophic than your anxiety predicts. Each step up the ladder, however small, is genuine progress.
-  </div>
-
-</section>
-
-<!-- ===== SUBMIT ===== -->
-<section class="submit-area">
-  <button id="submitExposure">Send me my worksheet</button>
-</section>
-
-<!-- Email Modal -->
-<div id="exposureModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
-  <div style="background:#fff; padding:30px; border-radius:12px; max-width:420px; width:90%; text-align:center; box-shadow:0 8px 32px rgba(0,0,0,0.18);">
-    <h3 style="font-family:'Montserrat',sans-serif; color:#0d4a2e; margin-bottom:8px;">Where should we send your worksheet?</h3>
-    <p style="font-size:0.9rem; color:#555; margin-bottom:16px;">We'll generate a PDF of your completed worksheet and send it to your inbox.</p>
-    <input type="email" id="exposureEmail" placeholder="Enter your email address" style="width:100%; padding:10px 12px; border-radius:8px; border:2px solid #c3e6cb; font-size:0.95rem; margin-bottom:14px;" required>
-    <button id="confirmSendExposure" style="background:#1a5c3a; color:#fff !important; border:none; padding:12px 24px; border-radius:8px; font-size:0.95rem; font-weight:600; cursor:pointer; width:100%;">Send PDF</button>
-  </div>
 </div>
 
 <script>
-  function clean(id) {
-    const el = document.getElementById(id);
-    if (!el) return '';
-    return el.value
-      .replace(/\r\n/g, ' ')
-      .replace(/\r/g, ' ')
-      .replace(/\n/g, ' ')
-      .replace(/"/g, "'");
-  }
+function saveWorksheet() {
 
-  const submitBtn  = document.getElementById('submitExposure');
-  const modal      = document.getElementById('exposureModal');
-  const confirmBtn = document.getElementById('confirmSendExposure');
+  const data = {
+    type: "Exposure Hierarchy",
+    date: new Date().toISOString(),
 
-  submitBtn.addEventListener('click', () => { modal.style.display = 'flex'; });
+    fear: document.getElementById('fear').value,
+    reason: document.getElementById('reason').value,
+    step1: document.getElementById('step1').value,
+    step2: document.getElementById('step2').value,
+    step3: document.getElementById('step3').value,
+    step4: document.getElementById('step4').value,
+    step5: document.getElementById('step5').value,
+    support: document.getElementById('support').value
+  };
 
-  confirmBtn.addEventListener('click', async function () {
-    const email = document.getElementById('exposureEmail').value;
-    if (!email) { alert('Please enter your email'); return; }
+  let worksheets = JSON.parse(localStorage.getItem('worksheets') || "[]");
+  worksheets.push(data);
+  localStorage.setItem('worksheets', JSON.stringify(worksheets));
 
-    const data = {
-      fear_topic:               clean('fear_topic'),
-      situation_10:             clean('situation_10'),
-      suds_10:                  clean('suds_10'),
-      situation_9:              clean('situation_9'),
-      suds_9:                   clean('suds_9'),
-      situation_8:              clean('situation_8'),
-      suds_8:                   clean('suds_8'),
-      situation_7:              clean('situation_7'),
-      suds_7:                   clean('suds_7'),
-      situation_6:              clean('situation_6'),
-      suds_6:                   clean('suds_6'),
-      situation_5:              clean('situation_5'),
-      suds_5:                   clean('suds_5'),
-      situation_4:              clean('situation_4'),
-      suds_4:                   clean('suds_4'),
-      situation_3:              clean('situation_3'),
-      suds_3:                   clean('suds_3'),
-      situation_2:              clean('situation_2'),
-      suds_2:                   clean('suds_2'),
-      situation_1:              clean('situation_1'),
-      suds_1:                   clean('suds_1'),
-      target:                   clean('target'),
-      prediction:               clean('prediction'),
-      safety_behaviours_to_drop:clean('safety_behaviours_to_drop'),
-      suds_before:              clean('suds_before'),
-      suds_during:              clean('suds_during'),
-      suds_after:               clean('suds_after'),
-      what_happened:            clean('what_happened'),
-      what_learned:             clean('what_learned'),
-      email:                    email
-    };
-
-    try {
-      await fetch('https://hooks.zapier.com/hooks/catch/27250519/uvmyrf5/', {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      document.getElementById('exposureModal').querySelector('div').innerHTML = `
-        <h3 style="font-family:'Montserrat',sans-serif;color:#0d4a2e;margin-bottom:8px;">On its way! 📩</h3>
-        <p style="font-size:0.9rem;color:#555;margin-bottom:16px;">Your completed Exposure Hierarchy worksheet will arrive in your inbox shortly.</p>
-        <button onclick="document.getElementById('exposureModal').style.display='none'" style="background:#1a5c3a;color:#fff;border:none;padding:12px 24px;border-radius:8px;font-size:0.95rem;font-weight:600;cursor:pointer;">Close</button>
-      `;
-    } catch (err) {
-      alert('Network error. Please try again.');
-    }
-  });
+  alert("Saved to My Worksheets ✅");
+}
 </script>
 
 </body>
