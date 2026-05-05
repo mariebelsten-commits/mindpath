@@ -238,35 +238,53 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ── SAVE FUNCTION ──
-  function saveEntry() {
+  async function saveEntry() {
 
-    const data = {
-      date: el("date")?.value || "",
-      situation: el("situation")?.value || "",
-      thoughts: el("thoughts")?.value || "",
-      meanings: el("meanings")?.value || "",
-      hot: el("hot")?.value || "",
-      beliefBefore: el("beliefBeforeSlider")?.value || "",
-      emotions: el("emotions")?.value || "",
-      emotion: el("emotionSlider")?.value || "",
-      physical: el("physical")?.value || "",
-      behaviours: el("behaviours")?.value || "",
-      for: el("for")?.value || "",
-      against: el("against")?.value || "",
-      balanced: el("balanced")?.value || "",
-      newBelief: el("newBelief")?.value || "",
-      beliefAfter: el("beliefAfterSlider")?.value || "",
-      newFeeling: el("newFeeling")?.value || "",
-      next: el("next")?.value || "",
-      time: new Date().toLocaleString()
-    };
+  const data = {
+    date: el("date")?.value || "",
+    situation: el("situation")?.value || "",
+    thoughts: el("thoughts")?.value || "",
+    meanings: el("meanings")?.value || "",
+    hot: el("hot")?.value || "",
+    beliefBefore: el("beliefBeforeSlider")?.value || "",
+    emotions: el("emotions")?.value || "",
+    emotion: el("emotionSlider")?.value || "",
+    physical: el("physical")?.value || "",
+    behaviours: el("behaviours")?.value || "",
+    for: el("for")?.value || "",
+    against: el("against")?.value || "",
+    balanced: el("balanced")?.value || "",
+    newBelief: el("newBelief")?.value || "",
+    beliefAfter: el("beliefAfterSlider")?.value || "",
+    newFeeling: el("newFeeling")?.value || "",
+    next: el("next")?.value || "",
+    time: new Date().toLocaleString()
+  };
 
-    let entries = JSON.parse(localStorage.getItem("abc") || "[]");
-    entries.unshift(data);
-    localStorage.setItem("abc", JSON.stringify(entries));
+  // 🟢 1. Save to Supabase via Netlify function
+  try {
+    const res = await fetch('/.netlify/functions/saveWorksheet', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
 
-    render();
+    const result = await res.json();
+    console.log("Server response:", result);
+
+  } catch (err) {
+    console.error("Error saving to server:", err);
   }
+
+  // 🟡 2. Keep your existing local save (for now)
+  let entries = JSON.parse(localStorage.getItem("abc") || "[]");
+  entries.unshift(data);
+  localStorage.setItem("abc", JSON.stringify(entries));
+
+  render();
+}
 
   // ── RENDER ──
   function render() {
