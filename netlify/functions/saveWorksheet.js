@@ -1,13 +1,15 @@
-exports.handler = async (event) => {
-  let data = null;
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_KEY
+);
+
+export const handler = async (event) => {
+  let data;
 
   try {
-    if (event.body) {
-      data = JSON.parse(event.body);
-      console.log("Worksheet received:", data);
-    } else {
-      console.log("No data received");
-    }
+    data = JSON.parse(event.body);
   } catch (error) {
     return {
       statusCode: 400,
@@ -15,8 +17,19 @@ exports.handler = async (event) => {
     };
   }
 
+  const { error } = await supabase
+    .from('worksheet_responses')
+    .insert([{ data }]);
+
+  if (error) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: error.message }),
+    };
+  }
+
   return {
     statusCode: 200,
-    body: JSON.stringify({ message: "Function is working" }),
+    body: JSON.stringify({ message: "Saved successfully" }),
   };
 };
