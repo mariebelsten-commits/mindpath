@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -228,23 +229,11 @@
 
     /* ── Divider ── */
     .divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
-    .worksheet-list {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-  margin-top: 16px;
-}
 
-.worksheet-card {
-  display: block;
-  padding: 16px;
-  border-radius: 10px;
-  background: #f7fdf9;
-  border: 1.5px solid #c5dfd0;
-  text-decoration: none;
-  font-weight: 600;
-  color: #0d4a2e;
-}
+    /* ── Worksheets ── */
+    .worksheet-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-top: 16px; }
+    .worksheet-card { display: block; padding: 14px 16px; background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); font-size: 14px; font-weight: 600; color: var(--text); text-decoration: none; transition: all 0.18s; }
+    .worksheet-card:hover { border-color: var(--primary); background: var(--primary-bg); color: var(--primary); box-shadow: var(--shadow); }
   </style>
 </head>
 <body>
@@ -252,13 +241,13 @@
 <!-- ═══════════════ NAVIGATION ═══════════════ -->
 <nav>
   <div class="nav-brand">Mind<span>Path</span></div>
-  <button class="nav-btn active" id="nav-guide"   onclick="showSection('guide')">🧭 Guide</button>
+  <button class="nav-btn active" id="nav-guide"   onclick="showSection('guide')">💬 ChatCBT</button>
   <button class="nav-btn"        id="nav-journal"  onclick="showSection('journal')">📔 Journal</button>
-  <button class="nav-btn"        id="nav-worksheets" onclick="showSection('worksheets')">📚 Worksheets</button>
   <button class="nav-btn"        id="nav-worksheet" onclick="showSection('worksheet')">🧠 Thought Record</button>
   <button class="nav-btn"        id="nav-activity" onclick="showSection('activity')">🌱 Activities</button>
   <button class="nav-btn"        id="nav-assess"   onclick="showSection('assess')">📊 Self-Check</button>
   <button class="nav-btn"        id="nav-learn"    onclick="showSection('learn')">📚 Learn CBT</button>
+  <button class="nav-btn"        id="nav-worksheets" onclick="showSection('worksheets')">📋 Worksheets</button>
   <a id="auth-link" href="login.html" class="nav-btn" style="text-decoration:none;font-size:0.85rem;">Sign in</a>
   <button class="nav-crisis"     onclick="openModal('crisisModal')">🆘 Crisis Help</button>
 </nav>
@@ -333,11 +322,11 @@
 </div>
 
 <!-- ═══════════════ BREATHING MODAL ═══════════════ -->
-<div class="overlay" id="quickBreathModal">
+<div class="overlay" id="breathingModal">
   <div class="modal" style="max-width:400px;">
     <div class="modal-header">
       <div class="modal-title">🌬️ Box Breathing</div>
-      <button class="modal-close" onclick="stopBreathing(); closeModal('quickBreathModal')">✕</button>
+      <button class="modal-close" onclick="stopBreathing(); closeModal('breathingModal')">✕</button>
     </div>
     <div class="modal-body">
       <p style="font-size:13px;color:var(--text-muted);margin-bottom:4px;text-align:center;">4 counts in · 4 hold · 4 out · 4 hold</p>
@@ -389,7 +378,7 @@
     </div>
 
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-      "journalCount" style="font-size:13px;color:var(--text-muted);"></div>
+      <div id="journalCount" style="font-size:13px;color:var(--text-muted);"></div>
       <button class="btn btn-primary" onclick="showAddEntry()">+ New Entry</button>
     </div>
 
@@ -436,37 +425,7 @@
 
     <div class="journal-entries" id="journalList"></div>
   </section>
-    <!-- ──────────── WORKSHEETS ──────────── -->
-<section class="section" id="section-worksheets">  
- <div class="section-inner">
-  <h2>Worksheets</h2>
-  <p>Choose a worksheet to get started:</p>
 
-<div class="worksheet-list">
-  <a href="worksheets/abc-model.html" class="worksheet-card">🧠 ABC Model</a>
-  <a href="worksheets/accomplishments.html" class="worksheet-card">🚪 Accomplishments</a>
-  <a href="worksheets/activity-scheduling.html" class="worksheet-card">🚪 Activity Scheduling</a>
-  <a href="worksheets/anger-diary.html" class="worksheet-card">🚪 Anger Diary</a>
-  <a href="worksheets/automatic-thoughts.html" class="worksheet-card">🚪 Automatic Thoughts</a>
-  <a href="worksheets/avoidance.html" class="worksheet-card">🚪 Avoidance</a>
-  <a href="worksheets/behavioural-activation-diary.html" class="worksheet-card">⚡ Behavioural Activation Diary</a>
-  <a href="worksheets/behavioural-experiment.html" class="worksheet-card">🚪 Behavioural Experiment</a>
-  <a href="worksheets/box-breathing.html" class="worksheet-card">🫁 Box Breathing</a>
-  <a href="worksheets/chunking-goals.html" class="worksheet-card">🚪 Chunking Goals</a>
-  <a href="worksheets/decatastrophising.html" class="worksheet-card">🚪 Decatastrophising</a>
-  <a href="worksheets/exposure-hierarchy.html" class="worksheet-card">🚪 Exposure Hierarchy</a>
-  <a href="worksheets/four-ds-anger.html" class="worksheet-card">🚪 Four Ds of Anger</a>
-  <a href="worksheets/grounding-54321.html" class="worksheet-card">🚪 Grounding: 54321</a>
-  <a href="worksheets/identifying-cognitive-distortions.html" class="worksheet-card">🚪 Identifying Cognitive Distortions</a>
-  <a href="worksheets/identifying-symptoms.html" class="worksheet-card">🚪 Identifying Symptoms</a>
-  <a href="worksheets/prediction-vs-outcome.html" class="worksheet-card">🚪 Prediction vs Outcome</a>
-  <a href="worksheets/timeout.html" class="worksheet-card">🚪 Timeout</a>
-  <a href="worksheets/triggers-themes-cues.html" class="worksheet-card">🚪 Triggers, Themes & Cues</a>
-  <a href="worksheets/visualising-calmness.html" class="worksheet-card">🚪 Visualising Calmness</a>
-  <a href="worksheets/worry-diary.html" class="worksheet-card">🚪 Worry Diary</a>
-</div>
-</div>
-</section>
   <!-- ──────────── THOUGHT RECORD WORKSHEET ──────────── -->
   <section class="section" id="section-worksheet">
     <div class="page-header">
@@ -638,7 +597,38 @@
     <div class="card" style="background:linear-gradient(135deg,#E8F5ED,#F7F5F2);">
       <div class="card-title">🫁 Box Breathing Exercise</div>
       <div class="card-subtitle">A simple but powerful technique to calm anxiety in under 3 minutes.</div>
-<button class="btn btn-secondary" style="margin-top:12px;" onclick="openModal('quickBreathModal')">Start Guided Exercise</button>
+      <button class="btn btn-secondary" style="margin-top:12px;" onclick="openModal('breathingModal')">Start Guided Exercise</button>
+    </div>
+  </section>
+
+  <!-- ──────────── WORKSHEETS ──────────── -->
+  <section class="section" id="section-worksheets">
+    <div class="page-header">
+      <div class="page-title">📋 Worksheets</div>
+      <div class="page-subtitle">Choose a CBT worksheet to work through at your own pace.</div>
+    </div>
+    <div class="worksheet-list">
+      <a href="worksheets/abc-model.html" class="worksheet-card">🧠 ABC Model</a>
+      <a href="worksheets/accomplishments.html" class="worksheet-card">⭐ Accomplishments</a>
+      <a href="worksheets/activity-scheduling.html" class="worksheet-card">📅 Activity Scheduling</a>
+      <a href="worksheets/anger-diary.html" class="worksheet-card">🌡️ Anger Diary</a>
+      <a href="worksheets/automatic-thoughts.html" class="worksheet-card">💭 Automatic Thoughts</a>
+      <a href="worksheets/avoidance.html" class="worksheet-card">🚧 Avoidance</a>
+      <a href="worksheets/behavioural-activation-diary.html" class="worksheet-card">⚡ Behavioural Activation Diary</a>
+      <a href="worksheets/behavioural-experiment.html" class="worksheet-card">🔬 Behavioural Experiment</a>
+      <a href="worksheets/box-breathing.html" class="worksheet-card">🫁 Box Breathing</a>
+      <a href="worksheets/chunking-goals.html" class="worksheet-card">🎯 Chunking Goals</a>
+      <a href="worksheets/decatastrophising.html" class="worksheet-card">🌤️ Decatastrophising</a>
+      <a href="worksheets/exposure-hierarchy.html" class="worksheet-card">🪜 Exposure Hierarchy</a>
+      <a href="worksheets/four-ds-anger.html" class="worksheet-card">4️⃣ Four Ds of Anger</a>
+      <a href="worksheets/grounding-54321.html" class="worksheet-card">🌿 Grounding: 54321</a>
+      <a href="worksheets/identifying-cognitive-distortions.html" class="worksheet-card">🔍 Identifying Cognitive Distortions</a>
+      <a href="worksheets/identifying-symptoms.html" class="worksheet-card">📋 Identifying Symptoms</a>
+      <a href="worksheets/prediction-vs-outcome.html" class="worksheet-card">🎲 Prediction vs Outcome</a>
+      <a href="worksheets/timeout.html" class="worksheet-card">⏸️ Timeout</a>
+      <a href="worksheets/triggers-themes-cues.html" class="worksheet-card">🔗 Triggers, Themes & Cues</a>
+      <a href="worksheets/visualising-calmness.html" class="worksheet-card">🌊 Visualising Calmness</a>
+      <a href="worksheets/worry-diary.html" class="worksheet-card">📓 Worry Diary</a>
     </div>
   </section>
 
@@ -897,7 +887,7 @@ function advanceToFlow(flowName) {
     if (flow.special === 'distortions') {
       renderDistortionChoices();
     } else if (flow.special === 'breathing_modal') {
-   openModal('quickBreathModal'); startBreathing();
+      openModal('breathingModal'); startBreathing();
     } else if (flow.special === 'crisis_modal') {
       openModal('crisisModal');
     } else if (flow.choices) {
@@ -1003,7 +993,7 @@ function handleChoice(c) {
   document.getElementById('chatChoices').innerHTML = '';
   addUserMsg(c.t);
   if (c.nav) { setTimeout(() => showSection(c.nav), 300); return; }
-  if (c.special === 'breathing_modal') { openModal('quickBreathModal'); return; }
+  if (c.special === 'breathing_modal') { openModal('breathingModal'); return; }
   if (c.special === 'crisis_modal') { openModal('crisisModal'); return; }
   setTimeout(() => advanceToFlow(c.n), 300);
 }
@@ -1633,7 +1623,8 @@ window.addEventListener('load', () => {
   document.getElementById('activityDate').value = new Date().toISOString().split('T')[0];
 });
 </script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
 (async () => {
   const client = supabase.createClient(
