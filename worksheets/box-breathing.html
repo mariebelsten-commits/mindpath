@@ -265,7 +265,7 @@ function save() {
     notes: document.getElementById('notes').value,
     savedAt: new Date().toISOString()
   };
-saveToServer(data);
+saveToServer(entry);
   let existing = JSON.parse(localStorage.getItem("myWorksheets") || "[]");
   existing.push(entry);
   localStorage.setItem("myWorksheets", JSON.stringify(existing));
