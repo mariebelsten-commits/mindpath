@@ -133,7 +133,7 @@ function saveWorksheet() {
     cost: document.getElementById('cost').value,
     alternative: document.getElementById('alternative').value
   };
-
+saveToServer(data);
   let worksheets = JSON.parse(localStorage.getItem('worksheets') || "[]");
   worksheets.push(data);
   localStorage.setItem('worksheets', JSON.stringify(worksheets));
@@ -141,6 +141,6 @@ function saveWorksheet() {
   alert("Saved to My Worksheets ✅");
 }
 </script>
-
+<script src="/js/save.js"></script>
 </body>
 </html>
