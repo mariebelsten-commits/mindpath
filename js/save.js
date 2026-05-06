@@ -1,5 +1,4 @@
 function saveToServer(data) {
-  console.log("saveToServer called", data);
   fetch('/.netlify/functions/saveWorksheet', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
