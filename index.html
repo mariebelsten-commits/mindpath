@@ -1633,5 +1633,20 @@ window.addEventListener('load', () => {
   document.getElementById('activityDate').value = new Date().toISOString().split('T')[0];
 });
 </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+(async () => {
+  const client = supabase.createClient(
+    'https://xfggkxgmtrhaqmfhrber.supabase.co',
+    'sb_publishable_QEIvFgv2bcH7CMJNg9FB4Q_LSJHP9rc'
+  );
+  const { data: { user } } = await client.auth.getUser();
+  const link = document.getElementById('auth-link');
+  if (user) {
+    link.textContent = 'My Worksheets';
+    link.href = 'my-worksheets.html';
+  }
+})();
+</script>
 </body>
 </html>
