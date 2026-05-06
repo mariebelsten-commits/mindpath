@@ -175,7 +175,7 @@ const data = {
   }
   balanced: document.getElementById('balanced').value,
 };
-
+saveToServer(data);
   let worksheets = JSON.parse(localStorage.getItem('worksheets') || "[]");
   worksheets.push(data);
   localStorage.setItem('worksheets', JSON.stringify(worksheets));
@@ -183,6 +183,6 @@ const data = {
   alert("Saved to My Worksheets ✅");
 }
 </script>
-
+<script src="/js/save.js"></script>
 </body>
 </html>
