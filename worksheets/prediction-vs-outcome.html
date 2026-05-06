@@ -196,7 +196,7 @@ function saveWorksheet() {
     postBelief: document.getElementById('postBeliefValue').value,
     learning: document.getElementById('learning').value
   };
-
+saveToServer(data);
   let worksheets = JSON.parse(localStorage.getItem('worksheets') || "[]");
   worksheets.push(data);
   localStorage.setItem('worksheets', JSON.stringify(worksheets));
@@ -209,6 +209,6 @@ function saveWorksheet() {
 });
   
 </script>
-
+<script src="/js/save.js"></script>
 </body>
 </html>
