@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sign In — MindPath</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Poppins', sans-serif; background: #f2f8f4; color: #1a1a1a; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+.card { background: #fff; border-radius: 16px; padding: 40px; max-width: 420px; width: 90%; box-shadow: 0 4px 20px rgba(13,74,46,0.1); text-align: center; }
+h1 { color: #0d4a2e; font-size: 1.6rem; margin-bottom: 8px; }
+p { color: #555; font-size: 0.95rem; margin-bottom: 28px; }
+input { width: 100%; padding: 12px; border: 1px solid #c5dfd0; border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: 0.95rem; background: #f7fdf9; margin-bottom: 16px; }
+input:focus { outline: none; border-color: #0d4a2e; background: #fff; }
+button { width: 100%; background: #0d4a2e; color: #fff; border: none; padding: 13px; border-radius: 8px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1rem; cursor: pointer; }
+button:hover { background: #277647; }
+.message { margin-top: 20px; padding: 14px; border-radius: 8px; font-size: 0.9rem; display: none; }
+.message.success { background: #e8f5ee; color: #0d4a2e; }
+.message.error { background: #fdecea; color: #c0392b; }
+.back { margin-top: 20px; font-size: 0.85rem; color: #277647; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Sign in to MindPath</h1>
+  <p>Enter your email and we'll send you a magic link — no password needed.</p>
+  <input type="email" id="email" placeholder="your@email.com"/>
+  <button onclick="signIn()">Send magic link</button>
+  <div class="message success" id="success">Check your email! Click the link we sent to sign in.</div>
+  <div class="message error" id="error">Something went wrong. Please try again.</div>
+  <a class="back" href="index.html">← Back to MindPath</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+const client = supabase.createClient(
+  'https://xfggkxgmtrhaqmfhrber.supabase.co',
+  'sb_publishable_QEIvFgv2bcH7CMJNg9FB4Q_LSJHP9rc'
+);
+
+async function signIn() {
+  const email = document.getElementById('email').value.trim();
+  if (!email) return;
+
+  const { error } = await client.auth.signInWithOtp({
+    email,
+    options: { emailRedirectTo: 'https://mindpath-cbt.netlify.app/my-worksheets.html' }
+  });
+
+  if (error) {
+    document.getElementById('error').style.display = 'block';
+  } else {
+    document.getElementById('success').style.display = 'block';
+  }
+}
+</script>
+</body>
+</html>
