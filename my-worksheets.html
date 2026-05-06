@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>My Worksheets — MindPath</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Poppins', sans-serif; background: #f2f8f4; color: #1a1a1a; }
+.page-header { background: #0d4a2e; padding: 36px 24px; text-align: center; }
+.page-header h1 { color: #fff; font-size: 2rem; }
+.page-header p { color: #c8e6d4; margin-top: 6px; }
+.container { max-width: 820px; margin: 32px auto; padding: 0 20px 60px; }
+.toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+.user-info { font-size: 0.85rem; color: #555; }
+.sign-out { background: none; border: 1px solid #0d4a2e; color: #0d4a2e; padding: 7px 14px; border-radius: 6px; font-family: 'Poppins', sans-serif; cursor: pointer; font-size: 0.85rem; }
+.sign-out:hover { background: #0d4a2e; color: #fff; }
+.card { background: #fff; border-radius: 12px; margin-bottom: 16px; box-shadow: 0 2px 14px rgba(13,74,46,0.08); padding: 20px; border-left: 4px solid #0d4a2e; }
+.card h3 { color: #0d4a2e; font-size: 1rem; margin-bottom: 6px; }
+.card .date { font-size: 0.8rem; color: #888; margin-bottom: 10px; }
+.card .preview { font-size: 0.9rem; color: #333; }
+.empty { text-align: center; padding: 60px 20px; color: #888; }
+.empty a { color: #0d4a2e; }
+.loading { text-align: center; padding: 60px; color: #888; }
+.login-prompt { text-align: center; padding: 60px 20px; }
+.login-prompt a { background: #0d4a2e; color: #fff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <h1>My Worksheets</h1>
+  <p>Your saved CBT exercises, all in one place.</p>
+</div>
+
+<div class="container">
+  <div id="loading" class="loading">Loading your worksheets...</div>
+  <div id="login-prompt" class="login-prompt" style="display:none">
+    <p style="margin-bottom:20px;color:#555;">Sign in to view your saved worksheets.</p>
+    <a href="login.html">Sign in</a>
+  </div>
+  <div id="content" style="display:none">
+    <div class="toolbar">
+      <span class="user-info" id="user-email"></span>
+      <button class="sign-out" onclick="signOut()">Sign out</button>
+    </div>
+    <div id="worksheets-list"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+const client = supabase.createClient(
+  'https://xfggkxgmtrhaqmfhrber.supabase.co',
+  'sb_publishable_QEIvFgv2bcH7CMJNg9FB4Q_LSJHP9rc'
+);
+
+async function init() {
+  const { data: { user } } = await client.auth.getUser();
+
+  document.getElementById('loading').style.display = 'none';
+
+  if (!user) {
+    document.getElementById('login-prompt').style.display = 'block';
+    return;
+  }
+
+  document.getElementById('user-email').textContent = user.email;
+  document.getElementById('content').style.display = 'block';
+  loadWorksheets(user);
+}
+
+async function loadWorksheets(user) {
+  const { data, error } = await client
+    .from('worksheet_responses')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  const list = document.getElementById('worksheets-list');
+
+  if (error || !data || data.length === 0) {
+    list.innerHTML = '<div class="empty">No saved worksheets yet. <a href="index.html">Go to MindPath</a> to complete one.</div>';
+    return;
+  }
+
+  list.innerHTML = data.map(row => {
+    const d = row.data;
+    const type = d.type || 'Worksheet';
+    const date = new Date(row.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    const preview = d.situation || d.thought || d.goal || d.accomplishment1 || d.notes || '';
+    return `
+      <div class="card">
+        <h3>${type}</h3>
+        <div class="date">${date}</div>
+        ${preview ? `<div class="preview">${preview.substring(0, 150)}${preview.length > 150 ? '...' : ''}</div>` : ''}
+      </div>
+    `;
+  }).join('');
+}
+
+async function signOut() {
+  await client.auth.signOut();
+  window.location.href = 'login.html';
+}
+
+init();
+</script>
+</body>
+</html>
