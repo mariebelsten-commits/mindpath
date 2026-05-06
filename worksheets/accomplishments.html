@@ -103,6 +103,7 @@ function saveWorksheet() {
     accomplishment3: document.getElementById('accomplishment3').value,
     accomplishment4: document.getElementById('accomplishment4').value
   };
+  saveToServer(data);
 
   let worksheets = JSON.parse(localStorage.getItem('worksheets') || "[]");
   worksheets.push(data);
