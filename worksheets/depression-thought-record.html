@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thought Record — Depression | ChatCBT</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:#f4f6f4;color:#1a1a1a;}
+
+/* ── HERO ── */
+.page-hero{background:#0d4a2e;padding:72px 24px 56px;text-align:center;}
+.page-hero h1{font-family:'Montserrat',sans-serif;font-size:clamp(28px,5vw,44px);font-weight:800;color:#ffffff !important;margin-bottom:12px;}
+.page-hero p{font-size:17px;color:#a8d5b5;max-width:580px;margin:0 auto;}
+
+/* ── FEATURES ── */
+.features-section{background:#1a5c3a;padding:40px 24px;}
+.features-inner{max-width:960px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;}
+.feature-card{background:rgba(255,255,255,0.1);border-radius:12px;padding:22px 20px;}
+.feature-card h3{font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;color:#ffffff !important;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.3px;}
+.feature-card p{font-size:13.5px;color:#c8e6c9;line-height:1.55;}
+.feature-card em{color:#a8d5b5;font-style:italic;}
+
+/* ── WORKSHEET ── */
+.worksheet-content{max-width:860px;margin:0 auto;padding:40px 24px 60px;}
+
+/* Part labels */
+.part-label{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#1a5c3a;margin-bottom:14px;padding-left:2px;}
+
+/* Step blocks */
+.step-block{background:#fff;border-radius:14px;padding:28px 32px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
+.step-header{display:flex;align-items:center;gap:16px;margin-bottom:20px;}
+.step-num{width:40px;height:40px;border-radius:50%;background:#0d4a2e;color:#fff;font-family:'Montserrat',sans-serif;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-header h2{font-family:'Montserrat',sans-serif;font-size:18px;font-weight:700;color:#0d4a2e;}
+
+/* Form fields */
+.form-field{display:flex;flex-direction:column;gap:5px;margin-bottom:20px;}
+.form-field:last-child{margin-bottom:0;}
+.field-label{font-size:13.5px;font-weight:600;color:#2e5e3e;}
+.field-hint{font-size:12.5px;color:#777;line-height:1.45;}
+.form-field textarea{
+  padding:10px 12px;border:1.5px solid #ccc;border-radius:8px;
+  font-family:'Inter',sans-serif;font-size:14px;color:#1a1a1a;
+  resize:vertical;min-height:84px;line-height:1.55;
+  transition:border-color 0.2s;
+}
+.form-field textarea:focus{outline:none;border-color:#1a5c3a;box-shadow:0 0 0 3px rgba(26,92,58,0.1);}
+.form-field textarea.slim{min-height:52px;}
+.form-field textarea.tall{min-height:116px;}
+
+/* Gloomy specs callout */
+.specs-tip{
+  background:#f0f9f0;border-left:3px solid #0d4a2e;
+  border-radius:0 8px 8px 0;padding:13px 15px;
+  margin-bottom:18px;display:flex;align-items:flex-start;gap:10px;
+  font-size:13.5px;color:#2e5e3e;line-height:1.55;
+}
+.specs-icon{font-size:21px;flex-shrink:0;margin-top:1px;}
+
+/* Challenge divider */
+.challenge-divider{
+  background:#0d4a2e;color:#fff;border-radius:8px;
+  padding:12px 20px;text-align:center;
+  font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:0.5px;text-transform:uppercase;
+  margin:28px 0 22px;
+}
+
+/* Submit */
+.submit-wrap{text-align:center;margin-top:32px;}
+.btn-submit{background:#0d4a2e;color:#fff;border:none;border-radius:30px;padding:14px 40px;font-size:15px;font-family:'Montserrat',sans-serif;font-weight:700;cursor:pointer;transition:background 0.2s;letter-spacing:0.3px;}
+.btn-submit:hover{background:#1a5c3a;}
+
+/* Saved entries */
+.entries-wrap{margin-top:28px;}
+.entries-wrap h3{font-family:'Montserrat',sans-serif;font-size:0.95rem;color:#0d4a2e;margin-bottom:12px;}
+.entry-item{background:#fff;border-left:4px solid #0d4a2e;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:10px;font-size:0.85rem;}
+.entry-item strong{color:#0d4a2e;display:block;margin-bottom:4px;}
+
+/* Attribution */
+.attribution{text-align:center;font-size:12px;color:#aaa;margin-top:28px;padding-top:18px;border-top:1px solid #e8e8e8;line-height:1.7;}
+.attribution a{color:#1a5c3a;text-decoration:none;}
+.attribution a:hover{text-decoration:underline;}
+
+@media(max-width:600px){
+  .step-block{padding:20px 18px;}
+  .page-hero{padding:48px 20px 40px;}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="page-hero">
+  <h1>Thought Record</h1>
+  <p>Catch, examine, and challenge the unhelpful thoughts that drive low mood</p>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section">
+  <div class="features-inner">
+    <div class="feature-card">
+      <h3>What is a Thought Record?</h3>
+      <p>A thought record helps you identify and challenge the automatic negative thoughts that fuel depression. Writing them down slows the process and gives you room to respond — rather than just react.</p>
+    </div>
+    <div class="feature-card">
+      <h3>The 'Gloomy Specs' Effect</h3>
+      <p>Depression acts like wearing dark glasses — everything looks worse than it really is. You filter out positives, catastrophise, and assume the worst. This worksheet helps you take those specs off.</p>
+    </div>
+    <div class="feature-card">
+      <h3>How to Use It</h3>
+      <p>Work through each step at a time of distress, or shortly afterwards. Be honest and specific. The goal isn't to think positively — it's to think <em>accurately</em>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WORKSHEET -->
+<main class="worksheet-content">
+
+  <div class="part-label">Part 1 — Identify</div>
+
+  <!-- STEP 1: Situation -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">1</div>
+      <h2>The Situation</h2>
+    </div>
+    <div class="form-field">
+      <label class="field-label" for="situation">What happened? Where, when, and who were you with?</label>
+      <span class="field-hint">Be specific — day, time, location and context all help to ground your record.</span>
+      <textarea id="situation" rows="3" placeholder="e.g. Monday evening, at home alone. I'd just finished work and was sitting in the living room when I started replaying a difficult conversation I'd had with my manager."></textarea>
+    </div>
+  </div>
+
+  <!-- STEP 2: Thoughts -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">2</div>
+      <h2>Unhelpful Thoughts &amp; Images</h2>
+    </div>
+    <div class="form-field">
+      <label class="field-label" for="unhelpful_thoughts">What went through your mind? What disturbed you?</label>
+      <span class="field-hint">Include thoughts, images, or memories — and note what they meant to you, or what they said about you or the situation.</span>
+      <textarea id="unhelpful_thoughts" class="tall" placeholder="e.g. 'I'm going to lose my job.' / 'I can't do anything right.' I had a mental image of being called into the office and dismissed in front of everyone."></textarea>
+    </div>
+    <div class="form-field">
+      <label class="field-label" for="deeper_meaning">What 'button' is this pressing for you?</label>
+      <span class="field-hint">What are you really responding to? What would be the worst thing about that — or that could happen?</span>
+      <textarea id="deeper_meaning" placeholder="e.g. This presses my 'I'm not good enough' button. The worst thing would be losing my job and people discovering I've been a fraud all along."></textarea>
+    </div>
+  </div>
+
+  <!-- STEP 3: Feelings -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">3</div>
+      <h2>Your Feelings</h2>
+    </div>
+    <div class="form-field">
+      <label class="field-label" for="emotions_before">What emotions did you feel? Rate each 0–100%</label>
+      <span class="field-hint">What did you feel? What else? How intense was each emotion at the time?</span>
+      <textarea id="emotions_before" class="slim" placeholder="e.g. Sad 80%, Anxious 70%, Ashamed 60%, Hopeless 50%"></textarea>
+    </div>
+    <div class="form-field">
+      <label class="field-label" for="physical_sensations">What did you feel in your body?</label>
+      <textarea id="physical_sensations" class="slim" placeholder="e.g. Tight chest, heavy limbs, knot in stomach, fatigue, difficulty breathing"></textarea>
+    </div>
+  </div>
+
+  <!-- CHALLENGE DIVIDER -->
+  <div class="challenge-divider">Now challenge your thinking ↓</div>
+
+  <div class="part-label">Part 2 — Challenge &amp; Act</div>
+
+  <!-- STEP 4: Alternative Perspective -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">4</div>
+      <h2>Alternative Perspective</h2>
+    </div>
+    <div class="specs-tip">
+      <span class="specs-icon">🕶️</span>
+      <span>Are you looking at things through your <strong>gloomy specs</strong>? Am I filtering out and dismissing any alternative perspective? What would things look like without those dark glasses on?</span>
+    </div>
+    <div class="form-field">
+      <label class="field-label" for="alternative_perspective">Write a healthier, more balanced response</label>
+      <span class="field-hint">What would you say to a friend in this situation? Is there another way of seeing it? What's the bigger picture? Is your reaction in proportion to the actual event? What would someone else say?</span>
+      <textarea id="alternative_perspective" class="tall" placeholder="e.g. One difficult conversation doesn't mean I'm losing my job — I've had many positive reviews. I tend to catastrophise when I'm tired. A friend in this situation would probably tell me to wait and see rather than assume the worst."></textarea>
+    </div>
+  </div>
+
+  <!-- STEP 5: Action Plan -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">5</div>
+      <h2>What to Do</h2>
+    </div>
+    <div class="form-field">
+      <label class="field-label" for="action_plan">What's the best thing to do? What will be most helpful?</label>
+      <span class="field-hint">Do something! Consider: what action or defusion technique could help? What would be more effective? What will the consequences be of doing — or not doing — something?</span>
+      <textarea id="action_plan" class="tall" placeholder="e.g. I'll send a brief follow-up email to my manager tomorrow to check we're on the same page. Tonight I'll use grounding breathing to settle my anxiety, then take a short walk to interrupt the rumination cycle."></textarea>
+    </div>
+  </div>
+
+  <!-- STEP 6: Re-rate -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">6</div>
+      <h2>Re-rate Your Feelings</h2>
+    </div>
+    <div class="form-field">
+      <label class="field-label" for="emotions_after">What are you feeling now? Rate each emotion 0–100%</label>
+      <span class="field-hint">Feelings may not disappear completely — even a small shift shows the process is working.</span>
+      <textarea id="emotions_after" class="slim" placeholder="e.g. Sad 45%, Anxious 35%, Ashamed 20%, Hopeless 15%"></textarea>
+    </div>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="submit-wrap">
+    <button class="btn-submit" id="saveBtn">Save My Entry</button>
+  </div>
+
+  <!-- SAVED ENTRIES -->
+  <div class="entries-wrap">
+    <h3>Saved Entries</h3>
+    <div id="entriesList"></div>
+  </div>
+
+  <!-- ATTRIBUTION -->
+  <div class="attribution">
+    Adapted from the Thought Record Sheet by Carol Vivyan (2009) &middot;
+    <a href="https://www.getselfhelp.co.uk" target="_blank">www.getselfhelp.co.uk</a> &middot;
+    <a href="https://www.get.gg" target="_blank">www.get.gg</a>
+  </div>
+
+</main>
+
+<script>
+  function collect() {
+    return {
+      situation:               (document.getElementById('situation').value || '').trim(),
+      unhelpful_thoughts:      (document.getElementById('unhelpful_thoughts').value || '').trim(),
+      deeper_meaning:          (document.getElementById('deeper_meaning').value || '').trim(),
+      emotions_before:         (document.getElementById('emotions_before').value || '').trim(),
+      physical_sensations:     (document.getElementById('physical_sensations').value || '').trim(),
+      alternative_perspective: (document.getElementById('alternative_perspective').value || '').trim(),
+      action_plan:             (document.getElementById('action_plan').value || '').trim(),
+      emotions_after:          (document.getElementById('emotions_after').value || '').trim(),
+      time:                    new Date().toLocaleString()
+    };
+  }
+
+  async function saveEntry() {
+    var data = collect();
+    try {
+      await fetch('/.netlify/functions/saveWorksheet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    } catch (err) {
+      console.error('Save error:', err);
+    }
+    var entries = JSON.parse(localStorage.getItem('depression-thought-record') || '[]');
+    entries.unshift(data);
+    localStorage.setItem('depression-thought-record', JSON.stringify(entries));
+    render();
+  }
+
+  function render() {
+    var el = document.getElementById('entriesList');
+    if (!el) return;
+    var entries = JSON.parse(localStorage.getItem('depression-thought-record') || '[]');
+    if (!entries.length) { el.innerHTML = ''; return; }
+    el.innerHTML = entries.map(function(e) {
+      var preview = (e.situation || '').substring(0, 80) + ((e.situation || '').length > 80 ? '&hellip;' : '');
+      return '<div class="entry-item">'
+        + '<strong>' + (e.time || '') + '</strong>'
+        + (preview ? '<span style="color:#333;">' + preview + '</span>' : '')
+        + '</div>';
+    }).join('');
+  }
+
+  document.getElementById('saveBtn').addEventListener('click', saveEntry);
+  render();
+</script>
+
+</body>
+</html>
