@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exposure Practice &amp; Learning Logs | ChatCBT</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: 'Inter', sans-serif; color: #1a1a1a; line-height: 1.6; background: #f0f9f0; }
+h1, h2, h3, h4 { font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif; }
+
+textarea, input[type="text"], input[type="number"] {
+  font-family: 'Inter', sans-serif; font-size: 0.95rem;
+  border: 2px solid #c3e6cb; border-radius: 8px; padding: 10px 12px;
+  background: #fff; color: #1a1a1a; transition: border-color 0.2s, box-shadow 0.2s; width: 100%;
+}
+textarea { resize: vertical; }
+textarea:focus, input:focus { outline: none; border-color: #2d6a4f; box-shadow: 0 0 0 3px rgba(45,106,79,0.15); }
+input::placeholder, textarea::placeholder { color: #999; font-style: italic; }
+
+/* HERO */
+.page-hero { padding: 70px 40px 60px; background: linear-gradient(135deg, rgba(212,237,218,0.88) 0%, rgba(232,245,233,0.85) 40%, rgba(240,249,232,0.88) 100%); }
+.page-hero h1 { font-size: 3rem; color: #0d4a2e; margin-bottom: 20px; letter-spacing: -0.5px; }
+.badge { display: inline-block; background: #d4f1dd; color: #0d4a2e; font-size: 0.78rem; font-weight: 700; letter-spacing: 1.5px; padding: 6px 14px; border-radius: 6px; margin-bottom: 24px; text-transform: uppercase; border: 1px solid #b8dbc0; }
+.page-hero .intro { font-size: 1.05rem; color: #333; max-width: 900px; margin-bottom: 40px; line-height: 1.7; }
+.feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 1100px; }
+.feature-card { background: rgba(212,237,218,0.55); border: 1.5px solid #b8dbc0; border-radius: 12px; padding: 26px 28px; }
+.feature-card h3 { font-size: 1.2rem; color: #0d4a2e; margin-bottom: 10px; font-weight: 700; }
+.feature-card p { font-size: 0.95rem; color: #333; line-height: 1.55; }
+
+/* HOW IT WORKS */
+.page-howto { padding: 70px 40px 60px; background: linear-gradient(160deg, #e8f5e9 0%, #f0f9f0 50%, #d4edda 100%); }
+.page-howto h2 { font-size: 2.4rem; color: #0d4a2e; margin-bottom: 16px; }
+.page-howto .lead { font-size: 1rem; color: #333; max-width: 900px; margin-bottom: 34px; line-height: 1.7; }
+.steps-stack { display: flex; flex-direction: column; gap: 14px; max-width: 1100px; }
+.step-row { display: grid; grid-template-columns: 70px 1fr; background: rgba(212,237,218,0.45); border: 1.5px solid #b8dbc0; border-radius: 10px; padding: 18px 22px; align-items: start; }
+.step-num { font-family: 'Montserrat', sans-serif; font-size: 2rem; font-weight: 700; color: #0d4a2e; text-align: center; }
+.step-body h3 { font-size: 1.2rem; color: #0d4a2e; margin-bottom: 6px; font-weight: 700; }
+.step-body p { font-size: 0.95rem; color: #333; line-height: 1.6; }
+.info-box { margin-top: 30px; background: #b5e8c4; border-radius: 10px; padding: 20px 24px; max-width: 1100px; color: #0d4a2e; font-size: 0.95rem; line-height: 1.65; }
+
+/* WORKSHEET */
+.page-worksheet { padding: 70px 40px 60px; background: linear-gradient(160deg, #d4edda 0%, #e8f5e9 40%, #f0f9e8 100%); }
+.page-worksheet h2 { font-size: 2.4rem; color: #0d4a2e; margin-bottom: 14px; }
+.page-worksheet .lead { font-size: 1rem; color: #333; max-width: 900px; margin-top: 24px; margin-bottom: 34px; line-height: 1.7; }
+.ws-wrapper { max-width: 1100px; }
+.ws-title { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; font-weight: 700; color: #0d4a2e; margin: 40px 0 16px; padding-bottom: 10px; border-bottom: 2px solid #b8dbc0; }
+.ws-title:first-of-type { margin-top: 0; }
+
+.section-block { margin-bottom: 16px; }
+.section-header { padding: 14px 20px; border-radius: 10px 10px 0 0; background: #0d4a2e; font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700; color: #ffffff; }
+.section-body { background: rgba(212,237,218,0.45); border: 1.5px solid #b8dbc0; border-top: none; border-radius: 0 0 10px 10px; padding: 20px; }
+.section-body p { font-size: 0.95rem; color: #333; margin-bottom: 12px; line-height: 1.6; }
+.field-label { font-size: 0.88rem; font-weight: 600; color: #2d6a4f; margin-bottom: 6px; display: block; }
+.field-group { margin-bottom: 14px; }
+.field-group:last-child { margin-bottom: 0; }
+
+/* Inline number */
+.inline-row { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; flex-wrap: wrap; }
+.inline-row label { font-size: 0.92rem; font-weight: 600; color: #2d6a4f; white-space: nowrap; }
+.inline-row input[type="number"] { width: 90px; text-align: center; flex-shrink: 0; }
+
+/* Coping chips */
+.coping-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.coping-chip { background: rgba(45,106,79,0.12); border: 1.5px solid #2d6a4f; border-radius: 20px; padding: 6px 14px; font-size: 0.88rem; font-weight: 600; color: #0d4a2e; }
+
+/* Rules box */
+.rules-box { background: rgba(212,237,218,0.6); border: 1.5px solid #b8dbc0; border-radius: 8px; padding: 14px 18px; margin-bottom: 16px; }
+.rules-box ul { margin-left: 18px; }
+.rules-box ul li { font-size: 0.92rem; color: #333; margin-bottom: 5px; }
+
+/* Example card */
+.example-card { background: rgba(255,255,255,0.75); border: 1.5px solid #b8dbc0; border-left: 5px solid #2d6a4f; border-radius: 8px; padding: 18px 20px; margin-bottom: 24px; }
+.example-card .ex-title { font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 700; color: #2d6a4f; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 12px; }
+.ex-rows { display: flex; flex-direction: column; gap: 4px; }
+.ex-row { display: grid; grid-template-columns: 230px 1fr; border: 1px solid #c3e6cb; border-radius: 6px; overflow: hidden; font-size: 0.88rem; }
+.ex-label { background: rgba(212,237,218,0.7); padding: 8px 12px; font-weight: 600; color: #0d4a2e; border-right: 1px solid #c3e6cb; }
+.ex-value { padding: 8px 12px; color: #555; font-style: italic; }
+
+/* Tracking log table */
+.log-table-wrap { overflow-x: auto; }
+.log-table { width: 100%; border-collapse: collapse; min-width: 860px; }
+.log-table th { background: #0d4a2e; color: #ffffff; font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 700; padding: 12px 10px; text-align: center; border: 1px solid #1a5c3a; letter-spacing: 0.3px; }
+.log-table td { border: 1.5px solid #c3e6cb; padding: 6px; background: #fff; vertical-align: middle; }
+.log-table td input[type="text"] { border: 1.5px solid #c3e6cb; border-radius: 6px; padding: 6px 8px; font-size: 0.85rem; }
+.log-table td input[type="number"] { border: 1.5px solid #c3e6cb; border-radius: 6px; padding: 6px 4px; font-size: 0.85rem; width: 62px; text-align: center; }
+.yn-col { width: 70px; }
+.date-col { width: 100px; }
+.score-col { width: 80px; }
+
+.ws-divider { border: none; border-top: 2px dashed #b8dbc0; margin: 36px 0; }
+.remember-box { margin-top: 30px; background: #b5e8c4; border-radius: 10px; padding: 20px 24px; max-width: 1100px; color: #0d4a2e; font-size: 0.95rem; line-height: 1.65; }
+
+/* Submit & saved entries */
+.submit-area { padding: 40px 40px 60px; background: linear-gradient(160deg, #d4edda 0%, #f0f9f0 100%); }
+#saveBtn { display: inline-block; background: #1a5c3a; color: #ffffff; padding: 14px 30px; border-radius: 8px; font-size: 1rem; font-weight: 600; font-family: 'Inter', sans-serif; border: 2px solid #1a5c3a; cursor: pointer; transition: background 0.2s; }
+#saveBtn:hover { background: #14482d; }
+.entries-wrap { margin-top: 28px; max-width: 1100px; }
+.entries-wrap h3 { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; color: #0d4a2e; margin-bottom: 12px; }
+.entry-item { background: #fff; border-left: 4px solid #0d4a2e; border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 10px; font-size: 0.85rem; }
+.entry-item strong { color: #0d4a2e; display: block; margin-bottom: 4px; }
+
+@media (max-width: 760px) {
+  .feature-grid { grid-template-columns: 1fr; }
+  .page-hero, .page-howto, .page-worksheet, .submit-area { padding: 50px 22px; }
+  .page-hero h1 { font-size: 2.2rem; }
+  .page-howto h2, .page-worksheet h2 { font-size: 1.9rem; }
+  .step-row { grid-template-columns: 44px 1fr; }
+  .step-num { font-size: 1.6rem; }
+  .ex-row { grid-template-columns: 1fr; }
+  .ex-label { border-right: none; border-bottom: 1px solid #c3e6cb; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="page-hero">
+  <h1>Exposure Practice &amp; Learning Logs</h1>
+  <div class="badge">Cognitive Behavioural Therapy</div>
+  <p class="intro">Exposure works by helping your brain learn that feared outcomes are less likely — or more manageable — than anxiety predicts. These logs guide you through planning each exposure, recording what happened session by session, and reflecting on what you learned. Used consistently, they build compelling evidence that anxiety decreases with practice.</p>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <h3>📋 Plan</h3>
+      <p>Set a clear target, identify safety behaviours to drop, and prepare your coping supports before you begin</p>
+    </div>
+    <div class="feature-card">
+      <h3>📝 Log Each Session</h3>
+      <p>Record your predictions, what actually happened, and your SUDS ratings before, during, and after each exposure</p>
+    </div>
+    <div class="feature-card">
+      <h3>💡 Learn and Reflect</h3>
+      <p>After each exposure, capture the key learning — what the experience tells you about anxiety and your ability to cope</p>
+    </div>
+    <div class="feature-card">
+      <h3>📊 Track Progress</h3>
+      <p>Use the multi-session tracking log to see patterns over time and build evidence that anxiety reduces with repeated practice</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="page-howto">
+  <h2>How to Use These Logs</h2>
+  <p class="lead">Work through all four parts in order. Parts 1 and 2 are completed before and during each exposure session. Parts 3 and 4 are completed afterwards. Bring your completed logs to your therapy sessions to review progress together.</p>
+  <div class="steps-stack">
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Graded Exposure Planner</h3>
+        <p>Before starting exposure work, identify your target fear, what you predict will happen, and which safety behaviours you will aim to reduce. Prepare your coping supports in advance so you have a plan ready when anxiety rises.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Exposure Session Log</h3>
+        <p>For each individual session, record your predicted fear level, your task plan, and safety behaviours you will drop. During the session, note your peak fear. Afterwards, record your end fear rating and what you noticed about anxiety over time.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Exposure Learning Log</h3>
+        <p>After each session, reflect on what actually happened compared to your prediction. The key question is: what did this experience teach you about anxiety, safety, or your ability to cope? This reflection is where the learning is consolidated.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>Exposure Tracking Log</h3>
+        <p>Use this multi-session table to log each practice over time. Tracking SUDS start, peak, and end across sessions builds visible evidence that anxiety reduces with practice — which is itself a powerful form of learning.</p>
+      </div>
+    </div>
+  </div>
+  <div class="info-box">
+    💡 <strong>Reminders:</strong> Complete each exposure in an environment with minimal distractions. Aim to stay until peak anxiety reduces by at least half, or for a minimum of 10–15 minutes. Do not use distraction or reassurance to escape the feeling — your brain needs to experience coping without safety behaviours for learning to occur.
+  </div>
+</section>
+
+<!-- WORKSHEET -->
+<section class="page-worksheet">
+  <h2>My Exposure Logs</h2>
+  <div class="badge">Complete This Section</div>
+  <p class="lead">Work through each part in order. Use SUDS (0–100) to rate anxiety throughout, where 0 = completely calm and 100 = extreme distress.</p>
+
+  <div class="ws-wrapper">
+
+    <!-- PART 1 -->
+    <div class="ws-title">Part 1: Graded Exposure Planner</div>
+
+    <div class="section-block">
+      <div class="section-header">Target and Rationale</div>
+      <div class="section-body">
+        <div class="field-group">
+          <label class="field-label" for="target_situation">Target situation or fear:</label>
+          <textarea id="target_situation" rows="3" placeholder="e.g. Social situations, driving on motorways, health-related thoughts..."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="feared_outcome">Feared outcome — what do you think will happen?</label>
+          <textarea id="feared_outcome" rows="3" placeholder="e.g. I will panic, embarrass myself, lose control, or be unable to cope..."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="why_it_matters">Why this matters to me (values or goals):</label>
+          <textarea id="why_it_matters" rows="3" placeholder="e.g. I want to be able to socialise freely, travel independently, or return to work..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-header">Safety Behaviours to Reduce</div>
+      <div class="section-body">
+        <p style="font-size:0.9rem; color:#555; font-style:italic; margin-bottom:10px;">Examples: reassurance seeking, over-preparing, checking, carrying items "just in case", always sitting near the exit, using your phone as a distraction</p>
+        <div class="field-group">
+          <label class="field-label" for="safety_to_reduce">Safety behaviours I will aim to reduce or drop:</label>
+          <textarea id="safety_to_reduce" rows="4" placeholder="List the specific safety behaviours you will work on reducing..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-header">Rules for Each Exposure</div>
+      <div class="section-body">
+        <div class="rules-box">
+          <ul>
+            <li>Stay with the task until anxiety drops by about 50% or for at least 10–15 minutes</li>
+            <li>Do not use distraction or reassurance to escape the feeling</li>
+            <li>Use helpful supports that keep you engaged, such as slow breathing or grounding</li>
+            <li>Repeat the same step daily or often until it feels easier two times in a row</li>
+          </ul>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="coping_other">My coping supports during exposure:</label>
+          <div class="coping-chips">
+            <span class="coping-chip">Slow breathing</span>
+            <span class="coping-chip">Grounding with senses</span>
+            <span class="coping-chip">Compassionate self-talk</span>
+            <span class="coping-chip">Brief reset (stand, sip water, re-engage)</span>
+          </div>
+          <textarea id="coping_other" rows="3" placeholder="Other personal coping supports I find helpful..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <hr class="ws-divider">
+
+    <!-- PART 2 -->
+    <div class="ws-title">Part 2: Exposure Session Log</div>
+
+    <div class="section-block">
+      <div class="section-header">Before the Exposure</div>
+      <div class="section-body">
+        <div class="field-group">
+          <label class="field-label" for="session_date">Date:</label>
+          <input type="text" id="session_date" placeholder="e.g. 28 April 2026" style="max-width:300px;">
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="situation_trigger">Situation / Trigger — what situation, place, object, or thought are you exposing yourself to?</label>
+          <textarea id="situation_trigger" rows="3" placeholder="Describe the exposure target as specifically as possible..."></textarea>
+        </div>
+        <div class="inline-row">
+          <label for="predicted_fear">Predicted fear level (0–100):</label>
+          <input type="number" id="predicted_fear" min="0" max="100" placeholder="0–100">
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="task_plan">Exposure task plan — what exactly will I do today?</label>
+          <textarea id="task_plan" rows="4" placeholder="Be specific about what you will do, where, and for how long..."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="time_in_situation">How long will I stay in the situation?</label>
+          <textarea id="time_in_situation" rows="2" placeholder="e.g. At least 20 minutes, or until SUDS drops by 50%..."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="safety_to_drop">Safety behaviours I will try to reduce or avoid:</label>
+          <textarea id="safety_to_drop" rows="3" placeholder="List the specific safety behaviours you will drop for this session..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-header">During the Exposure</div>
+      <div class="section-body">
+        <div class="inline-row">
+          <label for="peak_fear">Peak fear level (0–100):</label>
+          <input type="number" id="peak_fear" min="0" max="100" placeholder="0–100">
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="anxiety_decrease_time">How long until anxiety started to decrease?</label>
+          <textarea id="anxiety_decrease_time" rows="2" placeholder="e.g. After about 12 minutes, anxiety began to reduce..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-header">After the Exposure</div>
+      <div class="section-body">
+        <div class="inline-row">
+          <label for="fear_after">Fear / distress level at the end (0–100):</label>
+          <input type="number" id="fear_after" min="0" max="100" placeholder="0–100">
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="anxiety_over_time">What did I notice about my anxiety over time?</label>
+          <textarea id="anxiety_over_time" rows="3" placeholder="e.g. Anxiety peaked quite quickly then gradually reduced as I stayed in the situation..."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="helpful_thoughts">Helpful thoughts I practised / learned:</label>
+          <textarea id="helpful_thoughts" rows="4" placeholder="e.g. I reminded myself that anxiety is uncomfortable but not dangerous. The feeling passed..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <hr class="ws-divider">
+
+    <!-- PART 3 -->
+    <div class="ws-title">Part 3: Exposure Learning Log</div>
+
+    <div class="section-body" style="border:1.5px solid #b8dbc0; border-radius:10px; margin-bottom:20px; background:rgba(212,237,218,0.3); padding:20px;">
+      <p style="margin-bottom:16px;">Exposure works by helping you learn that feared outcomes are more manageable than expected. This log helps you reflect on what you learned from each exposure — even if anxiety did not reduce as much as you hoped.</p>
+
+      <div class="example-card">
+        <div class="ex-title">Example — Completed Learning Log</div>
+        <div class="ex-rows">
+          <div class="ex-row">
+            <div class="ex-label">Exposure task</div>
+            <div class="ex-value">Standing in a queue at the supermarket</div>
+          </div>
+          <div class="ex-row">
+            <div class="ex-label">What I predicted would happen</div>
+            <div class="ex-value">I would panic and have to leave</div>
+          </div>
+          <div class="ex-row">
+            <div class="ex-label">What actually happened</div>
+            <div class="ex-value">Anxiety increased, but I stayed and it passed</div>
+          </div>
+          <div class="ex-row">
+            <div class="ex-label">Anxiety before → after</div>
+            <div class="ex-value">70 → 40</div>
+          </div>
+          <div class="ex-row">
+            <div class="ex-label">What I learned</div>
+            <div class="ex-value">Anxiety can rise without leading to danger, and I can cope</div>
+          </div>
+          <div class="ex-row">
+            <div class="ex-label">What helped me stay</div>
+            <div class="ex-value">Slow breathing and reminding myself I could leave if needed</div>
+          </div>
+          <div class="ex-row">
+            <div class="ex-label">What I would do differently</div>
+            <div class="ex-value">Stay a little longer next time</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-header">My Learning Log</div>
+      <div class="section-body">
+        <div class="field-group">
+          <label class="field-label" for="log_task">Exposure task — what exposure did you practise?</label>
+          <textarea id="log_task" rows="3" placeholder="Describe the exposure you completed..."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="log_prediction">What I predicted would happen:</label>
+          <textarea id="log_prediction" rows="3" placeholder="What were you worried might occur?"></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="log_happened">What actually happened:</label>
+          <textarea id="log_happened" rows="4" placeholder="What really happened during or after the exposure?"></textarea>
+        </div>
+        <div class="inline-row">
+          <label for="log_anxiety_before">Anxiety before (0–100):</label>
+          <input type="number" id="log_anxiety_before" min="0" max="100" placeholder="0–100">
+          <label for="log_anxiety_after" style="margin-left:16px;">Anxiety after (0–100):</label>
+          <input type="number" id="log_anxiety_after" min="0" max="100" placeholder="0–100">
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="log_learned">What I learned — about anxiety, safety, or my ability to cope:</label>
+          <textarea id="log_learned" rows="4" placeholder="e.g. Anxiety can rise without leading to danger, and I can cope..."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="log_helped">What helped me stay with the exposure:</label>
+          <textarea id="log_helped" rows="3" placeholder="What strategies or thoughts were helpful?"></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="log_next_time">What I would do differently next time:</label>
+          <textarea id="log_next_time" rows="3" placeholder="Any adjustments for future practice?"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <hr class="ws-divider">
+
+    <!-- PART 4 -->
+    <div class="ws-title">Part 4: Exposure Tracking Log</div>
+
+    <div class="section-block">
+      <div class="section-header">Multi-Session Progress Record</div>
+      <div class="section-body">
+        <p>Each time you practise an exposure step, record the details below. Tracking SUDS ratings across sessions builds visible evidence that anxiety decreases with practice.</p>
+        <div class="log-table-wrap">
+          <table class="log-table">
+            <thead>
+              <tr>
+                <th class="date-col">Date</th>
+                <th>Exposure Situation / Step</th>
+                <th class="score-col">SUDS Start (0–100)</th>
+                <th class="score-col">SUDS Peak</th>
+                <th class="score-col">SUDS End</th>
+                <th class="yn-col">Safety Dropped (Y/N)</th>
+                <th>What I Learned</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="text" id="r1_date" placeholder="Date..."></td>
+                <td><input type="text" id="r1_situation" placeholder="Situation..."></td>
+                <td><input type="number" id="r1_before" min="0" max="100" placeholder="0–100"></td>
+                <td><input type="number" id="r1_peak" min="0" max="100" placeholder="0–100"></td>
+                <td><input type="number" id="r1_after" min="0" max="100" placeholder="0–100"></td>
+                <td><input type="text" id="r1_safety" placeholder="Y/N"></td>
+                <td><input type="text" id="r1_learned" placeholder="Key learning..."></td>
+              </tr>
+              <tr>
+                <td><input type="text" id="r2_date" placeholder="Date..."></td>
+                <td><input type="text" id="r2_situation" placeholder="Situation..."></td>
+                <td><input type="number" id="r2_before" min="0" max="100" placeholder="0–100"></td>
+                <td><input type="number" id="r2_peak" min="0" max="100" placeholder="0–100"></td>
+                <td><input type="number" id="r2_after" min="0" max="100" placeholder="0–100"></td>
+                <td><input type="text" id="r2_safety" placeholder="Y/N"></td>
+                <td><input type="text" id="r2_learned" placeholder="Key learning..."></td>
+              </tr>
+              <tr>
+                <td><input type="text" id="r3_date" placeholder="Date..."></td>
+                <td><input type="text" id="r3_situation" placeholder="Situation..."></td>
+                <td><input type="number" id="r3_before" min="0" max="100" placeholder="0–100"></td>
+                <td><input type="number" id="r3_peak" min="0" max="100" placeholder="0–100"></td>
+                <td><input type="number" id="r3_after" min="0" max="100" placeholder="0–100"></td>
+                <td><input type="text" id="r3_safety" placeholder="Y/N"></td>
+                <td><input type="text" id="r3_learned" placeholder="Key learning..."></td>
+              </tr>
+              <tr>
+                <td><input type="text" id="r4_date" placeholder="Date..."></td>
+                <td><input type="text" id="r4_situation" placeholder="Situation..."></td>
+                <td><input type="number" id="r4_before" min="0" max="100" placeholder="0–100"></td>
+                <td><input type="number" id="r4_peak" min="0" max="100" placeholder="0–100"></td>
+                <td><input type="number" id="r4_after" min="0" max="100" placeholder="0–100"></td>
+                <td><input type="text" id="r4_safety" placeholder="Y/N"></td>
+                <td><input type="text" id="r4_learned" placeholder="Key learning..."></td>
+              </tr>
+              <tr>
+                <td><input type="text" id="r5_date" placeholder="Date..."></td>
+                <td><input type="text" id="r5_situation" placeholder="Situation..."></td>
+                <td><input type="number" id="r5_before" min="0" max="100" placeholder="0–100"></td>
+                <td><input type="number" id="r5_peak" min="0" max="100" placeholder="0–100"></td>
+                <td><input type="number" id="r5_after" min="0" max="100" placeholder="0–100"></td>
+                <td><input type="text" id="r5_safety" placeholder="Y/N"></td>
+                <td><input type="text" id="r5_learned" placeholder="Key learning..."></td>
+              </tr>
+              <tr>
+                <td><input type="text" id="r6_date" placeholder="Date..."></td>
+                <td><input type="text" id="r6_situation" placeholder="Situation..."></td>
+                <td><input type="number" id="r6_before" min="0" max="100" placeholder="0–100"></td>
+                <td><input type="number" id="r6_peak" min="0" max="100" placeholder="0–100"></td>
+                <td><input type="number" id="r6_after" min="0" max="100" placeholder="0–100"></td>
+                <td><input type="text" id="r6_safety" placeholder="Y/N"></td>
+                <td><input type="text" id="r6_learned" placeholder="Key learning..."></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="remember-box">
+    🌿 <strong>Remember:</strong> The goal is not to eliminate anxiety — it is to learn that you can tolerate it and that your predictions are not always accurate. Every exposure session, however imperfect, adds to the evidence that you are capable of coping. Progress is rarely linear, and that is completely normal.
+  </div>
+
+</section>
+
+<!-- SUBMIT -->
+<section class="submit-area">
+  <button id="saveBtn">Save My Entry</button>
+  <div class="entries-wrap">
+    <h3>Saved Entries</h3>
+    <div id="entriesList"></div>
+  </div>
+</section>
+
+<script>
+function g(id) {
+  return (document.getElementById(id).value || '').replace(/\r?\n|\r/g, ' | ').trim();
+}
+
+function collectData() {
+  return {
+    target_situation:      g('target_situation'),
+    feared_outcome:        g('feared_outcome'),
+    why_it_matters:        g('why_it_matters'),
+    safety_to_reduce:      g('safety_to_reduce'),
+    coping_other:          g('coping_other'),
+    session_date:          g('session_date'),
+    situation_trigger:     g('situation_trigger'),
+    predicted_fear:        g('predicted_fear'),
+    task_plan:             g('task_plan'),
+    time_in_situation:     g('time_in_situation'),
+    safety_to_drop:        g('safety_to_drop'),
+    peak_fear:             g('peak_fear'),
+    anxiety_decrease_time: g('anxiety_decrease_time'),
+    fear_after:            g('fear_after'),
+    anxiety_over_time:     g('anxiety_over_time'),
+    helpful_thoughts:      g('helpful_thoughts'),
+    log_task:              g('log_task'),
+    log_prediction:        g('log_prediction'),
+    log_happened:          g('log_happened'),
+    log_anxiety_before:    g('log_anxiety_before'),
+    log_anxiety_after:     g('log_anxiety_after'),
+    log_learned:           g('log_learned'),
+    log_helped:            g('log_helped'),
+    log_next_time:         g('log_next_time'),
+    r1_date: g('r1_date'), r1_situation: g('r1_situation'), r1_before: g('r1_before'), r1_peak: g('r1_peak'), r1_after: g('r1_after'), r1_safety: g('r1_safety'), r1_learned: g('r1_learned'),
+    r2_date: g('r2_date'), r2_situation: g('r2_situation'), r2_before: g('r2_before'), r2_peak: g('r2_peak'), r2_after: g('r2_after'), r2_safety: g('r2_safety'), r2_learned: g('r2_learned'),
+    r3_date: g('r3_date'), r3_situation: g('r3_situation'), r3_before: g('r3_before'), r3_peak: g('r3_peak'), r3_after: g('r3_after'), r3_safety: g('r3_safety'), r3_learned: g('r3_learned'),
+    r4_date: g('r4_date'), r4_situation: g('r4_situation'), r4_before: g('r4_before'), r4_peak: g('r4_peak'), r4_after: g('r4_after'), r4_safety: g('r4_safety'), r4_learned: g('r4_learned'),
+    r5_date: g('r5_date'), r5_situation: g('r5_situation'), r5_before: g('r5_before'), r5_peak: g('r5_peak'), r5_after: g('r5_after'), r5_safety: g('r5_safety'), r5_learned: g('r5_learned'),
+    r6_date: g('r6_date'), r6_situation: g('r6_situation'), r6_before: g('r6_before'), r6_peak: g('r6_peak'), r6_after: g('r6_after'), r6_safety: g('r6_safety'), r6_learned: g('r6_learned'),
+    time: new Date().toLocaleString()
+  };
+}
+
+async function saveEntry() {
+  var data = collectData();
+  try {
+    await fetch('/.netlify/functions/saveWorksheet', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch (err) {
+    console.error('Save error:', err);
+  }
+  var entries = JSON.parse(localStorage.getItem('exposure-practice-logs') || '[]');
+  entries.unshift(data);
+  localStorage.setItem('exposure-practice-logs', JSON.stringify(entries));
+  render();
+}
+
+function render() {
+  var el = document.getElementById('entriesList');
+  if (!el) return;
+  var entries = JSON.parse(localStorage.getItem('exposure-practice-logs') || '[]');
+  if (!entries.length) { el.innerHTML = ''; return; }
+  el.innerHTML = entries.map(function(e) {
+    var target = (e.target_situation || '').substring(0, 80) + ((e.target_situation || '').length > 80 ? '…' : '');
+    var sessions = [1,2,3,4,5,6].filter(function(n) { return (e['r' + n + '_situation'] || '').trim(); }).length;
+    return '<div class="entry-item">'
+      + '<strong>' + (e.time || '') + '</strong>'
+      + (target ? '<span style="color:#333;">Target: ' + target + '</span><br>' : '')
+      + (sessions ? '<span style="color:#555;">' + sessions + ' tracking row' + (sessions === 1 ? '' : 's') + ' recorded</span>' : '')
+      + '</div>';
+  }).join('');
+}
+
+document.getElementById('saveBtn').addEventListener('click', saveEntry);
+render();
+</script>
+
+</body>
+</html>

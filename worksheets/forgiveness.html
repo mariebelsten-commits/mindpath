@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Forgiveness | ChatCBT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f0f9f0; color: #1a1a1a; }
+
+    /* ── Hero ── */
+    .page-hero { background: #0d4a2e; padding: 56px 24px 48px; text-align: center; }
+    .hero-badge { display: inline-block; background: rgba(255,255,255,0.15); color: #fff; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; }
+    .page-hero h1 { font-family: 'Montserrat', sans-serif; font-size: 2.6rem; font-weight: 800; color: #ffffff; margin-bottom: 12px; letter-spacing: -0.5px; }
+    .page-hero p { font-size: 1.1rem; color: rgba(255,255,255,0.88); max-width: 580px; margin: 0 auto; line-height: 1.6; }
+
+    /* ── Quote ── */
+    .quote-block { background: #0d4a2e; border-top: 1px solid rgba(255,255,255,0.15); padding: 16px 24px 28px; text-align: center; }
+    .quote-text { font-family: 'Montserrat', sans-serif; font-size: 1.05rem; font-weight: 600; color: rgba(255,255,255,0.92); font-style: italic; max-width: 580px; margin: 0 auto 6px; line-height: 1.6; }
+    .quote-attr { font-size: 0.8rem; color: rgba(255,255,255,0.5); letter-spacing: 0.06em; text-transform: uppercase; }
+
+    /* ── Features ── */
+    .features-section { background: #1a5c3a; padding: 40px 24px; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 20px; max-width: 960px; margin: 0 auto; }
+    .feature-card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 22px 18px; text-align: center; color: #fff; }
+    .feature-card .icon { font-size: 1.8rem; margin-bottom: 10px; }
+    .feature-card h3 { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 700; color: #ffffff; margin-bottom: 7px; }
+    .feature-card p { font-size: 0.83rem; color: rgba(255,255,255,0.85); line-height: 1.5; }
+
+    /* ── Background info ── */
+    .info-section { max-width: 800px; margin: 32px auto 0; padding: 0 16px; }
+    .info-box { background: #fff; border-radius: 12px; padding: 24px 28px; border: 1px solid #d0ecd8; border-left: 4px solid #1a5c3a; }
+    .info-box h3 { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 700; color: #0d4a2e; margin-bottom: 10px; }
+    .info-box p { font-size: 0.875rem; color: #2d4a35; line-height: 1.75; margin-bottom: 10px; }
+    .info-box p:last-child { margin-bottom: 0; }
+
+    /* ── Worksheet ── */
+    .page-worksheet { max-width: 800px; margin: 28px auto 48px; padding: 0 16px; }
+
+    /* ── Step blocks ── */
+    .step-block { background: #fff; border-radius: 12px; padding: 28px 28px 24px; margin-bottom: 8px; border: 1px solid #d0ecd8; box-shadow: 0 2px 8px rgba(13,74,46,0.06); }
+    .step-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .step-number { width: 36px; height: 36px; background: #1a5c3a; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.9rem; flex-shrink: 0; }
+    .step-title { font-family: 'Montserrat', sans-serif; font-size: 1.08rem; font-weight: 700; color: #0d4a2e; }
+    .step-desc { font-size: 0.88rem; color: #4a7a5a; margin-bottom: 16px; line-height: 1.6; }
+
+    /* ── Flow arrow ── */
+    .flow-arrow { text-align: center; font-size: 1.4rem; color: #4a7a5a; line-height: 1; margin: 6px 0; }
+
+    /* ── Sub-question grid ── */
+    .sub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 560px) { .sub-grid { grid-template-columns: 1fr; } }
+    .sub-item { background: #f8fdf8; border-radius: 8px; padding: 14px; border: 1px solid #d0ecd8; }
+    .sub-label { font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 700; color: #0d4a2e; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; display: flex; align-items: center; gap: 7px; }
+    .sub-label .sub-icon { font-size: 0.95rem; }
+    .sub-item textarea { border: 1px solid #d0ecd8; border-radius: 6px; font-size: 0.86rem; background: #fff; padding: 8px 10px; }
+    .sub-item textarea:focus { outline: none; border-color: #1a5c3a; box-shadow: 0 0 0 2px rgba(26,92,58,0.1); }
+
+    /* ── Field label ── */
+    .field-label { display: block; font-size: 0.87rem; font-weight: 600; color: #1a3d28; margin-bottom: 7px; margin-top: 20px; }
+    .field-label:first-of-type { margin-top: 0; }
+    textarea, input[type="text"] { width: 100%; padding: 10px 12px; border: 1px solid #b0d8bc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #1a1a1a; background: #fff; resize: vertical; line-height: 1.5; }
+    textarea:focus, input[type="text"]:focus { outline: none; border-color: #1a5c3a; box-shadow: 0 0 0 3px rgba(26,92,58,0.1); }
+
+    /* ── Prompt box ── */
+    .prompt-box { background: #e8f5e9; border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; font-size: 0.86rem; color: #1a3d28; line-height: 1.65; }
+    .prompt-box strong { font-family: 'Montserrat', sans-serif; font-size: 0.82rem; font-weight: 700; color: #0d4a2e; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 5px; }
+
+    /* ── Ceremony box ── */
+    .ceremony-box { background: #f0f9f0; border: 1px dashed #7ab89a; border-radius: 8px; padding: 14px 16px; margin: 14px 0 16px; font-size: 0.86rem; color: #1a3d28; line-height: 1.65; }
+    .ceremony-box strong { font-family: 'Montserrat', sans-serif; font-size: 0.82rem; font-weight: 700; color: #0d4a2e; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 5px; }
+
+    /* ── Remember box ── */
+    .remember-box { background: #e8f5e9; border-radius: 12px; padding: 20px 24px; margin-top: 8px; font-size: 0.88rem; color: #1a3d28; line-height: 1.7; text-align: center; }
+
+    /* ── Submit & saved entries ── */
+    .submit-section { text-align: center; padding: 24px 0 16px; }
+    #saveBtn { display: inline-block; background: #1a5c3a; color: #ffffff; padding: 14px 36px; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700; border: none; cursor: pointer; transition: background 0.2s; margin-top: 8px; }
+    #saveBtn:hover { background: #14482d; }
+    .entries-wrap { margin-top: 24px; }
+    .entries-wrap h3 { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; color: #0d4a2e; margin-bottom: 12px; }
+    .entry-item { background: #fff; border-left: 4px solid #0d4a2e; border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 10px; font-size: 0.85rem; }
+    .entry-item strong { color: #0d4a2e; display: block; margin-bottom: 4px; }
+
+    @media (max-width: 600px) { .page-hero h1 { font-size: 2rem; } }
+  </style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section class="page-hero">
+  <div class="hero-badge">CBT Worksheet</div>
+  <h1>Forgiveness</h1>
+  <p>Research shows that people who forgive are happier and healthier than those who hold resentments. These steps can help you find a way forward.</p>
+</section>
+
+<!-- ══ QUOTE ══ -->
+<div class="quote-block">
+  <p class="quote-text">"Forgive us our trespasses, as we forgive those who trespass against us."</p>
+  <p class="quote-attr">The Lord's Prayer</p>
+</div>
+
+<!-- ══ FEATURES ══ -->
+<section class="features-section">
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="icon">🔓</div>
+      <h3>Free Yourself</h3>
+      <p>Forgiveness is about untying yourself from thoughts and feelings that bind you to the offence</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🪞</div>
+      <h3>Acknowledge the Hurt</h3>
+      <p>Honestly name what happened, what it meant to you, and how it affected your life</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🤝</div>
+      <h3>Understand the Other</h3>
+      <p>Consider the other person's situation, intentions, and human weaknesses without condoning their actions</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🕊️</div>
+      <h3>Choose to Forgive</h3>
+      <p>Forgiveness is a decision — and it is one you make for yourself, not for them</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ INFO ══ -->
+<div class="info-section">
+  <div class="info-box">
+    <h3>What is forgiveness?</h3>
+    <p>Forgiveness is the act of untying ourselves from the thoughts and feelings that tie us to an offence. It is not the same as forgetting — the offending act may remain part of our story. But forgiving can lessen the event's grip on us and help us move away from the role of victim.</p>
+    <p>An important premise is to accept that we are all — at times — imperfect, weak, self-interested, and likely to hurt others. If we can accept that, there is less to be permanently devastated about. There is no magic formula for forgiveness, but the steps below offer some direction.</p>
+  </div>
+</div>
+
+<!-- ══ WORKSHEET ══ -->
+<div class="page-worksheet">
+
+  <!-- Step 1 -->
+  <div class="step-block" style="margin-top:28px;">
+    <div class="step-header">
+      <div class="step-number">1</div>
+      <div class="step-title">What They Did</div>
+    </div>
+    <p class="step-desc">Identify exactly what the other person did that caused you pain and hurt. Be specific — name the action, the words, or the behaviour rather than speaking in generalities.</p>
+    <textarea id="what_they_did" rows="5" placeholder="e.g. My friend told other people something I had shared with her in confidence. She knew it was private and she shared it anyway, without asking me…"></textarea>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 2 -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">2</div>
+      <div class="step-title">The Effect on You</div>
+    </div>
+    <p class="step-desc">Acknowledge what the experience did to you. This step asks you to look honestly at the full emotional and psychological impact — not to dwell in it, but to see it clearly.</p>
+
+    <div class="sub-grid">
+      <div class="sub-item">
+        <div class="sub-label"><span class="sub-icon">❤️</span> How it made me feel</div>
+        <textarea id="feelings" rows="3" placeholder="e.g. Betrayed, humiliated, angry, deeply hurt, unsafe around people I trusted…"></textarea>
+      </div>
+      <div class="sub-item">
+        <div class="sub-label"><span class="sub-icon">💭</span> Thoughts surrounding the incident</div>
+        <textarea id="thoughts" rows="3" placeholder="e.g. 'I can't trust anyone.' / 'I'm a fool for opening up.' / 'She never really cared about me.'…"></textarea>
+      </div>
+      <div class="sub-item">
+        <div class="sub-label"><span class="sub-icon">💡</span> What it meant to me</div>
+        <textarea id="meaning" rows="3" placeholder="e.g. It felt like proof that I am not worth protecting. It confirmed my fear that people leave or betray in the end…"></textarea>
+      </div>
+      <div class="sub-item">
+        <div class="sub-label"><span class="sub-icon">🔘</span> Buttons it pressed for me</div>
+        <textarea id="buttons" rows="3" placeholder="e.g. It triggered my fear of abandonment. It touched on old wounds around feeling invisible or unimportant…"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 3 -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">3</div>
+      <div class="step-title">Your Own Responsibility</div>
+    </div>
+    <p class="step-desc">Consider honestly whether you carry any responsibility for part of what happened. This is not about self-blame, and it is not always applicable — sometimes we are simply wronged. But where responsibility does exist on both sides, naming your part can be freeing.</p>
+    <textarea id="my_responsibility" rows="4" placeholder="e.g. I may have placed more trust in this friendship than the relationship had yet earned. I didn't set a clear boundary about what I wanted kept private. / OR: I don't believe I had any responsibility for what happened in this situation…"></textarea>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 4 -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">4</div>
+      <div class="step-title">Understanding the Other Person</div>
+    </div>
+    <p class="step-desc">Consider the other person's situation, intentions, and human weaknesses. Understanding is not the same as condoning. But seeing them as a complex, fallible human — rather than simply as someone who wronged you — can loosen the hold of resentment.</p>
+
+    <div class="prompt-box">
+      <strong>Questions to guide you</strong>
+      What might have been going on in their life at the time? Do you think they intended harm, or were they thoughtless or careless? What vulnerabilities or wounds of their own might have driven this? Is there any part of this they may not have understood?
+    </div>
+
+    <textarea id="their_factors" rows="5" placeholder="e.g. She has always been a person who talks too much without thinking. She grew up in a family with no healthy boundaries. I don't think she intended to hurt me — she was thoughtless rather than malicious. She may not have realised how much it would damage things between us…"></textarea>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 5 -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">5</div>
+      <div class="step-title">What You Cannot Forgive</div>
+    </div>
+    <p class="step-desc">Be honest about this. There may be aspects of the behaviour that remain, for now, outside the reach of your forgiveness. Acknowledging this is not failure — it is part of the process. You do not have to force forgiveness you do not feel.</p>
+    <textarea id="unable_to_forgive" rows="4" placeholder="e.g. I can understand why she did it, but I cannot yet forgive the fact that she never apologised or acknowledged what it did to me. That part still feels unresolved… / OR: At this point I feel I am able to work towards forgiving the whole of what happened."></textarea>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 6 -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">6</div>
+      <div class="step-title">Deciding to Forgive</div>
+    </div>
+    <p class="step-desc">Based on your reflections above, consider whether forgiveness feels possible or appropriate. If yes, you might choose to mark that decision in some way — a deliberate act of letting go can help make it feel real.</p>
+
+    <div class="ceremony-box">
+      <strong>A ceremony of letting go</strong>
+      One approach: write everything down — your anger, your pain, your resentment — in a letter or on a sheet of paper. Then burn it, or tear it up, or close it in a box. The act of physically releasing it can help move the decision from your head into your body.
+    </div>
+
+    <label class="field-label" style="margin-top:0;">My decision, and how I will move forward</label>
+    <textarea id="forgiveness_decision" rows="6" placeholder="e.g. I have decided to forgive her, not for her sake but for mine. I don't want to carry this anymore. I am going to write a letter I don't send, and then burn it this weekend. I will no longer share deeply personal things with her, but I don't want resentment to define our relationship going forward…"></textarea>
+  </div>
+
+  <div class="remember-box">
+    🕊️ <strong>Remember:</strong> Forgiving does not mean what happened was acceptable. It does not mean you must trust that person again, or stay in a relationship with them. It means choosing to free yourself from the weight of carrying it.
+  </div>
+
+  <div class="submit-section">
+    <button id="saveBtn">Save My Entry</button>
+    <div class="entries-wrap">
+      <h3>Saved Entries</h3>
+      <div id="entriesList"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function g(id) {
+  return (document.getElementById(id).value || '').replace(/\r?\n|\r/g, ' | ').trim();
+}
+
+function collectData() {
+  return {
+    what_they_did:        g('what_they_did'),
+    feelings:             g('feelings'),
+    thoughts:             g('thoughts'),
+    meaning:              g('meaning'),
+    buttons:              g('buttons'),
+    my_responsibility:    g('my_responsibility'),
+    their_factors:        g('their_factors'),
+    unable_to_forgive:    g('unable_to_forgive'),
+    forgiveness_decision: g('forgiveness_decision'),
+    time: new Date().toLocaleString()
+  };
+}
+
+async function saveEntry() {
+  var data = collectData();
+  try {
+    await fetch('/.netlify/functions/saveWorksheet', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch (err) {
+    console.error('Save error:', err);
+  }
+  var entries = JSON.parse(localStorage.getItem('forgiveness') || '[]');
+  entries.unshift(data);
+  localStorage.setItem('forgiveness', JSON.stringify(entries));
+  render();
+}
+
+function render() {
+  var el = document.getElementById('entriesList');
+  if (!el) return;
+  var entries = JSON.parse(localStorage.getItem('forgiveness') || '[]');
+  if (!entries.length) { el.innerHTML = ''; return; }
+  el.innerHTML = entries.map(function(e) {
+    var preview = (e.what_they_did || '').substring(0, 80) + ((e.what_they_did || '').length > 80 ? '…' : '');
+    return '<div class="entry-item">'
+      + '<strong>' + (e.time || '') + '</strong>'
+      + (preview ? '<span style="color:#333;">' + preview + '</span>' : '')
+      + '</div>';
+  }).join('');
+}
+
+document.getElementById('saveBtn').addEventListener('click', saveEntry);
+render();
+</script>
+
+</body>
+</html>
