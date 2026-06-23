@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Values Clarification Worksheet</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f0f9f0; color: #1a3a2a; min-height: 100vh; }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, #0d4a2e 0%, #1a5c3a 100%);
+      padding: 48px 32px 40px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: #ffffff !important;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+    .hero p {
+      color: rgba(255,255,255,0.85);
+      font-size: 1.05rem;
+      max-width: 620px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ── Feature cards ── */
+    .feature-cards {
+      display: flex;
+      gap: 16px;
+      padding: 28px 24px 4px;
+      max-width: 860px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+    }
+    .feature-card {
+      flex: 1;
+      min-width: 200px;
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      border-left: 4px solid #0d4a2e;
+      box-shadow: 0 2px 8px rgba(13,74,46,0.08);
+    }
+    .feature-card h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #0d4a2e;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .feature-card p { font-size: 0.88rem; color: #4a6a5a; line-height: 1.55; }
+
+    /* ── Instructions ── */
+    .instructions-box {
+      background: #e8f5ee;
+      border: 1px solid #b8ddc8;
+      border-radius: 12px;
+      padding: 18px 22px;
+      max-width: 812px;
+      margin: 20px auto 8px;
+    }
+    .instructions-box p { font-size: 0.92rem; color: #2a5a3a; line-height: 1.6; }
+    .instructions-box strong { color: #0d4a2e; }
+
+    /* ── Worksheet wrapper ── */
+    .page-worksheet {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 20px 24px 60px;
+    }
+
+    /* ── Step blocks ── */
+    .step-block {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(13,74,46,0.08);
+      margin-bottom: 28px;
+      overflow: hidden;
+    }
+    .step-header {
+      background: linear-gradient(135deg, #0d4a2e 0%, #1a5c3a 100%);
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .step-number {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .step-header-text h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ffffff !important;
+      margin-bottom: 3px;
+    }
+    .step-header-text p { font-size: 0.85rem; color: rgba(255,255,255,0.8); }
+    .step-body { padding: 24px; }
+
+    /* ── Value chips ── */
+    .values-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .value-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 16px;
+      border-radius: 24px;
+      border: 2px solid #c8e6d4;
+      background: #f8fdf9;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.15s;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #1a3a2a;
+    }
+    .value-chip input[type="checkbox"] { display: none; }
+    .value-chip:has(input:checked) {
+      background: #0d4a2e;
+      border-color: #0d4a2e;
+      color: #fff;
+    }
+    .value-chip:hover:not(:has(input:checked)) {
+      border-color: #0d4a2e;
+      background: #e8f5ee;
+    }
+
+    /* ── Selection counter ── */
+    .selection-counter {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      font-size: 0.9rem;
+      color: #4a6a5a;
+      font-weight: 500;
+    }
+    .counter-badge {
+      background: #0d4a2e;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 4px 12px;
+      border-radius: 12px;
+      min-width: 30px;
+      text-align: center;
+      transition: transform 0.15s;
+    }
+
+    /* ── Custom value input ── */
+    .custom-value-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid #e0f0e8;
+    }
+    .custom-value-row input[type="text"] {
+      flex: 1;
+      padding: 10px 14px;
+      border: 2px solid #d0ecd8;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: #1a3a2a;
+      outline: none;
+      background: #fafffe;
+    }
+    .custom-value-row input[type="text"]:focus { border-color: #0d4a2e; background: #fff; }
+    .btn-add-custom {
+      padding: 10px 20px;
+      background: #0d4a2e;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-add-custom:hover { background: #1a5c3a; }
+
+    /* ── General form fields ── */
+    .field-group { margin-bottom: 20px; }
+    .field-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #0d4a2e;
+      margin-bottom: 7px;
+      display: block;
+    }
+    textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid #d0ecd8;
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.92rem;
+      color: #1a3a2a;
+      resize: vertical;
+      min-height: 80px;
+      outline: none;
+      background: #fafffe;
+      transition: border-color 0.2s;
+      line-height: 1.55;
+    }
+    textarea:focus { border-color: #0d4a2e; background: #fff; }
+
+    input[type="text"].field-input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid #d0ecd8;
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.92rem;
+      color: #1a3a2a;
+      outline: none;
+      background: #fafffe;
+      transition: border-color 0.2s;
+    }
+    input[type="text"].field-input:focus { border-color: #0d4a2e; background: #fff; }
+
+    /* ── Numbered rows ── */
+    .numbered-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .row-num {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #0d4a2e;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 9px;
+    }
+    .numbered-row > div:last-child { flex: 1; }
+
+    /* ── Action table ── */
+    .action-table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .action-table th {
+      background: #e8f5ee;
+      padding: 12px 16px;
+      text-align: left;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #0d4a2e;
+      border: 1px solid #c8e6d4;
+    }
+    .action-table td {
+      padding: 10px 12px;
+      border: 1px solid #d0ecd8;
+      vertical-align: top;
+      background: #fff;
+    }
+    .action-table td:first-child { width: 38%; }
+    .action-table td input[type="text"].field-input {
+      border: none;
+      border-radius: 6px;
+      padding: 6px 8px;
+      background: transparent;
+      min-height: 0;
+    }
+    .action-table td input[type="text"].field-input:focus {
+      background: #f0faf4;
+      border: 1px solid #0d4a2e;
+    }
+    .action-table td textarea {
+      border: none;
+      border-radius: 6px;
+      padding: 6px 8px;
+      min-height: 64px;
+      background: transparent;
+    }
+    .action-table td textarea:focus {
+      background: #f0faf4;
+      border: 1px solid #0d4a2e;
+    }
+
+    /* ── Submit ── */
+    .submit-area { text-align: center; padding: 32px 24px 52px; }
+    .btn-submit {
+      background: linear-gradient(135deg, #0d4a2e 0%, #1a5c3a 100%);
+      color: #fff;
+      border: none;
+      padding: 16px 52px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(13,74,46,0.3);
+      transition: all 0.2s;
+    }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(13,74,46,0.4); }
+
+    /* ── Saved entries ── */
+    .entries-area {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px 48px;
+    }
+    .entries-area h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      color: #0d4a2e;
+      margin-bottom: 12px;
+    }
+    .entry-item {
+      background: #fff;
+      border-left: 4px solid #0d4a2e;
+      border-radius: 0 8px 8px 0;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      font-size: 0.88rem;
+    }
+    .entry-item strong { color: #0d4a2e; display: block; margin-bottom: 4px; }
+  </style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-badge">CBT Worksheet</div>
+  <h1>Values Clarification</h1>
+  <p>Values are the things that matter most to you and guide how you want to live. Unlike goals — which can be completed — values are ongoing directions. Clarifying your values helps you make choices that feel meaningful and stay motivated through challenges.</p>
+</div>
+
+<!-- Feature cards -->
+<div class="feature-cards">
+  <div class="feature-card">
+    <h3>Values vs Goals</h3>
+    <p>Goals can be achieved and ticked off. Values are like a compass — they point the way and guide every step, no matter where you are in life.</p>
+  </div>
+  <div class="feature-card">
+    <h3>Why It Matters</h3>
+    <p>Acting in line with your values rebuilds purpose and self-respect, even when your mood is low or motivation feels distant.</p>
+  </div>
+  <div class="feature-card">
+    <h3>Taking Action</h3>
+    <p>Small, values-aligned actions create momentum. Each step teaches your brain that meaningful change is possible.</p>
+  </div>
+</div>
+
+<!-- Instructions -->
+<div class="instructions-box">
+  <p><strong>How to use this worksheet:</strong> Work through each step in order. Start by selecting the values that resonate most with you, then narrow them to your top five. Define what each value means to you personally, plan one small action for each, and finish with a brief reflection.</p>
+</div>
+
+<div class="page-worksheet">
+
+  <!-- STEP 1: What Matters to Me -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">1</div>
+      <div class="step-header-text">
+        <h2>What Matters to Me?</h2>
+        <p>Tap or click the values that feel most important to you. Add your own below.</p>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="selection-counter">
+        <span>Selected:</span>
+        <span class="counter-badge" id="selectionCount">0</span>
+        <span>values</span>
+      </div>
+      <div class="values-chips" id="valuesChips"></div>
+      <input type="hidden" id="selectedValuesHidden" value="">
+      <input type="hidden" id="customValuesHidden" value="">
+      <div class="custom-value-row">
+        <input type="text" id="customValueInput" placeholder="Type your own value and press Enter or click Add…">
+        <button class="btn-add-custom" onclick="addCustomValue()">+ Add</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: Top 5 values -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">2</div>
+      <div class="step-header-text">
+        <h2>Your Top Five Values</h2>
+        <p>From the list above, choose your top five values and write them here.</p>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="numbered-row">
+        <div class="row-num">1</div>
+        <div><input type="text" class="field-input" id="top1" placeholder="Your most important value…"></div>
+      </div>
+      <div class="numbered-row">
+        <div class="row-num">2</div>
+        <div><input type="text" class="field-input" id="top2" placeholder="Your second value…"></div>
+      </div>
+      <div class="numbered-row">
+        <div class="row-num">3</div>
+        <div><input type="text" class="field-input" id="top3" placeholder="Your third value…"></div>
+      </div>
+      <div class="numbered-row">
+        <div class="row-num">4</div>
+        <div><input type="text" class="field-input" id="top4" placeholder="Your fourth value…"></div>
+      </div>
+      <div class="numbered-row">
+        <div class="row-num">5</div>
+        <div><input type="text" class="field-input" id="top5" placeholder="Your fifth value…"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: Define each value -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">3</div>
+      <div class="step-header-text">
+        <h2>Define Each Value</h2>
+        <p>Write what each of your top five values means to you in your own words.</p>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="numbered-row">
+        <div class="row-num">1</div>
+        <div><textarea id="define1" placeholder="What does this value mean to you personally? How does it show up (or not show up) in your life?"></textarea></div>
+      </div>
+      <div class="numbered-row">
+        <div class="row-num">2</div>
+        <div><textarea id="define2" placeholder="What does this value mean to you personally? How does it show up (or not show up) in your life?"></textarea></div>
+      </div>
+      <div class="numbered-row">
+        <div class="row-num">3</div>
+        <div><textarea id="define3" placeholder="What does this value mean to you personally? How does it show up (or not show up) in your life?"></textarea></div>
+      </div>
+      <div class="numbered-row">
+        <div class="row-num">4</div>
+        <div><textarea id="define4" placeholder="What does this value mean to you personally? How does it show up (or not show up) in your life?"></textarea></div>
+      </div>
+      <div class="numbered-row">
+        <div class="row-num">5</div>
+        <div><textarea id="define5" placeholder="What does this value mean to you personally? How does it show up (or not show up) in your life?"></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4: Putting values into action -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">4</div>
+      <div class="step-header-text">
+        <h2>Putting Values Into Action</h2>
+        <p>Think about how you could live each value more fully. Choose one small, specific action for this week.</p>
+      </div>
+    </div>
+    <div class="step-body">
+      <table class="action-table">
+        <thead>
+          <tr>
+            <th>Value</th>
+            <th>Small Action I Could Take This Week</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="text" class="field-input" id="actionVal1" placeholder="Value name…"></td>
+            <td><textarea id="action1" placeholder="One small, specific action…"></textarea></td>
+          </tr>
+          <tr>
+            <td><input type="text" class="field-input" id="actionVal2" placeholder="Value name…"></td>
+            <td><textarea id="action2" placeholder="One small, specific action…"></textarea></td>
+          </tr>
+          <tr>
+            <td><input type="text" class="field-input" id="actionVal3" placeholder="Value name…"></td>
+            <td><textarea id="action3" placeholder="One small, specific action…"></textarea></td>
+          </tr>
+          <tr>
+            <td><input type="text" class="field-input" id="actionVal4" placeholder="Value name…"></td>
+            <td><textarea id="action4" placeholder="One small, specific action…"></textarea></td>
+          </tr>
+          <tr>
+            <td><input type="text" class="field-input" id="actionVal5" placeholder="Value name…"></td>
+            <td><textarea id="action5" placeholder="One small, specific action…"></textarea></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Reflection -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">✦</div>
+      <div class="step-header-text">
+        <h2>Reflection</h2>
+        <p>Take a moment to reflect on your values and what comes next.</p>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="field-group">
+        <label class="field-label" for="valuesAlreadyStrong">Which values already show up strongly in my life?</label>
+        <textarea id="valuesAlreadyStrong" placeholder="Consider the values that are already present and visible in your daily actions and choices…"></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="valuesStrengthen">Which values do I want to strengthen?</label>
+        <textarea id="valuesStrengthen" placeholder="Think about which values feel distant or neglected — and what gets in the way of living them more fully…"></textarea>
+      </div>
+      <div class="field-group" style="margin-bottom:0;">
+        <label class="field-label" for="oneSmallStep">One small step I will take this week:</label>
+        <textarea id="oneSmallStep" placeholder="Choose one concrete, achievable action that aligns with your values. Make it specific — when, where, and how…"></textarea>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end page-worksheet -->
+
+<!-- Submit -->
+<div class="submit-area">
+  <button class="btn-submit" id="saveBtn">Save My Entry</button>
+</div>
+
+<!-- Saved entries -->
+<div class="entries-area">
+  <h3>Saved Entries</h3>
+  <div id="entriesList"></div>
+</div>
+
+<script>
+  var allValues = [
+    'Adventurous','Ambitious','Attentive','Authentic','Brave','Careful','Clean','Committed',
+    'Confident','Connection','Cooperative','Curious','Dedicated','Determined','Diversity',
+    'Empathetic','Enthusiastic','Equality','Ethical','Fair','Fearless','Forgiving','Fun',
+    'Giving','Graceful','Health','Honest','Independent','Inquisitive','Inspired','Kind',
+    'Loyal','Love','Motivated','Organised','Passionate','Patient','Peace','Perfection',
+    'Popularity','Positive','Power','Present','Productive','Reflective','Reliable',
+    'Respectful','Risk-taking','Security','Selfless','Sharing','Strong','Successful',
+    'Tolerant','Transparency','Trustworthy','Unique','Useful','Wealth'
+  ];
+
+  var customValues = [];
+
+  function renderChips() {
+    var container = document.getElementById('valuesChips');
+    var allChipValues = allValues.concat(customValues);
+
+    var checkedMap = {};
+    container.querySelectorAll('label').forEach(function(lbl) {
+      var cb = lbl.querySelector('input[type="checkbox"]');
+      if (cb) checkedMap[cb.value] = cb.checked;
+    });
+
+    container.innerHTML = '';
+    allChipValues.forEach(function(val) {
+      var lbl = document.createElement('label');
+      lbl.className = 'value-chip';
+      var cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.name = 'values';
+      cb.value = val;
+      if (checkedMap[val]) cb.checked = true;
+      cb.addEventListener('change', updateCounter);
+      lbl.appendChild(cb);
+      lbl.appendChild(document.createTextNode(val));
+      container.appendChild(lbl);
+    });
+    updateCounter();
+  }
+
+  function updateCounter() {
+    var checked = Array.from(document.querySelectorAll('input[name="values"]:checked'));
+    document.getElementById('selectionCount').textContent = checked.length;
+    document.getElementById('selectedValuesHidden').value = checked.map(function(c) { return c.value; }).join(', ');
+  }
+
+  function addCustomValue() {
+    var input = document.getElementById('customValueInput');
+    var val = input.value.trim();
+    if (!val) return;
+    var existing = allValues.concat(customValues).map(function(v) { return v.toLowerCase(); });
+    if (existing.indexOf(val.toLowerCase()) === -1) {
+      customValues.push(val);
+      document.getElementById('customValuesHidden').value = customValues.join(', ');
+    }
+    input.value = '';
+    renderChips();
+    setTimeout(function() {
+      document.querySelectorAll('input[name="values"]').forEach(function(cb) {
+        if (cb.value === val) { cb.checked = true; updateCounter(); }
+      });
+    }, 30);
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('customValueInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); addCustomValue(); }
+    });
+    renderChips();
+    renderEntries();
+  });
+
+  function nl(v) { return (v || '').replace(/\r?\n|\r/g, ' | '); }
+
+  function collectData() {
+    return {
+      selected_values:       document.getElementById('selectedValuesHidden').value,
+      selected_values_count: document.querySelectorAll('input[name="values"]:checked').length,
+      custom_values:         document.getElementById('customValuesHidden').value,
+      top_value_1:           document.getElementById('top1').value,
+      top_value_2:           document.getElementById('top2').value,
+      top_value_3:           document.getElementById('top3').value,
+      top_value_4:           document.getElementById('top4').value,
+      top_value_5:           document.getElementById('top5').value,
+      define_value_1:        nl(document.getElementById('define1').value),
+      define_value_2:        nl(document.getElementById('define2').value),
+      define_value_3:        nl(document.getElementById('define3').value),
+      define_value_4:        nl(document.getElementById('define4').value),
+      define_value_5:        nl(document.getElementById('define5').value),
+      action_value_name_1:   document.getElementById('actionVal1').value,
+      action_1:              nl(document.getElementById('action1').value),
+      action_value_name_2:   document.getElementById('actionVal2').value,
+      action_2:              nl(document.getElementById('action2').value),
+      action_value_name_3:   document.getElementById('actionVal3').value,
+      action_3:              nl(document.getElementById('action3').value),
+      action_value_name_4:   document.getElementById('actionVal4').value,
+      action_4:              nl(document.getElementById('action4').value),
+      action_value_name_5:   document.getElementById('actionVal5').value,
+      action_5:              nl(document.getElementById('action5').value),
+      values_already_strong: nl(document.getElementById('valuesAlreadyStrong').value),
+      values_to_strengthen:  nl(document.getElementById('valuesStrengthen').value),
+      one_small_step:        nl(document.getElementById('oneSmallStep').value),
+      time:                  new Date().toLocaleString()
+    };
+  }
+
+  async function saveEntry() {
+    var data = collectData();
+    try {
+      await fetch('/.netlify/functions/saveWorksheet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    } catch (err) {
+      console.error('Save error:', err);
+    }
+    var entries = JSON.parse(localStorage.getItem('values-clarification') || '[]');
+    entries.unshift(data);
+    localStorage.setItem('values-clarification', JSON.stringify(entries));
+    renderEntries();
+  }
+
+  function renderEntries() {
+    var el = document.getElementById('entriesList');
+    if (!el) return;
+    var entries = JSON.parse(localStorage.getItem('values-clarification') || '[]');
+    if (!entries.length) { el.innerHTML = ''; return; }
+    el.innerHTML = entries.map(function(e) {
+      var top = [e.top_value_1, e.top_value_2, e.top_value_3, e.top_value_4, e.top_value_5]
+        .filter(Boolean).join(', ');
+      var count = e.selected_values_count || 0;
+      return '<div class="entry-item">'
+        + '<strong>' + (e.time || '') + '</strong>'
+        + (top ? '<span style="color:#333;">Top values: ' + top + '</span><br>' : '')
+        + (count ? '<span style="color:#555;">' + count + ' value' + (count === 1 ? '' : 's') + ' selected</span>' : '')
+        + '</div>';
+    }).join('');
+  }
+
+  document.getElementById('saveBtn').addEventListener('click', saveEntry);
+</script>
+
+</body>
+</html>
