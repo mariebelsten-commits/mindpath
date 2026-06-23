@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Balanced Thinking | ChatCBT</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Inter, sans-serif; color: #222; background: #f8faf8; }
+
+  /* HERO */
+  .page-hero { background: #0d4a2e; padding: 56px 24px 48px; text-align: center; }
+  .page-hero h1 {
+    font-family: Montserrat, sans-serif;
+    font-size: clamp(26px, 4vw, 40px);
+    font-weight: 700; color: #ffffff !important; margin-bottom: 14px;
+  }
+  .page-hero p {
+    color: rgba(255,255,255,0.85); font-size: 16px;
+    max-width: 640px; margin: 0 auto; line-height: 1.7;
+  }
+
+  /* FEATURES */
+  .features-section { background: #1a5c3a; padding: 36px 24px; }
+  .features-inner {
+    max-width: 960px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;
+  }
+  .feature-card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 22px 20px; }
+  .feature-card h3 {
+    font-family: Montserrat, sans-serif; font-size: 15px;
+    font-weight: 700; color: #ffffff !important; margin-bottom: 8px;
+  }
+  .feature-card p { font-size: 13px; color: rgba(255,255,255,0.8); line-height: 1.55; }
+
+  /* WORKSHEET */
+  .worksheet-container { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+
+  .step-block {
+    background: #fff; border-radius: 14px;
+    padding: 28px 28px 24px; margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .step-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
+  .step-num {
+    min-width: 34px; height: 34px; background: #0d4a2e; color: #fff;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-family: Montserrat, sans-serif; font-weight: 700; font-size: 14px; margin-top: 2px;
+  }
+  .step-header-text h2 {
+    font-family: Montserrat, sans-serif; font-size: 17px;
+    font-weight: 700; color: #0d4a2e; margin-bottom: 4px;
+  }
+  .step-header-text p { font-size: 13px; color: #666; line-height: 1.5; }
+
+  textarea {
+    width: 100%; padding: 12px 14px;
+    border: 2px solid #e0e0e0; border-radius: 8px;
+    font-family: Inter, sans-serif; font-size: 14px;
+    color: #333; resize: vertical; min-height: 80px;
+    transition: border-color 0.2s;
+  }
+  textarea:focus { outline: none; border-color: #0d4a2e; }
+
+  .field-input {
+    width: 100%; padding: 11px 14px;
+    border: 2px solid #e0e0e0; border-radius: 8px;
+    font-family: Inter, sans-serif; font-size: 14px; color: #333; transition: border-color 0.2s;
+  }
+  .field-input:focus { outline: none; border-color: #0d4a2e; }
+  .field-label { font-size: 13px; font-weight: 600; color: #444; margin-bottom: 8px; display: block; }
+  .field-group { margin-bottom: 16px; }
+  .field-group:last-child { margin-bottom: 0; }
+
+  /* Emotion checkboxes */
+  .emotion-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 8px; margin-bottom: 14px;
+  }
+  .emo-item {
+    display: flex; align-items: center; gap: 8px;
+    background: #f8faf8; border: 2px solid #e0e0e0;
+    border-radius: 8px; padding: 9px 12px; cursor: pointer;
+    transition: border-color 0.2s, background 0.2s; user-select: none;
+  }
+  .emo-item:hover { border-color: #0d4a2e; }
+  .emo-item.checked { border-color: #0d4a2e; background: #e8f5e9; }
+  .emo-box {
+    min-width: 18px; width: 18px; height: 18px;
+    border: 2px solid #ccc; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; transition: all 0.2s;
+  }
+  .emo-item.checked .emo-box { background: #0d4a2e; border-color: #0d4a2e; color: #fff; }
+  .emo-item span { font-size: 14px; color: #333; }
+
+  .other-row {
+    display: flex; align-items: center; gap: 10px;
+    background: #f8faf8; border: 2px solid #e0e0e0;
+    border-radius: 8px; padding: 9px 12px; margin-bottom: 14px;
+    cursor: pointer;
+  }
+  .other-row.active { border-color: #0d4a2e; background: #e8f5e9; }
+  .other-box {
+    min-width: 18px; width: 18px; height: 18px;
+    border: 2px solid #ccc; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center; font-size: 12px;
+  }
+  .other-box.active { background: #0d4a2e; border-color: #0d4a2e; color: #fff; }
+  .other-input { flex: 1; border: none; background: transparent;
+    font-family: Inter, sans-serif; font-size: 14px; color: #333; outline: none; }
+  .other-input::placeholder { color: #aaa; }
+
+  /* Intensity input */
+  .intensity-wrap { display: flex; align-items: center; gap: 12px; }
+  .pct-input {
+    width: 90px; padding: 9px; text-align: center;
+    border: 2px solid #e0e0e0; border-radius: 8px;
+    font-family: Montserrat, sans-serif; font-weight: 700; font-size: 20px; color: #0d4a2e;
+    -moz-appearance: textfield;
+  }
+  .pct-input::-webkit-outer-spin-button,
+  .pct-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .pct-input:focus { outline: none; border-color: #0d4a2e; }
+  .pct-suffix { font-size: 14px; color: #888; }
+
+  /* Evidence two-column */
+  .evidence-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .evidence-grid { grid-template-columns: 1fr; } }
+  .evidence-col-label {
+    font-family: Montserrat, sans-serif; font-weight: 700; font-size: 13px;
+    margin-bottom: 8px; display: block;
+  }
+  .ev-for-label   { color: #b85c00; }
+  .ev-against-label { color: #1b5e20; }
+  .ev-for textarea     { border-color: #e8ccaa; background: #fffaf3; min-height: 130px; }
+  .ev-against textarea { border-color: #b8ddb8; background: #f6fcf6; min-height: 130px; }
+  .ev-tip { font-size: 12px; color: #888; font-style: italic; margin-bottom: 14px; }
+
+  /* Question prompts */
+  .question-prompts {
+    background: #f0f9f0; border-radius: 10px;
+    padding: 16px 18px; margin-bottom: 16px;
+  }
+  .question-prompts ul { list-style: none; padding: 0; }
+  .question-prompts li {
+    font-size: 13px; color: #2a4a2a; line-height: 1.5;
+    padding: 5px 0 5px 24px; position: relative;
+  }
+  .question-prompts li::before {
+    content: "💭"; position: absolute; left: 0; font-size: 12px;
+  }
+
+  /* Balanced thought — highlighted */
+  .balanced-block { background: #e8f5e9; border-left: 4px solid #0d4a2e; }
+  .balanced-block textarea { background: rgba(255,255,255,0.95); }
+  .example-tag {
+    display: inline-block; background: #f0f9f0; color: #1a5c3a;
+    border-radius: 6px; padding: 4px 10px; font-size: 12px;
+    font-style: italic; margin-top: 10px; line-height: 1.4;
+  }
+
+  /* Submit */
+  .submit-btn {
+    background: #0d4a2e; color: #fff; border: none;
+    padding: 16px 40px; border-radius: 50px;
+    font-family: Montserrat, sans-serif; font-size: 17px;
+    font-weight: 700; cursor: pointer; transition: background 0.2s;
+  }
+  .submit-btn:hover { background: #1a5c3a; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="page-hero">
+  <h1>Balanced Thinking</h1>
+  <p>Balanced thinking helps you see situations more clearly and respond in ways that are grounded and realistic. Instead of automatically believing your first thought, look at all sides and form a more helpful, accurate perspective.</p>
+</div>
+
+<!-- FEATURES -->
+<div class="features-section">
+  <div class="features-inner">
+    <div class="feature-card">
+      <h3>&#x2696;&#xFE0F; Weigh the Evidence</h3>
+      <p>Look at the facts for and against your thought &mdash; not just how it feels. Feelings are valid, but they aren't always facts.</p>
+    </div>
+    <div class="feature-card">
+      <h3>&#x1F50D; Ask Fairer Questions</h3>
+      <p>Guided questions help you step back, challenge unhelpful thinking, and find a kinder, more realistic view.</p>
+    </div>
+    <div class="feature-card">
+      <h3>&#x1F4C9; Notice the Shift</h3>
+      <p>Rate the intensity of your emotion before and after. Balanced thinking often softens the strength of difficult feelings.</p>
+    </div>
+  </div>
+</div>
+
+<!-- WORKSHEET -->
+<div class="worksheet-container">
+
+  <!-- Step 1: Situation -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">1</div>
+      <div class="step-header-text">
+        <h2>The Situation</h2>
+        <p>Briefly describe a recent event that triggered a strong thought or emotion.</p>
+      </div>
+    </div>
+    <div class="field-group">
+      <textarea id="situation" placeholder="e.g. My boss gave me feedback on a report in front of the team."></textarea>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Emotions felt:</label>
+      <div class="emotion-grid">
+        <label class="emo-item" id="label_emo_sad"><input type="checkbox" id="emo_sad" style="display:none;"><div class="emo-box" id="box_emo_sad"></div><span>Sad</span></label>
+        <label class="emo-item" id="label_emo_anxious"><input type="checkbox" id="emo_anxious" style="display:none;"><div class="emo-box" id="box_emo_anxious"></div><span>Anxious</span></label>
+        <label class="emo-item" id="label_emo_angry"><input type="checkbox" id="emo_angry" style="display:none;"><div class="emo-box" id="box_emo_angry"></div><span>Angry</span></label>
+        <label class="emo-item" id="label_emo_ashamed"><input type="checkbox" id="emo_ashamed" style="display:none;"><div class="emo-box" id="box_emo_ashamed"></div><span>Ashamed</span></label>
+        <label class="emo-item" id="label_emo_guilty"><input type="checkbox" id="emo_guilty" style="display:none;"><div class="emo-box" id="box_emo_guilty"></div><span>Guilty</span></label>
+        <label class="emo-item" id="label_emo_frustrated"><input type="checkbox" id="emo_frustrated" style="display:none;"><div class="emo-box" id="box_emo_frustrated"></div><span>Frustrated</span></label>
+      </div>
+      <div class="other-row" id="other-row">
+        <div class="other-box" id="other-box"></div>
+        <input type="text" class="other-input" id="emo_other" placeholder="Other emotion...">
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Intensity of emotion (0&ndash;100%):</label>
+      <div class="intensity-wrap">
+        <input type="number" class="pct-input" id="intensity_before" min="0" max="100" placeholder="&mdash;">
+        <span class="pct-suffix">% before balanced thinking</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2: Unhelpful Thought -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">2</div>
+      <div class="step-header-text">
+        <h2>My Unhelpful Thought</h2>
+        <p>What went through your mind at that moment?</p>
+      </div>
+    </div>
+    <textarea id="unhelpful_thought" placeholder="e.g. I'm useless at my job and everyone can see it."></textarea>
+  </div>
+
+  <!-- Step 3: Evidence -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">3</div>
+      <div class="step-header-text">
+        <h2>Evidence For and Against the Thought</h2>
+        <p>Look at the facts on both sides.</p>
+      </div>
+    </div>
+    <p class="ev-tip">&#x1F4A1; Tip: Focus on facts, not feelings.</p>
+    <div class="evidence-grid">
+      <div class="ev-for">
+        <label class="evidence-col-label ev-for-label">&#x2696;&#xFE0F; Evidence FOR the thought</label>
+        <textarea id="evidence_for" placeholder="e.g. I made a mistake on the report."></textarea>
+      </div>
+      <div class="ev-against">
+        <label class="evidence-col-label ev-against-label">&#x2696;&#xFE0F; Evidence AGAINST the thought</label>
+        <textarea id="evidence_against" placeholder="e.g. My boss said overall it was good. I've done well on similar tasks before."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 4: Balanced Thinking Questions -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">4</div>
+      <div class="step-header-text">
+        <h2>Balanced Thinking Questions</h2>
+        <p>Use these questions to help you find a fairer, more balanced view.</p>
+      </div>
+    </div>
+    <div class="question-prompts">
+      <ul>
+        <li>What might I tell a friend if they had this thought?</li>
+        <li>Am I confusing a possibility with a certainty?</li>
+        <li>What are other ways to see this situation?</li>
+        <li>What would I say if I were being kind to myself?</li>
+        <li>What is the bigger picture?</li>
+      </ul>
+    </div>
+    <label class="field-label" for="balanced_reflection">Write your reflections below:</label>
+    <textarea id="balanced_reflection" placeholder="Work through the questions above here..." style="min-height:120px;"></textarea>
+  </div>
+
+  <!-- Step 5: Balanced Thought -->
+  <div class="step-block balanced-block">
+    <div class="step-header">
+      <div class="step-num">5</div>
+      <div class="step-header-text">
+        <h2>My Balanced Thought</h2>
+        <p>Write a statement that feels calm, fair, and compassionate.</p>
+      </div>
+    </div>
+    <textarea id="balanced_thought" placeholder="A fairer, more balanced way of seeing this is..."></textarea>
+    <span class="example-tag">Example: "I made a mistake, but I can learn from it. One mistake doesn't mean I'm a failure."</span>
+  </div>
+
+  <!-- Step 6: New Perspective -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">6</div>
+      <div class="step-header-text">
+        <h2>My New Perspective</h2>
+        <p>How do you feel now when you think this new, balanced thought?</p>
+      </div>
+    </div>
+    <div class="field-group">
+      <label class="field-label" for="new_emotion">Emotion now:</label>
+      <input type="text" class="field-input" id="new_emotion" placeholder="e.g. Calmer, more hopeful, accepting">
+    </div>
+    <div class="field-group" style="margin-bottom:0;">
+      <label class="field-label">Intensity of emotion (0&ndash;100%):</label>
+      <div class="intensity-wrap">
+        <input type="number" class="pct-input" id="intensity_after" min="0" max="100" placeholder="&mdash;">
+        <span class="pct-suffix">% after balanced thinking</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 7: Reflection -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">7</div>
+      <div class="step-header-text">
+        <h2>Reflection</h2>
+        <p>What do you notice about your emotions or behaviour when you practise balanced thinking regularly?</p>
+      </div>
+    </div>
+    <textarea id="final_reflection" placeholder="e.g. When I challenge my thoughts, I feel less overwhelmed and react more calmly..." style="min-height:110px;"></textarea>
+  </div>
+
+  <!-- SUBMIT -->
+  <div style="text-align:center; margin: 40px 0 16px;">
+    <button class="submit-btn" id="saveBtn">Save My Entry</button>
+  </div>
+
+  <div style="margin-bottom:32px;">
+    <h3 style="font-family:Montserrat,sans-serif;color:#0d4a2e;margin-bottom:12px;font-size:1rem;">Saved Entries</h3>
+    <div id="entries"></div>
+  </div>
+
+  <p style="text-align:center; font-size:13px; color:#666; margin-bottom:48px;">
+    &copy; 2025 The Resource Library Limited. Adapted for ChatCBT.
+  </p>
+
+</div><!-- end worksheet-container -->
+
+<script>
+// ── Emotion checkboxes ────────────────────────────────────────────────────
+var emoIds = ['emo_sad','emo_anxious','emo_angry','emo_ashamed','emo_guilty','emo_frustrated'];
+emoIds.forEach(function(id) {
+  var label    = document.getElementById('label_' + id);
+  var checkbox = document.getElementById(id);
+  var box      = document.getElementById('box_' + id);
+  label.addEventListener('click', function(e) {
+    e.preventDefault();
+    checkbox.checked = !checkbox.checked;
+    if (checkbox.checked) { label.classList.add('checked'); box.textContent = '✓'; }
+    else { label.classList.remove('checked'); box.textContent = ''; }
+  });
+});
+
+// ── Other emotion ─────────────────────────────────────────────────────────
+var otherInput = document.getElementById('emo_other');
+var otherRow   = document.getElementById('other-row');
+var otherBox   = document.getElementById('other-box');
+otherInput.addEventListener('input', function() {
+  if (this.value.trim()) {
+    otherRow.classList.add('active'); otherBox.classList.add('active'); otherBox.textContent = '✓';
+  } else {
+    otherRow.classList.remove('active'); otherBox.classList.remove('active'); otherBox.textContent = '';
+  }
+});
+otherRow.addEventListener('click', function(e) {
+  if (e.target !== otherInput) otherInput.focus();
+});
+
+// ── Save & render ─────────────────────────────────────────────────────────
+function collectEmotions() {
+  var emoMap = {
+    'emo_sad': 'Sad', 'emo_anxious': 'Anxious', 'emo_angry': 'Angry',
+    'emo_ashamed': 'Ashamed', 'emo_guilty': 'Guilty', 'emo_frustrated': 'Frustrated'
+  };
+  var emotions = [];
+  Object.keys(emoMap).forEach(function(id) {
+    if (document.getElementById(id).checked) emotions.push(emoMap[id]);
+  });
+  var otherVal = (document.getElementById('emo_other').value || '').trim();
+  if (otherVal) emotions.push(otherVal);
+  return emotions.join(', ');
+}
+
+async function saveEntry() {
+  var data = {
+    situation:           (document.getElementById('situation').value || ''),
+    emotions:            collectEmotions(),
+    intensity_before:    (document.getElementById('intensity_before').value || ''),
+    unhelpful_thought:   (document.getElementById('unhelpful_thought').value || ''),
+    evidence_for:        (document.getElementById('evidence_for').value || ''),
+    evidence_against:    (document.getElementById('evidence_against').value || ''),
+    balanced_reflection: (document.getElementById('balanced_reflection').value || ''),
+    balanced_thought:    (document.getElementById('balanced_thought').value || ''),
+    new_emotion:         (document.getElementById('new_emotion').value || ''),
+    intensity_after:     (document.getElementById('intensity_after').value || ''),
+    final_reflection:    (document.getElementById('final_reflection').value || ''),
+    time:                new Date().toLocaleString()
+  };
+  try {
+    await fetch('/.netlify/functions/saveWorksheet', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch (err) {
+    console.error('Save error:', err);
+  }
+  var entries = JSON.parse(localStorage.getItem('balanced-thinking') || '[]');
+  entries.unshift(data);
+  localStorage.setItem('balanced-thinking', JSON.stringify(entries));
+  render();
+}
+
+function render() {
+  var el = document.getElementById('entries');
+  if (!el) return;
+  var entries = JSON.parse(localStorage.getItem('balanced-thinking') || '[]');
+  el.innerHTML = entries.map(function(e) {
+    var situation = (e.situation || '').substring(0, 80) + ((e.situation || '').length > 80 ? '…' : '');
+    return '<div style="background:#fff;border-left:4px solid #0d4a2e;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:10px;font-size:0.88rem;">'
+      + '<strong style="color:#0d4a2e;">' + (e.time || '') + '</strong><br>'
+      + (situation ? '<span style="color:#333;">' + situation + '</span><br>' : '')
+      + (e.emotions ? '<span style="color:#555;">Emotions: ' + e.emotions + '</span><br>' : '')
+      + 'Intensity: ' + (e.intensity_before || '&mdash;') + '% &rarr; ' + (e.intensity_after || '&mdash;') + '%'
+      + '</div>';
+  }).join('');
+}
+
+document.getElementById('saveBtn').addEventListener('click', function() { saveEntry(); });
+render();
+</script>
+
+</body>
+</html>
