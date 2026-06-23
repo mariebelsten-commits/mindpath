@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Modifying Rules & Assumptions | ChatCBT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f0f9f0; color: #1a2e1a; line-height: 1.7; }
+
+    /* ── HERO ── */
+    .page-hero { background: linear-gradient(135deg, #0d4a2e 0%, #1a5c3a 60%, #2d7a50 100%); color: #fff; padding: 72px 24px 60px; text-align: center; }
+    .page-hero h1 { font-family: 'Montserrat', sans-serif; font-size: 3rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 20px; line-height: 1.15; color: #fff; }
+    .page-hero p { font-size: 1.15rem; max-width: 640px; margin: 0 auto 44px; opacity: 0.92; }
+    .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 700px; margin: 0 auto; text-align: left; }
+    .feature-card { background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.18); border-radius: 14px; padding: 22px 20px; }
+    .feature-card .icon { font-size: 1.6rem; margin-bottom: 10px; }
+    .feature-card h3 { font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 6px; color: #fff; }
+    .feature-card p { font-size: 0.9rem; opacity: 0.88; }
+
+    /* ── HOW IT WORKS ── */
+    .page-howto { background: #fff; padding: 64px 24px; }
+    .section-label { font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #1a5c3a; margin-bottom: 10px; text-align: center; }
+    .section-title { font-family: 'Montserrat', sans-serif; font-size: 2rem; font-weight: 800; color: #0d4a2e; margin-bottom: 10px; text-align: center; }
+    .section-sub { text-align: center; color: #4a6a4a; margin-bottom: 44px; max-width: 560px; margin-left: auto; margin-right: auto; }
+    .steps-stack { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+    .step-row { display: flex; align-items: flex-start; gap: 18px; background: #f8fdf8; border-radius: 14px; padding: 22px 24px; border: 1px solid #d4edda; }
+    .step-num { background: #1a5c3a; color: #fff; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1rem; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+    .step-text h4 { font-family: 'Montserrat', sans-serif; font-weight: 700; color: #0d4a2e; margin-bottom: 4px; }
+    .step-text p { color: #4a6a4a; font-size: 0.95rem; }
+    .info-box { max-width: 680px; margin: 32px auto 0; background: #b5e8c4; border-radius: 14px; padding: 20px 24px; color: #0d4a2e; font-size: 0.95rem; }
+    .info-box strong { font-weight: 700; }
+
+    /* ── WORKSHEET ── */
+    .page-worksheet { background: #f0f9f0; padding: 64px 24px 80px; }
+    .ws-inner { max-width: 760px; margin: 0 auto; }
+    .ws-card { background: #fff; border-radius: 16px; border-left: 5px solid #1a5c3a; padding: 28px 28px 24px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(26,92,58,0.07); }
+    .ws-card h3 { font-family: 'Montserrat', sans-serif; font-size: 1.05rem; font-weight: 700; color: #0d4a2e; margin-bottom: 6px; }
+    .ws-card .ws-hint { font-size: 0.875rem; color: #5a7a5a; margin-bottom: 14px; font-style: italic; }
+    .ws-card textarea { width: 100%; min-height: 110px; border: 1.5px solid #c8e6d0; border-radius: 10px; padding: 14px 16px; font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #1a2e1a; background: #f8fdf8; resize: vertical; transition: border-color 0.2s; line-height: 1.6; }
+    .ws-card textarea:focus { outline: none; border-color: #1a5c3a; background: #fff; }
+    .ws-card textarea::placeholder { color: #9ab89a; }
+
+    /* Two-column comparison */
+    .two-col-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .compare-col h4 { font-family: 'Montserrat', sans-serif; font-size: 0.92rem; font-weight: 700; margin-bottom: 10px; padding: 8px 12px; border-radius: 8px; }
+    .compare-col.advantages h4 { background: #e8f5e9; color: #1a5c3a; }
+    .compare-col.disadvantages h4 { background: #fbe9e7; color: #b94040; }
+    .compare-col.evidence-for h4 { background: #e3f2fd; color: #1565c0; }
+    .compare-col.evidence-against h4 { background: #fff3e0; color: #e65100; }
+    .compare-col textarea { min-height: 130px; }
+
+    /* Arrow divider */
+    .flow-arrow { text-align: center; font-size: 1.6rem; color: #1a5c3a; margin: 4px 0 8px; line-height: 1; }
+
+    /* Remember box */
+    .remember-box { background: #b5e8c4; border-radius: 14px; padding: 22px 26px; margin-bottom: 32px; color: #0d4a2e; }
+    .remember-box h4 { font-family: 'Montserrat', sans-serif; font-weight: 700; margin-bottom: 8px; font-size: 1rem; }
+    .remember-box p { font-size: 0.94rem; line-height: 1.65; }
+
+    /* Submit & saved entries */
+    .submit-wrap { text-align: center; margin-top: 16px; }
+    #saveBtn { background: linear-gradient(135deg, #0d4a2e, #1a5c3a); color: #fff; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.05rem; padding: 16px 44px; border: none; border-radius: 50px; cursor: pointer; letter-spacing: 0.3px; box-shadow: 0 4px 20px rgba(13,74,46,0.28); transition: transform 0.15s, box-shadow 0.15s; }
+    #saveBtn:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(13,74,46,0.38); }
+    .entries-wrap { margin-top: 28px; }
+    .entries-wrap h3 { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; color: #0d4a2e; margin-bottom: 12px; text-align: center; }
+    .entry-item { background: #fff; border-left: 4px solid #0d4a2e; border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 10px; font-size: 0.85rem; }
+    .entry-item strong { color: #0d4a2e; display: block; margin-bottom: 4px; }
+
+    @media (max-width: 760px) {
+      .page-hero h1 { font-size: 2rem; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .two-col-compare { grid-template-columns: 1fr; }
+      .ws-card { padding: 22px 18px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<section class="page-hero">
+  <h1>Modifying Rules &amp; Assumptions</h1>
+  <p>Unhelpful rules and assumptions quietly shape how we live. This worksheet helps you examine them honestly — and build something kinder and more flexible in their place.</p>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="icon">🔍</div>
+      <h3>Uncover the Rule</h3>
+      <p>Bring your hidden "if–then" assumptions into the open where they can be examined.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">⚖️</div>
+      <h3>Weigh the Evidence</h3>
+      <p>Look honestly at what supports and contradicts your old rule — with curiosity, not judgement.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🌱</div>
+      <h3>Craft a New Rule</h3>
+      <p>Replace rigid beliefs with a balanced, compassionate alternative that serves you better.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🚀</div>
+      <h3>Plan the Change</h3>
+      <p>Identify the small behavioural shifts that will help your new rule take root in daily life.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ── -->
+<section class="page-howto">
+  <p class="section-label">How It Works</p>
+  <h2 class="section-title">A step-by-step guide</h2>
+  <p class="section-sub">Work through each section in order. Take your time — honest reflection leads to the most useful results.</p>
+  <div class="steps-stack">
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <h4>Identify the old rule</h4>
+        <p>Write down the rule or assumption you want to work on. It often sounds like: "If I don't… then…" or "I must always…"</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <h4>Explore its origins</h4>
+        <p>Reflect on where this rule came from. What experiences, messages, or relationships helped form it?</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <h4>Weigh up advantages &amp; disadvantages</h4>
+        <p>Consider how this rule has helped you — and how it has held you back or caused you difficulty.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">4</div>
+      <div class="step-text">
+        <h4>Examine the evidence</h4>
+        <p>Look for real examples that support or challenge the rule. Try to be as balanced and specific as possible.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">5</div>
+      <div class="step-text">
+        <h4>Build a new rule &amp; action plan</h4>
+        <p>Write a more flexible, compassionate rule — then plan the small steps that will help you live by it.</p>
+      </div>
+    </div>
+  </div>
+  <div class="info-box">
+    <strong>💡 Tip:</strong> Rules and assumptions are not facts — they are learned patterns. Noticing them is the first and most important step towards changing them.
+  </div>
+</section>
+
+<!-- ── WORKSHEET ── -->
+<section class="page-worksheet">
+  <div class="ws-inner">
+    <p class="section-label">Your Worksheet</p>
+    <h2 class="section-title">Modifying Rules &amp; Assumptions</h2>
+    <p class="section-sub" style="margin-bottom:36px;">Fill in each section below, then save your entry.</p>
+
+    <div class="remember-box">
+      <h4>📝 Before you begin</h4>
+      <p>Rules and assumptions are the "if–then" beliefs that govern how we act. For example: <em>"If I show weakness, people will reject me"</em> or <em>"I must always put others first."</em> They often developed for good reasons but can become too rigid over time.</p>
+    </div>
+
+    <div class="ws-card">
+      <h3>Step 1 — Identify Your Old Rule or Assumption</h3>
+      <p class="ws-hint">Write the rule as clearly as you can. Try using "If… then…" or "I must / I should…" format.</p>
+      <textarea id="old_rule" placeholder='e.g. "If I am not completely competent in everything I do, then I am a failure."'></textarea>
+    </div>
+
+    <div class="flow-arrow">▼</div>
+
+    <div class="ws-card">
+      <h3>Step 2 — Where Did This Rule Come From?</h3>
+      <p class="ws-hint">Think back to when this rule might have formed. What experiences, people, or messages shaped it?</p>
+      <textarea id="rule_origins" placeholder="e.g. My parents had very high standards and praised me only when I achieved top grades. I learned early on that my worth was tied to my performance."></textarea>
+    </div>
+
+    <div class="flow-arrow">▼</div>
+
+    <div class="ws-card">
+      <h3>Step 3 — Advantages &amp; Disadvantages of the Old Rule</h3>
+      <p class="ws-hint">Be honest about both sides. What has this rule given you — and what has it cost you?</p>
+      <div class="two-col-compare">
+        <div class="compare-col advantages">
+          <h4>✅ Advantages</h4>
+          <textarea id="advantages_old_rule" placeholder="e.g. It motivated me to work hard and achieve things I'm proud of."></textarea>
+        </div>
+        <div class="compare-col disadvantages">
+          <h4>⚠️ Disadvantages</h4>
+          <textarea id="disadvantages_old_rule" placeholder="e.g. It causes constant anxiety, exhaustion, and a fear of trying new things in case I fail."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-arrow">▼</div>
+
+    <div class="ws-card">
+      <h3>Step 4 — Evidence For &amp; Against the Old Rule</h3>
+      <p class="ws-hint">Look for specific examples from your life that either support or challenge this rule.</p>
+      <div class="two-col-compare">
+        <div class="compare-col evidence-for">
+          <h4>📋 Evidence that supports it</h4>
+          <textarea id="evidence_for_old_rule" placeholder="e.g. There have been times when high standards led to good outcomes at work."></textarea>
+        </div>
+        <div class="compare-col evidence-against">
+          <h4>🔄 Evidence against it</h4>
+          <textarea id="evidence_against_old_rule" placeholder="e.g. Many people I respect have made big mistakes and are still valued. I have been kind to others who 'failed' without thinking less of them."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-arrow">▼</div>
+
+    <div class="ws-card">
+      <h3>Step 5 — Your New, More Balanced Rule</h3>
+      <p class="ws-hint">Write a new rule that is kinder, more flexible, and more realistic. It should feel genuinely believable — not just positive.</p>
+      <textarea id="new_rule" placeholder='e.g. "I can work hard and strive to do well, while accepting that making mistakes is part of being human. My worth is not determined by my performance."'></textarea>
+    </div>
+
+    <div class="flow-arrow">▼</div>
+
+    <div class="ws-card">
+      <h3>Step 6 — Advantages of Your New Rule</h3>
+      <p class="ws-hint">How might your life improve if you lived by this new rule? What would become possible?</p>
+      <textarea id="advantages_new_rule" placeholder="e.g. I would feel less anxious, take more risks, enjoy my achievements more, and be kinder to myself when things go wrong."></textarea>
+    </div>
+
+    <div class="flow-arrow">▼</div>
+
+    <div class="ws-card">
+      <h3>Step 7 — Behavioural Changes to Make</h3>
+      <p class="ws-hint">What will you do differently to start living by your new rule? List specific, small actions you can take.</p>
+      <textarea id="behavioural_changes" placeholder="e.g. Allow myself to submit work without over-checking it. Share an opinion in a meeting even if I am not 100% sure it is right. Practise saying 'that didn't go well' without concluding 'I am a failure'."></textarea>
+    </div>
+
+    <div class="flow-arrow">▼</div>
+
+    <div class="ws-card">
+      <h3>Step 8 — Possible Obstacles</h3>
+      <p class="ws-hint">What might get in the way of living by your new rule? Think about situations, feelings, or habits that could pull you back.</p>
+      <textarea id="possible_obstacles" placeholder="e.g. When I feel under pressure at work, the old rule feels very convincing. I might revert to over-working and self-criticism automatically."></textarea>
+    </div>
+
+    <div class="flow-arrow">▼</div>
+
+    <div class="ws-card">
+      <h3>Step 9 — How I Will Overcome These Obstacles</h3>
+      <p class="ws-hint">Plan how you will respond when you notice the old rule taking over. What will you say to yourself? Who or what can help?</p>
+      <textarea id="overcoming_obstacles" placeholder="e.g. Notice when my anxiety spikes and remind myself of my new rule. Re-read this worksheet. Talk to my therapist about any setbacks. Remind myself that changing a long-held belief takes time and practice."></textarea>
+    </div>
+
+    <div class="remember-box" style="margin-top:8px;">
+      <h4>🌿 Remember</h4>
+      <p>Changing deeply held rules takes time and repeated practice. Every time you choose to act according to your new rule — even in a small way — you are rewiring old patterns. Be patient and compassionate with yourself throughout this process.</p>
+    </div>
+
+    <div class="submit-wrap">
+      <button id="saveBtn">Save My Entry</button>
+    </div>
+    <div class="entries-wrap">
+      <h3>Saved Entries</h3>
+      <div id="entriesList"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+function g(id) {
+  return (document.getElementById(id).value || '').replace(/\r?\n|\r/g, ' | ').trim();
+}
+
+function collectData() {
+  return {
+    old_rule:                g('old_rule'),
+    rule_origins:            g('rule_origins'),
+    advantages_old_rule:     g('advantages_old_rule'),
+    disadvantages_old_rule:  g('disadvantages_old_rule'),
+    evidence_for_old_rule:   g('evidence_for_old_rule'),
+    evidence_against_old_rule: g('evidence_against_old_rule'),
+    new_rule:                g('new_rule'),
+    advantages_new_rule:     g('advantages_new_rule'),
+    behavioural_changes:     g('behavioural_changes'),
+    possible_obstacles:      g('possible_obstacles'),
+    overcoming_obstacles:    g('overcoming_obstacles'),
+    time: new Date().toLocaleString()
+  };
+}
+
+async function saveEntry() {
+  var data = collectData();
+  try {
+    await fetch('/.netlify/functions/saveWorksheet', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch (err) {
+    console.error('Save error:', err);
+  }
+  var entries = JSON.parse(localStorage.getItem('modifying-rules-and-assumptions') || '[]');
+  entries.unshift(data);
+  localStorage.setItem('modifying-rules-and-assumptions', JSON.stringify(entries));
+  render();
+}
+
+function render() {
+  var el = document.getElementById('entriesList');
+  if (!el) return;
+  var entries = JSON.parse(localStorage.getItem('modifying-rules-and-assumptions') || '[]');
+  if (!entries.length) { el.innerHTML = ''; return; }
+  el.innerHTML = entries.map(function(e) {
+    var preview = (e.old_rule || '').substring(0, 80) + ((e.old_rule || '').length > 80 ? '…' : '');
+    var newRule = (e.new_rule || '').substring(0, 80) + ((e.new_rule || '').length > 80 ? '…' : '');
+    return '<div class="entry-item">'
+      + '<strong>' + (e.time || '') + '</strong>'
+      + (preview ? '<span style="color:#555;">Old rule: ' + preview + '</span><br>' : '')
+      + (newRule ? '<span style="color:#1a5c3a;">New rule: ' + newRule + '</span>' : '')
+      + '</div>';
+  }).join('');
+}
+
+document.getElementById('saveBtn').addEventListener('click', saveEntry);
+render();
+</script>
+
+</body>
+</html>
