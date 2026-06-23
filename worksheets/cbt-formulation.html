@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CBT Formulation | ChatCBT</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    color: #1a1a1a;
+    line-height: 1.6;
+    background: #f0f9f0;
+  }
+
+  h1, h2, h3, h4 { font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif; }
+
+  textarea, input[type="text"], input[type="number"] {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    border: 2px solid #c3e6cb;
+    border-radius: 8px;
+    padding: 10px 12px;
+    background: #fff;
+    color: #1a1a1a;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+  }
+  textarea { resize: vertical; }
+  textarea:focus, input:focus {
+    outline: none;
+    border-color: #2d6a4f;
+    box-shadow: 0 0 0 3px rgba(45,106,79,0.15);
+  }
+  input::placeholder, textarea::placeholder {
+    color: #999;
+    font-style: italic;
+  }
+
+  /* ===== HERO ===== */
+  .page-hero {
+    padding: 70px 40px 60px;
+    background: linear-gradient(135deg, rgba(212,237,218,0.88) 0%, rgba(232,245,233,0.85) 40%, rgba(240,249,232,0.88) 100%);
+  }
+  .page-hero h1 {
+    font-size: 3rem;
+    color: #0d4a2e;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+  }
+  .badge {
+    display: inline-block;
+    background: #d4f1dd;
+    color: #0d4a2e;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    padding: 6px 14px;
+    border-radius: 6px;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+    border: 1px solid #b8dbc0;
+  }
+  .page-hero .intro {
+    font-size: 1.05rem;
+    color: #333;
+    max-width: 900px;
+    margin-bottom: 40px;
+    line-height: 1.7;
+  }
+  .feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 1100px;
+  }
+  .feature-card {
+    background: rgba(212,237,218,0.55);
+    border: 1.5px solid #b8dbc0;
+    border-radius: 12px;
+    padding: 26px 28px;
+  }
+  .feature-card h3 {
+    font-size: 1.35rem;
+    color: #0d4a2e;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  .feature-card p {
+    font-size: 0.98rem;
+    color: #333;
+    line-height: 1.55;
+  }
+
+  /* ===== HOW IT WORKS ===== */
+  .page-howto {
+    padding: 70px 40px 60px;
+    background: linear-gradient(160deg, #e8f5e9 0%, #f0f9f0 50%, #d4edda 100%);
+  }
+  .page-howto h2 {
+    font-size: 2.4rem;
+    color: #0d4a2e;
+    margin-bottom: 16px;
+  }
+  .page-howto .lead {
+    font-size: 1rem;
+    color: #333;
+    max-width: 900px;
+    margin-bottom: 34px;
+    line-height: 1.7;
+  }
+  .steps-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 1100px;
+  }
+  .step-row {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    background: rgba(212,237,218,0.45);
+    border: 1.5px solid #b8dbc0;
+    border-radius: 10px;
+    padding: 18px 22px;
+    align-items: start;
+  }
+  .step-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0d4a2e;
+    text-align: center;
+  }
+  .step-body h3 {
+    font-size: 1.2rem;
+    color: #0d4a2e;
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+  .step-body p {
+    font-size: 0.95rem;
+    color: #333;
+    line-height: 1.6;
+  }
+  .info-box {
+    margin-top: 30px;
+    background: #b5e8c4;
+    border-radius: 10px;
+    padding: 20px 24px;
+    max-width: 1100px;
+    color: #0d4a2e;
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  /* ===== WORKSHEET ===== */
+  .page-worksheet {
+    padding: 70px 40px 60px;
+    background: linear-gradient(160deg, #d4edda 0%, #e8f5e9 40%, #f0f9e8 100%);
+  }
+  .page-worksheet h2 {
+    font-size: 2.4rem;
+    color: #0d4a2e;
+    margin-bottom: 14px;
+  }
+  .page-worksheet .lead {
+    font-size: 1rem;
+    color: #333;
+    max-width: 900px;
+    margin-top: 24px;
+    margin-bottom: 34px;
+    line-height: 1.7;
+  }
+  .ws-card {
+    background: rgba(212,237,218,0.55);
+    border: 1.5px solid #b8dbc0;
+    border-left: 5px solid #1a5c3a;
+    border-radius: 10px;
+    padding: 22px 24px;
+    max-width: 1100px;
+  }
+  .ws-card h3 {
+    font-size: 1.2rem;
+    color: #0d4a2e;
+    margin-bottom: 4px;
+    font-weight: 700;
+  }
+  .ws-card .prompt {
+    font-size: 0.92rem;
+    color: #555;
+    font-style: italic;
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+  .sub-prompt {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #2d6a4f;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 6px;
+  }
+  .flow-arrow {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #1a5c3a;
+    line-height: 1;
+    margin: 6px 0;
+    max-width: 1100px;
+  }
+  .maintaining-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .horizontal-flow {
+    display: flex;
+    align-items: stretch;
+    max-width: 1100px;
+    gap: 0;
+  }
+  .horizontal-flow .ws-card {
+    flex: 1;
+    max-width: none;
+  }
+  .horizontal-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: #1a5c3a;
+    padding: 0 10px;
+    flex-shrink: 0;
+  }
+  .remember-box {
+    margin-top: 30px;
+    background: #b5e8c4;
+    border-radius: 10px;
+    padding: 20px 24px;
+    max-width: 1100px;
+    color: #0d4a2e;
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  /* ===== SUBMIT ===== */
+  .submit-wrap {
+    padding: 32px 40px 16px;
+    background: linear-gradient(160deg, #d4edda 0%, #e8f5e9 40%, #f0f9e8 100%);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  #saveBtn {
+    display: inline-block;
+    background: #1a5c3a;
+    color: #ffffff !important;
+    padding: 14px 36px;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  #saveBtn:hover { background: #14482d; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 760px) {
+    .feature-grid { grid-template-columns: 1fr; }
+    .page-hero, .page-howto, .page-worksheet { padding: 50px 22px; }
+    .submit-wrap { padding: 24px 22px 16px; }
+    .page-hero h1 { font-size: 2.2rem; }
+    .page-howto h2, .page-worksheet h2 { font-size: 1.9rem; }
+    .step-row { grid-template-columns: 44px 1fr; }
+    .step-num { font-size: 1.6rem; }
+    .maintaining-grid { grid-template-columns: 1fr; }
+    .horizontal-flow { flex-direction: column; }
+    .horizontal-arrow { transform: rotate(90deg); margin: 8px 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<section class="page-hero">
+  <h1>Formulation Sheet</h1>
+  <div class="badge">Cognitive Behavioural Therapy</div>
+  <p class="intro">A CBT Formulation Sheet is a structured tool that helps map out how your background, early experiences, and current stressors connect to the difficulties you are facing today. Working through this sheet &mdash; ideally with your therapist &mdash; builds a shared understanding of your problems and points towards a clear way forward.</p>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <h3>&#x1F517; Connect</h3>
+      <p>Understand the links between your past experiences, early beliefs, and present-day difficulties</p>
+    </div>
+    <div class="feature-card">
+      <h3>&#x1F9E9; Understand</h3>
+      <p>Make sense of why you developed certain patterns and how they continue to affect you today</p>
+    </div>
+    <div class="feature-card">
+      <h3>&#x1F3AF; Focus</h3>
+      <p>Identify the maintaining factors keeping your difficulties in place &mdash; and where to intervene</p>
+    </div>
+    <div class="feature-card">
+      <h3>&#x1F33F; Move Forward</h3>
+      <p>Draw on your assets and strengths to chart a meaningful, realistic path towards change</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="page-howto">
+  <h2>How to Use This Sheet</h2>
+  <p class="lead">Work through each section in order, from top to bottom. This formulation is not a fixed diagnosis &mdash; it is a working map that can be updated as your understanding deepens. Complete it honestly, and discuss it with your therapist to refine it over time.</p>
+  <div class="steps-stack">
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Background Factors</h3>
+        <p>Consider the biological (e.g. genetics, health), social (e.g. family environment, culture), and psychological (e.g. early trauma, significant relationships) factors and early life experiences that have shaped who you are and how you see the world.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Early Coping Style</h3>
+        <p>Think about how you responded to your early experiences. What core beliefs did you develop about yourself, others, and the world? What assumptions did you form? How were these reflected in your behaviour, emotions, and physical responses?</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Recent Stresses / Triggers</h3>
+        <p>What recent events, situations, or changes have activated or worsened your difficulties? These might be life events, relationship changes, health issues, or work pressures that have brought old patterns to the surface.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>Recent Maintaining Factors</h3>
+        <p>What is keeping your difficulties going right now? Record the physical sensations, emotions, thoughts, and behaviours that form a self-reinforcing cycle. These are the key targets for change in CBT.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h3>Assets</h3>
+        <p>What personal strengths, skills, values, relationships, and resources do you have? Assets might include resilience, creativity, supportive relationships, problem-solving ability, or previous experience of overcoming difficulties.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <h3>Way Forward</h3>
+        <p>Based on everything above, what specific steps, goals, or changes might help? This is where your formulation becomes a plan &mdash; grounded in your own understanding of how your difficulties developed and what might shift them.</p>
+      </div>
+    </div>
+  </div>
+  <div class="info-box">
+    &#x1F4A1; <strong>Remember:</strong> A formulation is a hypothesis, not a verdict. It is a shared attempt to make sense of your experiences &mdash; not a fixed label. It will evolve as you and your therapist learn more. Treat it with curiosity rather than judgement.
+  </div>
+</section>
+
+<!-- ===== WORKSHEET ===== -->
+<section class="page-worksheet">
+  <h2>My Formulation</h2>
+  <div class="badge">Complete This Section With Your Therapist</div>
+  <p class="lead">Work through each section in order. There are no right or wrong answers &mdash; this is a personal map of your experiences that will develop and evolve over time.</p>
+
+  <div class="ws-card">
+    <h3>Background Factors</h3>
+    <p class="prompt">Biological, social, psychological, early experiences &mdash; what has shaped who you are and how you see the world?</p>
+    <textarea rows="6" placeholder="Describe your background factors here..."></textarea>
+  </div>
+
+  <div class="flow-arrow">&#x25BC;</div>
+
+  <div class="ws-card">
+    <h3>Early Coping Style</h3>
+    <p class="prompt">Core beliefs, assumptions, behaviour, emotions, physiological reactions &mdash; how did you respond to your early experiences?</p>
+    <textarea rows="6" placeholder="Describe your early coping style here..."></textarea>
+  </div>
+
+  <div class="flow-arrow">&#x25BC;</div>
+
+  <div class="ws-card">
+    <h3>Recent Stresses / Triggers</h3>
+    <p class="prompt">What recent events or situations have activated or worsened your difficulties?</p>
+    <textarea rows="5" placeholder="Describe your recent stresses or triggers here..."></textarea>
+  </div>
+
+  <div class="flow-arrow">&#x25BC;</div>
+
+  <div class="ws-card">
+    <h3>Recent Maintaining Factors</h3>
+    <p class="prompt">What is keeping your difficulties going right now? Complete each of the four areas below.</p>
+    <div class="maintaining-grid">
+      <div>
+        <p class="sub-prompt">Physical / Bodily Sensations</p>
+        <textarea rows="4" placeholder="e.g. tension, fatigue, racing heart, chest tightness..."></textarea>
+      </div>
+      <div>
+        <p class="sub-prompt">Emotions</p>
+        <textarea rows="4" placeholder="e.g. anxiety, sadness, shame, anger, emptiness..."></textarea>
+      </div>
+      <div>
+        <p class="sub-prompt">Thoughts</p>
+        <textarea rows="4" placeholder="e.g. 'I can't cope', 'something bad will happen', 'I am worthless'..."></textarea>
+      </div>
+      <div>
+        <p class="sub-prompt">Behaviour</p>
+        <textarea rows="4" placeholder="e.g. avoidance, withdrawal, checking, overworking..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-arrow">&#x25BC;</div>
+
+  <div class="horizontal-flow">
+    <div class="ws-card">
+      <h3>Assets</h3>
+      <p class="prompt">What strengths, skills, support systems, and resources do you have to draw on?</p>
+      <textarea rows="7" placeholder="Describe your assets and strengths here..."></textarea>
+    </div>
+    <div class="horizontal-arrow">&rarr;</div>
+    <div class="ws-card">
+      <h3>Way Forward</h3>
+      <p class="prompt">Based on your formulation, what specific steps or goals might help?</p>
+      <textarea rows="7" placeholder="Describe your way forward here..."></textarea>
+    </div>
+  </div>
+
+  <div class="remember-box">
+    &#x1F33F; <strong>Remember:</strong> A formulation is a working hypothesis &mdash; not a fixed diagnosis. It is a shared attempt to make sense of your experiences with curiosity and compassion. It will grow and change as you do. Well done for taking the time to understand yourself more deeply.
+  </div>
+</section>
+
+<div class="submit-wrap" style="text-align:center;">
+  <button id="saveBtn">Save My Formulation</button>
+  <div style="margin-top:28px;">
+    <h3 style="font-family:'Montserrat',sans-serif;color:#0d4a2e;margin-bottom:12px;font-size:1rem;">Saved Entries</h3>
+    <div id="entries"></div>
+  </div>
+</div>
+
+<script>
+var fieldNames = [
+  'background_factors',
+  'early_coping_style',
+  'recent_stresses',
+  'physical_sensations',
+  'emotions',
+  'thoughts',
+  'behaviour',
+  'assets',
+  'way_forward'
+];
+
+function collectData() {
+  var section = document.querySelector('.page-worksheet');
+  var allFields = Array.from(section.querySelectorAll('textarea, input[type="text"], input[type="number"]'));
+  var data = { time: new Date().toLocaleString() };
+  allFields.forEach(function(field, i) {
+    if (fieldNames[i]) data[fieldNames[i]] = field.value.replace(/\r?\n|\r/g, ' | ');
+  });
+  return data;
+}
+
+async function saveEntry() {
+  var data = collectData();
+  try {
+    await fetch('/.netlify/functions/saveWorksheet', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch (err) {
+    console.error('Save error:', err);
+  }
+  var entries = JSON.parse(localStorage.getItem('cbt-formulation') || '[]');
+  entries.unshift(data);
+  localStorage.setItem('cbt-formulation', JSON.stringify(entries));
+  render();
+}
+
+function render() {
+  var el = document.getElementById('entries');
+  if (!el) return;
+  var entries = JSON.parse(localStorage.getItem('cbt-formulation') || '[]');
+  el.innerHTML = entries.map(function(e) {
+    var background = (e.background_factors || '').substring(0, 80) + ((e.background_factors || '').length > 80 ? '&hellip;' : '');
+    var stresses = (e.recent_stresses || '').substring(0, 80) + ((e.recent_stresses || '').length > 80 ? '&hellip;' : '');
+    return '<div style="background:#fff;border-left:4px solid #0d4a2e;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:10px;font-size:0.88rem;text-align:left;">'
+      + '<strong style="color:#0d4a2e;">' + (e.time || '') + '</strong><br>'
+      + (background ? '<span style="color:#333;">Background: ' + background + '</span><br>' : '')
+      + (stresses ? '<span style="color:#555;">Triggers: ' + stresses + '</span>' : '')
+      + '</div>';
+  }).join('');
+}
+
+document.getElementById('saveBtn').addEventListener('click', function() { saveEntry(); });
+render();
+</script>
+</body>
+</html>
