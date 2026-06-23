@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instant Grounding Technique | ChatCBT</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Inter, sans-serif; color: #222; background: #f8faf8; }
+
+  /* HERO */
+  .page-hero { background: #0d4a2e; padding: 56px 24px 48px; text-align: center; }
+  .page-hero h1 {
+    font-family: Montserrat, sans-serif;
+    font-size: clamp(26px, 4vw, 40px);
+    font-weight: 700; color: #ffffff; margin-bottom: 14px;
+  }
+  .page-hero p {
+    color: rgba(255,255,255,0.85); font-size: 16px;
+    max-width: 620px; margin: 0 auto; line-height: 1.7;
+  }
+
+  /* FEATURES */
+  .features-section { background: #1a5c3a; padding: 36px 24px; }
+  .features-inner {
+    max-width: 960px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;
+  }
+  .feature-card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 22px 20px; }
+  .feature-card h3 {
+    font-family: Montserrat, sans-serif; font-size: 15px;
+    font-weight: 700; color: #ffffff; margin-bottom: 8px;
+  }
+  .feature-card p { font-size: 13px; color: rgba(255,255,255,0.8); line-height: 1.55; }
+
+  /* WORKSHEET */
+  .worksheet-container { max-width: 760px; margin: 0 auto; padding: 40px 24px 60px; }
+
+  /* Instructional block */
+  .guide-block {
+    background: #e8f5e9; border-radius: 14px;
+    padding: 24px 28px; margin-bottom: 20px;
+    border-left: 4px solid #0d4a2e;
+  }
+  .guide-block h2 {
+    font-family: Montserrat, sans-serif; font-size: 17px;
+    font-weight: 700; color: #0d4a2e; margin-bottom: 10px;
+  }
+  .guide-block p { font-size: 14px; color: #2a4a2a; line-height: 1.7; }
+  .guide-block p + p { margin-top: 10px; }
+
+  /* Input block */
+  .input-block {
+    background: #fff; border-radius: 14px;
+    padding: 28px 28px 24px; margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .input-block h2 {
+    font-family: Montserrat, sans-serif; font-size: 17px;
+    font-weight: 700; color: #0d4a2e; margin-bottom: 6px;
+  }
+  .input-block .sub {
+    font-size: 13px; color: #666; line-height: 1.5; margin-bottom: 16px;
+  }
+
+  textarea {
+    width: 100%; padding: 12px 14px;
+    border: 2px solid #e0e0e0; border-radius: 8px;
+    font-family: Inter, sans-serif; font-size: 14px;
+    color: #333; resize: vertical; min-height: 90px;
+    transition: border-color 0.2s;
+  }
+  textarea:focus { outline: none; border-color: #0d4a2e; }
+
+  .field-input {
+    width: 100%; padding: 11px 14px;
+    border: 2px solid #e0e0e0; border-radius: 8px;
+    font-family: Inter, sans-serif; font-size: 14px;
+    color: #333; transition: border-color 0.2s;
+  }
+  .field-input:focus { outline: none; border-color: #0d4a2e; }
+
+  /* Senses grid */
+  .senses-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 560px) { .senses-grid { grid-template-columns: 1fr; } }
+
+  .sense-col { display: flex; flex-direction: column; gap: 0; }
+  .sense-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 12px;
+  }
+  .sense-num {
+    font-family: Montserrat, sans-serif; font-weight: 700;
+    font-size: 32px; line-height: 1; color: #0d4a2e;
+  }
+  .sense-label { font-size: 13px; font-weight: 600; color: #444; line-height: 1.3; }
+  .sense-inputs { display: flex; flex-direction: column; gap: 8px; }
+
+  /* Reminder chips */
+  .reminder-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+  .reminder-chip {
+    display: flex; align-items: center; gap: 12px;
+    background: #f8faf8; border: 2px solid #e0e0e0;
+    border-radius: 10px; padding: 12px 16px;
+    cursor: pointer; transition: border-color 0.2s, background 0.2s;
+    user-select: none;
+  }
+  .reminder-chip:hover { border-color: #0d4a2e; }
+  .reminder-chip.active { border-color: #0d4a2e; background: #e8f5e9; }
+  .reminder-dot {
+    min-width: 20px; width: 20px; height: 20px;
+    border: 2px solid #ccc; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; transition: all 0.2s;
+  }
+  .reminder-chip.active .reminder-dot {
+    background: #0d4a2e; border-color: #0d4a2e; color: #fff;
+  }
+  .reminder-chip span { font-size: 14px; color: #333; }
+  .reminder-chip.active span { color: #0d4a2e; font-weight: 600; }
+
+  .statement-label {
+    font-size: 13px; font-weight: 600; color: #444;
+    margin-bottom: 8px; display: block;
+  }
+
+  /* Submit & saved entries */
+  #saveBtn {
+    background: #0d4a2e; color: #fff; border: none;
+    padding: 16px 40px; border-radius: 50px;
+    font-family: Montserrat, sans-serif; font-size: 17px;
+    font-weight: 700; cursor: pointer; transition: background 0.2s;
+  }
+  #saveBtn:hover { background: #1a5c3a; }
+  .entries-wrap { margin-top: 28px; }
+  .entries-wrap h3 { font-family: Montserrat, sans-serif; font-size: 0.95rem; color: #0d4a2e; margin-bottom: 12px; }
+  .entry-item { background: #fff; border-left: 4px solid #0d4a2e; border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 10px; font-size: 0.85rem; }
+  .entry-item strong { color: #0d4a2e; display: block; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="page-hero">
+  <h1>Instant Grounding Technique</h1>
+  <p>For moments when everything feels overwhelming. This gentle exercise helps you feel a little more connected, settled, and safe in the present moment.</p>
+</div>
+
+<!-- FEATURES -->
+<div class="features-section">
+  <div class="features-inner">
+    <div class="feature-card">
+      <h3>🌿 What Is Grounding?</h3>
+      <p>Grounding techniques help you reconnect with the present moment when you feel anxious, distressed, numb, or disconnected.</p>
+    </div>
+    <div class="feature-card">
+      <h3>🔢 The 3-2-1 Method</h3>
+      <p>By noticing 3 things you can see, 2 you can hear, and 1 you can feel, you gently redirect your attention from distress back to your surroundings.</p>
+    </div>
+    <div class="feature-card">
+      <h3>💾 Save Your Practice</h3>
+      <p>Complete the exercise and save your entry — a helpful reminder of what worked for you that you can return to whenever you need it.</p>
+    </div>
+  </div>
+</div>
+
+<!-- WORKSHEET -->
+<div class="worksheet-container">
+
+  <!-- Pause -->
+  <div class="guide-block">
+    <h2>🌬️ Pause for a Moment</h2>
+    <p>If you can, take one slow, gentle breath.</p>
+    <p>There is no need to change or control your breathing. Simply notice it as it is.</p>
+  </div>
+
+  <!-- Notice Your Body -->
+  <div class="input-block">
+    <h2>🧘 Notice Your Body</h2>
+    <p class="sub">If possible, place both feet firmly on the floor. Take a moment to notice the support beneath you and the weight of your body being held.<br><br>What sensations can you notice in your body right now? <em style="color:#888;">(For example: tension, heaviness, warmth, tingling, numbness.)</em></p>
+    <textarea id="body_sensations" placeholder="Describe any sensations you can notice — there are no right or wrong answers..."></textarea>
+  </div>
+
+  <!-- Connect Through Your Senses -->
+  <div class="input-block">
+    <h2>👀 Connect Through Your Senses</h2>
+    <p class="sub">Take a moment to focus on your surroundings and name what you notice.</p>
+    <div class="senses-grid">
+
+      <!-- See -->
+      <div class="sense-col">
+        <div class="sense-header">
+          <div class="sense-num">3</div>
+          <div class="sense-label">Things you<br>can <strong>see</strong> 👁️</div>
+        </div>
+        <div class="sense-inputs">
+          <input type="text" class="field-input" id="see_1" placeholder="1.">
+          <input type="text" class="field-input" id="see_2" placeholder="2.">
+          <input type="text" class="field-input" id="see_3" placeholder="3.">
+        </div>
+      </div>
+
+      <!-- Hear -->
+      <div class="sense-col">
+        <div class="sense-header">
+          <div class="sense-num">2</div>
+          <div class="sense-label">Things you<br>can <strong>hear</strong> 👂</div>
+        </div>
+        <div class="sense-inputs">
+          <input type="text" class="field-input" id="hear_1" placeholder="1.">
+          <input type="text" class="field-input" id="hear_2" placeholder="2.">
+        </div>
+      </div>
+
+      <!-- Feel -->
+      <div class="sense-col">
+        <div class="sense-header">
+          <div class="sense-num">1</div>
+          <div class="sense-label">Thing you<br>can <strong>feel</strong> ✋</div>
+        </div>
+        <div class="sense-inputs">
+          <input type="text" class="field-input" id="feel_1" placeholder="1.">
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Helpful Reminder -->
+  <div class="input-block">
+    <h2>💬 A Helpful Reminder</h2>
+    <p class="sub">Choose the statement that feels most supportive right now, or write one of your own below.</p>
+
+    <div class="reminder-grid">
+      <div class="reminder-chip" id="rem_safe">
+        <div class="reminder-dot" id="dot_rem_safe"></div>
+        <span>I am safe in this moment.</span>
+      </div>
+      <div class="reminder-chip" id="rem_pass">
+        <div class="reminder-dot" id="dot_rem_pass"></div>
+        <span>This feeling will pass.</span>
+      </div>
+      <div class="reminder-chip" id="rem_solve">
+        <div class="reminder-dot" id="dot_rem_solve"></div>
+        <span>I do not need to solve everything right now.</span>
+      </div>
+      <div class="reminder-chip" id="rem_moment">
+        <div class="reminder-dot" id="dot_rem_moment"></div>
+        <span>I can take things one moment at a time.</span>
+      </div>
+    </div>
+
+    <label class="statement-label" for="chosen_statement">✏️ My chosen statement:</label>
+    <input type="text" class="field-input" id="chosen_statement" placeholder="Select one above, or write your own here...">
+  </div>
+
+  <!-- SUBMIT -->
+  <div style="text-align:center; margin: 40px 0 0;">
+    <button id="saveBtn">Save My Entry</button>
+  </div>
+  <div class="entries-wrap">
+    <h3>Saved Entries</h3>
+    <div id="entriesList"></div>
+  </div>
+
+</div>
+
+<script>
+function v(id) { return (document.getElementById(id).value || '').trim(); }
+
+// Reminder chips (single-select)
+var reminders = [
+  { id: 'rem_safe',   text: 'I am safe in this moment.' },
+  { id: 'rem_pass',   text: 'This feeling will pass.' },
+  { id: 'rem_solve',  text: 'I do not need to solve everything right now.' },
+  { id: 'rem_moment', text: 'I can take things one moment at a time.' }
+];
+reminders.forEach(function(r) {
+  document.getElementById(r.id).addEventListener('click', function() {
+    var wasActive = this.classList.contains('active');
+    reminders.forEach(function(x) {
+      var chip = document.getElementById(x.id);
+      var dot  = document.getElementById('dot_' + x.id);
+      chip.classList.remove('active');
+      dot.textContent = '';
+    });
+    document.getElementById('chosen_statement').value = '';
+    if (!wasActive) {
+      this.classList.add('active');
+      document.getElementById('dot_' + r.id).textContent = '✓';
+      document.getElementById('chosen_statement').value = r.text;
+    }
+  });
+});
+
+function collectData() {
+  return {
+    body_sensations:  v('body_sensations'),
+    see_1:            v('see_1'),
+    see_2:            v('see_2'),
+    see_3:            v('see_3'),
+    hear_1:           v('hear_1'),
+    hear_2:           v('hear_2'),
+    feel_1:           v('feel_1'),
+    chosen_statement: v('chosen_statement'),
+    time: new Date().toLocaleString()
+  };
+}
+
+async function saveEntry() {
+  var data = collectData();
+  try {
+    await fetch('/.netlify/functions/saveWorksheet', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch (err) {
+    console.error('Save error:', err);
+  }
+  var entries = JSON.parse(localStorage.getItem('instant-grounding-technique') || '[]');
+  entries.unshift(data);
+  localStorage.setItem('instant-grounding-technique', JSON.stringify(entries));
+  render();
+}
+
+function render() {
+  var el = document.getElementById('entriesList');
+  if (!el) return;
+  var entries = JSON.parse(localStorage.getItem('instant-grounding-technique') || '[]');
+  if (!entries.length) { el.innerHTML = ''; return; }
+  el.innerHTML = entries.map(function(e) {
+    var sees = [e.see_1, e.see_2, e.see_3].filter(Boolean).join(', ');
+    return '<div class="entry-item">'
+      + '<strong>' + (e.time || '') + '</strong>'
+      + (sees ? '<span style="color:#333;">Saw: ' + sees + '</span><br>' : '')
+      + (e.chosen_statement ? '<span style="color:#555;">' + e.chosen_statement + '</span>' : '')
+      + '</div>';
+  }).join('');
+}
+
+document.getElementById('saveBtn').addEventListener('click', saveEntry);
+render();
+</script>
+
+</body>
+</html>
