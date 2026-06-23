@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guilt: Getting To Grips With It | ChatCBT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f0f9f0; color: #1a1a1a; }
+
+    /* ── Hero ── */
+    .page-hero { background: #0d4a2e; padding: 56px 24px 48px; text-align: center; }
+    .hero-badge { display: inline-block; background: rgba(255,255,255,0.15); color: #fff; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; }
+    .page-hero h1 { font-family: 'Montserrat', sans-serif; font-size: 2.4rem; font-weight: 800; color: #ffffff; margin-bottom: 12px; letter-spacing: -0.5px; line-height: 1.2; }
+    .page-hero p { font-size: 1.1rem; color: rgba(255,255,255,0.88); max-width: 580px; margin: 0 auto; line-height: 1.6; }
+
+    /* ── Quote ── */
+    .quote-block { background: #0d4a2e; border-top: 1px solid rgba(255,255,255,0.15); padding: 16px 24px 28px; text-align: center; }
+    .quote-text { font-family: 'Montserrat', sans-serif; font-size: 1.05rem; font-weight: 600; color: rgba(255,255,255,0.92); font-style: italic; max-width: 540px; margin: 0 auto 6px; line-height: 1.6; }
+    .quote-attr { font-size: 0.8rem; color: rgba(255,255,255,0.5); letter-spacing: 0.06em; text-transform: uppercase; }
+
+    /* ── Features ── */
+    .features-section { background: #1a5c3a; padding: 40px 24px; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 20px; max-width: 960px; margin: 0 auto; }
+    .feature-card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 22px 18px; text-align: center; color: #fff; }
+    .feature-card .icon { font-size: 1.8rem; margin-bottom: 10px; }
+    .feature-card h3 { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 700; color: #ffffff; margin-bottom: 7px; }
+    .feature-card p { font-size: 0.83rem; color: rgba(255,255,255,0.85); line-height: 1.5; }
+
+    /* ── Background info ── */
+    .info-section { max-width: 800px; margin: 32px auto 0; padding: 0 16px; }
+    .info-box { background: #fff; border-radius: 12px; padding: 24px 28px; border: 1px solid #d0ecd8; border-left: 4px solid #1a5c3a; }
+    .info-box h3 { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 700; color: #0d4a2e; margin-bottom: 10px; }
+    .info-box p { font-size: 0.875rem; color: #2d4a35; line-height: 1.75; margin-bottom: 10px; }
+    .info-box p:last-child { margin-bottom: 0; }
+
+    /* ── Worksheet ── */
+    .page-worksheet { max-width: 800px; margin: 28px auto 48px; padding: 0 16px; }
+
+    /* ── Step blocks ── */
+    .step-block { background: #fff; border-radius: 12px; padding: 28px 28px 24px; margin-bottom: 8px; border: 1px solid #d0ecd8; box-shadow: 0 2px 8px rgba(13,74,46,0.06); }
+    .step-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .step-number { width: 36px; height: 36px; background: #1a5c3a; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.9rem; flex-shrink: 0; }
+    .step-title { font-family: 'Montserrat', sans-serif; font-size: 1.08rem; font-weight: 700; color: #0d4a2e; }
+    .step-desc { font-size: 0.88rem; color: #4a7a5a; margin-bottom: 20px; line-height: 1.6; }
+
+    /* ── Flow arrow ── */
+    .flow-arrow { text-align: center; font-size: 1.4rem; color: #4a7a5a; line-height: 1; margin: 6px 0; }
+
+    /* ── Field label ── */
+    .field-label { display: block; font-size: 0.87rem; font-weight: 600; color: #1a3d28; margin-bottom: 7px; margin-top: 20px; }
+    textarea, input[type="text"] { width: 100%; padding: 10px 12px; border: 1px solid #b0d8bc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #1a1a1a; background: #fff; resize: vertical; line-height: 1.5; }
+    textarea:focus, input[type="text"]:focus { outline: none; border-color: #1a5c3a; box-shadow: 0 0 0 3px rgba(26,92,58,0.1); }
+
+    /* ── Percentage rows ── */
+    .pct-rows { background: #f8fdf8; border-radius: 8px; border: 1px solid #d0ecd8; overflow: hidden; margin-top: 4px; }
+    .pct-row { display: flex; align-items: center; gap: 10px; padding: 11px 14px; border-bottom: 1px solid #e8f5e9; flex-wrap: wrap; }
+    .pct-row:last-child { border-bottom: none; }
+    .pct-row-label { font-size: 0.875rem; color: #1a3d28; flex: 1; min-width: 200px; }
+    .pct-input-wrap { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
+    .pct-input { width: 64px; padding: 6px 8px; border: 2px solid #1a5c3a; border-radius: 6px; font-size: 1rem; font-weight: 700; color: #0d4a2e; text-align: center; font-family: 'Montserrat', sans-serif; background: #fff; -moz-appearance: textfield; }
+    .pct-input::-webkit-outer-spin-button, .pct-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+    .pct-input:focus { outline: none; box-shadow: 0 0 0 3px rgba(26,92,58,0.15); }
+    .pct-symbol { font-family: 'Montserrat', sans-serif; font-weight: 700; color: #1a5c3a; font-size: 0.95rem; }
+    .pct-connector { font-size: 0.82rem; color: #6a9a7a; }
+
+    /* ── Others grid ── */
+    .others-grid { background: #f8fdf8; border-radius: 8px; border: 1px solid #d0ecd8; overflow: hidden; margin-top: 4px; }
+    .other-row { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid #e8f5e9; }
+    .other-row:last-child { border-bottom: none; }
+    .other-role { font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 700; color: #fff; background: #1a5c3a; padding: 3px 10px; border-radius: 20px; flex-shrink: 0; min-width: 58px; text-align: center; }
+    .other-row input { margin: 0; border-radius: 6px; }
+
+    /* ── Statement completions ── */
+    .statement-block { margin-bottom: 20px; }
+    .statement-stem { display: inline-block; font-family: 'Montserrat', sans-serif; font-size: 0.82rem; font-weight: 700; color: #0d4a2e; background: #e8f5e9; padding: 5px 12px; border-radius: 6px 6px 0 0; margin-bottom: -1px; position: relative; z-index: 1; }
+    .statement-block textarea { border-top-left-radius: 0; margin-top: 0; }
+
+    /* ── Remember box ── */
+    .remember-box { background: #e8f5e9; border-radius: 12px; padding: 20px 24px; margin-top: 8px; font-size: 0.88rem; color: #1a3d28; line-height: 1.7; text-align: center; }
+
+    /* ── Submit & saved entries ── */
+    .submit-section { text-align: center; padding: 24px 0 16px; }
+    #saveBtn { display: inline-block; background: #1a5c3a; color: #ffffff; padding: 14px 36px; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700; border: none; cursor: pointer; transition: background 0.2s; margin-top: 8px; }
+    #saveBtn:hover { background: #14482d; }
+    .entries-wrap { margin-top: 24px; }
+    .entries-wrap h3 { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; color: #0d4a2e; margin-bottom: 12px; }
+    .entry-item { background: #fff; border-left: 4px solid #0d4a2e; border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 10px; font-size: 0.85rem; }
+    .entry-item strong { color: #0d4a2e; display: block; margin-bottom: 4px; }
+
+    @media (max-width: 600px) { .page-hero h1 { font-size: 1.9rem; } }
+  </style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section class="page-hero">
+  <div class="hero-badge">CBT Worksheet</div>
+  <h1>Guilt: Getting To Grips With It</h1>
+  <p>Examine your wrongdoing with honesty and proportion, express your remorse, and take the steps needed to move forward.</p>
+</section>
+
+<!-- ══ QUOTE ══ -->
+<div class="quote-block">
+  <p class="quote-text">"To be wrong is nothing unless you continue to remember it."</p>
+  <p class="quote-attr">Confucius</p>
+</div>
+
+<!-- ══ FEATURES ══ -->
+<section class="features-section">
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="icon">🔍</div>
+      <h3>Put It In Perspective</h3>
+      <p>Examine intention, control, and the role of others — so you can see the full picture clearly</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">⚖️</div>
+      <h3>Own Your Part</h3>
+      <p>Not all and not none — take responsibility for exactly your contribution, no more and no less</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">💬</div>
+      <h3>Express Remorse</h3>
+      <p>Articulate what you regret and the wish behind it — the first step toward genuine repair</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🌱</div>
+      <h3>Move Forward</h3>
+      <p>Commit to a change in behaviour that lets you learn from the mistake and grow past it</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ BACKGROUND INFO ══ -->
+<div class="info-section">
+  <div class="info-box">
+    <h3>What is guilt?</h3>
+    <p>Guilt is a complex emotion that tends to arise when we interpret one of our actions as having broken an internal moral code. Guilt focuses on what we have done to harm others and our desire to repair that hurt. A related — but different — emotion is shame, which involves the whole sense of self being inferior or bad, not just a specific behaviour.</p>
+    <p>People can experience too much or too little guilt. Those who feel chronic guilt often take too much responsibility for bad outcomes; others deflect entirely and blame those around them. The goal is to own your part — exactly your part — with honesty and proportion.</p>
+  </div>
+</div>
+
+<!-- ══ WORKSHEET ══ -->
+<div class="page-worksheet">
+
+  <!-- Step 1 -->
+  <div class="step-block" style="margin-top:28px;">
+    <div class="step-header">
+      <div class="step-number">1</div>
+      <div class="step-title">Re-examine Your Wrongdoing</div>
+    </div>
+    <p class="step-desc">Put what happened into perspective. Look carefully at your intention, how much control you actually had, the contribution of others, and the true degree of harm caused. Honest reflection — not self-flagellation — is the goal.</p>
+
+    <label class="field-label" style="margin-top:0;">I feel bad about…</label>
+    <textarea id="feeling_bad_about" rows="4" placeholder="Describe the situation or action you feel guilty about. Be specific — what exactly happened, and why does it weigh on you?"></textarea>
+
+    <label class="field-label">Intention, control and responsibility</label>
+    <div class="pct-rows">
+      <div class="pct-row">
+        <span class="pct-row-label">I had this much <strong>intention</strong> of this turning out the way it did</span>
+        <div class="pct-input-wrap">
+          <input type="number" id="pct_intention" class="pct-input" min="0" max="100" placeholder="0" />
+          <span class="pct-symbol">%</span>
+        </div>
+      </div>
+      <div class="pct-row">
+        <span class="pct-row-label">I had this much <strong>control</strong> over achieving the outcome that happened</span>
+        <div class="pct-input-wrap">
+          <input type="number" id="pct_control" class="pct-input" min="0" max="100" placeholder="0" />
+          <span class="pct-symbol">%</span>
+        </div>
+      </div>
+    </div>
+
+    <label class="field-label">Other people and events that had some responsibility in the outcome</label>
+    <div class="others-grid">
+      <div class="other-row">
+        <span class="other-role">Person</span>
+        <input type="text" id="other_person_1" placeholder="Name and their role in what happened…" />
+      </div>
+      <div class="other-row">
+        <span class="other-role">Person</span>
+        <input type="text" id="other_person_2" placeholder="Name and their role in what happened…" />
+      </div>
+      <div class="other-row">
+        <span class="other-role">Event</span>
+        <input type="text" id="other_event" placeholder="Event or circumstance and how it contributed…" />
+      </div>
+    </div>
+
+    <label class="field-label">The degree of harm and the eventual outcome</label>
+    <div class="pct-rows">
+      <div class="pct-row">
+        <span class="pct-row-label">The other person or the world was this <strong>damaged</strong> by what I did</span>
+        <div class="pct-input-wrap">
+          <input type="number" id="pct_damaged" class="pct-input" min="0" max="100" placeholder="0" />
+          <span class="pct-symbol">%</span>
+        </div>
+      </div>
+      <div class="pct-row">
+        <span class="pct-row-label">The eventual outcome was…</span>
+        <div class="pct-input-wrap">
+          <input type="number" id="pct_positive" class="pct-input" min="0" max="100" placeholder="0" />
+          <span class="pct-symbol">%</span>
+          <span class="pct-connector">&nbsp;positive &nbsp;/&nbsp;</span>
+          <input type="number" id="pct_negative" class="pct-input" min="0" max="100" placeholder="0" />
+          <span class="pct-symbol">%</span>
+          <span class="pct-connector">&nbsp;negative</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 2 -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">2</div>
+      <div class="step-title">Appropriate Guilt and Moving On</div>
+    </div>
+    <p class="step-desc">We do not learn without making mistakes, and it is impossible to go through life without making blunders. It is right to feel remorse when you have acted hurtfully — but good people do wrong things without being bad people. Use these prompts to take responsibility, express your regret, and commit to change.</p>
+
+    <label class="field-label" style="margin-top:0;">Pinpoint your contribution — take responsibility for your part in what happened</label>
+    <textarea id="my_contribution" rows="4" placeholder="e.g. I was impatient and said something I knew would hurt them. I could have handled it differently if I had paused and thought before speaking…"></textarea>
+
+    <div class="statement-block">
+      <span class="statement-stem">I am sorry for…</span>
+      <textarea id="regret" rows="3" placeholder="Complete this sentence. Be specific — what exactly are you sorry for?"></textarea>
+    </div>
+
+    <div class="statement-block">
+      <span class="statement-stem">I wish I had…</span>
+      <textarea id="wish" rows="3" placeholder="Complete this sentence. By identifying what you would have done differently, you are more likely to learn from this mistake."></textarea>
+    </div>
+
+    <label class="field-label">How I will change my pattern of behaviour in the future</label>
+    <textarea id="future_change" rows="4" placeholder="e.g. In future, when I feel frustrated, I will take a pause before responding. I will ask myself whether what I am about to say is kind, true, and necessary…"></textarea>
+  </div>
+
+  <div class="remember-box">
+    💚 <strong>Remember:</strong> The goal is not to punish yourself indefinitely but to feel proportionate remorse, learn, repair where possible, and move forward. Carrying guilt beyond its useful purpose helps no one.
+  </div>
+
+  <div class="submit-section">
+    <button id="saveBtn">Save My Entry</button>
+    <div class="entries-wrap">
+      <h3>Saved Entries</h3>
+      <div id="entriesList"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function g(id) {
+  return (document.getElementById(id).value || '').replace(/\r?\n|\r/g, ' | ').trim();
+}
+
+function collectData() {
+  return {
+    feeling_bad_about: g('feeling_bad_about'),
+    pct_intention:     document.getElementById('pct_intention').value || '0',
+    pct_control:       document.getElementById('pct_control').value || '0',
+    other_person_1:    g('other_person_1'),
+    other_person_2:    g('other_person_2'),
+    other_event:       g('other_event'),
+    pct_damaged:       document.getElementById('pct_damaged').value || '0',
+    pct_positive:      document.getElementById('pct_positive').value || '0',
+    pct_negative:      document.getElementById('pct_negative').value || '0',
+    my_contribution:   g('my_contribution'),
+    regret:            g('regret'),
+    wish:              g('wish'),
+    future_change:     g('future_change'),
+    time: new Date().toLocaleString()
+  };
+}
+
+async function saveEntry() {
+  var data = collectData();
+  try {
+    await fetch('/.netlify/functions/saveWorksheet', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch (err) {
+    console.error('Save error:', err);
+  }
+  var entries = JSON.parse(localStorage.getItem('guilt') || '[]');
+  entries.unshift(data);
+  localStorage.setItem('guilt', JSON.stringify(entries));
+  render();
+}
+
+function render() {
+  var el = document.getElementById('entriesList');
+  if (!el) return;
+  var entries = JSON.parse(localStorage.getItem('guilt') || '[]');
+  if (!entries.length) { el.innerHTML = ''; return; }
+  el.innerHTML = entries.map(function(e) {
+    var preview = (e.feeling_bad_about || '').substring(0, 80) + ((e.feeling_bad_about || '').length > 80 ? '…' : '');
+    return '<div class="entry-item">'
+      + '<strong>' + (e.time || '') + '</strong>'
+      + (preview ? '<span style="color:#333;">' + preview + '</span>' : '')
+      + '</div>';
+  }).join('');
+}
+
+document.getElementById('saveBtn').addEventListener('click', saveEntry);
+render();
+</script>
+
+</body>
+</html>
