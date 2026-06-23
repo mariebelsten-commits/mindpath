@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feelings Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: #f0f9f0; color: #1a3a2a; min-height: 100vh; }
+/* ── Hero ── */
+.hero {
+  background: linear-gradient(135deg, #0d4a2e 0%, #1a5c3a 100%);
+  padding: 48px 32px 40px;
+  text-align: center;
+}
+.hero-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+.hero h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #ffffff !important;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+.hero p {
+  color: rgba(255,255,255,0.85);
+  font-size: 1.05rem;
+  max-width: 620px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ── Feature cards ── */
+.feature-cards {
+  display: flex;
+  gap: 16px;
+  padding: 28px 24px 4px;
+  max-width: 860px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+.feature-card {
+  flex: 1;
+  min-width: 200px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  border-left: 4px solid #0d4a2e;
+  box-shadow: 0 2px 8px rgba(13,74,46,0.08);
+}
+.feature-card h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #0d4a2e;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.feature-card p { font-size: 0.88rem; color: #4a6a5a; line-height: 1.55; }
+
+/* ── Instructions ── */
+.instructions-box {
+  background: #e8f5ee;
+  border: 1px solid #b8ddc8;
+  border-radius: 12px;
+  padding: 18px 22px;
+  max-width: 812px;
+  margin: 20px auto 8px;
+}
+.instructions-box p { font-size: 0.92rem; color: #2a5a3a; line-height: 1.6; }
+.instructions-box strong { color: #0d4a2e; }
+
+/* ── Worksheet wrapper ── */
+.page-worksheet {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 20px 24px 60px;
+}
+
+/* ── Step blocks ── */
+.step-block {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(13,74,46,0.08);
+  margin-bottom: 28px;
+  overflow: hidden;
+}
+.step-header {
+  background: linear-gradient(135deg, #0d4a2e 0%, #1a5c3a 100%);
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.step-number {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800; font-size: 1rem;
+  color: #fff; flex-shrink: 0;
+}
+.step-header-text h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem; font-weight: 700;
+  color: #ffffff !important; margin-bottom: 3px;
+}
+.step-header-text p { font-size: 0.85rem; color: rgba(255,255,255,0.8); }
+.step-body { padding: 24px; }
+
+/* ── Month selector ── */
+.month-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.month-row label {
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: #0d4a2e;
+  white-space: nowrap;
+}
+input[type="month"] {
+  padding: 10px 14px;
+  border: 2px solid #d0ecd8;
+  border-radius: 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  color: #1a3a2a;
+  outline: none;
+  background: #fafffe;
+}
+input[type="month"]:focus { border-color: #0d4a2e; }
+
+/* ── Emotion legend ── */
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.colour-swatch {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  cursor: pointer;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px #c8e6d4;
+  transition: box-shadow 0.15s;
+}
+.colour-swatch:hover { box-shadow: 0 0 0 3px #0d4a2e; }
+.colour-swatch input[type="color"] {
+  position: absolute;
+  width: 200%; height: 200%;
+  top: -50%; left: -50%;
+  border: none; cursor: pointer; padding: 0;
+  opacity: 0;
+}
+.colour-swatch .swatch-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.emotion-name-input {
+  flex: 1;
+  min-width: 160px;
+  padding: 10px 14px;
+  border: 2px solid #d0ecd8;
+  border-radius: 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.92rem;
+  color: #1a3a2a;
+  outline: none;
+  background: #fafffe;
+}
+.emotion-name-input:focus { border-color: #0d4a2e; background: #fff; }
+.legend-preview {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  color: #4a6a5a;
+}
+.preview-dot {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* ── Tracker grid ── */
+.tracker-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+@media (max-width: 600px) {
+  .tracker-grid { grid-template-columns: repeat(5, 1fr); }
+}
+.day-cell {
+  background: #fafffe;
+  border: 2px solid #d0ecd8;
+  border-radius: 10px;
+  padding: 10px 6px 8px;
+  text-align: center;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.day-cell.has-emotions {
+  border-color: #0d4a2e;
+  box-shadow: 0 2px 8px rgba(13,74,46,0.12);
+}
+.day-num {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #0d4a2e;
+  margin-bottom: 8px;
+}
+.dots-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: center;
+}
+.emotion-dot {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  opacity: 0.2;
+  transition: opacity 0.15s, transform 0.15s;
+  padding: 0;
+  flex-shrink: 0;
+}
+.emotion-dot:hover { opacity: 0.55; }
+.emotion-dot.active {
+  opacity: 1;
+  transform: scale(1.15);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+/* ── Reflection ── */
+textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid #d0ecd8;
+  border-radius: 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.92rem;
+  color: #1a3a2a;
+  resize: vertical;
+  min-height: 100px;
+  outline: none;
+  background: #fafffe;
+  transition: border-color 0.2s;
+  line-height: 1.55;
+}
+textarea:focus { border-color: #0d4a2e; background: #fff; }
+.field-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #0d4a2e;
+  margin-bottom: 7px;
+  display: block;
+}
+
+/* ── Submit ── */
+.submit-area { text-align: center; padding: 32px 24px 52px; }
+.btn-submit {
+  background: linear-gradient(135deg, #0d4a2e 0%, #1a5c3a 100%);
+  color: #fff; border: none;
+  padding: 16px 52px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700; font-size: 1.1rem;
+  border-radius: 50px; cursor: pointer;
+  box-shadow: 0 4px 20px rgba(13,74,46,0.3);
+  transition: all 0.2s;
+}
+.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(13,74,46,0.4); }
+
+/* ── Modal ── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 9999; align-items: center; justify-content: center;
+}
+.modal-overlay.active { display: flex; }
+.modal {
+  background: #fff; border-radius: 20px; padding: 40px;
+  max-width: 460px; width: 90%;
+  text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.modal-icon {
+  width: 64px; height: 64px; background: #e8f5ee;
+  border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; margin: 0 auto 20px; font-size: 28px;
+}
+.modal h2 { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; color: #0d4a2e; margin-bottom: 10px; }
+.modal p { color: #4a6a5a; margin-bottom: 24px; font-size: 0.95rem; line-height: 1.6; }
+.modal input[type="email"] {
+  width: 100%; padding: 14px 18px;
+  border: 2px solid #d0ecd8; border-radius: 10px;
+  font-family: 'Inter', sans-serif; font-size: 1rem;
+  color: #1a3a2a; margin-bottom: 16px; outline: none;
+}
+.modal input[type="email"]:focus { border-color: #0d4a2e; }
+.btn-send {
+  width: 100%; padding: 14px;
+  background: linear-gradient(135deg, #0d4a2e, #1a5c3a);
+  color: #fff; border: none; border-radius: 10px;
+  font-family: 'Montserrat', sans-serif; font-weight: 700;
+  font-size: 1rem; cursor: pointer; margin-bottom: 12px;
+}
+.btn-cancel { background: none; border: none; color: #888; cursor: pointer; font-size: 0.9rem; }
+.modal-success { display: none; }
+.modal-success.active { display: block; }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+<div class="hero-badge">CBT Worksheet</div>
+<h1>Feelings Tracker</h1>
+<p>Build awareness of your emotions across the month. Choose a colour for each feeling, then tap the dots on each day to record how you've been. You may notice one emotion or a mix of different feelings.</p>
+</div>
+
+<!-- Feature cards -->
+<div class="feature-cards">
+<div class="feature-card">
+<h3>Build Awareness</h3>
+<p>Noticing your emotions each day is the first step in CBT — you can't work with what you haven't identified.</p>
+</div>
+<div class="feature-card">
+<h3>Spot Patterns</h3>
+<p>Over time you'll start to see which feelings arise most often and whether there are triggers or patterns across the week.</p>
+</div>
+<div class="feature-card">
+<h3>No Judgement</h3>
+<p>All emotions are valid. This tracker is simply a record — a way of checking in with yourself honestly.</p>
+</div>
+</div>
+
+<!-- Instructions -->
+<div class="instructions-box">
+<p><strong>How to use this tracker:</strong> First, name up to six emotions and choose a colour for each. Then for each day of the month, click the coloured dots to mark how you felt. You can select multiple emotions per day. Finish with a short reflection at the end.</p>
+</div>
+
+<div class="page-worksheet">
+
+<!-- Step 1: Month -->
+<div class="step-block">
+<div class="step-header">
+<div class="step-number">1</div>
+<div class="step-header-text">
+<h2>Select Your Month</h2>
+<p>Choose the month you are tracking.</p>
+</div>
+</div>
+<div class="step-body">
+<div class="month-row">
+<label for="monthPicker">Month & Year:</label>
+<input type="month" id="monthPicker">
+</div>
+</div>
+</div>
+
+<!-- Step 2: Set up emotions -->
+<div class="step-block">
+<div class="step-header">
+<div class="step-number">2</div>
+<div class="step-header-text">
+<h2>Set Up Your Emotions</h2>
+<p>Click a colour circle to change it. Type your emotion name in the box. Use as few or as many as you need.</p>
+</div>
+</div>
+<div class="step-body" id="legendBody">
+<!-- Rendered by JS -->
+</div>
+</div>
+
+<!-- Step 3: Daily tracker -->
+<div class="step-block">
+<div class="step-header">
+<div class="step-number">3</div>
+<div class="step-header-text">
+<h2>Daily Tracker</h2>
+<p>Tap the coloured dots on each day to record how you felt. Multiple emotions can be selected.</p>
+</div>
+</div>
+<div class="step-body">
+<div class="tracker-grid" id="trackerGrid">
+<!-- Rendered by JS -->
+</div>
+</div>
+</div>
+
+<!-- Reflection -->
+<div class="step-block">
+<div class="step-header">
+<div class="step-number">✦</div>
+<div class="step-header-text">
+<h2>Monthly Reflection</h2>
+<p>Looking back at your tracker, what patterns do you notice?</p>
+</div>
+</div>
+<div class="step-body">
+<div style="margin-bottom:20px;">
+<label class="field-label">What patterns or themes do you notice in your emotions this month?</label>
+<textarea id="patternsNoticed" placeholder="e.g. I noticed I felt anxious most on Mondays… I had more calm days in the second half of the month…"></textarea>
+</div>
+<div style="margin-bottom:20px;">
+<label class="field-label">Which emotion appeared most often, and what do you think drove it?</label>
+<textarea id="mostCommonEmotion" placeholder="e.g. Sadness came up most — I think it was linked to the stress at work…"></textarea>
+</div>
+<div>
+<label class="field-label">One thing I will do differently next month:</label>
+<textarea id="nextMonthAction" placeholder="e.g. I'll try to schedule something enjoyable each week to support my mood…"></textarea>
+</div>
+</div>
+</div>
+
+</div>
+
+<!-- Submit -->
+<div class="submit-area">
+<button class="btn-submit" onclick="openModal()">✉ Send My Tracker</button>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+<div class="modal" id="modalBox">
+<div id="modalForm">
+<div class="modal-icon">✉️</div>
+<h2>Get Your Tracker</h2>
+<p>Enter your email address and we'll send you a PDF summary of your Feelings Tracker for this month.</p>
+<input type="email" id="userEmail" placeholder="your@email.com">
+<button class="btn-send" onclick="submitWorksheet()">Send My PDF</button>
+<button class="btn-cancel" onclick="closeModal()">Cancel</button>
+</div>
+<div class="modal-success" id="modalSuccess">
+<div class="modal-icon">✅</div>
+<h2>On Its Way!</h2>
+<p>Your Feelings Tracker is being prepared. Check your inbox in a few minutes.</p>
+<button class="btn-send" style="margin-top:8px;" onclick="closeModal()">Close</button>
+</div>
+</div>
+</div>
+
+<script>
+// ── Default emotion setup ──
+var emotions = [
+{ name: 'Happy',    colour: '#f1c40f' },
+{ name: 'Calm',     colour: '#2ecc71' },
+{ name: 'Anxious',  colour: '#e67e22' },
+{ name: 'Sad',      colour: '#3498db' },
+{ name: 'Angry',    colour: '#e74c3c' },
+{ name: 'Other',    colour: '#9b59b6' }
+];
+
+// dayEmotions[day] = array of 6 booleans
+var dayEmotions = {};
+for (var d = 1; d <= 31; d++) {
+dayEmotions[d] = [false, false, false, false, false, false];
+}
+
+// ── Render emotion legend ──
+function renderLegend() {
+var body = document.getElementById('legendBody');
+body.innerHTML = '';
+emotions.forEach(function(em, i) {
+var row = document.createElement('div');
+row.className = 'legend-row';
+row.innerHTML =
+'<div class="colour-swatch" id="swatch' + i + '" title="Click to change colour">' +
+'<div class="swatch-fill" id="swatchFill' + i + '" style="background:' + em.colour + ';"></div>' +
+'<input type="color" id="colourPicker' + i + '" value="' + em.colour + '">' +
+'</div>' +
+'<input type="text" class="emotion-name-input" id="emotionName' + i + '" ' +
+'value="' + em.name + '" placeholder="Emotion ' + (i + 1) + ' name…" ' +
+'data-idx="' + i + '">' +
+'<div class="legend-preview">' +
+'<span class="preview-dot" id="previewDot' + i + '" style="background:' + em.colour + ';"></span>' +
+'<span id="previewLabel' + i + '">' + (em.name || 'Emotion ' + (i + 1)) + '</span>' +
+'</div>';
+body.appendChild(row);
+  // Colour picker events
+  (function(idx) {
+    var picker = document.getElementById('colourPicker' + idx);
+    var fill   = document.getElementById('swatchFill' + idx);
+    picker.addEventListener('click', function(e) { e.stopPropagation(); });
+    // Show picker when swatch clicked
+    document.getElementById('swatch' + idx).addEventListener('click', function() {
+      picker.click();
+    });
+    picker.addEventListener('input', function() {
+      var val = this.value;
+      emotions[idx].colour = val;
+      fill.style.background = val;
+      document.getElementById('previewDot' + idx).style.background = val;
+      // Update all dots of this emotion in the grid
+      document.querySelectorAll('.dot-' + idx).forEach(function(dot) {
+        dot.style.background = val;
+      });
+    });
+    // Name input events
+    document.getElementById('emotionName' + idx).addEventListener('input', function() {
+      var val = this.value;
+      emotions[idx].name = val;
+      document.getElementById('previewLabel' + idx).textContent = val || ('Emotion ' + (idx + 1));
+      // Update tooltips in grid
+      document.querySelectorAll('.dot-' + idx).forEach(function(dot) {
+        dot.title = val || ('Emotion ' + (idx + 1));
+      });
+    });
+  })(i);
+});
+}
+
+// ── Render day grid ──
+function renderGrid() {
+var grid = document.getElementById('trackerGrid');
+grid.innerHTML = '';
+for (var d = 1; d <= 31; d++) {
+var cell = document.createElement('div');
+cell.className = 'day-cell';
+cell.id = 'cell-' + d;
+  var numDiv = document.createElement('div');
+  numDiv.className = 'day-num';
+  numDiv.textContent = d;
+  cell.appendChild(numDiv);
+
+  var dotsDiv = document.createElement('div');
+  dotsDiv.className = 'dots-grid';
+
+  for (var i = 0; i < 6; i++) {
+    var btn = document.createElement('button');
+    btn.className = 'emotion-dot dot-' + i;
+    btn.id = 'dot-' + d + '-' + i;
+    btn.style.background = emotions[i].colour;
+    btn.title = emotions[i].name || ('Emotion ' + (i + 1));
+    btn.dataset.day = d;
+    btn.dataset.idx = i;
+    dotsDiv.appendChild(btn);
+  }
+  cell.appendChild(dotsDiv);
+  grid.appendChild(cell);
+}
+
+// Event delegation on the grid
+grid.addEventListener('click', function(e) {
+  var btn = e.target.closest('.emotion-dot');
+  if (!btn) return;
+  var day = parseInt(btn.dataset.day);
+  var idx = parseInt(btn.dataset.idx);
+  dayEmotions[day][idx] = !dayEmotions[day][idx];
+  btn.classList.toggle('active', dayEmotions[day][idx]);
+  // Update cell border
+  var anyActive = dayEmotions[day].some(Boolean);
+  document.getElementById('cell-' + day).classList.toggle('has-emotions', anyActive);
+});
+}
+
+// ── Init ──
+document.addEventListener('DOMContentLoaded', function() {
+// Default month to current
+var now = new Date();
+var mm = String(now.getMonth() + 1).padStart(2, '0');
+document.getElementById('monthPicker').value = now.getFullYear() + '-' + mm;
+renderLegend();
+renderGrid();
+});
+
+// ── Modal ──
+function openModal() {
+var overlay = document.getElementById('modalOverlay');
+var box = document.getElementById('modalBox');
+overlay.style.display = 'flex';
+overlay.style.alignItems = 'center';
+overlay.style.justifyContent = 'center';
+box.style.cssText = [
+'display:block',
+'visibility:visible',
+'opacity:1',
+'background:#ffffff',
+'border-radius:20px',
+'padding:40px',
+'max-width:460px',
+'width:90%',
+'text-align:center',
+'box-shadow:0 20px 60px rgba(0,0,0,0.2)',
+'position:relative',
+'z-index:10000',
+'box-sizing:border-box',
+'font-family:Inter,sans-serif',
+'color:#1a3a2a'
+].join(';');
+}
+
+function closeModal() {
+var overlay = document.getElementById('modalOverlay');
+overlay.style.display = 'none';
+document.getElementById('modalBox').style.cssText = '';
+document.getElementById('modalForm').style.display = 'block';
+document.getElementById('modalSuccess').classList.remove('active');
+}
+
+// ── Data collection ──
+function collectData() {
+var data = {};
+// Month
+var mp = document.getElementById('monthPicker').value;
+if (mp) {
+  var parts = mp.split('-');
+  var monthNames = ['January','February','March','April','May','June',
+                    'July','August','September','October','November','December'];
+  data.month_year = monthNames[parseInt(parts[1]) - 1] + ' ' + parts[0];
+} else {
+  data.month_year = '';
+}
+
+// Emotions
+for (var i = 0; i < 6; i++) {
+  data['emotion_' + (i + 1)]        = emotions[i].name;
+  data['emotion_' + (i + 1) + '_colour'] = emotions[i].colour;
+}
+
+// Days
+for (var d = 1; d <= 31; d++) {
+  var felt = [];
+  for (var j = 0; j < 6; j++) {
+    if (dayEmotions[d][j] && emotions[j].name) {
+      felt.push(emotions[j].name);
+    }
+  }
+  data['day_' + d] = felt.join(', ');
+}
+
+// Reflection
+data.patterns_noticed     = document.getElementById('patternsNoticed').value.replace(/\\r?\\n|\\r/g, ' | ');
+data.most_common_emotion  = document.getElementById('mostCommonEmotion').value.replace(/\\r?\\n|\\r/g, ' | ');
+data.next_month_action    = document.getElementById('nextMonthAction').value.replace(/\\r?\\n|\\r/g, ' | ');
+
+return data;
+}
+
+function submitWorksheet() {
+var email = document.getElementById('userEmail').value.trim();
+if (!email || !email.includes('@')) { alert('Please enter a valid email address.'); return; }
+var data = collectData();
+data.email = email;
+fetch('https://hooks.zapier.com/hooks/catch/27250519/uv6t7fu/', {
+  method: 'POST',
+  mode: 'no-cors',
+  body: JSON.stringify(data)
+})
+.then(function() {
+  document.getElementById('modalForm').style.display = 'none';
+  document.getElementById('modalSuccess').classList.add('active');
+})
+.catch(function() {
+  document.getElementById('modalForm').style.display = 'none';
+  document.getElementById('modalSuccess').classList.add('active');
+});
+}
+
+document.addEventListener("click", function(e) {
+  if (!e.target.classList.contains("worksheet-modal-close")) return;
+  var modal = e.target.closest(".email-modal");
+  if (modal) { modal.classList.remove("active"); return; }
+  modal = e.target.parentElement;
+  while (modal) {
+    if (modal.style && modal.style.display === "flex") { modal.style.display = "none"; return; }
+    modal = modal.parentElement;
+  }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>One Belief at a Time | ChatCBT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f0f9f0;
+      color: #1a2e1a;
+      line-height: 1.7;
+    }
+    
+    /* ── HERO ── */
+    .page-hero {
+      background: linear-gradient(135deg, #0d4a2e 0%, #1a5c3a 60%, #2d7a50 100%);
+      color: #fff;
+      padding: 72px 24px 60px;
+      text-align: center;
+    }
+    .page-hero h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 20px;
+    line-height: 1.15;
+    color: #fff !important;
+    }
+    .page-hero .hero-sub {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    opacity: 0.75;
+    margin-bottom: 14px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    }
+    .page-hero p {
+    font-size: 1.15rem;
+    max-width: 640px;
+    margin: 0 auto 44px;
+    opacity: 0.92;
+    }
+    .feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: left;
+    }
+    .feature-card {
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 14px;
+    padding: 22px 20px;
+    }
+    .feature-card .icon { font-size: 1.6rem; margin-bottom: 10px; }
+    .feature-card h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #fff !important;
+    }
+    .feature-card p { font-size: 0.9rem; opacity: 0.88; }
+    /* ── SECTION LABELS ── */
+    .section-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #1a5c3a;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .section-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: #0d4a2e;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .section-sub {
+      text-align: center;
+      color: #4a6a4a;
+      margin-bottom: 44px;
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    /* ── HOW IT WORKS ── */
+    .page-howto {
+      background: #fff;
+      padding: 64px 24px;
+    }
+    .steps-stack {
+      max-width: 680px;
+      margin: 0 auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .step-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      background: #f8fdf8;
+      border-radius: 14px;
+      padding: 22px 24px;
+      border: 1px solid #d4edda;
+    }
+    .step-num {
+      background: #1a5c3a;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-text h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      color: #0d4a2e;
+      margin-bottom: 4px;
+    }
+    .step-text p { color: #4a6a4a; font-size: 0.95rem; }
+    .info-box {
+      max-width: 680px;
+      margin: 28px auto 0;
+      background: #b5e8c4;
+      border-radius: 14px;
+      padding: 20px 24px;
+      color: #0d4a2e;
+      font-size: 0.95rem;
+    }
+    .info-box strong { font-weight: 700; }
+    
+    /* ── WORKSHEET ── */
+    .page-worksheet {
+      background: #f0f9f0;
+      padding: 64px 24px 80px;
+    }
+    .ws-inner { max-width: 760px; margin: 0 auto; }
+    
+    .ws-card {
+      background: #fff;
+      border-radius: 16px;
+      border-left: 5px solid #1a5c3a;
+      padding: 28px 28px 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 12px rgba(26,92,58,0.07);
+    }
+    .ws-card h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #0d4a2e;
+      margin-bottom: 6px;
+    }
+    .ws-card .ws-hint {
+      font-size: 0.875rem;
+      color: #5a7a5a;
+      margin-bottom: 16px;
+      font-style: italic;
+    }
+    .ws-card .ws-instruction {
+      font-size: 0.9rem;
+      color: #4a6a4a;
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+    .ws-card textarea {
+      width: 100%;
+      min-height: 100px;
+      border: 1.5px solid #c8e6d0;
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      color: #1a2e1a;
+      background: #f8fdf8;
+      resize: vertical;
+      transition: border-color 0.2s;
+      line-height: 1.6;
+    }
+    .ws-card textarea:focus {
+      outline: none;
+      border-color: #1a5c3a;
+      background: #fff;
+    }
+    .ws-card textarea::placeholder { color: #9ab89a; }
+    
+    /* ── BELIEF INPUT (larger, prominent) ── */
+    .belief-input {
+      width: 100%;
+      min-height: 80px;
+      border: 2px solid #1a5c3a;
+      border-radius: 12px;
+      padding: 16px 18px;
+      font-family: 'Inter', sans-serif;
+      font-size: 1.05rem;
+      color: #1a2e1a;
+      background: #f0f9f0;
+      resize: vertical;
+      transition: border-color 0.2s, background 0.2s;
+      line-height: 1.6;
+    }
+    .belief-input:focus {
+      outline: none;
+      background: #fff;
+      border-color: #0d4a2e;
+    }
+    .belief-input::placeholder { color: #9ab89a; }
+    
+    /* ── RADIO PILL BUTTONS ── */
+    .radio-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+    .radio-pill { position: relative; }
+    .radio-pill input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .radio-pill label {
+      display: inline-block;
+      padding: 11px 36px;
+      border-radius: 50px;
+      border: 2px solid #c8e6d0;
+      background: #f8fdf8;
+      color: #4a6a4a;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.18s;
+      user-select: none;
+    }
+    .radio-pill input[type="radio"]:checked + label {
+      background: #1a5c3a;
+      border-color: #1a5c3a;
+      color: #fff;
+    }
+    .radio-pill label:hover {
+      border-color: #1a5c3a;
+      background: #e8f5e9;
+      color: #0d4a2e;
+    }
+    .radio-pill input[type="radio"]:checked + label:hover {
+      background: #1a5c3a;
+      color: #fff;
+    }
+    .q-skip-note {
+      font-size: 0.82rem;
+      color: #5a7a5a;
+      font-style: italic;
+      margin-top: 12px;
+    }
+    
+    /* ── SUB-QUESTIONS (within Q3 card) ── */
+    .sub-q-group {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .sub-q {
+      padding: 18px 0 0;
+      border-top: 1px solid #e8f5e9;
+      margin-top: 18px;
+    }
+    .sub-q:first-child {
+      margin-top: 0;
+    }
+    .sub-q label {
+      display: block;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: #0d4a2e;
+      margin-bottom: 4px;
+    }
+    .sub-q .sub-hint {
+      font-size: 0.8rem;
+      color: #5a7a5a;
+      font-style: italic;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+    .sub-q textarea { min-height: 90px; }
+    
+    /* ── TURNAROUND BLOCKS ── */
+    .turnaround-block {
+      background: #f8fdf8;
+      border: 1px solid #d4edda;
+      border-radius: 12px;
+      padding: 20px 22px;
+      margin-bottom: 16px;
+    }
+    .turnaround-block:last-child { margin-bottom: 0; }
+    .turnaround-type {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 0.88rem;
+      color: #1a5c3a;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 4px;
+    }
+    .turnaround-example {
+      font-size: 0.82rem;
+      color: #5a7a5a;
+      font-style: italic;
+      margin-bottom: 14px;
+    }
+    .turnaround-field-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.84rem;
+      color: #0d4a2e;
+      margin-bottom: 6px;
+      margin-top: 14px;
+    }
+    .turnaround-field-label:first-of-type { margin-top: 0; }
+    .turnaround-block textarea { min-height: 80px; }
+    .turnaround-block textarea.examples-field { min-height: 110px; }
+    
+    /* ── EXAMPLE BOX ── */
+    .example-box {
+      background: #f0f9f0;
+      border-left: 3px solid #a5d6a7;
+      border-radius: 0 10px 10px 0;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+      color: #1a2e1a;
+      line-height: 1.7;
+    }
+    .example-box strong {
+      font-weight: 700;
+      color: #0d4a2e;
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    /* ── REMEMBER BOX ── */
+    .remember-box {
+      background: #b5e8c4;
+      border-radius: 14px;
+      padding: 22px 26px;
+      margin-bottom: 32px;
+      color: #0d4a2e;
+    }
+    .remember-box h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+    .remember-box p { font-size: 0.94rem; line-height: 1.65; }
+    
+    .flow-arrow {
+      text-align: center;
+      font-size: 1.6rem;
+      color: #1a5c3a;
+      margin: 4px 0 8px;
+      line-height: 1;
+    }
+    
+    /* ── SUBMIT ── */
+    .submit-wrap { text-align: center; margin-top: 16px; }
+    .btn-submit {
+      background: linear-gradient(135deg, #0d4a2e, #1a5c3a);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding: 16px 44px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      box-shadow: 0 4px 20px rgba(13,74,46,0.28);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 28px rgba(13,74,46,0.38);
+    }
+    
+    /* ── ATTRIBUTION ── */
+    .attribution {
+      text-align: center;
+      font-size: 0.78rem;
+      color: #7a9a7a;
+      margin-top: 28px;
+    }
+    
+    /* ── MODAL ── */
+    .email-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+    .email-modal.active { display: flex; }
+    #oneBeliefModalContent {
+      background: #fff;
+      border-radius: 20px;
+      padding: 36px 32px;
+      max-width: 440px;
+      width: 90%;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+    #oneBeliefModalContent h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #0d4a2e;
+      margin-bottom: 10px;
+    }
+    #oneBeliefModalContent p {
+      color: #4a6a4a;
+      font-size: 0.95rem;
+      margin-bottom: 22px;
+    }
+    #oneBeliefModalContent input[type="email"] {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1.5px solid #c8e6d0;
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.97rem;
+      margin-bottom: 16px;
+      color: #1a2e1a;
+    }
+    #oneBeliefModalContent input[type="email"]:focus {
+      outline: none;
+      border-color: #1a5c3a;
+    }
+    .modal-actions { display: flex; gap: 12px; justify-content: center; }
+    .btn-confirm {
+      background: linear-gradient(135deg, #0d4a2e, #1a5c3a);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.97rem;
+      padding: 13px 30px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+    }
+    .btn-cancel {
+      background: #f0f9f0;
+      color: #1a5c3a;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 0.97rem;
+      padding: 13px 26px;
+      border: 1.5px solid #c8e6d0;
+      border-radius: 50px;
+      cursor: pointer;
+    }
+    
+    /* ── RESPONSIVE ── */
+    @media (max-width: 760px) {
+      .page-hero h1 { font-size: 2rem; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .ws-card { padding: 22px 18px 20px; }
+      .radio-pill label { padding: 10px 24px; }
+    }
+    /* ── Emotion picker ── */
+    .emotion-picker-wrap {
+    border: 1px solid #b0d8bc;
+    border-radius: 10px;
+    padding: 14px 16px 10px;
+    background: #f8fdf8;
+    }
+    .ep-hint {
+    font-size: 0.8rem;
+    color: #5a8a6a;
+    font-style: italic;
+    margin-bottom: 12px;
+    }
+    .emo-group { margin-bottom: 13px; }
+    .emo-group:last-child { margin-bottom: 0; }
+    .emo-group-label {
+    display: inline-block;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    padding: 3px 10px;
+    border-radius: 4px;
+    margin-bottom: 7px;
+    }
+    .emo-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+    
+    /* Base chip */
+    .ec {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 9px;
+    border-radius: 12px;
+    border: 1.5px solid #d1d5db;
+    background: #fff;
+    font-size: 0.77rem;
+    font-family: 'Inter', sans-serif;
+    color: #374151;
+    transition: all 0.1s;
+    user-select: none;
+    white-space: nowrap;
+    line-height: 1.5;
+    }
+    .ec input[type="checkbox"] { display: none; }
+    .ec:hover { background: #f3f4f6; border-color: #9ca3af; }
+    
+    /* Selected states — one colour per category */
+    .ec.angry:has(input:checked)      { background:#dc2626; border-color:#dc2626; color:#fff; }
+    .ec.depressed:has(input:checked)  { background:#4338ca; border-color:#4338ca; color:#fff; }
+    .ec.confused:has(input:checked)   { background:#b45309; border-color:#b45309; color:#fff; }
+    .ec.helpless:has(input:checked)   { background:#7c3aed; border-color:#7c3aed; color:#fff; }
+    .ec.indifferent:has(input:checked){ background:#6b7280; border-color:#6b7280; color:#fff; }
+    .ec.afraid:has(input:checked)     { background:#c2410c; border-color:#c2410c; color:#fff; }
+    .ec.hurt:has(input:checked)       { background:#be185d; border-color:#be185d; color:#fff; }
+    .ec.sad:has(input:checked)        { background:#1d4ed8; border-color:#1d4ed8; color:#fff; }
+    .ec.judgmental:has(input:checked) { background:#1a5c3a; border-color:#1a5c3a; color:#fff; }
+    .ec.open:has(input:checked)       { background:#0891b2; border-color:#0891b2; color:#fff; }
+    .ec.loving:has(input:checked)     { background:#db2777; border-color:#db2777; color:#fff; }
+    .ec.happy:has(input:checked)      { background:#d97706; border-color:#d97706; color:#fff; }
+    .ec.interested:has(input:checked) { background:#2563eb; border-color:#2563eb; color:#fff; }
+    .ec.alive:has(input:checked)      { background:#ea580c; border-color:#ea580c; color:#fff; }
+    .ec.positive:has(input:checked)   { background:#7c3aed; border-color:#7c3aed; color:#fff; }
+    .ec.peaceful:has(input:checked)   { background:#059669; border-color:#059669; color:#fff; }
+    .ec.strong:has(input:checked)     { background:#1e40af; border-color:#1e40af; color:#fff; }
+    .ec.relaxed:has(input:checked)    { background:#1a5c3a; border-color:#1a5c3a; color:#fff; }
+    </style>
+    </head>
+    <body>
+    
+    <!-- ── HERO ── -->
+    <section class="page-hero">
+    <p class="hero-sub">The Work — A Written Meditation</p>
+    <h1>One Belief at a Time</h1>
+    <p>Stressful thoughts only have power when we believe them unquestioningly. Byron Katie's four questions help you hold a thought up to the light — and discover what's really true.</p>
+    <div class="feature-grid">
+    <div class="feature-card">
+    <div class="icon">🎯</div>
+    <h3>One Belief</h3>
+    <p>Focus on a single stressful thought about someone and give it your full attention.</p>
+    </div>
+    <div class="feature-card">
+    <div class="icon">❓</div>
+    <h3>Four Questions</h3>
+    <p>Is it true? Can you absolutely know it's true? How do you react? Who would you be without it?</p>
+    </div>
+    <div class="feature-card">
+    <div class="icon">🔄</div>
+    <h3>The Turnaround</h3>
+    <p>Find the opposite perspectives — and discover that they may be just as true, or truer.</p>
+    </div>
+    <div class="feature-card">
+    <div class="icon">🕊️</div>
+    <h3>Find Peace</h3>
+    <p>Inquiry doesn't change the past — it changes your relationship with your thoughts about it.</p>
+    </div>
+    </div>
+    </section>
+    
+    <!-- ── HOW IT WORKS ── -->
+    <section class="page-howto">
+    <p class="section-label">How It Works</p>
+    <h2 class="section-title">A step-by-step guide</h2>
+    <p class="section-sub">Work slowly and honestly through each question. Close your eyes where you can. Inquiry stops working the moment you stop answering the questions.</p>
+    <div class="steps-stack">
+    <div class="step-row">
+    <div class="step-num">1</div>
+    <div class="step-text">
+    <h4>Write down the belief</h4>
+    <p>Choose a stressful thought about someone you haven't fully forgiven. Write it as a simple statement, for example: <em>"He doesn't care about me."</em></p>
+    </div>
+    </div>
+    <div class="step-row">
+    <div class="step-num">2</div>
+    <div class="step-text">
+    <h4>Is it true? Can you absolutely know it's true?</h4>
+    <p>Answer yes or no only. Don't explain — just drop into your body and find your honest answer. If you answer "No" to Question 1, skip straight to Question 3.</p>
+    </div>
+    </div>
+    <div class="step-row">
+    <div class="step-num">3</div>
+    <div class="step-text">
+    <h4>Explore your reaction</h4>
+    <p>How do you react — what happens — when you believe the thought? Work through each sub-question slowly. Notice images, emotions, sensations, and behaviours.</p>
+    </div>
+    </div>
+    <div class="step-row">
+    <div class="step-num">4</div>
+    <div class="step-text">
+    <h4>Who would you be without the thought?</h4>
+    <p>Close your eyes. Imagine yourself in the same situation, with the same person — but without the ability to think that thought. Who would you be? How would you feel, how would you act if you simply could not think that thought? What would your life look like without that thought?</p>
+    </div>
+    </div>
+    <div class="step-row">
+    <div class="step-num">5</div>
+    <div class="step-text">
+    <h4>Turn the thought around</h4>
+    <p>Find three genuine turnarounds of your original statement — to the self, to the other, and to the opposite. For each one, find at least three specific, real examples of how the turnaround is true.</p>
+    </div>
+    </div>
+    </div>
+    <div class="info-box">
+    <strong>💡 Tip:</strong> Be still as you answer. Don't rush. The most powerful answers come not from your thinking mind, but from what arises when you genuinely look.
+    </div>
+    </section>
+    
+    <!-- ── WORKSHEET ── -->
+    <section class="page-worksheet">
+    <div class="ws-inner">
+    <p class="section-label">Your Worksheet</p>
+    <h2 class="section-title">One Belief at a Time</h2>
+    <p class="section-sub" style="margin-bottom:36px;">Fill in each section. When you're done, click the button at the bottom to receive your completed worksheet by email.</p>
+    <div class="remember-box">
+      <h4>📝 Before you begin</h4>
+      <p>Write down a stressful thought about someone — alive or dead — whom you haven't forgiven 100 percent. For example: <em>"He doesn't care about me."</em> Then work through the questions below. Close your eyes, be still, and witness what appears to you. Inquiry stops working the moment you stop answering the questions.</p>
+    </div>
+    
+    <!-- ── THE BELIEF ── -->
+    <div class="ws-card">
+      <h3>The Belief</h3>
+      <p class="ws-hint">Write your stressful thought or belief about the other person as simply as you can.</p>
+      <textarea class="belief-input" placeholder='e.g. "She doesn't appreciate anything I do for her."'></textarea>
+    </div>
+    
+    <div class="flow-arrow">▼</div>
+    
+    <!-- ── QUESTION 1 ── -->
+    <div class="ws-card">
+      <h3>Question 1 — Is it true?</h3>
+      <p class="ws-instruction">Yes or no only. Don't explain or justify — just find your honest answer. <em>If you answer No, skip to Question 3.</em></p>
+      <div class="radio-group">
+        <div class="radio-pill">
+          <input type="radio" id="q1_yes" name="is_it_true" value="Yes" />
+          <label for="q1_yes">Yes</label>
+        </div>
+        <div class="radio-pill">
+          <input type="radio" id="q1_no" name="is_it_true" value="No" />
+          <label for="q1_no">No</label>
+        </div>
+      </div>
+    </div>
+    
+    <div class="flow-arrow">▼</div>
+    
+    <!-- ── QUESTION 2 ── -->
+    <div class="ws-card">
+      <h3>Question 2 — Can you absolutely know that it's true?</h3>
+      <p class="ws-instruction">Not "probably" or "mostly" — can you know it with 100% certainty? Yes or no.</p>
+      <div class="radio-group">
+        <div class="radio-pill">
+          <input type="radio" id="q2_yes" name="absolutely_know" value="Yes" />
+          <label for="q2_yes">Yes</label>
+        </div>
+        <div class="radio-pill">
+          <input type="radio" id="q2_no" name="absolutely_know" value="No" />
+          <label for="q2_no">No</label>
+        </div>
+      </div>
+    </div>
+    
+    <div class="flow-arrow">▼</div>
+    
+    <!-- ── QUESTION 3 ── -->
+    <div class="ws-card">
+      <h3>Question 3 — How do you react, what happens, when you believe that thought?</h3>
+      <p class="ws-instruction">Close your eyes and sit with the thought. Work through each question below, witnessing what arises.</p>
+    
+      <div class="sub-q-group">
+        <div class="sub-q">
+          <label>a) Does that thought bring peace or stress into your life?</label>
+          <textarea placeholder="Describe what you notice — does holding this thought feel peaceful or stressful?"></textarea>
+        </div>
+        <div class="sub-q">
+          <label>b) What images do you see — past and future — and what physical sensations arise as you think that thought and witness those images?</label>
+          <textarea placeholder="Describe any mental images or memories that arise, and any physical feelings in your body as you hold the thought."></textarea>
+        </div>
+        <div class="sub-q">
+    <label>c) What emotions arise when you believe that thought? (select all that apply)</label>
+    <!-- Hidden input — maintains field index position for data collection -->
+    <input type="text" id="q3EmotionsValue"
+    style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;"
+    tabindex="-1" />
+          <!-- Picker built by JS -->
+          <div id="emotion-picker" style="margin-top:4px;"></div>
+    
+          <!-- Running tally of selections -->
+          <div id="q3SelectedDisplay"
+            style="display:none;margin-top:10px;padding:10px 14px;background:#e8f5e9;
+                   border-radius:8px;font-size:0.85rem;color:#1a3d28;line-height:1.6;"></div>
+        </div>
+        <div class="sub-q">
+          <label>d) Do any obsessions or addictions begin to appear when you believe that thought?</label>
+          <p class="sub-hint">For example: alcohol, food, work, social media, exercise, shopping, television, withdrawal from others...</p>
+          <textarea placeholder="Notice if you reach for anything to cope when this thought is present."></textarea>
+        </div>
+        <div class="sub-q">
+          <label>e) How do you treat the person in this situation when you believe the thought? How do you treat other people and yourself?</label>
+          <textarea placeholder="Describe your behaviour and the way you act toward this person, others, and yourself when you believe this thought. Do you give this person 'the look'? Do you try to change them in any way? Be still as you listen."></textarea>
+        </div>
+      </div>
+    </div>
+    
+    <div class="flow-arrow">▼</div>
+    
+    <!-- ── QUESTION 4 ── -->
+    <div class="ws-card">
+      <h3>Question 4 — Who would you be without the thought?</h3>
+    <!-- Hidden input — maintains field index position for data collection -->
+    <input type="text" id="q4WordsValue"
+    style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;"
+    tabindex="-1" />
+    
+    <!-- Picker built by JS -->
+    <div id="q4-word-picker" style="margin-top:4px;"></div>
+    
+    <!-- Running tally of selections -->
+    <div id="q4SelectedDisplay"
+    style="display:none;margin-top:10px;padding:10px 14px;background:#e8f5e9;
+    border-radius:8px;font-size:0.85rem;color:#1a3d28;line-height:1.6;"></div>
+    <div class="flow-arrow">▼</div>
+    
+    <!-- ── TURNAROUNDS ── -->
+    <div class="ws-card">
+      <h3>Turn the Thought Around</h3>
+      <p class="ws-instruction">Take your original belief and find three turnarounds. For each one, find at least three specific, genuine examples of how the turnaround is true for you in this situation. Let yourself fully experience the turnarounds. This is not about blaming yourself or feeling guilty. It's about discovering alternatives that can bring you peace.</p>
+    
+      <div class="example-box">
+        <strong>Example</strong>
+        Original statement: <em>"He hurt me."</em><br>
+        Turnaround to the self: <em>"I hurt me."</em> &nbsp;|&nbsp;
+        Turnaround to the other: <em>"I hurt him."</em> &nbsp;|&nbsp;
+        Turnaround to the opposite: <em>"He didn't hurt me."</em>
+      </div>
+    
+      <!-- Turnaround 1 -->
+      <div class="turnaround-block">
+        <div class="turnaround-type">1. Turnaround to the self</div>
+        <div class="turnaround-example">Turn the original statement so that it refers to you instead. e.g. "He doesn't care about me" → "I don't care about me."</div>
+        <div class="turnaround-field-label">Your turnaround statement</div>
+        <textarea placeholder="Write your turnaround to the self here..."></textarea>
+        <div class="turnaround-field-label">At least three genuine examples of how this is true</div>
+        <textarea class="examples-field" placeholder="1. &#10;2. &#10;3. "></textarea>
+      </div>
+    
+      <!-- Turnaround 2 -->
+      <div class="turnaround-block">
+        <div class="turnaround-type">2. Turnaround to the other</div>
+        <div class="turnaround-example">Turn the statement so that you are doing to them what you said they did to you. e.g. "He doesn't care about me" → "I don't care about him."</div>
+        <div class="turnaround-field-label">Your turnaround statement</div>
+        <textarea placeholder="Write your turnaround to the other here..."></textarea>
+        <div class="turnaround-field-label">At least three genuine examples of how this is true</div>
+        <textarea class="examples-field" placeholder="1. &#10;2. &#10;3. "></textarea>
+      </div>
+    
+      <!-- Turnaround 3 -->
+      <div class="turnaround-block">
+        <div class="turnaround-type">3. Turnaround to the opposite</div>
+        <div class="turnaround-example">Turn the statement to its complete opposite. e.g. "He doesn't care about me" → "He does care about me."</div>
+        <div class="turnaround-field-label">Your turnaround statement</div>
+        <textarea placeholder="Write your turnaround to the opposite here..."></textarea>
+        <div class="turnaround-field-label">At least three genuine examples of how this is true</div>
+        <textarea class="examples-field" placeholder="1. &#10;2. &#10;3. "></textarea>
+      </div>
+    </div>
+    
+    <div class="remember-box" style="margin-top:8px;">
+      <h4>🕊️ Closing reflection</h4>
+      <p>The turnarounds are about welcoming all your thoughts and experiences with open arms, as it shows you where you are still at war with reality. If you feel any resistance to a thought, your Work is not done. When you can honestly look forward to experiences that have been uncomfortable, there is no longer anything to fear in life: you see everything as a gift that can bring you self-realisation. <br></br>Inquiry is not about positive thinking or forcing yourself to feel better. It's about discovering what's genuinely true when you look closely. Even one turnaround that lands as real can begin to shift years of pain. Be patient and kind with yourself throughout this process.</p>
+    </div>
+    
+    <div class="submit-wrap">
+      <button class="btn-submit" id="submitOneBelief">Send it to me by email 📩</button>
+    </div>
+    
+    <p class="attribution">Based on The Work by Byron Katie · © Byron Katie International, Inc. All rights reserved · thework.com</p>
+    </div>
+    </section>
+    
+    <!-- ── EMAIL MODAL ── -->
+    <div class="email-modal" id="oneBeliefModal">
+    <div id="oneBeliefModalContent">
+    <h3>Get your worksheet</h3>
+    <p>Enter your email address and we'll send your completed worksheet as a PDF.</p>
+    <input type="email" id="oneBeliefEmail" placeholder="your@email.com" />
+    <div class="modal-actions">
+    <button class="btn-confirm" id="confirmSendOneBelief">Send my PDF</button>
+    <button class="btn-cancel" onclick="document.getElementById('oneBeliefModal').classList.remove('active')">Cancel</button>
+    </div>
+    </div>
+    </div>
+    <script>
+    document.getElementById('submitOneBelief').addEventListener('click', function () {
+    document.getElementById('oneBeliefModal').classList.add('active');
+    });
+    
+    document.getElementById('confirmSendOneBelief').addEventListener('click', function () {
+    const email = document.getElementById('oneBeliefEmail').value.trim();
+    if (!email) {
+    alert('Please enter your email address.');
+    return;
+    }
+    const data = collectWorksheetData();
+    data.email = email;
+    
+    fetch("https://hooks.zapier.com/hooks/catch/27250519/ujkv2um/", {
+      method: "POST",
+  mode: 'no-cors',
+      body: JSON.stringify(data)
+    })
+    .then(function () {
+  document.getElementById('oneBeliefModalContent').innerHTML = '<div style="text-align:center;padding:8px 0"><div style="font-size:2.5rem;margin-bottom:12px">&#128233;</div><h3 style="font-family:Montserrat,sans-serif;color:#0d4a2e;margin-bottom:8px">On its way!</h3><p style="color:#4a6a4a;font-size:0.9rem;margin-bottom:18px;line-height:1.6">Check your inbox in a few minutes.</p><button class="btn-cancel worksheet-modal-close">Close</button></div>';
+}).catch(function () {
+  document.getElementById('oneBeliefModalContent').innerHTML = '<div style="text-align:center;padding:8px 0"><div style="font-size:2.5rem;margin-bottom:12px">&#128233;</div><h3 style="font-family:Montserrat,sans-serif;color:#0d4a2e;margin-bottom:8px">On its way!</h3><p style="color:#4a6a4a;font-size:0.9rem;margin-bottom:18px;line-height:1.6">Check your inbox in a few minutes.</p><button class="btn-cancel worksheet-modal-close">Close</button></div>';
+});
+    });
+    
+    function collectWorksheetData() {
+    const section = document.querySelector('.page-worksheet');
+    // Collect textarea fields positionally
+    const allFields = Array.from(section.querySelectorAll('textarea, input[type="text"]'));
+    const fieldNames = [
+      'belief',
+      'peace_or_stress',
+      'images_sensations',
+     null,
+      'obsessions_addictions',
+      'how_you_treat',
+      'without_the_thought',
+      'turnaround_self',
+      'turnaround_self_examples',
+      'turnaround_other',
+      'turnaround_other_examples',
+      'turnaround_opposite',
+      'turnaround_opposite_examples'
+    ];
+    const data = {};
+    allFields.forEach(function (field, i) {
+    if (fieldNames[i]) {
+    data[fieldNames[i]] = field.value.replace(/\r?\n|\r/g, ' | ');
+    }
+    });
+    data.emotions = document.getElementById('q3EmotionsValue').value;
+    // Collect radio button answers separately
+    const q1 = document.querySelector('input[name="is_it_true"]:checked');
+    data.is_it_true = q1 ? q1.value : '';
+    const q2 = document.querySelector('input[name="absolutely_know"]:checked');
+    data.absolutely_know = q2 ? q2.value : '';
+    
+    return data;
+    }
+    (function () {
+    var cats = [
+    { name: 'Angry', cls: 'angry', color: '#dc2626', emoji: '😠', list: [
+    'irritated','enraged','hostile','insulting','annoyed','upset','hateful','unpleasant',
+    'offensive','aggressive','bitter','frustrated','controlling','resentful','hotheaded',
+    'malicious','infuriated','critical','mean-spirited','violent','vindictive','sadistic',
+    'mean','spiteful','furious','agitated','repulsed','antagonistic','mad','cross','incensed',
+    'loud','reactive','swearing','abrupt','quarrelsome','venomous','irate','short-tempered',
+    'stubborn','rebellious','exasperated','impatient','condemning','seething','scornful',
+    'sarcastic','overbearing','sharp','poisonous','disrespectful','jealous','ticked off',
+    'hitting','yelling','screaming','revengeful','retaliating','reprimanding','envious'
+    ]},
+    { name: 'Depressed', cls: 'depressed', color: '#4338ca', emoji: '😔', list: [
+    'disappointed','discouraged','ashamed','powerless','diminished','guilty','dissatisfied',
+    'miserable','despicable','self-hating','sulky','low','terrible','lousy','desperate',
+    'alienated','bad','pessimistic','out of sorts','no energy','in hell','touchy','haggard',
+    'drawn','slumped','slouching','achy','masochistic','stuck','contracted','tight','blocked',
+    'despairing','hopeless','grouchy','off','moody','crabby','fault-finding','resistant',
+    'punishing','morose','cranky','grumpy','burdened','negative','disheartened',
+    'despondent','cheerless','rotten'
+    ]},
+    { name: 'Confused', cls: 'confused', color: '#b45309', emoji: '😕', list: [
+    'doubtful','uncertain','indecisive','perplexed','embarrassed','hesitant','shy',
+    'disillusioned','distrustful','misgiving','lost','unsure','uneasy','tense','stressed',
+    'uncomfortable','comparing','dishonest','disdainful','manipulative','judgmental',
+    'argumentative','authoritative','condescending','demanding','confounded','disoriented',
+    'off-kilter','frenzied','blushing','awkward'
+    ]},
+    { name: 'Helpless', cls: 'helpless', color: '#7c3aed', emoji: '😟', list: [
+    'incapable','paralyzed','alone','fatigued','useless','inferior','vulnerable','empty',
+    'distressed','pathetic','distraught','doomed','overwhelmed','incompetent','inept',
+    'incapacitated','shut down','cut off','trapped','weak','sick','nauseated','fidgety',
+    'trembling','craving','hungry','squirming','jittery','woozy','twitching','compulsive'
+    ]},
+    { name: 'Indifferent', cls: 'indifferent', color: '#6b7280', emoji: '😑', list: [
+    'insensitive','dull','reserved','weary','bored','preoccupied','cold','lifeless',
+    'uncaring','uninterested','unresponsive','tired','robotic','slow','sluggish'
+    ]},
+    { name: 'Afraid', cls: 'afraid', color: '#c2410c', emoji: '😨', list: [
+    'fearful','terrified','suspicious','anxious','alarmed','panicked','nervous','scared',
+    'worried','frightened','timid','shaky','restless','threatened','cowardly','insecure',
+    'wary','menaced','uptight','apprehensive','attacking','defensive','dreadful','guarded',
+    'troubled','self-absorbed','rigid','phobic','intolerant','disturbed','disrupted',
+    'intimidated','avoiding','unwelcoming','petrified','unbending','paranoid','inhibited',
+    'immobile','attached','prejudiced','agoraphobic','self-conscious'
+    ]},
+    { name: 'Hurt', cls: 'hurt', color: '#be185d', emoji: '💔', list: [
+    'crushed','tormented','deprived','pained','tortured','rejected','injured','offended',
+    'afflicted','aching','victimized','heartbroken','agonized','appalled','wronged',
+    'humiliated','insulted','withdrawn','miffed','indignant','suffering','distant',
+    'invaded','bulldozed','bullied','secretive','slighted','smothered','belittled'
+    ]},
+    { name: 'Sad', cls: 'sad', color: '#1d4ed8', emoji: '😢', list: [
+    'tearful','sorrowful','anguished','desolate','unhappy','lonely','grieved','mournful',
+    'dismayed','downhearted','oversensitive','dirty','sullen','remorseful','sour',
+    'self-castigating','unworthy','fragile','disconnected','devastated','blindsided',
+    'discontented','crying','groaning','moaning'
+    ]},
+    { name: 'Judgmental', cls: 'judgmental', color: '#1a5c3a', emoji: '🤨', list: [
+    'stony','serious','frowning','recoiling','disgusted','glaring','unfair','attacked',
+    'tactless','hurtful','bossy','stilted','stiff','brutal','combative','pushy',
+    'neglectful','stonewalling','rude','ranting','scolding','shrill','hard','fake',
+    'phony','shallow','taut','territorial','complaining','obsessive','blunt'
+    ]}
+    ];
+    
+    var picker      = document.getElementById('emotion-picker');
+    var hiddenInput = document.getElementById('q3EmotionsValue');
+    var display     = document.getElementById('q3SelectedDisplay');
+    
+    if (!picker) return; // guard: only run on this worksheet
+    
+    var wrap = document.createElement('div');
+    wrap.className = 'emotion-picker-wrap';
+    
+    var hint = document.createElement('p');
+    hint.className = 'ep-hint';
+    hint.textContent = 'Tap or click to select — choose as many as apply';
+    wrap.appendChild(hint);
+    
+    cats.forEach(function (cat) {
+    var group = document.createElement('div');
+    group.className = 'emo-group';
+    var lbl = document.createElement('span');
+    lbl.className = 'emo-group-label';
+    lbl.style.background = cat.color;
+    lbl.textContent = cat.emoji + '\\u2009' + cat.name;
+    group.appendChild(lbl);
+    
+    var row = document.createElement('div');
+    row.className = 'emo-chips';
+    
+    cat.list.forEach(function (word) {
+      var chip = document.createElement('label');
+      chip.className = 'ec ' + cat.cls;
+    
+      var cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.name = 'q3_emotions';
+      cb.value = word;
+      cb.addEventListener('change', syncHidden);
+    
+      chip.appendChild(cb);
+      chip.appendChild(document.createTextNode(word));
+      row.appendChild(chip);
+    });
+    
+    group.appendChild(row);
+    wrap.appendChild(group);
+    });
+    
+    picker.appendChild(wrap);
+    
+    function syncHidden() {
+    var checked = document.querySelectorAll('input[name="q3_emotions"]:checked');
+    var vals = Array.from(checked).map(function (c) { return c.value; });
+    hiddenInput.value = vals.join(', ');
+    if (vals.length > 0) {
+    display.style.display = 'block';
+    display.innerHTML = '<strong>Selected (' + vals.length + '):</strong> ' + vals.join(', ');
+    } else {
+    display.style.display = 'none';
+    }
+    }
+    })();
+    (function () {
+    var cats = [
+    { name: 'Open', cls: 'open', color: '#0891b2', emoji: '🌿', list: [
+    'understanding','confident','easy','connected','free','sympathetic','interested',
+    'satisfied','receptive','accepting','kind','harmonious','empathetic','tolerant',
+    'friendly','approachable','outgoing','flowing','flexible','present','listening',
+    'welcoming','embracing'
+    ]},
+    { name: 'Loving', cls: 'loving', color: '#db2777', emoji: '💛', list: [
+    'considerate','affectionate','sensitive','tender','devoted','attracted','passionate',
+    'admiring','warm','touched','close','loved','sweet','gentle','compassionate',
+    'caring','allowing','nonjudgmental','appreciative','respectful','humble','gracious',
+    'patient','honoring','expansive','kindly','grateful'
+    ]},
+    { name: 'Happy', cls: 'happy', color: '#d97706', emoji: '😊', list: [
+    'blissful','joyous','delighted','overjoyed','gleeful','thankful','festive','ecstatic',
+    'satisfied','glad','cheerful','sunny','elated','jubilant','jovial','fun-loving',
+    'lighthearted','easygoing','mellow','happy-go-lucky','glorious','innocent','child-like',
+    'gratified','euphoric','rapturous','in good humor','in heaven','on top of the world'
+    ]},
+    { name: 'Interested', cls: 'interested', color: '#2563eb', emoji: '🔍', list: [
+    'fascinated','intrigued','absorbed','inquisitive','engrossed','curious','amazed',
+    'involved','attentive','observant','amused','thoughtful','courteous','intent','focused'
+    ]},
+    { name: 'Alive', cls: 'alive', color: '#ea580c', emoji: '✨', list: [
+    'playful','courageous','energetic','liberated','optimistic','frisky','animated',
+    'spirited','thrilled','wonderful','funny','great','giving','sharing','intelligent',
+    'exhilarated','equal','excited','enjoying','communicative','active','spunky',
+    'youthful','vigorous','tickled'
+    ]},
+    { name: 'Positive', cls: 'positive', color: '#7c3aed', emoji: '⭐', list: [
+    'eager','keen','earnest','inspired','enthusiastic','bold','brave','daring','hopeful',
+    'upbeat','beautiful','creative','constructive','helpful','resourceful','motivated',
+    'cooperative','productive','exuberant','in the zone','responsive','conscientious',
+    'approving','honored','privileged','adaptable'
+    ]},
+    { name: 'Peaceful', cls: 'peaceful', color: '#059669', emoji: '🕊️', list: [
+    'calm','good','at ease','comfortable','pleased','encouraged','surprised','content',
+    'quiet','certain','relaxed','serene','bright','blessed','assured','clear','balanced',
+    'fine','okay','grateful','carefree','adequate','fulfilled','genuine','authentic',
+    'forgiving','sincere','uplifted','unburdened','confident','self-sufficient'
+    ]},
+    { name: 'Strong', cls: 'strong', color: '#1e40af', emoji: '💪', list: [
+    'reliable','sure','unique','dynamic','tenacious','hardy','secure','stable','honest',
+    'composed','self-affirming','truthful','supportive','excellent','perseverant',
+    'responsible','energized','sane','complete','mature','solid'
+    ]},
+    { name: 'Relaxed', cls: 'relaxed', color: '#1a5c3a', emoji: '🌱', list: [
+    'glowing','radiant','beaming','reflective','smiling','grounded','unhurried',
+    'open-minded','efficient','non-controlling','unassuming','trusting','supported',
+    'fluid','light','spontaneous','aware','healthy','meditative','still','rested',
+    'waiting','laughing','graceful','natural','steady','centered','placid'
+    ]}
+    ];
+    
+    var picker      = document.getElementById('q4-word-picker');
+    var hiddenInput = document.getElementById('q4WordsValue');
+    var display     = document.getElementById('q4SelectedDisplay');
+    
+    if (!picker) return;
+    
+    var wrap = document.createElement('div');
+    wrap.className = 'emotion-picker-wrap';
+    
+    var hint = document.createElement('p');
+    hint.className = 'ep-hint';
+    hint.textContent = 'Tap or click to select — choose as many as apply';
+    wrap.appendChild(hint);
+    
+    cats.forEach(function (cat) {
+    var group = document.createElement('div');
+    group.className = 'emo-group';
+    var lbl = document.createElement('span');
+    lbl.className = 'emo-group-label';
+    lbl.style.background = cat.color;
+    lbl.textContent = cat.emoji + '\\u2009' + cat.name;
+    group.appendChild(lbl);
+    
+    var row = document.createElement('div');
+    row.className = 'emo-chips';
+    
+    cat.list.forEach(function (word) {
+      var chip = document.createElement('label');
+      chip.className = 'ec ' + cat.cls;
+    
+      var cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.name = 'q4_words';
+      cb.value = word;
+      cb.addEventListener('change', syncHidden);
+    
+      chip.appendChild(cb);
+      chip.appendChild(document.createTextNode(word));
+      row.appendChild(chip);
+    });
+    
+    group.appendChild(row);
+    wrap.appendChild(group);
+    });
+    
+    picker.appendChild(wrap);
+    
+    function syncHidden() {
+    var checked = document.querySelectorAll('input[name="q4_words"]:checked');
+    var vals = Array.from(checked).map(function (c) { return c.value; });
+    hiddenInput.value = vals.join(', ');
+    if (vals.length > 0) {
+    display.style.display = 'block';
+    display.innerHTML = '<strong>Selected (' + vals.length + '):</strong> ' + vals.join(', ');
+    } else {
+    display.style.display = 'none';
+    }
+    }
+    })();
+    
+document.addEventListener("click", function(e) {
+  if (!e.target.classList.contains("worksheet-modal-close")) return;
+  var modal = e.target.closest(".email-modal");
+  if (modal) { modal.classList.remove("active"); return; }
+  modal = e.target.parentElement;
+  while (modal) {
+    if (modal.style && modal.style.display === "flex") { modal.style.display = "none"; return; }
+    modal = modal.parentElement;
+  }
+});
+</script>
+    </body>
+    </html>

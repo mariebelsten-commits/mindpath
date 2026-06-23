@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Judge-Your-Neighbour Worksheet | ChatCBT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f0f9f0;
+      color: #1a2e1a;
+      line-height: 1.7;
+    }
+    
+    /* ── HERO ── */
+    .page-hero {
+      background: linear-gradient(135deg, #0d4a2e 0%, #1a5c3a 60%, #2d7a50 100%);
+      color: #fff;
+      padding: 72px 24px 60px;
+      text-align: center;
+    }
+    .page-hero .hero-sub {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.75;
+      margin-bottom: 14px;
+    }
+    .page-hero h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 20px;
+      line-height: 1.15;
+      color: #fff !important;
+    }
+    .page-hero p {
+      font-size: 1.15rem;
+      max-width: 640px;
+      margin: 0 auto 44px;
+      opacity: 0.92;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    .feature-card {
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 14px;
+      padding: 22px 20px;
+    }
+    .feature-card .icon { font-size: 1.6rem; margin-bottom: 10px; }
+    .feature-card h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #fff !important;
+    }
+    .feature-card p { font-size: 0.9rem; opacity: 0.88; }
+    
+    /* ── SECTION LABELS ── */
+    .section-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #1a5c3a;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .section-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: #0d4a2e;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .section-sub {
+      text-align: center;
+      color: #4a6a4a;
+      margin-bottom: 44px;
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    /* ── HOW IT WORKS ── */
+    .page-howto {
+      background: #fff;
+      padding: 64px 24px;
+    }
+    .steps-stack {
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .step-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      background: #f8fdf8;
+      border-radius: 14px;
+      padding: 22px 24px;
+      border: 1px solid #d4edda;
+    }
+    .step-num {
+      background: #1a5c3a;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-text h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      color: #0d4a2e;
+      margin-bottom: 4px;
+    }
+    .step-text p { color: #4a6a4a; font-size: 0.95rem; }
+    .info-box {
+      max-width: 680px;
+      margin: 28px auto 0;
+      background: #b5e8c4;
+      border-radius: 14px;
+      padding: 20px 24px;
+      color: #0d4a2e;
+      font-size: 0.95rem;
+    }
+    .info-box strong { font-weight: 700; }
+    
+    /* ── WORKSHEET ── */
+    .page-worksheet {
+      background: #f0f9f0;
+      padding: 64px 24px 80px;
+    }
+    .ws-inner { max-width: 760px; margin: 0 auto; }
+    
+    /* Standard card */
+    .ws-card {
+      background: #fff;
+      border-radius: 16px;
+      border-left: 5px solid #1a5c3a;
+      padding: 28px 28px 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 12px rgba(26,92,58,0.07);
+    }
+    .ws-card textarea {
+      width: 100%;
+      min-height: 110px;
+      border: 1.5px solid #c8e6d0;
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      color: #1a2e1a;
+      background: #f8fdf8;
+      resize: vertical;
+      transition: border-color 0.2s;
+      line-height: 1.6;
+    }
+    .ws-card textarea:focus {
+      outline: none;
+      border-color: #1a5c3a;
+      background: #fff;
+    }
+    .ws-card textarea::placeholder { color: #9ab89a; }
+    
+    /* Question badge */
+    .q-badge {
+      display: inline-block;
+      background: #1a5c3a;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.72rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+    .ws-card h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #0d4a2e;
+      margin-bottom: 6px;
+    }
+    .ws-hint {
+      font-size: 0.875rem;
+      color: #5a7a5a;
+      margin-bottom: 18px;
+      font-style: italic;
+    }
+    
+    /* ── SENTENCE BUILDER (Q1) ── */
+    .sentence-builder {
+      background: #f0f9f0;
+      border: 1.5px solid #c8e6d0;
+      border-radius: 12px;
+      padding: 22px 20px 18px;
+      margin-bottom: 16px;
+    }
+    .sentence-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .sentence-row:last-child { margin-bottom: 0; }
+    .s-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      color: #5a7a5a;
+      font-style: italic;
+    }
+    .inline-input {
+      border: none;
+      border-bottom: 2.5px solid #1a5c3a;
+      background: transparent;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #0d4a2e;
+      padding: 4px 8px;
+      text-align: center;
+      transition: border-color 0.2s;
+    }
+    .inline-input.emotion-input { min-width: 130px; }
+    .inline-input.name-input    { min-width: 140px; color: #1a5c3a; }
+    .inline-input:focus {
+      outline: none;
+      border-bottom-color: #0d4a2e;
+    }
+    .inline-input::placeholder {
+      color: #a5d6a7;
+      font-weight: 400;
+      font-style: italic;
+      font-family: 'Inter', sans-serif;
+    }
+    .because-block {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .s-because {
+      flex-shrink: 0;
+      padding-top: 14px;
+      font-size: 1rem;
+    }
+    .because-block textarea {
+      flex: 1;
+      min-height: 80px;
+    }
+    
+    /* ── NAME TAG (mirrored throughout) ── */
+    .name-tag {
+      display: inline-block;
+      background: #1a5c3a;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 3px 12px;
+      border-radius: 20px;
+      min-width: 50px;
+      text-align: center;
+      transition: background 0.2s;
+    }
+    
+    /* ── SENTENCE STEM (Q2–Q5) ── */
+    .sentence-stem {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      background: #f0f9f0;
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-bottom: 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.97rem;
+      color: #5a7a5a;
+      font-style: italic;
+    }
+    
+    /* ── RADIO PILL (should/shouldn't) ── */
+    .radio-group {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .radio-pill { position: relative; }
+    .radio-pill input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .radio-pill label {
+      display: inline-block;
+      padding: 6px 20px;
+      border-radius: 50px;
+      border: 2px solid #c8e6d0;
+      background: #f8fdf8;
+      color: #4a6a4a;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+    .radio-pill input[type="radio"]:checked + label {
+      background: #1a5c3a;
+      border-color: #1a5c3a;
+      color: #fff;
+    }
+    
+    /* ── EXAMPLE BOX ── */
+    .example-box {
+      background: #f0f9f0;
+      border-left: 3px solid #a5d6a7;
+      border-radius: 0 8px 8px 0;
+      padding: 10px 14px;
+      margin-top: 12px;
+      font-size: 0.83rem;
+      color: #5a7a5a;
+      font-style: italic;
+    }
+    .example-box strong {
+      font-style: normal;
+      font-weight: 600;
+      color: #0d4a2e;
+      margin-right: 4px;
+    }
+    
+    /* ── NEXT STEPS CARD ── */
+    .next-steps-card {
+      background: #fff;
+      border-radius: 16px;
+      border-left: 5px solid #0d4a2e;
+      padding: 26px 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 12px rgba(26,92,58,0.07);
+    }
+    .next-steps-card h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #0d4a2e;
+      margin-bottom: 12px;
+    }
+    .next-steps-card p {
+      font-size: 0.94rem;
+      color: #4a6a4a;
+      margin-bottom: 10px;
+      line-height: 1.7;
+    }
+    .next-steps-card p:last-child { margin-bottom: 0; }
+    .four-questions {
+      background: #f0f9f0;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin: 12px 0;
+    }
+    .four-questions ol {
+      padding-left: 18px;
+      margin-top: 6px;
+    }
+    .four-questions li {
+      font-size: 0.9rem;
+      color: #1a2e1a;
+      margin-bottom: 4px;
+    }
+    .four-questions li strong {
+      color: #0d4a2e;
+    }
+    
+    /* ── REMEMBER BOX ── */
+    .remember-box {
+      background: #b5e8c4;
+      border-radius: 14px;
+      padding: 22px 26px;
+      margin-bottom: 32px;
+      color: #0d4a2e;
+    }
+    .remember-box h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+    .remember-box p { font-size: 0.94rem; line-height: 1.65; }
+    
+    .flow-arrow {
+      text-align: center;
+      font-size: 1.6rem;
+      color: #1a5c3a;
+      margin: 4px 0 8px;
+    }
+    
+    /* ── SUBMIT ── */
+    .submit-wrap { text-align: center; margin-top: 16px; }
+    .btn-submit {
+      background: linear-gradient(135deg, #0d4a2e, #1a5c3a);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding: 16px 44px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      box-shadow: 0 4px 20px rgba(13,74,46,0.28);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 28px rgba(13,74,46,0.38);
+    }
+    .attribution {
+      text-align: center;
+      font-size: 0.78rem;
+      color: #7a9a7a;
+      margin-top: 24px;
+    }
+    
+    /* ── MODAL ── */
+    .email-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+    .email-modal.active { display: flex; }
+    #judgeNeighbourModalContent {
+      background: #fff;
+      border-radius: 20px;
+      padding: 36px 32px;
+      max-width: 440px;
+      width: 90%;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+    #judgeNeighbourModalContent h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #0d4a2e;
+      margin-bottom: 10px;
+    }
+    #judgeNeighbourModalContent p {
+      color: #4a6a4a;
+      font-size: 0.95rem;
+      margin-bottom: 22px;
+    }
+    #judgeNeighbourModalContent input[type="email"] {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1.5px solid #c8e6d0;
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.97rem;
+      margin-bottom: 16px;
+      color: #1a2e1a;
+    }
+    #judgeNeighbourModalContent input[type="email"]:focus {
+      outline: none;
+      border-color: #1a5c3a;
+    }
+    .modal-actions { display: flex; gap: 12px; justify-content: center; }
+    .btn-confirm {
+      background: linear-gradient(135deg, #0d4a2e, #1a5c3a);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.97rem;
+      padding: 13px 30px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+    }
+    .btn-cancel {
+      background: #f0f9f0;
+      color: #1a5c3a;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 0.97rem;
+      padding: 13px 26px;
+      border: 1.5px solid #c8e6d0;
+      border-radius: 50px;
+      cursor: pointer;
+    }
+    
+    /* ── RESPONSIVE ── */
+    @media (max-width: 760px) {
+      .page-hero h1 { font-size: 2rem; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .ws-card { padding: 22px 18px 20px; }
+      .sentence-row { gap: 8px; }
+      .inline-input.emotion-input,
+      .inline-input.name-input { min-width: 100px; }
+      .because-block { flex-direction: column; gap: 8px; }
+    }
+    </style>
+    </head>
+    <body>
+    
+    <!-- ── HERO ── -->
+    <section class="page-hero">
+    <p class="hero-sub">The Work of Byron Katie</p>
+    <h1>Judge-Your-Neighbour Worksheet</h1>
+    <p>Your stressful thoughts about others are a doorway to self-understanding. This worksheet helps you write them down clearly — so they can be investigated and turned around.</p>
+    <div class="feature-grid">
+    <div class="feature-card">
+    <div class="icon">📝</div>
+    <h3>Write It Down</h3>
+    <p>Getting your uncensored judgments onto paper is the first act of inquiry. Don't hold back — be petty, be honest.</p>
+    </div>
+    <div class="feature-card">
+    <div class="icon">🎯</div>
+    <h3>Name the Person</h3>
+    <p>Focus on one specific person and one specific recurring situation that causes you stress.</p>
+    </div>
+    <div class="feature-card">
+    <div class="icon">💭</div>
+    <h3>Capture Everything</h3>
+    <p>Your wants, needs, judgments, and fears all become material for investigation. Nothing is too petty or too painful.</p>
+    </div>
+    <div class="feature-card">
+    <div class="icon">🔄</div>
+    <h3>Prepare for Inquiry</h3>
+    <p>Each statement you write can be investigated using The Work's four questions and turned around to reveal deeper truths.</p>
+    </div>
+    </div>
+    </section>
+    
+    <!-- ── HOW IT WORKS ── -->
+    <section class="page-howto">
+    <p class="section-label">How It Works</p>
+    <h2 class="section-title">A step-by-step guide</h2>
+    <p class="section-sub">Think of a recurring stressful situation involving someone who angers, confuses, saddens, or disappoints you. Work through each question using short, simple sentences.</p>
+    <div class="steps-stack">
+    <div class="step-row">
+    <div class="step-num">1</div>
+    <div class="step-text">
+    <h4>Choose your situation</h4>
+    <p>Pick a recurring stressful situation — one that may have happened once but replays in your mind. As you work through the questions, allow yourself to mentally revisit the time and place.</p>
+    </div>
+    </div>
+    <div class="step-row">
+    <div class="step-num">2</div>
+    <div class="step-text">
+    <h4>Question 1 — Who and why?</h4>
+    <p>Name the emotion, the person, and the reason. "I am angry with Paul because he doesn't listen to me."</p>
+    </div>
+    </div>
+    <div class="step-row">
+    <div class="step-num">3</div>
+    <div class="step-text">
+    <h4>Question 2 — What do you want them to do?</h4>
+    <p>Write exactly what you want them to change, say, or do. Be specific and honest.</p>
+    </div>
+    </div>
+    <div class="step-row">
+    <div class="step-num">4</div>
+    <div class="step-text">
+    <h4>Question 3 — What advice would you give them?</h4>
+    <p>Write what they should or shouldn't do. This is your chance to be completely frank about what you think they need to hear.</p>
+    </div>
+    </div>
+    <div class="step-row">
+    <div class="step-num">5</div>
+    <div class="step-text">
+    <h4>Question 4 — What do you need from them?</h4>
+    <p>To be happy in this situation, what do you need them to think, say, feel, or do?</p>
+    </div>
+    </div>
+    <div class="step-row">
+    <div class="step-num">6</div>
+    <div class="step-text">
+    <h4>Questions 5 & 6 — Your judgments and fears</h4>
+    <p>List every judgment you have of this person — be petty and uncensored. Then name what you never want to experience again in this situation.</p>
+    </div>
+    </div>
+    </div>
+    <div class="info-box">
+    <strong>💡 Tip:</strong> Use short, simple sentences throughout. The goal is not to write a full account — it's to isolate each painful thought so it can be investigated one at a time.
+    </div>
+    </section>
+    
+    <!-- ── WORKSHEET ── -->
+    <section class="page-worksheet">
+    <div class="ws-inner">
+    <p class="section-label">Your Worksheet</p>
+    <h2 class="section-title">Judge-Your-Neighbour</h2>
+    <p class="section-sub" style="margin-bottom:36px;">Fill in each section honestly. When you're done, click the button at the bottom to receive your completed worksheet by email.</p>
+    <div class="remember-box">
+      <h4>📝 Before you begin</h4>
+      <p>Think of a recurring stressful situation — a situation that is reliably stressful even though it may have happened only once and recurs only in your mind. As you answer each question, allow yourself to mentally revisit the time and place of the stressful occurrence. Use short, simple sentences.</p>
+    </div>
+    
+    <!-- ── QUESTION 1 ── -->
+    <div class="ws-card">
+      <div class="q-badge">Question 1</div>
+      <h3>In this situation, who angers, confuses, saddens, or disappoints you — and why?</h3>
+      <p class="ws-hint">Complete the sentence below. The name you enter here will appear throughout the worksheet.</p>
+    
+      <div class="sentence-builder">
+        <div class="sentence-row">
+          <span class="s-text">I am</span>
+          <input type="text" class="inline-input emotion-input" id="emotionInput" placeholder="emotion" autocomplete="off" />
+          <span class="s-text">with</span>
+          <input type="text" class="inline-input name-input" id="nameInput" placeholder="their name" autocomplete="off" />
+        </div>
+        <div class="because-block">
+          <span class="s-text s-because">because</span>
+          <textarea placeholder="he/she/they..."></textarea>
+        </div>
+      </div>
+    
+      <div class="example-box">
+        <strong>Example:</strong> I am <em>angry</em> with <em>Paul</em> because <em>he hurt me.</em>
+      </div>
+    </div>
+    
+    <div class="flow-arrow">▼</div>
+    
+    <!-- ── QUESTION 2 ── -->
+    <div class="ws-card">
+      <div class="q-badge">Question 2</div>
+      <h3>In this situation, how do you want them to change? What do you want them to do?</h3>
+      <div class="sentence-stem">
+        <span>I want</span>
+        <span class="name-tag" id="nameDisplay2">them</span>
+        <span>to...</span>
+      </div>
+      <textarea placeholder="Write what you want them to do, say, or change..."></textarea>
+      <div class="example-box">
+        <strong>Example:</strong> I want <em>Paul</em> to see that he is wrong. I want him to stop lying to me. I want him to see that he is killing himself.
+      </div>
+    </div>
+    
+    <div class="flow-arrow">▼</div>
+    
+    <!-- ── QUESTION 3 ── -->
+    <div class="ws-card">
+      <div class="q-badge">Question 3</div>
+      <h3>In this situation, what advice would you offer to them?</h3>
+      <div class="sentence-stem">
+        <span class="name-tag" id="nameDisplay3">They</span>
+        <div class="radio-group">
+          <div class="radio-pill">
+            <input type="radio" id="q3_should" name="q3_should_shouldnt" value="should" />
+            <label for="q3_should">should</label>
+          </div>
+          <div class="radio-pill">
+            <input type="radio" id="q3_shouldnt" name="q3_should_shouldnt" value="shouldn't" />
+            <label for="q3_shouldnt">shouldn't</label>
+          </div>
+        </div>
+        <span>...</span>
+      </div>
+      <textarea placeholder="Write the advice you would give them..."></textarea>
+      <div class="example-box">
+        <strong>Example:</strong> <em>Paul</em> should take a deep breath. He should calm down. He should see that his behaviour frightens me. He should know that being right is not worth another heart attack.
+      </div>
+    </div>
+    
+    <div class="flow-arrow">▼</div>
+    
+    <!-- ── QUESTION 4 ── -->
+    <div class="ws-card">
+      <div class="q-badge">Question 4</div>
+      <h3>In order for you to be happy in this situation, what do you need them to think, say, feel, or do?</h3>
+      <div class="sentence-stem">
+        <span>I need</span>
+        <span class="name-tag" id="nameDisplay4">them</span>
+        <span>to...</span>
+      </div>
+      <textarea placeholder="Write what you need from them to feel at peace in this situation..."></textarea>
+      <div class="example-box">
+        <strong>Example:</strong> I need <em>Paul</em> to hear me when I talk to him. I need him to take care of himself. I need him to admit that I am right.
+      </div>
+    </div>
+    
+    <div class="flow-arrow">▼</div>
+    
+    <!-- ── QUESTION 5 ── -->
+    <div class="ws-card">
+      <div class="q-badge">Question 5</div>
+      <h3>What do you think of them in this situation? Make a list.</h3>
+      <p class="ws-hint">Remember — be petty and judgmental. Don't hold back. This is private.</p>
+      <div class="sentence-stem">
+        <span class="name-tag" id="nameDisplay5">They</span>
+        <span>is / are...</span>
+      </div>
+      <textarea placeholder="List your judgments — be completely honest and uncensored..."></textarea>
+      <div class="example-box">
+        <strong>Example:</strong> <em>Paul</em> is unfair, arrogant, loud, dishonest, way out of line, and unconscious.
+      </div>
+    </div>
+    
+    <div class="flow-arrow">▼</div>
+    
+    <!-- ── QUESTION 6 ── -->
+    <div class="ws-card">
+      <div class="q-badge">Question 6</div>
+      <h3>What is it about this situation that you don't ever want to experience again?</h3>
+      <div class="sentence-stem">
+        <span>I don't ever want to...</span>
+      </div>
+      <textarea placeholder="Describe what you never want to feel, see, or go through again..."></textarea>
+      <div class="example-box">
+        <strong>Example:</strong> I don't ever want <em>Paul</em> to lie to me again. I don't ever want to see him ruining his health again.
+      </div>
+    </div>
+    
+    <div class="flow-arrow">▼</div>
+    
+    <!-- ── NEXT STEPS ── -->
+    <div class="next-steps-card">
+      <h3>🔍 Now investigate each statement</h3>
+      <p>Now investigate each of the above statements using the four questions of The Work. Always give yourself time to let the deeper answers meet the questions. Then turn each thought around.</p>
+      <div class="four-questions">
+        <strong style="font-family:'Montserrat',sans-serif;font-size:0.88rem;color:#0d4a2e;">The four questions</strong>
+        <ol>
+          <li><strong>Is it true?</strong> (Yes or no. If no, move to question 3.)</li>
+          <li><strong>Can you absolutely know that it's true?</strong> (Yes or no.)</li>
+          <li><strong>How do you react, what happens, when you believe that thought?</strong></li>
+          <li><strong>Who would you be without the thought?</strong></li>
+        </ol>
+      </div>
+      <p>Then turn the thought around — to the self, to the other, and to the opposite. Find at least three genuine examples of how each turnaround is true. For statement 6, replace "I don't ever want to..." with <em>"I am willing to..."</em> and <em>"I look forward to..."</em></p>
+      <p>Use the <strong>One Belief at a Time</strong> worksheet to investigate each statement in full.</p>
+    </div>
+    
+    <div class="remember-box" style="margin-top:8px;">
+      <h4>🌿 Well done for completing the worksheet</h4>
+      <p>You have named your judgments clearly and honestly. That takes courage. Each statement is now an invitation to inquiry — a chance to discover what's true beneath the story, and to find peace in a situation that once felt unbearable.</p>
+    </div>
+    
+    <div class="submit-wrap">
+      <button class="btn-submit" id="submitJudgeNeighbour">Send it to me by email 📩</button>
+    </div>
+    
+    <p class="attribution">Based on the Judge-Your-Neighbour Worksheet by Byron Katie · © Byron Katie International, Inc. All rights reserved · thework.com</p>
+    </div>
+    </section>
+    
+    <!-- ── EMAIL MODAL ── -->
+    <div class="email-modal" id="judgeNeighbourModal">
+    <div id="judgeNeighbourModalContent">
+    <h3>Get your worksheet</h3>
+    <p>Enter your email address and we'll send your completed worksheet as a PDF.</p>
+    <input type="email" id="judgeNeighbourEmail" placeholder="your@email.com" />
+    <div class="modal-actions">
+    <button class="btn-confirm" id="confirmSendJudgeNeighbour">Send my PDF</button>
+    <button class="btn-cancel" onclick="document.getElementById('judgeNeighbourModal').classList.remove('active')">Cancel</button>
+    </div>
+    </div>
+    </div>
+    <script>
+    // Mirror the person's name throughout the worksheet as it's typed
+    document.getElementById('nameInput').addEventListener('input', function () {
+    const name = this.value.trim() || 'them';
+    document.getElementById('nameDisplay2').textContent = name;
+    document.getElementById('nameDisplay3').textContent = name;
+    document.getElementById('nameDisplay4').textContent = name;
+    document.getElementById('nameDisplay5').textContent = name;
+    });
+    
+    document.getElementById('submitJudgeNeighbour').addEventListener('click', function () {
+    document.getElementById('judgeNeighbourModal').classList.add('active');
+    });
+    
+    document.getElementById('confirmSendJudgeNeighbour').addEventListener('click', function () {
+    const email = document.getElementById('judgeNeighbourEmail').value.trim();
+    if (!email) {
+    alert('Please enter your email address.');
+    return;
+    }
+    const data = collectWorksheetData();
+    data.email = email;
+    
+    fetch("https://hooks.zapier.com/hooks/catch/27250519/ujs7k0t/", {
+      method: "POST",
+  mode: 'no-cors',
+      body: JSON.stringify(data)
+    })
+    .then(function () {
+  document.getElementById('judgeNeighbourModalContent').innerHTML = '<div style="text-align:center;padding:8px 0"><div style="font-size:2.5rem;margin-bottom:12px">&#128233;</div><h3 style="font-family:Montserrat,sans-serif;color:#0d4a2e;margin-bottom:8px">On its way!</h3><p style="color:#4a6a4a;font-size:0.9rem;margin-bottom:18px;line-height:1.6">Check your inbox in a few minutes.</p><button class="btn-cancel worksheet-modal-close">Close</button></div>';
+}).catch(function () {
+  document.getElementById('judgeNeighbourModalContent').innerHTML = '<div style="text-align:center;padding:8px 0"><div style="font-size:2.5rem;margin-bottom:12px">&#128233;</div><h3 style="font-family:Montserrat,sans-serif;color:#0d4a2e;margin-bottom:8px">On its way!</h3><p style="color:#4a6a4a;font-size:0.9rem;margin-bottom:18px;line-height:1.6">Check your inbox in a few minutes.</p><button class="btn-cancel worksheet-modal-close">Close</button></div>';
+});
+    });
+    
+    function collectWorksheetData() {
+    const section = document.querySelector('.page-worksheet');
+    const allFields = Array.from(section.querySelectorAll('textarea, input[type="text"]'));
+    const fieldNames = [
+    'emotion',
+    'person_name',
+    'because',
+    'q2_want',
+    'q3_advice',
+    'q4_need',
+    'q5_judgments',
+    'q6_dont_want'
+    ];
+    const data = {};
+    allFields.forEach(function (field, i) {
+    if (fieldNames[i]) data[fieldNames[i]] = field.value.replace(/\r?\n|\r/g, ' | ');
+    });
+    // Radio button handled separately
+    const q3Radio = document.querySelector('input[name="q3_should_shouldnt"]:checked');
+    data.q3_should_shouldnt = q3Radio ? q3Radio.value : '';
+    
+    return data;
+    }
+    
+document.addEventListener("click", function(e) {
+  if (!e.target.classList.contains("worksheet-modal-close")) return;
+  var modal = e.target.closest(".email-modal");
+  if (modal) { modal.classList.remove("active"); return; }
+  modal = e.target.parentElement;
+  while (modal) {
+    if (modal.style && modal.style.display === "flex") { modal.style.display = "none"; return; }
+    modal = modal.parentElement;
+  }
+});
+</script>
+    </body>
+    </html>
