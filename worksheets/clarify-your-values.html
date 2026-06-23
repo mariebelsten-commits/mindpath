@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Values Worksheet</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    color: #1a1a1a;
+    line-height: 1.6;
+    background: #f0f9f0;
+  }
+
+  h1, h2, h3, h4 { font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif; }
+
+  textarea, input[type="text"], input[type="number"] {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    border: 2px solid #c3e6cb;
+    border-radius: 8px;
+    padding: 10px 12px;
+    background: #fff;
+    color: #1a1a1a;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+  }
+  textarea { resize: vertical; }
+  textarea:focus, input:focus {
+    outline: none;
+    border-color: #2d6a4f;
+    box-shadow: 0 0 0 3px rgba(45,106,79,0.15);
+  }
+  input::placeholder, textarea::placeholder {
+    color: #999;
+    font-style: italic;
+  }
+
+  /* ===== HERO ===== */
+  .page-hero {
+    padding: 70px 40px 60px;
+    background: linear-gradient(135deg, rgba(212,237,218,0.88) 0%, rgba(232,245,233,0.85) 40%, rgba(240,249,232,0.88) 100%);
+  }
+  .page-hero h1 {
+    font-size: 3rem;
+    color: #0d4a2e;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+  }
+  .badge {
+    display: inline-block;
+    background: #d4f1dd;
+    color: #0d4a2e;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    padding: 6px 14px;
+    border-radius: 6px;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+    border: 1px solid #b8dbc0;
+  }
+  .page-hero .intro {
+    font-size: 1.05rem;
+    color: #333;
+    max-width: 900px;
+    margin-bottom: 40px;
+    line-height: 1.7;
+  }
+  .feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 1100px;
+  }
+  .feature-card {
+    background: rgba(212,237,218,0.55);
+    border: 1.5px solid #b8dbc0;
+    border-radius: 12px;
+    padding: 26px 28px;
+  }
+  .feature-card h3 {
+    font-size: 1.35rem;
+    color: #0d4a2e;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  .feature-card p {
+    font-size: 0.98rem;
+    color: #333;
+    line-height: 1.55;
+  }
+
+  /* ===== HOW IT WORKS ===== */
+  .page-howto {
+    padding: 70px 40px 60px;
+    background: linear-gradient(160deg, #e8f5e9 0%, #f0f9f0 50%, #d4edda 100%);
+  }
+  .page-howto h2 {
+    font-size: 2.4rem;
+    color: #0d4a2e;
+    margin-bottom: 16px;
+  }
+  .page-howto .lead {
+    font-size: 1rem;
+    color: #333;
+    max-width: 900px;
+    margin-bottom: 16px;
+    line-height: 1.7;
+  }
+  .steps-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 1100px;
+    margin-top: 20px;
+  }
+  .step-row {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    background: rgba(212,237,218,0.45);
+    border: 1.5px solid #b8dbc0;
+    border-radius: 10px;
+    padding: 18px 22px;
+    align-items: start;
+  }
+  .step-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0d4a2e;
+    text-align: center;
+  }
+  .step-body h3 {
+    font-size: 1.2rem;
+    color: #0d4a2e;
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+  .step-body p {
+    font-size: 0.95rem;
+    color: #333;
+    line-height: 1.6;
+  }
+  .info-box {
+    margin-top: 30px;
+    background: #b5e8c4;
+    border-radius: 10px;
+    padding: 20px 24px;
+    max-width: 1100px;
+    color: #0d4a2e;
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  /* ===== WORKSHEET ===== */
+  .page-worksheet {
+    padding: 70px 40px 60px;
+    background: linear-gradient(160deg, #d4edda 0%, #e8f5e9 40%, #f0f9e8 100%);
+  }
+  .page-worksheet h2 {
+    font-size: 2.4rem;
+    color: #0d4a2e;
+    margin-bottom: 14px;
+  }
+  .page-worksheet .lead {
+    font-size: 1rem;
+    color: #333;
+    max-width: 900px;
+    margin-top: 24px;
+    margin-bottom: 34px;
+    line-height: 1.7;
+  }
+  .worksheet-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 1100px;
+  }
+  .ws-card {
+    background: rgba(212,237,218,0.55);
+    border: 1.5px solid #b8dbc0;
+    border-left: 5px solid #1a5c3a;
+    border-radius: 10px;
+    padding: 22px 24px;
+  }
+  .ws-card h3 {
+    font-size: 1.1rem;
+    color: #0d4a2e;
+    margin-bottom: 4px;
+    font-weight: 700;
+  }
+  .ws-card .prompt {
+    font-size: 0.88rem;
+    color: #555;
+    font-style: italic;
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+  .rating-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .rating-item label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #2d6a4f;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 6px;
+  }
+  .rating-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .rating-row input {
+    width: 70px;
+    flex: none;
+  }
+  .score-suffix {
+    font-size: 0.9rem;
+    color: #555;
+    font-weight: 500;
+  }
+  .remember-box {
+    margin-top: 30px;
+    background: #b5e8c4;
+    border-radius: 10px;
+    padding: 20px 24px;
+    max-width: 1100px;
+    color: #0d4a2e;
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  /* ===== SUBMIT ===== */
+  #submitValues {
+    display: inline-block;
+    background: #1a5c3a;
+    color: #ffffff;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: 2px solid #1a5c3a;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 32px;
+  }
+  #submitValues:hover { background: #14482d; }
+
+  /* ===== SAVED ENTRIES ===== */
+  #savedEntries { margin-top: 32px; }
+  #savedEntries h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem; color: #0d4a2e; margin-bottom: 12px;
+  }
+  .entry-item {
+    background: #fff; border-left: 4px solid #0d4a2e;
+    border-radius: 0 8px 8px 0; padding: 12px 16px;
+    margin-bottom: 10px; font-size: 0.88rem;
+  }
+  .entry-item strong { color: #0d4a2e; display: block; margin-bottom: 4px; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 760px) {
+    .feature-grid, .worksheet-grid { grid-template-columns: 1fr; }
+    .page-hero, .page-howto, .page-worksheet { padding: 50px 22px; }
+    .page-hero h1 { font-size: 2.2rem; }
+    .page-howto h2, .page-worksheet h2 { font-size: 1.9rem; }
+    .step-row { grid-template-columns: 44px 1fr; }
+    .step-num { font-size: 1.6rem; }
+    .rating-pair { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<section class="page-hero">
+  <h1>Your Values</h1>
+  <div class="badge">Cognitive Behavioural Therapy</div>
+  <p class="intro">Values are what we find meaningful in life. They are what you care about and consider to be important. Values are different for everybody, and they can change over time.</p>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <h3>🧭 Direction</h3>
+      <p>Values are like compass directions — they guide how you want to live, rather than destinations to reach</p>
+    </div>
+    <div class="feature-card">
+      <h3>💡 Clarity</h3>
+      <p>Understanding your values helps you make decisions that feel meaningful and aligned with who you want to be</p>
+    </div>
+    <div class="feature-card">
+      <h3>⚖️ Awareness</h3>
+      <p>Noticing gaps between your values and how you currently live can highlight areas where change would feel most rewarding</p>
+    </div>
+    <div class="feature-card">
+      <h3>🌿 Growth</h3>
+      <p>Living in accordance with your values — even in small ways — builds wellbeing, motivation, and self-respect</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHAT ARE VALUES ===== -->
+<section class="page-howto">
+  <h2>What Are Values?</h2>
+  <p class="lead">Values are different from goals. Put crudely, goals can be 'achieved' whereas values are more like compass directions that we want to head in. For example, we might have the goal of getting our children to school on time, which sits within the value of 'being a good parent', or the goal of going for a jog while placing value upon exercise and physical health.</p>
+  <p class="lead">The domains below are valued by some people. Leaving aside any obstacles for the moment, think about what is important to you, and what you think makes for a meaningful life that you could value.</p>
+  <div class="steps-stack">
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Describe Your Values</h3>
+        <p>For each domain, write a brief description of what you value. For example: <em>"to be a caring partner"</em> (marriage), <em>"to never stop learning"</em> (education), or <em>"to deepen my relationship with nature"</em> (spirituality). There are no right or wrong answers.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Rate Importance</h3>
+        <p>Rate how important each domain is to you from <strong>0 (not important at all)</strong> to <strong>10 (extremely important)</strong>. Be honest — some domains may genuinely matter less to you than others, and that is completely valid.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Rate Success</h3>
+        <p>Rate how successfully you have lived in accordance with this value <strong>in the past month</strong>, from <strong>0 (not at all well)</strong> to <strong>10 (very well)</strong>. Where the gap between Importance and Success is largest, small actions can make the biggest difference.</p>
+      </div>
+    </div>
+  </div>
+  <div class="info-box">
+    💡 <strong>Reflection Prompt:</strong> After completing the worksheet, look for the domains where your Importance score is high but your Success score is low. These gaps often point to the most meaningful areas for change — and the smallest steps in those directions can have an outsized effect on your wellbeing.
+  </div>
+</section>
+
+<!-- ===== WORKSHEET ===== -->
+<section class="page-worksheet">
+  <h2>My Values</h2>
+  <div class="badge">Complete This Section In Your Own Time</div>
+  <p class="lead">Work through each domain below. You do not need to have strong values in every area — simply reflect honestly on what matters to you and how you are currently living in accordance with it.</p>
+
+  <div class="worksheet-grid">
+
+    <div class="ws-card">
+      <h3>🏠 Family</h3>
+      <p class="prompt">What kind of relationships do you want with your family? What kind of son / daughter / brother / sister / aunt / uncle do you want to be?</p>
+      <textarea id="family_values" rows="4" placeholder="Describe your values here..."></textarea>
+      <div class="rating-pair">
+        <div class="rating-item">
+          <label for="family_importance">Importance</label>
+          <div class="rating-row">
+            <input type="number" id="family_importance" min="0" max="10" placeholder="0–10">
+            <span class="score-suffix">/ 10</span>
+          </div>
+        </div>
+        <div class="rating-item">
+          <label for="family_success">Success</label>
+          <div class="rating-row">
+            <input type="number" id="family_success" min="0" max="10" placeholder="0–10">
+            <span class="score-suffix">/ 10</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ws-card">
+      <h3>💝 Marriage / Couple / Intimacy</h3>
+      <p class="prompt">What kind of husband / wife / partner do you want to be? What quality of relationship do you want to be a part of?</p>
+      <textarea id="marriage_values" rows="4" placeholder="Describe your values here..."></textarea>
+      <div class="rating-pair">
+        <div class="rating-item">
+          <label for="marriage_importance">Importance</label>
+          <div class="rating-row">
+            <input type="number" id="marriage_importance" min="0" max="10" placeholder="0–10">
+            <span class="score-suffix">/ 10</span>
+          </div>
+        </div>
+        <div class="rating-item">
+          <label for="marriage_success">Success</label>
+          <div class="rating-row">
+            <input type="number" id="marriage_success" min="0" max="10" placeholder="0–10">
+            <span class="score-suffix">/ 10</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ws-card">
+      <h3>👶 Parenting</h3>
+      <p class="prompt">What sort of parent do you want to be? What qualities do you want your children to see in you?</p>
+      <textarea id="parenting_values" rows="4" placeholder="Describe your values here..."></textarea>
+      <div class="rating-pair">
+        <div class="rating-item">
+          <label for="parenting_importance">Importance</label>
+          <div class="rating-row">
+            <input type="number" id="parenting_importance" min="0" max="10" placeholder="0–10">
+            <span class="score-suffix">/ 10</span>
+          </div>
+        </div>
+        <div class="rating-item">
+          <label for="parenting_success">Success</label>
+          <div class="rating-row">
+            <input type="number" id="parenting_success" min="0" max="10" placeholder="0–10">
+            <span class="score-suffix">/ 10</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ws-card">
+      <h3>🤝 Friendships / Social Relationships</h3>
+      <p class="prompt">What sort of friend do you want to be? What friendships is it important to cultivate? How would you like to act towards your friends?</p>
+      <textarea id="friendships_values" rows="4" placeholder="Describe your values here..."></textarea>
+      <div class="rating-pair">
+        <div class="rating-item">
+          <label for="friendships_importance">Importance</label>
+          <div class="rating-row">
+            <input type="number" id="friendships_importance" min="0" max="10" placeholder="0–10">
+            <span class="score-suffix">/ 10</span>
+          </div>
+        </div>
+        <div class="rating-item">
+          <label for="friendships_success">Success</label>
+          <div class="rating-row">
+            <input type="number" id="friendships_success" min="0" max="10" placeholder="0–10">
+            <span class="score-suffix">/ 10</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ws-card">
+      <h3>💼 Career / Employment</h3>
+      <p class="prompt">What kind of work is valuable to you? What qualities do you want to bring as an employee? What kind of work relationships would you like to build?</p>
+      <textarea id="career_values" rows="4" placeholder="Describe your values here..."></textarea>
+      <div class="rating-pair">
+        <div class="rating-item">
+          <label for="career_importance">Importance</label>
+          <div class="rating-row">
+            <input type="number" id="career_importance" min="0" max="10" placeholder="0–10">
+            <span class="score-suffix">/ 10</span>
+          </div>
+        </div>
+        <div class="rating-item">
+          <label for="career_success">Success</label>
+          <div class="rating-row">
+            <input type="number" id="career_success" min="0" max="10" placeholder="0–10">
+            <span class="score-suffix">/ 10</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ws-card">
+      <h3>📚 Education / Personal Growth</h3>
+      <p class="prompt">How would you like to grow? What kind of skills would you like to develop? What would you like to know more about?</p>
+      <textarea id="education_values" rows="4" placeholder="Describe your values here..."></textarea>
+      <div class="rating-pair">
+        <div class="rating-item">
+          <label for="education_importance">Importance</label>
+          <div class="rating-row">
+            <input type="number" id="education_importance" min="0" max="10" placeholder="0–10">
+            <span class="score-suffix">/ 10</span>
+          </div>
+        </div>
+        <div class="rating-item">
+          <label for="education_success">Success</label>
+          <div class="rating-row">
+            <input type="number" id="education_success" min="0" max="10" placeholder="0–10">
+            <span class="score-suffix">/ 10</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ws-card">
+      <h3>🎨 Recreation / Fun / Leisure</h3>
+      <p class="prompt">How would you like to enjoy yourself? What relaxes you? When are you most playful?</p>
+      <textarea id="recreation_values" rows="4" placeholder="Describe your values here..."></textarea>
+      <div class="rating-pair">
+        <div class="rating-item">
+          <label for="recreation_importance">Importance</label>
+          <div class="rating-row">
+            <input type="number" id="recreation_importance" min="0" max="10" placeholder="0–10">
+            <span class="score-suffix">/ 10</span>
+          </div>
+        </div>
+        <div class="rating-item">
+          <label for="recreation_success">Success</label>
+          <div class="rating-row">
+            <input type="number" id="recreation_success" min="0" max="10" placeholder="0–10">
+            <span class="score-suffix">/ 10</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ws-card">
+      <h3>🕊️ Spirituality</h3>
+      <p class="prompt">What kind of relationship do you want with God / nature / the Earth? What gives you a sense of meaning or transcendence?</p>
+      <textarea id="spirituality_values" rows="4" placeholder="Describe your values here..."></textarea>
+      <div class="rating-pair">
+        <div class="rating-item">
+          <label for="spirituality_importance">Importance</label>
+          <div class="rating-row">
+            <input type="number" id="spirituality_importance" min="0" max="10" placeholder="0–10">
+            <span class="score-suffix">/ 10</span>
+          </div>
+        </div>
+        <div class="rating-item">
+          <label for="spirituality_success">Success</label>
+          <div class="rating-row">
+            <input type="number" id="spirituality_success" min="0" max="10" placeholder="0–10">
+            <span class="score-suffix">/ 10</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ws-card">
+      <h3>🌍 Citizenship / Community</h3>
+      <p class="prompt">What kind of environment do you want to be a part of? How do you want to contribute to your community?</p>
+      <textarea id="citizenship_values" rows="4" placeholder="Describe your values here..."></textarea>
+      <div class="rating-pair">
+        <div class="rating-item">
+          <label for="citizenship_importance">Importance</label>
+          <div class="rating-row">
+            <input type="number" id="citizenship_importance" min="0" max="10" placeholder="0–10">
+            <span class="score-suffix">/ 10</span>
+          </div>
+        </div>
+        <div class="rating-item">
+          <label for="citizenship_success">Success</label>
+          <div class="rating-row">
+            <input type="number" id="citizenship_success" min="0" max="10" placeholder="0–10">
+            <span class="score-suffix">/ 10</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ws-card">
+      <h3>💪 Health / Physical Wellbeing</h3>
+      <p class="prompt">What kind of values do you have regarding your physical wellbeing? How do you want to look after yourself?</p>
+      <textarea id="health_values" rows="4" placeholder="Describe your values here..."></textarea>
+      <div class="rating-pair">
+        <div class="rating-item">
+          <label for="health_importance">Importance</label>
+          <div class="rating-row">
+            <input type="number" id="health_importance" min="0" max="10" placeholder="0–10">
+            <span class="score-suffix">/ 10</span>
+          </div>
+        </div>
+        <div class="rating-item">
+          <label for="health_success">Success</label>
+          <div class="rating-row">
+            <input type="number" id="health_success" min="0" max="10" placeholder="0–10">
+            <span class="score-suffix">/ 10</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end worksheet-grid -->
+
+  <div class="remember-box">
+    🌿 <strong>Remember:</strong> This is not a test of how well you are living your life. It is an opportunity to pause, reflect, and gain clarity on what truly matters to you. Even completing this worksheet is a values-guided act — it shows you care about your own growth and wellbeing. Well done for taking this step.
+  </div>
+
+  <button id="submitValues">Save My Entry</button>
+
+  <div id="savedEntries">
+    <h3>Saved Entries</h3>
+    <div id="entriesList"></div>
+  </div>
+
+</section>
+
+<script>
+function nl(v) { return (v || '').replace(/\r?\n|\r/g, ' | '); }
+function gv(id) { return nl(document.getElementById(id).value); }
+function gn(id) { return (document.getElementById(id).value || '').trim(); }
+
+function collectWorksheetData() {
+  return {
+    family_values:           gv('family_values'),
+    family_importance:       gn('family_importance'),
+    family_success:          gn('family_success'),
+    marriage_values:         gv('marriage_values'),
+    marriage_importance:     gn('marriage_importance'),
+    marriage_success:        gn('marriage_success'),
+    parenting_values:        gv('parenting_values'),
+    parenting_importance:    gn('parenting_importance'),
+    parenting_success:       gn('parenting_success'),
+    friendships_values:      gv('friendships_values'),
+    friendships_importance:  gn('friendships_importance'),
+    friendships_success:     gn('friendships_success'),
+    career_values:           gv('career_values'),
+    career_importance:       gn('career_importance'),
+    career_success:          gn('career_success'),
+    education_values:        gv('education_values'),
+    education_importance:    gn('education_importance'),
+    education_success:       gn('education_success'),
+    recreation_values:       gv('recreation_values'),
+    recreation_importance:   gn('recreation_importance'),
+    recreation_success:      gn('recreation_success'),
+    spirituality_values:     gv('spirituality_values'),
+    spirituality_importance: gn('spirituality_importance'),
+    spirituality_success:    gn('spirituality_success'),
+    citizenship_values:      gv('citizenship_values'),
+    citizenship_importance:  gn('citizenship_importance'),
+    citizenship_success:     gn('citizenship_success'),
+    health_values:           gv('health_values'),
+    health_importance:       gn('health_importance'),
+    health_success:          gn('health_success'),
+    time:                    new Date().toLocaleString()
+  };
+}
+
+async function saveEntry() {
+  var data = collectWorksheetData();
+  try {
+    await fetch('/.netlify/functions/saveWorksheet', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch (err) {
+    console.error('Save error:', err);
+  }
+  var entries = JSON.parse(localStorage.getItem('clarify-your-values') || '[]');
+  entries.unshift(data);
+  localStorage.setItem('clarify-your-values', JSON.stringify(entries));
+  render();
+}
+
+function render() {
+  var el = document.getElementById('entriesList');
+  if (!el) return;
+  var entries = JSON.parse(localStorage.getItem('clarify-your-values') || '[]');
+  if (!entries.length) { el.innerHTML = ''; return; }
+  el.innerHTML = entries.map(function(e) {
+    var filled = ['family','marriage','parenting','friendships','career','education','recreation','spirituality','citizenship','health']
+      .filter(function(d) { return (e[d + '_values'] || '').trim(); }).length;
+    var preview = (e.family_values || '').substring(0, 80) + ((e.family_values || '').length > 80 ? '&hellip;' : '');
+    return '<div class="entry-item">'
+      + '<strong>' + (e.time || '') + '</strong>'
+      + (preview ? '<span style="color:#333;">' + preview + '</span><br>' : '')
+      + '<span style="color:#555;">' + filled + ' of 10 domains completed</span>'
+      + '</div>';
+  }).join('');
+}
+
+document.getElementById('submitValues').addEventListener('click', saveEntry);
+render();
+</script>
+
+</body>
+</html>
