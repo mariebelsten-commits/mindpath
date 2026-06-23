@@ -1,0 +1,296 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8" /> <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <title>The Vicious Flower | ChatCBT</title> <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" /> <style> *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; } body { font-family: 'Inter', sans-serif; background: #f0f9f0; color: #1a1a1a; }
+/* ── Hero ── */
+.page-hero { background: #0d4a2e; padding: 56px 24px 48px; text-align: center; }
+.hero-badge { display: inline-block; background: rgba(255,255,255,0.15); color: #fff; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; }
+.page-hero h1 { font-family: 'Montserrat', sans-serif; font-size: 2.6rem; font-weight: 800; color: #ffffff !important; margin-bottom: 12px; letter-spacing: -0.5px; }
+.page-hero p { font-size: 1.1rem; color: rgba(255,255,255,0.88); max-width: 580px; margin: 0 auto; line-height: 1.6; }
+
+/* ── Feature cards ── */
+.features-section { background: #1a5c3a; padding: 40px 24px; }
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 20px; max-width: 960px; margin: 0 auto; }
+.feature-card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 22px 18px; text-align: center; color: #fff; }
+.feature-card .icon { font-size: 1.8rem; margin-bottom: 10px; }
+.feature-card h3 { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 700; color: #ffffff !important; margin-bottom: 7px; }
+.feature-card p { font-size: 0.83rem; color: rgba(255,255,255,0.85); line-height: 1.5; }
+
+/* ── Instructions ── */
+.instructions-box { background: #e8f5e9; border-left: 4px solid #1a5c3a; padding: 18px 24px; max-width: 860px; margin: 32px auto 0; border-radius: 0 8px 8px 0; }
+.instructions-box h3 { font-family: 'Montserrat', sans-serif; font-size: 0.92rem; font-weight: 700; color: #0d4a2e; margin-bottom: 6px; }
+.instructions-box p { font-size: 0.87rem; color: #2d4a35; line-height: 1.65; }
+
+/* ── Worksheet wrapper ── */
+.page-worksheet { max-width: 860px; margin: 28px auto 48px; padding: 0 16px; }
+
+/* ── Section card ── */
+.ws-section { background: #fff; border-radius: 12px; padding: 28px; margin-bottom: 16px; border: 1px solid #d0ecd8; box-shadow: 0 2px 8px rgba(13,74,46,0.06); }
+.ws-section h3 { font-family: 'Montserrat', sans-serif; font-size: 1.05rem; font-weight: 700; color: #0d4a2e; margin-bottom: 8px; }
+.ws-section > p { font-size: 0.88rem; color: #4a7a5a; line-height: 1.6; margin-bottom: 20px; }
+
+/* ── Standard textarea ── */
+textarea { width: 100%; padding: 10px 12px; border: 1px solid #b0d8bc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #1a1a1a; background: #fff; resize: vertical; line-height: 1.5; }
+textarea:focus { outline: none; border-color: #1a5c3a; box-shadow: 0 0 0 3px rgba(26,92,58,0.1); }
+.field-label { display: block; font-size: 0.87rem; font-weight: 600; color: #1a3d28; margin-bottom: 6px; margin-top: 20px; }
+.field-label:first-of-type { margin-top: 0; }
+
+/* ══ VICIOUS FLOWER — CENTER ══ */
+.vf-center-box {
+  background: #fff;
+  border: 2.5px solid #1a5c3a;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.vf-center-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #0d4a2e;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+  display: block;
+}
+
+/* ══ VICIOUS FLOWER — PETALS GRID ══ */
+.vf-petals-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.vf-petal-dynamic {
+  border-radius: 14px;
+  padding: 14px 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: opacity 0.2s;
+}
+
+.petal-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vf-petal-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.remove-petal-btn {
+  background: rgba(0,0,0,0.18);
+  border: none;
+  color: #fff;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.remove-petal-btn:hover { background: rgba(0,0,0,0.32); }
+.remove-petal-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.vf-petal-dynamic textarea {
+  background: rgba(255,255,255,0.2);
+  border: 1.5px solid rgba(255,255,255,0.35);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.84rem;
+  padding: 8px 10px;
+  flex: 1;
+}
+.vf-petal-dynamic textarea::placeholder { color: rgba(255,255,255,0.58); }
+.vf-petal-dynamic textarea:focus { outline: none; border-color: rgba(255,255,255,0.8); box-shadow: none; }
+
+/* ══ ADD PETAL BUTTON ══ */
+.add-petal-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px;
+  border: 2px dashed #b0d8bc;
+  border-radius: 14px;
+  background: transparent;
+  color: #4a7a5a;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-bottom: 4px;
+}
+.add-petal-btn:hover { border-color: #1a5c3a; color: #1a5c3a; background: #f0f9f0; }
+
+/* ── Submit ── */
+.submit-section { text-align: center; padding: 24px 0 16px; }
+
+/* ── Mobile ── */
+@media (max-width: 560px) {
+  .page-hero h1 { font-size: 2rem; }
+  .vf-petals-grid { grid-template-columns: 1fr; }
+}
+</style> </head> <body>
+<!-- ══ HERO ══ --> <section class="page-hero"> <div class="hero-badge">CBT Worksheet</div> <h1>The Vicious Flower</h1> <p>Map the thoughts and behaviours that maintain a core belief — and begin to understand the cycle that keeps it alive.</p> </section>
+<!-- ══ FEATURES ══ --> <section class="features-section"> <div class="features-grid"> <div class="feature-card"> <div class="icon">🌸</div> <h3>Spot the Cycle</h3> <p>Identify the thoughts and behaviours that keep a difficult feeling or belief locked in place</p> </div> <div class="feature-card"> <div class="icon">🔗</div> <h3>See the Links</h3> <p>Understand how each thought and behaviour feeds back into and reinforces the core feeling</p> </div> <div class="feature-card"> <div class="icon">💡</div> <h3>Build Awareness</h3> <p>Awareness of a vicious cycle is the first and most important step toward changing it</p> </div> <div class="feature-card"> <div class="icon">🌱</div> <h3>Find a Way Out</h3> <p>Once mapped, you can identify which part of the cycle to target first for meaningful change</p> </div> </div> </section>
+<!-- ══ INSTRUCTIONS ══ --> <div class="instructions-box"> <h3>How to use this worksheet</h3> <p>Start with the centre box: write down the core statement or feeling that keeps coming back to you. Then add petals for each thought or behaviour that feeds into it and keeps it alive. Add as many petals as you need — and remove any that don't apply. There is no right or wrong number.</p> </div>
+<!-- ══ WORKSHEET ══ --> <div class="page-worksheet">
+<div class="ws-section" style="margin-top:28px;"> <h3>Map Your Vicious Flower</h3> <p>Fill in the centre first, then add a petal for each thought or behaviour that feeds back into the core feeling. Use the + button to add petals and × to remove any that don't apply.</p>
+<!-- Center -->
+<div class="vf-center-box">
+  <span class="vf-center-label">🌸 Statement / Feeling — the core of the cycle</span>
+  <textarea id="statementFeelingTextarea" rows="4" placeholder="What is the core belief or feeling at the heart of this cycle? e.g. I am fundamentally unlovable..."></textarea>
+</div>
+
+<!-- Dynamic petals -->
+<div class="vf-petals-grid" id="petals-grid"></div>
+
+<!-- Add petal button -->
+<button class="add-petal-btn" id="addPetalBtn" onclick="addPetal()">
+  <span style="font-size:1.2rem;line-height:1;">+</span> Add a Petal
+</button>
+</div>
+<!-- Reflection --> <div class="ws-section"> <h3>Reflect on the Cycle</h3> <p>Now that you can see the full picture, take a moment to reflect on what your diagram reveals.</p>
+<label class="field-label">What does this diagram show you about the patterns keeping this feeling alive?</label>
+<textarea id="cycleReflectionTextarea" rows="4" placeholder="e.g. I can see that my avoidance behaviours are actually making the anxiety worse, not better — each time I avoid, the belief gets stronger..."></textarea>
+
+<label class="field-label">Which petal (thought or behaviour) feels like the most useful place to begin making changes? Why?</label>
+<textarea id="changeTargetTextarea" rows="4" placeholder="e.g. Petal 2 — if I could stop checking my phone for reassurance, I think the anxiety would reduce faster than tackling any of the other petals first..."></textarea>
+</div>
+<div class="submit-section"> <button class="submit-btn" id="saveBtn">Save Worksheet</button> </div>
+<div style="max-width:860px;margin:0 auto 48px;padding:0 16px;">
+  <h3 style="font-family:'Montserrat',sans-serif;color:#0d4a2e;margin-bottom:12px;">Saved Entries</h3>
+  <div id="entries"></div>
+</div>
+</div>
+<style>
+.submit-btn {
+  display: inline-block;
+  background: #1a5c3a;
+  color: #ffffff !important;
+  padding: 14px 36px;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.submit-btn:hover { background: #14482d; }
+.entry { background:#fff; border-left:4px solid #1a5c3a; border-radius:0 8px 8px 0; padding:12px 16px; margin-bottom:10px; font-size:0.88rem; }
+.entry strong { color:#0d4a2e; }
+</style>
+<script>
+var petalColors = ['#e8417a', '#e8b800', '#18b8bc', '#1e2d8a', '#8b44ad'];
+var petalIdCounter = 0;
+var petals = [];
+
+function addPetal() {
+  var saved = getSavedValues();
+  var colorIndex = petals.length % petalColors.length;
+  petals.push({ id: ++petalIdCounter, colorIndex: colorIndex });
+  renderPetals(saved);
+}
+
+function removePetal(id) {
+  if (petals.length <= 1) return;
+  var saved = getSavedValues();
+  petals = petals.filter(function(p) { return p.id !== id; });
+  renderPetals(saved);
+}
+
+function getSavedValues() {
+  var saved = {};
+  document.querySelectorAll('.vf-petal-dynamic').forEach(function(el) {
+    saved[el.dataset.petalId] = el.querySelector('textarea').value;
+  });
+  return saved;
+}
+
+function renderPetals(savedValues) {
+  savedValues = savedValues || {};
+  var grid = document.getElementById('petals-grid');
+  grid.innerHTML = '';
+  petals.forEach(function(petal, index) {
+    var color = petalColors[petal.colorIndex];
+    var div = document.createElement('div');
+    div.className = 'vf-petal-dynamic';
+    div.dataset.petalId = petal.id;
+    div.style.background = color;
+    var disabled = petals.length <= 1 ? 'disabled' : '';
+    div.innerHTML = '<div class="petal-top-row">'
+      + '<span class="vf-petal-label">Thought / Behaviour ' + (index + 1) + '</span>'
+      + '<button class="remove-petal-btn" onclick="removePetal(' + petal.id + ')" ' + disabled + '>&#215;</button>'
+      + '</div>'
+      + '<textarea rows="4" placeholder="What thought or behaviour feeds into the core feeling?"></textarea>';
+    if (savedValues[petal.id]) {
+      div.querySelector('textarea').value = savedValues[petal.id];
+    }
+    grid.appendChild(div);
+  });
+}
+
+function collectViciousFlowerData() {
+  var data = {};
+  data.statement_feeling = document.getElementById('statementFeelingTextarea').value;
+  document.querySelectorAll('#petals-grid .vf-petal-dynamic').forEach(function(el, i) {
+    data['thought_behaviour_' + (i + 1)] = el.querySelector('textarea').value;
+  });
+  data.petal_count = document.querySelectorAll('#petals-grid .vf-petal-dynamic').length;
+  data.cycle_reflection = document.getElementById('cycleReflectionTextarea').value;
+  data.change_target = document.getElementById('changeTargetTextarea').value;
+  return data;
+}
+
+async function saveEntry() {
+  var data = collectViciousFlowerData();
+  data.time = new Date().toLocaleString();
+  try {
+    var res = await fetch('/.netlify/functions/saveWorksheet', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    var result = await res.json();
+    console.log('Server response:', result);
+  } catch (err) {
+    console.error('Error saving to server:', err);
+  }
+  var entries = JSON.parse(localStorage.getItem('vicious-flower') || '[]');
+  entries.unshift(data);
+  localStorage.setItem('vicious-flower', JSON.stringify(entries));
+  render();
+}
+
+function render() {
+  var entriesDiv = document.getElementById('entries');
+  if (!entriesDiv) return;
+  var entries = JSON.parse(localStorage.getItem('vicious-flower') || '[]');
+  entriesDiv.innerHTML = entries.map(function(e) {
+    return '<div class="entry"><strong>' + (e.time || '') + '</strong><br>'
+      + (e.statement_feeling ? e.statement_feeling.slice(0, 80) + '...' : '') + '<br>'
+      + '<em>' + (e.change_target ? e.change_target.slice(0, 80) + '...' : '') + '</em></div>';
+  }).join('');
+}
+
+document.getElementById('saveBtn').addEventListener('click', function() { saveEntry(); });
+
+for (var i = 0; i < 5; i++) { addPetal(); }
+render();
+</script>
+</body> </html>
+
