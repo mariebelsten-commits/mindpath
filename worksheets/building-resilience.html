@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Building Resilience | ChatCBT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f0f9f0; color: #1a1a1a; }
+
+    /* ── Hero ── */
+    .page-hero { background: #0d4a2e; padding: 56px 24px 48px; text-align: center; }
+    .hero-badge { display: inline-block; background: rgba(255,255,255,0.15); color: #fff; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; }
+    .page-hero h1 { font-family: 'Montserrat', sans-serif; font-size: 2.6rem; font-weight: 800; color: #ffffff !important; margin-bottom: 12px; letter-spacing: -0.5px; }
+    .page-hero p { font-size: 1.1rem; color: rgba(255,255,255,0.88); max-width: 580px; margin: 0 auto; line-height: 1.6; }
+
+    /* ── Quote ── */
+    .quote-block { background: #0d4a2e; border-top: 1px solid rgba(255,255,255,0.15); padding: 20px 24px 28px; text-align: center; }
+    .quote-text { font-family: 'Montserrat', sans-serif; font-size: 1.05rem; font-weight: 600; color: rgba(255,255,255,0.92); font-style: italic; max-width: 560px; margin: 0 auto 6px; line-height: 1.6; }
+    .quote-attr { font-size: 0.8rem; color: rgba(255,255,255,0.5); letter-spacing: 0.06em; text-transform: uppercase; }
+
+    /* ── Feature cards ── */
+    .features-section { background: #1a5c3a; padding: 40px 24px; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 20px; max-width: 960px; margin: 0 auto; }
+    .feature-card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 22px 18px; text-align: center; color: #fff; }
+    .feature-card .icon { font-size: 1.8rem; margin-bottom: 10px; }
+    .feature-card h3 { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 700; color: #ffffff !important; margin-bottom: 7px; }
+    .feature-card p { font-size: 0.83rem; color: rgba(255,255,255,0.85); line-height: 1.5; }
+
+    /* ── Instructions ── */
+    .instructions-box { background: #e8f5e9; border-left: 4px solid #1a5c3a; padding: 18px 24px; max-width: 800px; margin: 32px auto 0; border-radius: 0 8px 8px 0; }
+    .instructions-box h3 { font-family: 'Montserrat', sans-serif; font-size: 0.92rem; font-weight: 700; color: #0d4a2e; margin-bottom: 6px; }
+    .instructions-box p { font-size: 0.87rem; color: #2d4a35; line-height: 1.65; }
+
+    /* ── Worksheet wrapper ── */
+    .page-worksheet { max-width: 800px; margin: 28px auto 48px; padding: 0 16px; }
+
+    /* ── Step blocks ── */
+    .step-block { background: #fff; border-radius: 12px; padding: 28px 28px 24px; margin-bottom: 8px; border: 1px solid #d0ecd8; box-shadow: 0 2px 8px rgba(13,74,46,0.06); }
+    .step-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .step-number { width: 36px; height: 36px; background: #1a5c3a; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.9rem; flex-shrink: 0; }
+    .step-title { font-family: 'Montserrat', sans-serif; font-size: 1.08rem; font-weight: 700; color: #0d4a2e; }
+    .step-desc { font-size: 0.88rem; color: #4a7a5a; margin-bottom: 16px; line-height: 1.6; }
+
+    /* ── Flow arrow ── */
+    .flow-arrow { text-align: center; font-size: 1.4rem; color: #4a7a5a; line-height: 1; margin: 6px 0; }
+
+    /* ── Prompt box ── */
+    .prompt-box { background: #e8f5e9; border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; font-size: 0.86rem; color: #1a3d28; line-height: 1.65; }
+    .prompt-box strong { font-family: 'Montserrat', sans-serif; font-size: 0.82rem; font-weight: 700; color: #0d4a2e; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 5px; }
+
+    /* ── Example chips ── */
+    .example-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 14px; }
+    .example-chip { background: #f0f9f0; border: 1px solid #b0d8bc; border-radius: 20px; padding: 4px 12px; font-size: 0.78rem; color: #1a5c3a; font-style: italic; }
+
+    /* ── Toolkit grid ── */
+    .toolkit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 560px) { .toolkit-grid { grid-template-columns: 1fr; } }
+    .toolkit-item { background: #f8fdf8; border-radius: 8px; padding: 14px; border: 1px solid #d0ecd8; }
+    .toolkit-label { font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 700; color: #0d4a2e; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; display: flex; align-items: center; gap: 7px; }
+    .toolkit-label .tk-icon { font-size: 1rem; }
+    .toolkit-item textarea { border: 1px solid #d0ecd8; border-radius: 6px; font-size: 0.86rem; background: #fff; padding: 8px 10px; }
+    .toolkit-item textarea:focus { outline: none; border-color: #1a5c3a; box-shadow: 0 0 0 2px rgba(26,92,58,0.1); }
+
+    /* ── Form elements ── */
+    .field-label { display: block; font-size: 0.87rem; font-weight: 600; color: #1a3d28; margin-bottom: 6px; margin-top: 20px; }
+    .field-label:first-of-type { margin-top: 0; }
+    textarea, input[type="text"] { width: 100%; padding: 10px 12px; border: 1px solid #b0d8bc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #1a1a1a; background: #fff; resize: vertical; line-height: 1.5; }
+    textarea:focus, input[type="text"]:focus { outline: none; border-color: #1a5c3a; box-shadow: 0 0 0 3px rgba(26,92,58,0.1); }
+
+    /* ── Bridge block ── */
+    .bridge-block { background: #1a5c3a; border-radius: 12px; padding: 20px 24px; margin: 8px 0; text-align: center; }
+    .bridge-block p { font-family: 'Montserrat', sans-serif; font-size: 0.92rem; font-weight: 700; color: #fff; line-height: 1.6; }
+
+    /* ── Remember box ── */
+    .remember-box { background: #e8f5e9; border-radius: 12px; padding: 20px 24px; margin-top: 8px; font-size: 0.88rem; color: #1a3d28; line-height: 1.7; text-align: center; }
+
+    /* ── Submit ── */
+    .submit-section { text-align: center; padding: 24px 0 16px; }
+    #saveBtn { display: inline-block; background: #1a5c3a; color: #ffffff !important; padding: 14px 36px; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700; border: none; cursor: pointer; transition: background 0.2s; margin-top: 8px; }
+    #saveBtn:hover { background: #14482d; }
+
+    @media (max-width: 600px) { .page-hero h1 { font-size: 2rem; } }
+  </style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section class="page-hero">
+  <div class="hero-badge">CBT Worksheet</div>
+  <h1>Building Resilience</h1>
+  <p>Discover the resilience skills you already have, build a personal model for getting through hard times, and apply it to the challenges you face right now.</p>
+</section>
+
+<!-- ══ QUOTE ══ -->
+<div class="quote-block">
+  <p class="quote-text">&ldquo;The strongest steel goes through the hottest fire.&rdquo;</p>
+</div>
+
+<!-- ══ FEATURES ══ -->
+<section class="features-section">
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="icon">&#x1F4AA;</div>
+      <h3>Find Your Strength</h3>
+      <p>Identify an area where you already show resilience &mdash; you have more than you realise</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">&#x1F6E0;&#xFE0F;</div>
+      <h3>Build Your Toolkit</h3>
+      <p>Map the actions, thoughts, images, and feelings that already help you keep going when it gets hard</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">&#x1F504;</div>
+      <h3>Transfer the Skills</h3>
+      <p>The resilience you show in one area of life can be applied directly to any other</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">&#x1F331;</div>
+      <h3>Take It Forward</h3>
+      <p>Apply your personal resilience model to the real challenge you are facing right now</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ INSTRUCTIONS ══ -->
+<div class="instructions-box">
+  <h3>How to use this worksheet</h3>
+  <p>We all have resilience &mdash; but we often overlook it. This exercise starts somewhere you already feel capable, maps out what already works for you, and then transfers that same model to a harder situation. Work through each step thoughtfully. The toolkit you build in Step 2 is the heart of this exercise.</p>
+</div>
+
+<!-- ══ WORKSHEET ══ -->
+<div class="page-worksheet">
+
+  <!-- Step 1 -->
+  <div class="step-block" style="margin-top:28px;">
+    <div class="step-header">
+      <div class="step-number">1</div>
+      <div class="step-title">Identify Your Resilience Skill</div>
+    </div>
+    <p class="step-desc">Choose one area or skill in your life where you are successful and feel reasonably capable. It doesn't need to be impressive &mdash; everyday skills count just as much. This is your starting point for building your resilience model.</p>
+
+    <div class="example-chips">
+      <span class="example-chip">Doing crosswords</span>
+      <span class="example-chip">Cooking</span>
+      <span class="example-chip">Playing tennis</span>
+      <span class="example-chip">Car mechanics</span>
+      <span class="example-chip">Playing music</span>
+      <span class="example-chip">Looking after a pet</span>
+      <span class="example-chip">Running</span>
+      <span class="example-chip">Jigsaws</span>
+    </div>
+
+    <textarea id="skill_area" rows="3" placeholder="e.g. I am good at doing crosswords. I've been doing them for years and I rarely give up on one, even when I get stuck..."></textarea>
+  </div>
+
+  <div class="flow-arrow">&darr;</div>
+
+  <!-- Step 2 -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">2</div>
+      <div class="step-title">Map Your Resilience Toolkit</div>
+    </div>
+    <p class="step-desc">Now imagine you are struggling in that area &mdash; it becomes genuinely challenging. What do you do to keep going? Identify everything you draw on: the actions you take, the things you say to yourself, the images, feelings, sayings, and music that help you through.</p>
+
+    <div class="prompt-box">
+      <strong>Example &mdash; if your skill is crosswords</strong>
+      When you can't find a word: you leave it and come back later, phone a friend, look in a dictionary, sleep on it. You might tell yourself &ldquo;I always get there in the end.&rdquo; You might picture a finished grid. You might feel determined or curious rather than defeated.
+    </div>
+
+    <div class="toolkit-grid">
+      <div class="toolkit-item">
+        <div class="toolkit-label"><span class="tk-icon">&#x26A1;</span> a) Actions &amp; Strategies</div>
+        <textarea id="actions" rows="3" placeholder="e.g. Take a break and come back to it, ask for help, break it into smaller parts, try a different approach..."></textarea>
+      </div>
+      <div class="toolkit-item">
+        <div class="toolkit-label"><span class="tk-icon">&#x1F4AC;</span> b) Thoughts &amp; Self-Statements</div>
+        <textarea id="thoughts" rows="3" placeholder="e.g. 'I always find a way.' / 'I've done this before.' / 'It doesn't have to be perfect.'..."></textarea>
+      </div>
+      <div class="toolkit-item">
+        <div class="toolkit-label"><span class="tk-icon">&#x1F5BC;&#xFE0F;</span> c) Images</div>
+        <textarea id="images" rows="3" placeholder="e.g. I picture the finished result. I imagine how I'll feel when I've cracked it. I see a road with a bend, not a dead end..."></textarea>
+      </div>
+      <div class="toolkit-item">
+        <div class="toolkit-label"><span class="tk-icon">&#x1F4DC;</span> d) Sayings &amp; Quotes</div>
+        <textarea id="sayings" rows="3" placeholder="e.g. 'This too shall pass.' / 'One step at a time.' / Something a parent or mentor once said to me..."></textarea>
+      </div>
+      <div class="toolkit-item">
+        <div class="toolkit-label"><span class="tk-icon">&#x2764;&#xFE0F;</span> e) Feelings</div>
+        <textarea id="feelings" rows="3" placeholder="e.g. I lean into curiosity rather than frustration. I remind myself of the satisfaction I felt last time. I let myself feel determined..."></textarea>
+      </div>
+      <div class="toolkit-item">
+        <div class="toolkit-label"><span class="tk-icon">&#x1F3B5;</span> f) Songs &amp; Music</div>
+        <textarea id="songs" rows="3" placeholder="e.g. A song that makes me feel strong or focused. Something I hum when I'm working through a problem..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-arrow">&darr;</div>
+
+  <!-- Bridge -->
+  <div class="bridge-block">
+    <p>Everything above is your personal resilience model &mdash; your action plan for when the going gets tough. Now apply it to what matters most.</p>
+  </div>
+
+  <div class="flow-arrow">&darr;</div>
+
+  <!-- Step 3 -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">3</div>
+      <div class="step-title">Apply It to a Real Challenge</div>
+    </div>
+    <p class="step-desc">Think about a genuinely difficult challenge you are facing in your life right now. Using everything you identified in your toolkit above, build a resilience plan specifically for this situation.</p>
+
+    <label class="field-label" style="margin-top:0;">The difficult challenge I am currently facing</label>
+    <textarea id="current_challenge" rows="4" placeholder="e.g. I am going through a divorce and finding it hard to see how I will get through it. I feel overwhelmed and unsure of myself..."></textarea>
+
+    <label class="field-label">My resilience plan for this challenge &mdash; what I will think, do, say to myself, picture, and draw on</label>
+
+    <div class="prompt-box" style="margin-top:10px;">
+      <strong>Questions to guide you</strong>
+      Which actions from your toolkit could you use here? What could you say to yourself when it feels impossible? What image or picture helps? Is there a saying, quotation, or piece of music that captures how you want to feel?
+    </div>
+
+    <textarea id="applied_plan" rows="8" placeholder="e.g. When I feel overwhelmed I will break things down into one day at a time, just as I do with a difficult crossword. I will remind myself 'I always find a way.' I will picture myself on the other side of this — calmer and stronger. I will listen to [song] when I need to feel motivated. I will ask for help rather than trying to do everything alone..."></textarea>
+  </div>
+
+  <div class="remember-box">
+    &#x1F4AA; <strong>Remember:</strong> Resilience is not about being unaffected by difficulty &mdash; it is about knowing how to keep going despite it. You have already shown you can do that. This plan is the proof.
+  </div>
+
+  <div class="submit-section">
+    <button id="saveBtn">Save My Entry</button>
+  </div>
+
+  <div style="margin-top:16px;">
+    <h3 style="font-family:'Montserrat',sans-serif;color:#0d4a2e;margin-bottom:12px;font-size:1rem;">Saved Entries</h3>
+    <div id="entries"></div>
+  </div>
+
+</div>
+
+<script>
+function collectData() {
+  return {
+    skill_area:        document.getElementById('skill_area').value.replace(/\r?\n|\r/g, ' | '),
+    actions:           document.getElementById('actions').value.replace(/\r?\n|\r/g, ' | '),
+    thoughts:          document.getElementById('thoughts').value.replace(/\r?\n|\r/g, ' | '),
+    images:            document.getElementById('images').value.replace(/\r?\n|\r/g, ' | '),
+    sayings:           document.getElementById('sayings').value.replace(/\r?\n|\r/g, ' | '),
+    feelings:          document.getElementById('feelings').value.replace(/\r?\n|\r/g, ' | '),
+    songs:             document.getElementById('songs').value.replace(/\r?\n|\r/g, ' | '),
+    current_challenge: document.getElementById('current_challenge').value.replace(/\r?\n|\r/g, ' | '),
+    applied_plan:      document.getElementById('applied_plan').value.replace(/\r?\n|\r/g, ' | '),
+    time:              new Date().toLocaleString()
+  };
+}
+
+async function saveEntry() {
+  var data = collectData();
+  try {
+    await fetch('/.netlify/functions/saveWorksheet', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch (err) {
+    console.error('Save error:', err);
+  }
+  var entries = JSON.parse(localStorage.getItem('building-resilience') || '[]');
+  entries.unshift(data);
+  localStorage.setItem('building-resilience', JSON.stringify(entries));
+  render();
+}
+
+function render() {
+  var el = document.getElementById('entries');
+  if (!el) return;
+  var entries = JSON.parse(localStorage.getItem('building-resilience') || '[]');
+  el.innerHTML = entries.map(function(e) {
+    var skill = (e.skill_area || '').substring(0, 70) + ((e.skill_area || '').length > 70 ? '&hellip;' : '');
+    var challenge = (e.current_challenge || '').substring(0, 70) + ((e.current_challenge || '').length > 70 ? '&hellip;' : '');
+    return '<div style="background:#fff;border-left:4px solid #0d4a2e;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:10px;font-size:0.88rem;">'
+      + '<strong style="color:#0d4a2e;">' + (e.time || '') + '</strong><br>'
+      + (skill ? '<span style="color:#333;">Skill: ' + skill + '</span><br>' : '')
+      + (challenge ? '<span style="color:#555;">Challenge: ' + challenge + '</span>' : '')
+      + '</div>';
+  }).join('');
+}
+
+document.getElementById('saveBtn').addEventListener('click', function() { saveEntry(); });
+render();
+</script>
+
+</body>
+</html>
