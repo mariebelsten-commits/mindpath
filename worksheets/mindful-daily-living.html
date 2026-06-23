@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mindfulness of Daily Life | ChatCBT</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:#f4f6f4;color:#1a1a1a;}
+
+/* ── HERO ── */
+.page-hero{background:#0d4a2e;padding:72px 24px 56px;text-align:center;}
+.page-hero h1{font-family:'Montserrat',sans-serif;font-size:clamp(26px,4.5vw,42px);font-weight:800;color:#ffffff;margin-bottom:12px;}
+.page-hero p{font-size:17px;color:#a8d5b5;max-width:600px;margin:0 auto;}
+
+/* ── FEATURES ── */
+.features-section{background:#1a5c3a;padding:40px 24px;}
+.features-inner{max-width:960px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;}
+.feature-card{background:rgba(255,255,255,0.1);border-radius:12px;padding:22px 20px;}
+.feature-card h3{font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;color:#ffffff;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.3px;}
+.feature-card p{font-size:13.5px;color:#c8e6c9;line-height:1.55;}
+.step-chip{display:inline-block;background:rgba(255,255,255,0.2);border-radius:12px;padding:2px 9px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:#fff;margin-bottom:8px;letter-spacing:0.3px;}
+
+/* ── WORKSHEET ── */
+.worksheet-content{max-width:940px;margin:0 auto;padding:40px 24px 60px;}
+.part-label{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#1a5c3a;margin-bottom:14px;padding-left:2px;}
+.step-block{background:#fff;border-radius:14px;padding:28px 32px;margin-bottom:24px;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
+.step-header{display:flex;align-items:center;gap:16px;margin-bottom:18px;}
+.step-num{width:40px;height:40px;border-radius:50%;background:#0d4a2e;color:#fff;font-family:'Montserrat',sans-serif;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-header h2{font-family:'Montserrat',sans-serif;font-size:18px;font-weight:700;color:#0d4a2e;}
+.step-hint{font-size:13.5px;color:#555;line-height:1.55;margin-bottom:18px;}
+
+/* Date row */
+.date-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap;}
+.date-row label{font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;color:#0d4a2e;text-transform:uppercase;letter-spacing:0.3px;}
+.date-input{padding:8px 12px;border:1.5px solid #ccc;border-radius:8px;font-family:'Inter',sans-serif;font-size:14px;color:#1a1a1a;flex:1;max-width:260px;transition:border-color 0.2s;}
+.date-input:focus{outline:none;border-color:#1a5c3a;box-shadow:0 0 0 3px rgba(26,92,58,0.1);}
+
+/* Change legend */
+.change-legend{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px;}
+.cl-item{padding:4px 10px;border-radius:10px;font-size:12px;font-weight:600;}
+.cl-zero{background:#e8f5e9;color:#1b5e20;border:1px solid #a5d6a7;}
+.cl-plus{background:#fce4ec;color:#c62828;border:1px solid #f48fb1;}
+.cl-minus{background:#e3f2fd;color:#1565c0;border:1px solid #90caf9;}
+.cl-rest{background:#ede7f6;color:#4527a0;border:1px solid #b39ddb;}
+
+/* Diary table */
+.diary-table-wrap{overflow-x:auto;border-radius:8px;border:1px solid #e0e0e0;}
+.diary-hdr{
+  display:grid;
+  grid-template-columns:88px 1fr 82px 64px 70px 112px;
+  gap:5px;background:#0d4a2e;border-radius:7px 7px 0 0;
+  padding:10px 8px;min-width:540px;
+}
+.drh{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px;color:#fff;}
+.diary-data-row{
+  display:grid;
+  grid-template-columns:88px 1fr 82px 64px 70px 112px;
+  gap:5px;padding:6px 8px;align-items:center;
+  border-bottom:1px solid #f0f0f0;min-width:540px;
+}
+.diary-data-row:nth-child(even){background:#fafafa;}
+.diary-data-row:last-child{border-bottom:none;}
+
+.dr-text{
+  padding:6px 7px;border:1.5px solid #e0e0e0;border-radius:6px;
+  font-family:'Inter',sans-serif;font-size:12.5px;color:#1a1a1a;
+  width:100%;transition:border-color 0.2s;
+}
+.dr-text:focus{outline:none;border-color:#1a5c3a;}
+.dr-num{
+  width:100%;padding:5px 4px;
+  border:1.5px solid #e0e0e0;border-radius:6px;
+  font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;
+  text-align:center;color:#0d4a2e;-moz-appearance:textfield;transition:border-color 0.2s;
+}
+.dr-num::-webkit-outer-spin-button,.dr-num::-webkit-inner-spin-button{-webkit-appearance:none;}
+.dr-num:focus{outline:none;border-color:#1a5c3a;}
+
+/* Change toggle */
+.change-grp{display:flex;gap:3px;align-items:center;}
+.ct-btn{
+  width:23px;height:23px;border-radius:4px;border:1.5px solid #ddd;
+  background:#f9f9f9;font-size:11px;font-weight:700;color:#888;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  padding:0;flex-shrink:0;transition:all 0.15s;
+}
+.ct-btn[data-val="0"].active{background:#e8f5e9;border-color:#1b5e20;color:#1b5e20;}
+.ct-btn[data-val="+"].active{background:#fce4ec;border-color:#c62828;color:#c62828;}
+.ct-btn[data-val="-"].active{background:#e3f2fd;border-color:#1565c0;color:#1565c0;}
+.ct-btn[data-val="R"].active{background:#ede7f6;border-color:#4527a0;color:#4527a0;}
+
+/* Diary Analysis */
+.analysis-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.analysis-col{display:flex;flex-direction:column;gap:0;}
+.analysis-header{
+  padding:10px 14px;border-radius:8px 8px 0 0;
+  font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.4px;text-align:center;
+}
+.ah-plus{background:#fce4ec;color:#c62828;border:1.5px solid #f48fb1;border-bottom:none;}
+.ah-zero{background:#e8f5e9;color:#1b5e20;border:1.5px solid #a5d6a7;border-bottom:none;}
+.ah-minus{background:#e3f2fd;color:#1565c0;border:1.5px solid #90caf9;border-bottom:none;}
+.analysis-col textarea{
+  flex:1;padding:10px 12px;
+  border:1.5px solid #e0e0e0;border-radius:0 0 8px 8px;
+  font-family:'Inter',sans-serif;font-size:13px;color:#1a1a1a;
+  resize:vertical;min-height:160px;line-height:1.55;transition:border-color 0.2s;
+}
+.analysis-col.ac-plus textarea{border-color:#f48fb1;}
+.analysis-col.ac-zero textarea{border-color:#a5d6a7;}
+.analysis-col.ac-minus textarea{border-color:#90caf9;}
+.analysis-col textarea:focus{outline:none;border-color:#1a5c3a;box-shadow:0 0 0 3px rgba(26,92,58,0.1);}
+
+/* Rest / Baseline tables */
+.data-table{width:100%;border-collapse:collapse;border-radius:8px;overflow:hidden;border:1px solid #e0e0e0;}
+.data-table th{background:#0d4a2e;color:#fff;font-family:'Montserrat',sans-serif;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px;padding:10px 12px;text-align:left;}
+.data-table td{padding:7px 10px;border-bottom:1px solid #efefef;vertical-align:middle;}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table tr:nth-child(even) td{background:#fafafa;}
+.tbl-input{width:100%;padding:6px 8px;border:1.5px solid #e0e0e0;border-radius:6px;font-family:'Inter',sans-serif;font-size:13px;color:#1a1a1a;transition:border-color 0.2s;}
+.tbl-input:focus{outline:none;border-color:#1a5c3a;}
+
+/* Baseline header fields */
+.baseline-top{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;}
+.bl-field{display:flex;flex-direction:column;gap:5px;}
+.bl-field label{font-size:12px;font-weight:700;color:#777;text-transform:uppercase;letter-spacing:0.3px;}
+.bl-input{padding:8px 10px;border:1.5px solid #e0e0e0;border-radius:7px;font-family:'Inter',sans-serif;font-size:13.5px;color:#1a1a1a;width:100%;transition:border-color 0.2s;}
+.bl-input:focus{outline:none;border-color:#1a5c3a;}
+.baseline-formula{
+  background:#f0f9f0;border:1.5px solid #c8e6c9;border-radius:8px;
+  padding:14px 16px;margin-bottom:20px;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.bf-label{font-size:13px;font-weight:600;color:#2e5e3e;}
+.bf-input{
+  width:64px;padding:7px 6px;border:1.5px solid #ccc;border-radius:7px;
+  font-family:'Montserrat',sans-serif;font-size:20px;font-weight:700;
+  text-align:center;color:#0d4a2e;-moz-appearance:textfield;transition:border-color 0.2s;
+}
+.bf-input::-webkit-outer-spin-button,.bf-input::-webkit-inner-spin-button{-webkit-appearance:none;}
+.bf-input:focus{outline:none;border-color:#1a5c3a;}
+.bf-result{
+  background:#e8f5e9;border:1.5px solid #1a5c3a;border-radius:7px;
+  padding:7px 10px;
+  font-family:'Montserrat',sans-serif;font-size:20px;font-weight:700;color:#0d4a2e;
+  min-width:64px;text-align:center;
+}
+
+/* Submit & saved entries */
+.submit-wrap{text-align:center;margin-top:32px;}
+#saveBtn{background:#0d4a2e;color:#fff;border:none;border-radius:30px;padding:14px 40px;font-size:15px;font-family:'Montserrat',sans-serif;font-weight:700;cursor:pointer;transition:background 0.2s;letter-spacing:0.3px;}
+#saveBtn:hover{background:#1a5c3a;}
+.entries-wrap{margin-top:28px;}
+.entries-wrap h3{font-family:'Montserrat',sans-serif;font-size:0.95rem;color:#0d4a2e;margin-bottom:12px;}
+.entry-item{background:#fff;border-left:4px solid #0d4a2e;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:10px;font-size:0.85rem;}
+.entry-item strong{color:#0d4a2e;display:block;margin-bottom:4px;}
+
+@media(max-width:640px){
+  .step-block{padding:20px 16px;}
+  .page-hero{padding:48px 20px 40px;}
+  .analysis-grid{grid-template-columns:1fr;}
+  .baseline-top{grid-template-columns:1fr;}
+  .baseline-formula{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="page-hero">
+  <h1>Mindfulness of Daily Life</h1>
+  <p>A three-step Breathworks pacing programme to understand your activity patterns, manage your symptoms, and gradually improve your quality of life</p>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section">
+  <div class="features-inner">
+    <div class="feature-card">
+      <div class="step-chip">Step 1</div>
+      <h3>Keep a Diary</h3>
+      <p>For 7 days, record every activity with its duration and your pain and tension levels (0–10). Note whether each activity increased (+), reduced (−), or didn't change (0) your symptoms. Mark rest periods R.</p>
+    </div>
+    <div class="feature-card">
+      <div class="step-chip">Step 2</div>
+      <h3>Analyse</h3>
+      <p>Categorise activities into three columns: those that increase symptoms, those with no effect, and those that help. Check rest patterns too — are you resting very unevenly across the week?</p>
+    </div>
+    <div class="feature-card">
+      <div class="step-chip">Step 3</div>
+      <h3>Set Baselines</h3>
+      <p>Find the shortest time a problematic activity caused a flare-up. Multiply by 80% — that's your baseline. Use a timer to stick to it, then gradually increase your tolerance over time.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WORKSHEET -->
+<main class="worksheet-content">
+
+  <!-- ── PART 1: DAILY DIARY ── -->
+  <div class="part-label">Part 1 — Daily Activity Diary</div>
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">1</div>
+      <h2>Today's Activity Diary</h2>
+    </div>
+    <p class="step-hint">Fill this in each day for 7 days. Record every activity — however small. Note the time, duration, your pain and tension levels at the end (0 = none, 10 = worst imaginable), and whether the activity increased, decreased, or didn't affect your symptoms.</p>
+
+    <div class="date-row">
+      <label for="diary_date">Date:</label>
+      <input type="text" class="date-input" id="diary_date" placeholder="e.g. Monday 9 June">
+    </div>
+
+    <div class="change-legend">
+      <span class="cl-item cl-zero">0 = no change in pain</span>
+      <span class="cl-item cl-plus">+ = increased pain</span>
+      <span class="cl-item cl-minus">− = decreased pain</span>
+      <span class="cl-item cl-rest">R = rest period</span>
+    </div>
+
+    <div class="diary-table-wrap">
+      <div class="diary-hdr">
+        <div class="drh">Time</div>
+        <div class="drh">Activity</div>
+        <div class="drh">Time Taken</div>
+        <div class="drh">Pain (0–10)</div>
+        <div class="drh">Tension (0–10)</div>
+        <div class="drh">0 / + / − / R</div>
+      </div>
+      <!-- Rows 1–10 -->
+      <div class="diary-data-row">
+        <input type="text" class="dr-text" id="time_1" placeholder="e.g. 10.50">
+        <input type="text" class="dr-text" id="activity_1" placeholder="Describe activity">
+        <input type="text" class="dr-text" id="taken_1" placeholder="1hr">
+        <input type="number" class="dr-num" id="pain_1" min="0" max="10" placeholder="0">
+        <input type="number" class="dr-num" id="tension_1" min="0" max="10" placeholder="0">
+        <div class="change-grp"><button type="button" class="ct-btn" data-val="0">0</button><button type="button" class="ct-btn" data-val="+">+</button><button type="button" class="ct-btn" data-val="-">−</button><button type="button" class="ct-btn" data-val="R">R</button><input type="hidden" id="change_1" value=""></div>
+      </div>
+      <div class="diary-data-row">
+        <input type="text" class="dr-text" id="time_2" placeholder="">
+        <input type="text" class="dr-text" id="activity_2" placeholder="Describe activity">
+        <input type="text" class="dr-text" id="taken_2" placeholder="30'">
+        <input type="number" class="dr-num" id="pain_2" min="0" max="10" placeholder="0">
+        <input type="number" class="dr-num" id="tension_2" min="0" max="10" placeholder="0">
+        <div class="change-grp"><button type="button" class="ct-btn" data-val="0">0</button><button type="button" class="ct-btn" data-val="+">+</button><button type="button" class="ct-btn" data-val="-">−</button><button type="button" class="ct-btn" data-val="R">R</button><input type="hidden" id="change_2" value=""></div>
+      </div>
+      <div class="diary-data-row">
+        <input type="text" class="dr-text" id="time_3" placeholder="">
+        <input type="text" class="dr-text" id="activity_3" placeholder="Describe activity">
+        <input type="text" class="dr-text" id="taken_3" placeholder="45'">
+        <input type="number" class="dr-num" id="pain_3" min="0" max="10" placeholder="0">
+        <input type="number" class="dr-num" id="tension_3" min="0" max="10" placeholder="0">
+        <div class="change-grp"><button type="button" class="ct-btn" data-val="0">0</button><button type="button" class="ct-btn" data-val="+">+</button><button type="button" class="ct-btn" data-val="-">−</button><button type="button" class="ct-btn" data-val="R">R</button><input type="hidden" id="change_3" value=""></div>
+      </div>
+      <div class="diary-data-row">
+        <input type="text" class="dr-text" id="time_4" placeholder="">
+        <input type="text" class="dr-text" id="activity_4" placeholder="Describe activity">
+        <input type="text" class="dr-text" id="taken_4" placeholder="1hr">
+        <input type="number" class="dr-num" id="pain_4" min="0" max="10" placeholder="0">
+        <input type="number" class="dr-num" id="tension_4" min="0" max="10" placeholder="0">
+        <div class="change-grp"><button type="button" class="ct-btn" data-val="0">0</button><button type="button" class="ct-btn" data-val="+">+</button><button type="button" class="ct-btn" data-val="-">−</button><button type="button" class="ct-btn" data-val="R">R</button><input type="hidden" id="change_4" value=""></div>
+      </div>
+      <div class="diary-data-row">
+        <input type="text" class="dr-text" id="time_5" placeholder="">
+        <input type="text" class="dr-text" id="activity_5" placeholder="Describe activity">
+        <input type="text" class="dr-text" id="taken_5" placeholder="50'">
+        <input type="number" class="dr-num" id="pain_5" min="0" max="10" placeholder="0">
+        <input type="number" class="dr-num" id="tension_5" min="0" max="10" placeholder="0">
+        <div class="change-grp"><button type="button" class="ct-btn" data-val="0">0</button><button type="button" class="ct-btn" data-val="+">+</button><button type="button" class="ct-btn" data-val="-">−</button><button type="button" class="ct-btn" data-val="R">R</button><input type="hidden" id="change_5" value=""></div>
+      </div>
+      <div class="diary-data-row">
+        <input type="text" class="dr-text" id="time_6" placeholder="">
+        <input type="text" class="dr-text" id="activity_6" placeholder="Describe activity">
+        <input type="text" class="dr-text" id="taken_6" placeholder="2hrs">
+        <input type="number" class="dr-num" id="pain_6" min="0" max="10" placeholder="0">
+        <input type="number" class="dr-num" id="tension_6" min="0" max="10" placeholder="0">
+        <div class="change-grp"><button type="button" class="ct-btn" data-val="0">0</button><button type="button" class="ct-btn" data-val="+">+</button><button type="button" class="ct-btn" data-val="-">−</button><button type="button" class="ct-btn" data-val="R">R</button><input type="hidden" id="change_6" value=""></div>
+      </div>
+      <div class="diary-data-row">
+        <input type="text" class="dr-text" id="time_7" placeholder="">
+        <input type="text" class="dr-text" id="activity_7" placeholder="Describe activity">
+        <input type="text" class="dr-text" id="taken_7" placeholder="1hr">
+        <input type="number" class="dr-num" id="pain_7" min="0" max="10" placeholder="0">
+        <input type="number" class="dr-num" id="tension_7" min="0" max="10" placeholder="0">
+        <div class="change-grp"><button type="button" class="ct-btn" data-val="0">0</button><button type="button" class="ct-btn" data-val="+">+</button><button type="button" class="ct-btn" data-val="-">−</button><button type="button" class="ct-btn" data-val="R">R</button><input type="hidden" id="change_7" value=""></div>
+      </div>
+      <div class="diary-data-row">
+        <input type="text" class="dr-text" id="time_8" placeholder="">
+        <input type="text" class="dr-text" id="activity_8" placeholder="Describe activity">
+        <input type="text" class="dr-text" id="taken_8" placeholder="30'">
+        <input type="number" class="dr-num" id="pain_8" min="0" max="10" placeholder="0">
+        <input type="number" class="dr-num" id="tension_8" min="0" max="10" placeholder="0">
+        <div class="change-grp"><button type="button" class="ct-btn" data-val="0">0</button><button type="button" class="ct-btn" data-val="+">+</button><button type="button" class="ct-btn" data-val="-">−</button><button type="button" class="ct-btn" data-val="R">R</button><input type="hidden" id="change_8" value=""></div>
+      </div>
+      <div class="diary-data-row">
+        <input type="text" class="dr-text" id="time_9" placeholder="">
+        <input type="text" class="dr-text" id="activity_9" placeholder="Describe activity">
+        <input type="text" class="dr-text" id="taken_9" placeholder="1hr 25'">
+        <input type="number" class="dr-num" id="pain_9" min="0" max="10" placeholder="0">
+        <input type="number" class="dr-num" id="tension_9" min="0" max="10" placeholder="0">
+        <div class="change-grp"><button type="button" class="ct-btn" data-val="0">0</button><button type="button" class="ct-btn" data-val="+">+</button><button type="button" class="ct-btn" data-val="-">−</button><button type="button" class="ct-btn" data-val="R">R</button><input type="hidden" id="change_9" value=""></div>
+      </div>
+      <div class="diary-data-row">
+        <input type="text" class="dr-text" id="time_10" placeholder="">
+        <input type="text" class="dr-text" id="activity_10" placeholder="Describe activity">
+        <input type="text" class="dr-text" id="taken_10" placeholder="2hrs">
+        <input type="number" class="dr-num" id="pain_10" min="0" max="10" placeholder="0">
+        <input type="number" class="dr-num" id="tension_10" min="0" max="10" placeholder="0">
+        <div class="change-grp"><button type="button" class="ct-btn" data-val="0">0</button><button type="button" class="ct-btn" data-val="+">+</button><button type="button" class="ct-btn" data-val="-">−</button><button type="button" class="ct-btn" data-val="R">R</button><input type="hidden" id="change_10" value=""></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PART 2: DIARY ANALYSIS ── -->
+  <div class="part-label">Part 2 — Diary Analysis (Complete After 7 Days)</div>
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">2</div>
+      <h2>Diary Analysis</h2>
+    </div>
+    <p class="step-hint">After completing 7 days of diary, transfer your activities into the three columns below. This reveals patterns you may not have noticed — which activities aggravate symptoms, which help, and which make no difference. Include activity durations.</p>
+    <div class="analysis-grid">
+      <div class="analysis-col ac-plus">
+        <div class="analysis-header ah-plus">+ Extra Pain</div>
+        <textarea id="extra_pain" placeholder="Activities that increased your pain or symptoms — with duration.&#10;e.g. Packing videos (1hr)&#10;Drove to shops (50')&#10;Sit at desk (1hr 10')"></textarea>
+      </div>
+      <div class="analysis-col ac-zero">
+        <div class="analysis-header ah-zero">0 No Change</div>
+        <textarea id="no_change" placeholder="Activities that made no difference — with duration.&#10;e.g. Meditation (50')&#10;Lunch — sit up (40')&#10;Shower and dress (20')"></textarea>
+      </div>
+      <div class="analysis-col ac-minus">
+        <div class="analysis-header ah-minus">− Reduced Pain</div>
+        <textarea id="reduced_pain" placeholder="Activities that reduced your pain or symptoms — with duration.&#10;e.g. Relaxation tape (30')&#10;Lie on floor (2hrs)&#10;Meditate — lying down (15')"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PART 3: REST PERIOD ANALYSIS ── -->
+  <div class="part-label">Part 3 — Rest Period Analysis</div>
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">3</div>
+      <h2>Rest Period Analysis</h2>
+    </div>
+    <p class="step-hint">Note your rest periods from across your diary days. Are some days much more or less restful than others? Distributing rest more evenly — with shorter, more regular rests — can help stabilise symptoms.</p>
+    <div style="overflow-x:auto;">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="width:120px;">Date</th>
+            <th>Length of rest periods (mins/hours)</th>
+            <th style="width:110px;">Total number</th>
+            <th style="width:110px;">Total time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="text" class="tbl-input" id="rest_date_1" placeholder="e.g. 25th April"></td>
+            <td><input type="text" class="tbl-input" id="rest_lengths_1" placeholder="e.g. 1hr 40'"></td>
+            <td><input type="number" class="tbl-input" id="rest_num_1" min="0" placeholder="1"></td>
+            <td><input type="text" class="tbl-input" id="rest_total_1" placeholder="e.g. 1hr 40'"></td>
+          </tr>
+          <tr>
+            <td><input type="text" class="tbl-input" id="rest_date_2" placeholder="e.g. 26th April"></td>
+            <td><input type="text" class="tbl-input" id="rest_lengths_2" placeholder="e.g. 45', 45', 45', 3hrs 15'"></td>
+            <td><input type="number" class="tbl-input" id="rest_num_2" min="0" placeholder="4"></td>
+            <td><input type="text" class="tbl-input" id="rest_total_2" placeholder="e.g. 5hrs 30'"></td>
+          </tr>
+          <tr>
+            <td><input type="text" class="tbl-input" id="rest_date_3" placeholder="e.g. 27th April"></td>
+            <td><input type="text" class="tbl-input" id="rest_lengths_3" placeholder="e.g. 3hrs 45'"></td>
+            <td><input type="number" class="tbl-input" id="rest_num_3" min="0" placeholder="2"></td>
+            <td><input type="text" class="tbl-input" id="rest_total_3" placeholder="e.g. 5hrs 45'"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── PART 4: BASELINE RECORD ── -->
+  <div class="part-label">Part 4 — Baseline Record</div>
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">4</div>
+      <h2>Baseline Record</h2>
+    </div>
+    <p class="step-hint">Look at the '+' column in your diary analysis. Find the shortest time you spent on the activity that caused a flare-up. Your baseline is 80% of this. Start there — then gradually increase over time.</p>
+
+    <div class="baseline-top">
+      <div class="bl-field">
+        <label for="baseline_activity">Activity being monitored</label>
+        <input type="text" class="bl-input" id="baseline_activity" placeholder="e.g. Sitting, Walking, Swimming">
+      </div>
+      <div class="bl-field">
+        <label for="baseline_level">Baseline level description</label>
+        <input type="text" class="bl-input" id="baseline_level" placeholder="e.g. Sit for 16 mins then stand/lie, 3×/day">
+      </div>
+    </div>
+
+    <div class="baseline-formula">
+      <span class="bf-label">Minimum flare-up time:</span>
+      <input type="number" class="bf-input" id="baseline_min" min="0" placeholder="20">
+      <span class="bf-label">mins × 80% =</span>
+      <div class="bf-result" id="baseline_result">—</div>
+      <span class="bf-label">mins (your baseline)</span>
+      <input type="hidden" id="baseline_calc" value="">
+    </div>
+
+    <div style="overflow-x:auto;">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="width:110px;">Date</th>
+            <th style="width:110px;">Level Achieved</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="text" class="tbl-input" id="b_date_1" placeholder="dd/mm/yyyy"></td>
+            <td><input type="text" class="tbl-input" id="b_achieved_1" placeholder="e.g. 12 mins walking"></td>
+            <td><input type="text" class="tbl-input" id="b_notes_1" placeholder="How did it feel?"></td>
+          </tr>
+          <tr>
+            <td><input type="text" class="tbl-input" id="b_date_2" placeholder="dd/mm/yyyy"></td>
+            <td><input type="text" class="tbl-input" id="b_achieved_2" placeholder="e.g. 12 mins walking"></td>
+            <td><input type="text" class="tbl-input" id="b_notes_2" placeholder="How did it feel?"></td>
+          </tr>
+          <tr>
+            <td><input type="text" class="tbl-input" id="b_date_3" placeholder="dd/mm/yyyy"></td>
+            <td><input type="text" class="tbl-input" id="b_achieved_3" placeholder="e.g. 12 mins walking"></td>
+            <td><input type="text" class="tbl-input" id="b_notes_3" placeholder="How did it feel?"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="submit-wrap">
+    <button id="saveBtn">Save My Entry</button>
+  </div>
+  <div class="entries-wrap">
+    <h3>Saved Entries</h3>
+    <div id="entriesList"></div>
+  </div>
+  <p style="text-align:center; font-size:12px; color:#aaa; margin-top:28px; padding-top:18px; border-top:1px solid #e8e8e8;">
+    Based on the Breathworks pacing programme. © Breathworks CIC. Adapted for ChatCBT with permission.
+  </p>
+
+</main>
+
+<script>
+function v(id) { return (document.getElementById(id).value || '').trim(); }
+
+// Change-toggle buttons
+document.querySelectorAll('.change-grp').forEach(function(grp) {
+  var hidden = grp.querySelector('input[type="hidden"]');
+  grp.querySelectorAll('.ct-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var val = this.dataset.val;
+      var wasActive = this.classList.contains('active');
+      grp.querySelectorAll('.ct-btn').forEach(function(b) { b.classList.remove('active'); });
+      hidden.value = '';
+      if (!wasActive) { this.classList.add('active'); hidden.value = val; }
+    });
+  });
+});
+
+// Baseline auto-calculator
+document.getElementById('baseline_min').addEventListener('input', function() {
+  var min = parseFloat(this.value);
+  var resultEl = document.getElementById('baseline_result');
+  if (!isNaN(min) && min > 0) {
+    var calc = Math.round(min * 0.8);
+    resultEl.textContent = calc;
+    document.getElementById('baseline_calc').value = String(calc);
+  } else {
+    resultEl.textContent = '—';
+    document.getElementById('baseline_calc').value = '';
+  }
+});
+
+function collectData() {
+  var data = { time: new Date().toLocaleString() };
+  data.diary_date = v('diary_date');
+  for (var i = 1; i <= 10; i++) {
+    data['time_'     + i] = v('time_'     + i);
+    data['activity_' + i] = v('activity_' + i);
+    data['taken_'    + i] = v('taken_'    + i);
+    data['pain_'     + i] = v('pain_'     + i);
+    data['tension_'  + i] = v('tension_'  + i);
+    data['change_'   + i] = v('change_'   + i);
+  }
+  data.extra_pain   = v('extra_pain');
+  data.no_change    = v('no_change');
+  data.reduced_pain = v('reduced_pain');
+  for (var j = 1; j <= 3; j++) {
+    data['rest_date_'    + j] = v('rest_date_'    + j);
+    data['rest_lengths_' + j] = v('rest_lengths_' + j);
+    data['rest_num_'     + j] = v('rest_num_'     + j);
+    data['rest_total_'   + j] = v('rest_total_'   + j);
+  }
+  data.baseline_activity = v('baseline_activity');
+  data.baseline_level    = v('baseline_level');
+  data.baseline_min      = v('baseline_min');
+  data.baseline_calc     = v('baseline_calc');
+  for (var k = 1; k <= 3; k++) {
+    data['b_date_'     + k] = v('b_date_'     + k);
+    data['b_achieved_' + k] = v('b_achieved_' + k);
+    data['b_notes_'    + k] = v('b_notes_'    + k);
+  }
+  return data;
+}
+
+async function saveEntry() {
+  var data = collectData();
+  try {
+    await fetch('/.netlify/functions/saveWorksheet', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch (err) {
+    console.error('Save error:', err);
+  }
+  var entries = JSON.parse(localStorage.getItem('mindful-daily-living') || '[]');
+  entries.unshift(data);
+  localStorage.setItem('mindful-daily-living', JSON.stringify(entries));
+  render();
+}
+
+function render() {
+  var el = document.getElementById('entriesList');
+  if (!el) return;
+  var entries = JSON.parse(localStorage.getItem('mindful-daily-living') || '[]');
+  if (!entries.length) { el.innerHTML = ''; return; }
+  el.innerHTML = entries.map(function(e) {
+    var activities = [1,2,3,4,5].map(function(n) { return e['activity_' + n]; }).filter(Boolean);
+    var preview = activities.slice(0, 3).join(', ');
+    return '<div class="entry-item">'
+      + '<strong>' + (e.time || '') + '</strong>'
+      + (e.diary_date ? '<span style="color:#0d4a2e;font-weight:600;">' + e.diary_date + '</span><br>' : '')
+      + (preview ? '<span style="color:#555;">' + preview + (activities.length > 3 ? ' …' : '') + '</span>' : '')
+      + '</div>';
+  }).join('');
+}
+
+document.getElementById('saveBtn').addEventListener('click', saveEntry);
+render();
+</script>
+
+</body>
+</html>
