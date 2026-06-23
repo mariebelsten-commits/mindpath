@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Feelings Wheel | ChatCBT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f0f9f0; color: #1a1a1a; }
+
+    /* ── Hero ── */
+    .page-hero { background: #0d4a2e; padding: 56px 24px 48px; text-align: center; }
+    .hero-badge {
+      display: inline-block; background: rgba(255,255,255,0.15);
+      color: #fff; font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 5px 14px; border-radius: 20px; margin-bottom: 16px;
+    }
+    .page-hero h1 {
+      font-family: 'Montserrat', sans-serif; font-size: 2.6rem; font-weight: 800;
+      color: #ffffff !important; margin-bottom: 12px; letter-spacing: -0.5px;
+    }
+    .page-hero p { font-size: 1.1rem; color: rgba(255,255,255,0.88); max-width: 580px; margin: 0 auto; line-height: 1.6; }
+
+    /* ── Feature cards ── */
+    .features-section { background: #1a5c3a; padding: 40px 24px; }
+    .features-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 20px; max-width: 960px; margin: 0 auto;
+    }
+    .feature-card {
+      background: rgba(255,255,255,0.1); border-radius: 12px;
+      padding: 22px 18px; text-align: center; color: #fff;
+    }
+    .feature-card .icon { font-size: 1.8rem; margin-bottom: 10px; }
+    .feature-card h3 {
+      font-family: 'Montserrat', sans-serif; font-size: 0.95rem;
+      font-weight: 700; color: #ffffff !important; margin-bottom: 7px;
+    }
+    .feature-card p { font-size: 0.83rem; color: rgba(255,255,255,0.85); line-height: 1.5; }
+
+    /* ── Instructions ── */
+    .instructions-box {
+      background: #e8f5e9; border-left: 4px solid #1a5c3a;
+      padding: 18px 24px; max-width: 800px; margin: 32px auto 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .instructions-box h3 {
+      font-family: 'Montserrat', sans-serif; font-size: 0.92rem;
+      font-weight: 700; color: #0d4a2e; margin-bottom: 6px;
+    }
+    .instructions-box p { font-size: 0.87rem; color: #2d4a35; line-height: 1.65; }
+
+    /* ── Worksheet wrapper ── */
+    .page-worksheet { max-width: 800px; margin: 28px auto 48px; padding: 0 16px; }
+
+    /* ── Step blocks ── */
+    .step-block {
+      background: #fff; border-radius: 12px; padding: 28px 28px 24px;
+      margin-bottom: 8px; border: 1px solid #d0ecd8;
+      box-shadow: 0 2px 8px rgba(13,74,46,0.06);
+    }
+    .step-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .step-number {
+      width: 36px; height: 36px; background: #1a5c3a; color: #fff;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.9rem; flex-shrink: 0;
+    }
+    .step-title { font-family: 'Montserrat', sans-serif; font-size: 1.08rem; font-weight: 700; color: #0d4a2e; }
+    .step-desc { font-size: 0.88rem; color: #4a7a5a; margin-bottom: 16px; line-height: 1.6; }
+
+    /* ── Flow arrow ── */
+    .flow-arrow { text-align: center; font-size: 1.4rem; color: #4a7a5a; line-height: 1; margin: 6px 0; }
+
+    /* ── Core emotion cards ── */
+    .core-emotions-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; margin-top: 4px;
+    }
+    .core-emotion-card {
+      cursor: pointer; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 6px;
+      padding: 16px 8px 14px; border-radius: 12px;
+      border: 2px solid #d0ecd8; background: #fff;
+      transition: all 0.15s ease; text-align: center; user-select: none;
+    }
+    .core-emotion-card input[type="radio"] { display: none; }
+    .core-emotion-card .e-emoji { font-size: 2rem; line-height: 1; }
+    .core-emotion-card .e-name {
+      font-family: 'Montserrat', sans-serif; font-size: 0.76rem; font-weight: 700;
+      color: #2d4a35; text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .core-emotion-card:has(input:checked) {
+      border-color: var(--ec, #1a5c3a); background: var(--eb, #f0f9f0);
+      box-shadow: 0 3px 14px rgba(0,0,0,0.13); transform: translateY(-2px);
+    }
+    .core-emotion-card:has(input:checked) .e-name { color: var(--ec, #1a5c3a); }
+
+    /* ── Dynamic chip sections ── */
+    .chips-section {
+      background: #fff; border-radius: 12px; padding: 22px 24px; margin-bottom: 8px;
+      border: 1px solid #d0ecd8; box-shadow: 0 2px 8px rgba(13,74,46,0.06);
+    }
+    .chips-eyebrow {
+      font-family: 'Montserrat', sans-serif; font-size: 0.7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em; color: #6a9a7a;
+      margin-bottom: 4px; display: block;
+    }
+    .chips-title {
+      font-family: 'Montserrat', sans-serif; font-size: 1.02rem; font-weight: 700;
+      color: #0d4a2e; margin-bottom: 6px;
+    }
+    .chips-desc { font-size: 0.86rem; color: #4a7a5a; margin-bottom: 14px; line-height: 1.55; }
+    .chips-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+    .emotion-chip {
+      cursor: pointer; display: inline-flex; align-items: center;
+      padding: 8px 18px; border-radius: 20px; border: 2px solid #d0ecd8;
+      background: #f5faf6; font-family: 'Inter', sans-serif;
+      font-size: 0.88rem; font-weight: 600; color: #1a3d28;
+      transition: all 0.12s; user-select: none;
+    }
+    .emotion-chip input[type="radio"] { display: none; }
+    .emotion-chip:has(input:checked) {
+      border-color: var(--ec, #1a5c3a); background: var(--eb, #e0f2e8);
+      color: var(--ec, #0d4a2e); box-shadow: 0 1px 8px rgba(0,0,0,0.1);
+    }
+
+    /* ── Emotion path summary ── */
+    .emotion-summary-row {
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+      padding: 12px 16px; background: #f0f9f0; border-radius: 8px; margin-bottom: 18px;
+    }
+    .path-crumb {
+      font-family: 'Montserrat', sans-serif; font-size: 0.82rem; font-weight: 700;
+      padding: 5px 14px; border-radius: 20px; white-space: nowrap;
+    }
+    .path-arrow-text { color: #4a7a5a; font-size: 1rem; }
+
+    /* ── Intensity scale ── */
+    .intensity-scale { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+    .intensity-btn {
+      cursor: pointer; width: 42px; height: 42px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; border: 2px solid #d0ecd8; background: #f5faf6;
+      font-family: 'Montserrat', sans-serif; font-size: 0.88rem; font-weight: 700;
+      color: #2d4a35; transition: all 0.12s; user-select: none;
+    }
+    .intensity-btn input[type="radio"] { display: none; }
+    .intensity-btn:has(input:checked) { background: #1a5c3a; border-color: #1a5c3a; color: #fff; }
+    .intensity-labels {
+      display: flex; justify-content: space-between;
+      font-size: 0.75rem; color: #6a9a7a; margin-top: 5px; padding: 0 2px;
+    }
+
+    /* ── Form elements ── */
+    .field-label {
+      display: block; font-size: 0.87rem; font-weight: 600;
+      color: #1a3d28; margin-bottom: 6px; margin-top: 20px;
+    }
+    .field-label:first-of-type { margin-top: 0; }
+    textarea {
+      width: 100%; padding: 10px 12px; border: 1px solid #b0d8bc;
+      border-radius: 8px; font-family: 'Inter', sans-serif;
+      font-size: 0.9rem; color: #1a1a1a; background: #fff; resize: vertical; line-height: 1.5;
+    }
+    textarea:focus { outline: none; border-color: #1a5c3a; box-shadow: 0 0 0 3px rgba(26,92,58,0.1); }
+
+    /* ── Submit ── */
+    .submit-section { text-align: center; padding: 24px 0 16px; }
+
+    @media (max-width: 600px) {
+      .page-hero h1 { font-size: 2rem; }
+      .core-emotions-grid { grid-template-columns: repeat(4, 1fr); }
+      .intensity-btn { width: 34px; height: 34px; font-size: 0.8rem; }
+    }
+    @media (max-width: 400px) {
+      .core-emotions-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section class="page-hero">
+  <div class="hero-badge">CBT Worksheet</div>
+  <h1>The Feelings Wheel</h1>
+  <p>Identify and name your emotions with precision — from the broad to the beautifully specific.</p>
+</section>
+
+<!-- ══ FEATURE CARDS ══ -->
+<section class="features-section">
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="icon">🎯</div>
+      <h3>Name It</h3>
+      <p>Putting an accurate name to your emotion is the first step towards understanding it</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🔍</div>
+      <h3>Get Specific</h3>
+      <p>Move from a broad feeling to a precise emotion — greater specificity brings greater clarity</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">💡</div>
+      <h3>Understand It</h3>
+      <p>Explore what triggered the feeling, where you feel it, and what it might be telling you</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🌱</div>
+      <h3>Respond Well</h3>
+      <p>Understanding your emotions helps you choose how to respond rather than just react</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ INSTRUCTIONS ══ -->
+<div class="instructions-box">
+  <h3>How to use this worksheet</h3>
+  <p>Start by noting the situation. Then choose your broad core emotion — once you select it, two more layers of options will appear to help you pinpoint the precise feeling. Finally, answer the reflection questions. Take your time: finding the right word for an emotion can itself be therapeutic.</p>
+</div>
+
+<!-- ══ WORKSHEET ══ -->
+<div class="page-worksheet">
+
+  <!-- Step 1: Situation -->
+  <div class="step-block" style="margin-top:28px;">
+    <div class="step-header">
+      <div class="step-number">1</div>
+      <div class="step-title">The Situation</div>
+    </div>
+    <p class="step-desc">Briefly describe what has just happened or what is happening right now. This gives context to the emotion.</p>
+    <textarea rows="4" placeholder="e.g. I've just had a difficult conversation with my partner / I'm about to give a presentation at work / I received some unexpected news..."></textarea>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 2: Core Emotion -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">2</div>
+      <div class="step-title">Your Core Emotion</div>
+    </div>
+    <p class="step-desc">Which of these broad categories best captures what you are feeling right now? Trust your gut — go with your first instinct. Once you choose, more specific options will appear below.</p>
+    <div class="core-emotions-grid">
+
+      <label class="core-emotion-card" style="--ec:#d97706;--eb:#fffbeb;">
+        <input type="radio" name="core_emotion" value="HAPPY" />
+        <span class="e-emoji">😊</span>
+        <span class="e-name">Happy</span>
+      </label>
+
+      <label class="core-emotion-card" style="--ec:#2563eb;--eb:#eff6ff;">
+        <input type="radio" name="core_emotion" value="SAD" />
+        <span class="e-emoji">😢</span>
+        <span class="e-name">Sad</span>
+      </label>
+
+      <label class="core-emotion-card" style="--ec:#7c3aed;--eb:#f5f3ff;">
+        <input type="radio" name="core_emotion" value="FEARFUL" />
+        <span class="e-emoji">😨</span>
+        <span class="e-name">Fearful</span>
+      </label>
+
+      <label class="core-emotion-card" style="--ec:#dc2626;--eb:#fef2f2;">
+        <input type="radio" name="core_emotion" value="ANGRY" />
+        <span class="e-emoji">😠</span>
+        <span class="e-name">Angry</span>
+      </label>
+
+      <label class="core-emotion-card" style="--ec:#92400e;--eb:#fef9ee;">
+        <input type="radio" name="core_emotion" value="DISGUSTED" />
+        <span class="e-emoji">😣</span>
+        <span class="e-name">Disgusted</span>
+      </label>
+
+      <label class="core-emotion-card" style="--ec:#0891b2;--eb:#ecfeff;">
+        <input type="radio" name="core_emotion" value="SURPRISED" />
+        <span class="e-emoji">😲</span>
+        <span class="e-name">Surprised</span>
+      </label>
+
+      <label class="core-emotion-card" style="--ec:#4b5563;--eb:#f9fafb;">
+        <input type="radio" name="core_emotion" value="BAD" />
+        <span class="e-emoji">😞</span>
+        <span class="e-name">Bad</span>
+      </label>
+
+    </div>
+  </div>
+
+  <!-- Dynamic secondary section -->
+  <div id="arrow-to-secondary" class="flow-arrow" style="display:none;">↓</div>
+  <div id="secondary-section" style="display:none;">
+    <div class="chips-section">
+      <span class="chips-eyebrow">Going Deeper</span>
+      <div class="chips-title" id="secondary-title">Which of these feels closest?</div>
+      <p class="chips-desc">Select the emotion that most accurately describes what you are experiencing.</p>
+      <div class="chips-wrap" id="secondary-chips"></div>
+    </div>
+  </div>
+
+  <!-- Dynamic tertiary section -->
+  <div id="arrow-to-tertiary" class="flow-arrow" style="display:none;">↓</div>
+  <div id="tertiary-section" style="display:none;">
+    <div class="chips-section">
+      <span class="chips-eyebrow">Getting Specific</span>
+      <div class="chips-title" id="tertiary-title">Which word fits best?</div>
+      <p class="chips-desc">Choose the most precise word. It's okay if neither is perfect — pick the closest one.</p>
+      <div class="chips-wrap" id="tertiary-chips"></div>
+    </div>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 3: Reflection -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">3</div>
+      <div class="step-title">Understand Your Feeling</div>
+    </div>
+
+    <!-- Emotion path summary (shown dynamically) -->
+    <div id="emotion-summary-wrap" style="display:none; margin-bottom:18px;">
+      <p style="font-size:0.77rem;font-weight:700;font-family:'Montserrat',sans-serif;color:#6a9a7a;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Your identified emotion:</p>
+      <div id="emotion-summary-display" class="emotion-summary-row"></div>
+    </div>
+
+    <p class="step-desc">Now that you have named your emotion, explore it more deeply with these reflection questions.</p>
+
+    <label class="field-label">How intense is this feeling right now? (1 = barely noticeable, 10 = overwhelming)</label>
+    <div class="intensity-scale">
+      <label class="intensity-btn"><input type="radio" name="intensity" value="1" />1</label>
+      <label class="intensity-btn"><input type="radio" name="intensity" value="2" />2</label>
+      <label class="intensity-btn"><input type="radio" name="intensity" value="3" />3</label>
+      <label class="intensity-btn"><input type="radio" name="intensity" value="4" />4</label>
+      <label class="intensity-btn"><input type="radio" name="intensity" value="5" />5</label>
+      <label class="intensity-btn"><input type="radio" name="intensity" value="6" />6</label>
+      <label class="intensity-btn"><input type="radio" name="intensity" value="7" />7</label>
+      <label class="intensity-btn"><input type="radio" name="intensity" value="8" />8</label>
+      <label class="intensity-btn"><input type="radio" name="intensity" value="9" />9</label>
+      <label class="intensity-btn"><input type="radio" name="intensity" value="10" />10</label>
+    </div>
+    <div class="intensity-labels"><span>Barely noticeable</span><span>Overwhelming</span></div>
+
+    <label class="field-label">Where do you feel this emotion in your body?</label>
+    <textarea rows="3" placeholder="e.g. Tightness in my chest / knot in my stomach / tension in my shoulders and jaw..."></textarea>
+
+    <label class="field-label">What may have triggered this feeling?</label>
+    <textarea rows="3" placeholder="e.g. A comment someone made / a specific memory / a worry about the future / something I noticed..."></textarea>
+
+    <label class="field-label">What might this feeling be telling you about what you need right now?</label>
+    <textarea rows="3" placeholder="e.g. I might need reassurance / some time alone / to set a boundary / to rest and recover..."></textarea>
+
+    <label class="field-label">How will you respond to this feeling in a helpful way?</label>
+    <textarea rows="3" placeholder="e.g. Talk to someone I trust / go for a walk / write in my journal / take a short break..."></textarea>
+  </div>
+
+  <div class="submit-section">
+    <!-- Paste submit button code here -->
+  </div>
+
+</div>
+
+<script>
+const emotionData = {
+  HAPPY: {
+    color: '#d97706', bg: '#fffbeb',
+    secondaries: {
+      'Playful':    ['Aroused','Cheeky'],
+      'Content':    ['Free','Joyful'],
+      'Interested': ['Curious','Inquisitive'],
+      'Proud':      ['Successful','Confident'],
+      'Accepted':   ['Respected','Valued'],
+      'Powerful':   ['Courageous','Creative'],
+      'Peaceful':   ['Loving','Thankful'],
+      'Trusting':   ['Sensitive','Intimate'],
+      'Optimistic': ['Hopeful','Inspired']
+    }
+  },
+  SAD: {
+    color: '#2563eb', bg: '#eff6ff',
+    secondaries: {
+      'Hurt':       ['Embarrassed','Disappointed'],
+      'Depressed':  ['Inferior','Empty'],
+      'Guilty':     ['Remorseful','Ashamed'],
+      'Despair':    ['Powerless','Grief'],
+      'Vulnerable': ['Fragile','Victimized'],
+      'Lonely':     ['Abandoned','Isolated']
+    }
+  },
+  FEARFUL: {
+    color: '#7c3aed', bg: '#f5f3ff',
+    secondaries: {
+      'Scared':     ['Helpless','Frightened'],
+      'Anxious':    ['Overwhelmed','Worried'],
+      'Insecure':   ['Inadequate','Inferior'],
+      'Weak':       ['Worthless','Insignificant'],
+      'Rejected':   ['Excluded','Persecuted'],
+      'Threatened': ['Nervous','Exposed']
+    }
+  },
+  ANGRY: {
+    color: '#dc2626', bg: '#fef2f2',
+    secondaries: {
+      'Let down':   ['Betrayed','Resentful'],
+      'Humiliated': ['Disrespected','Ridiculed'],
+      'Bitter':     ['Indignant','Violated'],
+      'Mad':        ['Furious','Jealous'],
+      'Aggressive': ['Provoked','Hostile'],
+      'Frustrated': ['Infuriated','Annoyed'],
+      'Distant':    ['Withdrawn','Numb'],
+      'Critical':   ['Skeptical','Dismissive']
+    }
+  },
+  DISGUSTED: {
+    color: '#92400e', bg: '#fef9ee',
+    secondaries: {
+      'Disapproving': ['Judgemental','Embarrassed'],
+      'Disappointed': ['Appalled','Revolted'],
+      'Awful':        ['Nauseated','Detestable'],
+      'Repelled':     ['Horrified','Hesitant']
+    }
+  },
+  SURPRISED: {
+    color: '#0891b2', bg: '#ecfeff',
+    secondaries: {
+      'Startled': ['Shocked','Dismayed'],
+      'Confused': ['Disillusioned','Perplexed'],
+      'Amazed':   ['Astonished','Awe'],
+      'Excited':  ['Eager','Energetic']
+    }
+  },
+  BAD: {
+    color: '#4b5563', bg: '#f9fafb',
+    secondaries: {
+      'Bored':    ['Indifferent','Apathetic'],
+      'Busy':     ['Pressured','Rushed'],
+      'Stressed': ['Overwhelmed','Out of control'],
+      'Tired':    ['Sleepy','Unfocused']
+    }
+  }
+};
+
+let selectedCore = null, selectedSecondary = null, selectedTertiary = null;
+
+function updateSummary() {
+  const wrap = document.getElementById('emotion-summary-wrap');
+  const display = document.getElementById('emotion-summary-display');
+  if (!selectedCore) { wrap.style.display = 'none'; return; }
+  wrap.style.display = 'block';
+  const ed = emotionData[selectedCore];
+  let html = `<span class="path-crumb" style="background:${ed.color};color:#fff;">${selectedCore}</span>`;
+  if (selectedSecondary) {
+    html += `<span class="path-arrow-text">→</span><span class="path-crumb" style="background:${ed.bg};color:${ed.color};border:2px solid ${ed.color};">${selectedSecondary}</span>`;
+  }
+  if (selectedTertiary) {
+    html += `<span class="path-arrow-text">→</span><span class="path-crumb" style="background:${ed.bg};color:${ed.color};border:2px solid ${ed.color};font-size:0.9rem;padding:6px 16px;">${selectedTertiary}</span>`;
+  }
+  display.innerHTML = html;
+}
+
+function buildChips(containerId, items, radioName, colorHex, bgHex, onSelect) {
+  const wrap = document.getElementById(containerId);
+  wrap.innerHTML = '';
+  items.forEach(function(item) {
+    const label = document.createElement('label');
+    label.className = 'emotion-chip';
+    label.style.setProperty('--ec', colorHex);
+    label.style.setProperty('--eb', bgHex);
+    const inp = document.createElement('input');
+    inp.type = 'radio'; inp.name = radioName; inp.value = item;
+    inp.addEventListener('change', function() { onSelect(item); });
+    label.appendChild(inp);
+    label.appendChild(document.createTextNode(item));
+    wrap.appendChild(label);
+  });
+}
+
+document.querySelectorAll('input[name="core_emotion"]').forEach(function(radio) {
+  radio.addEventListener('change', function() {
+    selectedCore = this.value;
+    selectedSecondary = null;
+    selectedTertiary = null;
+    const ed = emotionData[selectedCore];
+    const displayName = selectedCore.charAt(0) + selectedCore.slice(1).toLowerCase();
+
+    document.getElementById('secondary-title').textContent = 'You're feeling ' + displayName + ' — which of these is closest?';
+
+    buildChips('secondary-chips', Object.keys(ed.secondaries), 'secondary_emotion', ed.color, ed.bg, function(sec) {
+      selectedSecondary = sec;
+      selectedTertiary = null;
+
+      document.getElementById('tertiary-title').textContent = 'Which word fits best for "' + sec + '"?';
+      buildChips('tertiary-chips', ed.secondaries[sec], 'tertiary_emotion', ed.color, ed.bg, function(tert) {
+        selectedTertiary = tert;
+        updateSummary();
+        setTimeout(function() {
+          document.getElementById('tertiary-section').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 80);
+      });
+
+      document.getElementById('arrow-to-tertiary').style.display = 'block';
+      document.getElementById('tertiary-section').style.display = 'block';
+      updateSummary();
+      setTimeout(function() {
+        document.getElementById('tertiary-section').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 80);
+    });
+
+    document.getElementById('arrow-to-secondary').style.display = 'block';
+    document.getElementById('secondary-section').style.display = 'block';
+    document.getElementById('arrow-to-tertiary').style.display = 'none';
+    document.getElementById('tertiary-section').style.display = 'none';
+    document.getElementById('tertiary-chips').innerHTML = '';
+
+    updateSummary();
+    setTimeout(function() {
+      document.getElementById('secondary-section').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 80);
+  });
+});
+</script>
+<!-- Submit Button -->
+<button id="submitFeelingsWheel">Send me my worksheet</button>
+
+<!-- Email Modal -->
+<div id="feelingsWheelModal" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.55);display:none;justify-content:center;align-items:center;z-index:9999;">
+  <div id="feelingsWheelModalContent" style="background:#fff;padding:28px 28px 24px;border-radius:12px;max-width:400px;width:90%;text-align:center;font-family:'Inter',sans-serif;box-shadow:0 8px 32px rgba(0,0,0,0.18);">
+    <h3 style="font-family:'Montserrat',sans-serif;color:#0d4a2e;font-size:1.1rem;margin-bottom:8px;">Where should we send your worksheet?</h3>
+    <p style="font-size:0.87rem;color:#555;margin-bottom:16px;">We'll email you a PDF copy of your completed Feelings Wheel.</p>
+    <input type="email" id="feelingsWheelEmail" placeholder="Enter your email address" style="width:100%;padding:10px 12px;border:1px solid #b0d8bc;border-radius:8px;font-family:'Inter',sans-serif;font-size:0.9rem;margin-bottom:12px;box-sizing:border-box;" />
+    <button id="confirmSendFeelingsWheel" style="background:#1a5c3a;color:#fff;border:none;padding:12px 24px;border-radius:8px;font-family:'Montserrat',sans-serif;font-size:0.95rem;font-weight:700;cursor:pointer;width:100%;">Send PDF →</button>
+    <p style="font-size:0.78rem;color:#999;margin-top:10px;">Your answers are only used to generate your PDF.</p>
+  </div>
+</div>
+
+<style>
+#submitFeelingsWheel {
+  display: inline-block;
+  background: #1a5c3a;
+  color: #ffffff !important;
+  padding: 14px 36px;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 8px;
+}
+#submitFeelingsWheel:hover { background: #14482d; }
+</style>
+
+<script>
+function collectFeelingsWheelData() {
+  const allFields = document.querySelectorAll('.page-worksheet textarea');
+  const fieldNames = ['situation', 'body_sensation', 'trigger', 'what_i_need', 'helpful_response'];
+  const data = {};
+  allFields.forEach(function(field, i) {
+    if (fieldNames[i]) {
+      data[fieldNames[i]] = field.value.replace(/\r?\
+|\r/g, ' | ');
+    }
+  });
+  const r1 = document.querySelector('input[name="core_emotion"]:checked');
+  data.core_emotion = r1 ? r1.value : '';
+  const r2 = document.querySelector('input[name="secondary_emotion"]:checked');
+  data.secondary_emotion = r2 ? r2.value : '';
+  const r3 = document.querySelector('input[name="tertiary_emotion"]:checked');
+  data.tertiary_emotion = r3 ? r3.value : '';
+  const r4 = document.querySelector('input[name="intensity"]:checked');
+  data.intensity = r4 ? r4.value : '';
+  return data;
+}
+
+document.getElementById('submitFeelingsWheel').addEventListener('click', function() {
+  document.getElementById('feelingsWheelModal').style.display = 'flex';
+});
+
+document.getElementById('confirmSendFeelingsWheel').addEventListener('click', function() {
+  var email = document.getElementById('feelingsWheelEmail').value;
+  if (!email) { alert('Please enter your email address.'); return; }
+
+  var data = collectFeelingsWheelData();
+  data.email = email;
+
+  fetch('https://hooks.zapier.com/hooks/catch/27250519/ujz802h/', {
+    method: 'POST',
+    mode: 'no-cors',
+    body: JSON.stringify(data)
+  }).then(function() {
+    document.getElementById('feelingsWheelModalContent').innerHTML = '<div style="text-align:center;padding:8px 0"><div style="font-size:2.5rem;margin-bottom:12px">&#128233;</div><h3 style="font-family:Montserrat,sans-serif;color:#0d4a2e;margin-bottom:8px">On its way!</h3><p style="color:#4a6a4a;font-size:0.9rem;margin-bottom:18px;line-height:1.6">Check your inbox in a few minutes.</p><button class="btn-cancel worksheet-modal-close">Close</button></div>';
+  }).catch(function() {
+    document.getElementById('feelingsWheelModalContent').innerHTML = '<div style="text-align:center;padding:8px 0"><div style="font-size:2.5rem;margin-bottom:12px">&#128233;</div><h3 style="font-family:Montserrat,sans-serif;color:#0d4a2e;margin-bottom:8px">On its way!</h3><p style="color:#4a6a4a;font-size:0.9rem;margin-bottom:18px;line-height:1.6">Check your inbox in a few minutes.</p><button class="btn-cancel worksheet-modal-close">Close</button></div>';
+  });
+});
+
+document.addEventListener("click", function(e) {
+  if (!e.target.classList.contains("worksheet-modal-close")) return;
+  var modal = e.target.closest(".email-modal");
+  if (modal) { modal.classList.remove("active"); return; }
+  modal = e.target.parentElement;
+  while (modal) {
+    if (modal.style && modal.style.display === "flex") { modal.style.display = "none"; return; }
+    modal = modal.parentElement;
+  }
+});
+</script>
