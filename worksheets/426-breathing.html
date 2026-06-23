@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4-2-6 Breathing | ChatCBT</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Inter, sans-serif; color: #222; background: #f8faf8; }
+
+  .page-hero { background: #0d4a2e; padding: 56px 24px 48px; text-align: center; }
+  .page-hero h1 { font-family: Montserrat, sans-serif; font-size: clamp(26px, 4vw, 40px); font-weight: 700; color: #ffffff !important; margin-bottom: 14px; }
+  .page-hero p { color: rgba(255,255,255,0.85); font-size: 16px; max-width: 640px; margin: 0 auto; line-height: 1.7; }
+
+  .features-section { background: #1a5c3a; padding: 36px 24px; }
+  .features-inner { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+  .feature-card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 22px 20px; }
+  .feature-card h3 { font-family: Montserrat, sans-serif; font-size: 15px; font-weight: 700; color: #ffffff !important; margin-bottom: 8px; }
+  .feature-card p { font-size: 13px; color: rgba(255,255,255,0.8); line-height: 1.55; }
+
+  .worksheet-container { max-width: 760px; margin: 0 auto; padding: 40px 24px 60px; }
+
+  .panel { background: #fff; border-radius: 14px; padding: 28px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .panel h2 { font-family: Montserrat, sans-serif; font-size: 18px; font-weight: 700; color: #0d4a2e; margin-bottom: 6px; text-align: center; }
+  .panel .panel-sub { font-size: 13px; color: #666; text-align: center; margin-bottom: 24px; line-height: 1.5; }
+
+  /* Breathing animator */
+  .breath-stage { display: flex; flex-direction: column; align-items: center; gap: 24px; padding: 16px 0 8px; }
+  .breath-circle-wrap { position: relative; width: 260px; height: 260px; display: flex; align-items: center; justify-content: center; }
+  .breath-ring { position: absolute; inset: 0; border-radius: 50%; border: 2px dashed #cfe6d4; }
+  .breath-circle { width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #2e8b57, #0d4a2e); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; text-align: center; box-shadow: 0 8px 24px rgba(13,74,46,0.35); transition: transform 0.4s ease; transform: scale(1); }
+  .breath-phase { font-family: Montserrat, sans-serif; font-weight: 700; font-size: 17px; letter-spacing: 0.5px; }
+  .breath-count { font-family: Montserrat, sans-serif; font-weight: 700; font-size: 30px; line-height: 1.1; margin-top: 2px; }
+  .breath-cycle-info { font-size: 13px; color: #666; min-height: 18px; }
+  .breath-controls { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .breath-btn { border: none; border-radius: 50px; padding: 12px 28px; font-family: Montserrat, sans-serif; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.2s; }
+  .btn-start { background: #0d4a2e; color: #fff; }
+  .btn-start:hover { background: #1a5c3a; }
+  .btn-stop { background: #f5f5f5; color: #555; }
+  .btn-stop:hover { background: #e8e8e8; }
+
+  .phase-legend { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+  .legend-item { display: flex; align-items: center; gap: 8px; background: #f0f9f0; border-radius: 50px; padding: 6px 14px; font-size: 13px; color: #1a5c3a; font-weight: 600; }
+  .legend-num { font-family: Montserrat, sans-serif; font-weight: 700; background: #0d4a2e; color: #fff; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+
+  .reflect-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 540px) { .reflect-grid { grid-template-columns: 1fr; } }
+  .field-group { margin-bottom: 16px; }
+  .field-label { font-size: 13px; font-weight: 600; color: #444; margin-bottom: 8px; display: block; }
+  .rating-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .rating-btn { width: 34px; height: 34px; border: 2px solid #e0e0e0; background: #fff; border-radius: 8px; font-family: Montserrat, sans-serif; font-weight: 700; font-size: 14px; color: #555; cursor: pointer; transition: all 0.15s; }
+  .rating-btn:hover { border-color: #0d4a2e; }
+  .rating-btn.active { background: #0d4a2e; border-color: #0d4a2e; color: #fff; }
+  .cycles-input { width: 90px; padding: 9px; text-align: center; border: 2px solid #e0e0e0; border-radius: 8px; font-family: Montserrat, sans-serif; font-weight: 700; font-size: 18px; color: #0d4a2e; -moz-appearance: textfield; }
+  .cycles-input::-webkit-outer-spin-button, .cycles-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .cycles-input:focus { outline: none; border-color: #0d4a2e; }
+  textarea { width: 100%; padding: 12px 14px; border: 2px solid #e0e0e0; border-radius: 8px; font-family: Inter, sans-serif; font-size: 14px; color: #333; resize: vertical; min-height: 80px; transition: border-color 0.2s; }
+  textarea:focus { outline: none; border-color: #0d4a2e; }
+  .field-input { width: 100%; padding: 11px 14px; border: 2px solid #e0e0e0; border-radius: 8px; font-family: Inter, sans-serif; font-size: 14px; color: #333; transition: border-color 0.2s; }
+  .field-input:focus { outline: none; border-color: #0d4a2e; }
+
+  .submit-btn { background: #0d4a2e; color: #fff; border: none; padding: 16px 40px; border-radius: 50px; font-family: Montserrat, sans-serif; font-size: 17px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+  .submit-btn:hover { background: #1a5c3a; }
+</style>
+</head>
+<body>
+
+<div class="page-hero">
+  <h1>4-2-6 Breathing</h1>
+  <p>During stress, the body switches on its "stress response" &mdash; fast breathing, a racing heart, tense muscles. Slow, steady breathing triggers the opposite "relaxation response," helping your breathing slow, your heart rate settle, and symptoms ease.</p>
+</div>
+
+<div class="features-section">
+  <div class="features-inner">
+    <div class="feature-card"><h3>&#x1F30A; Stress vs Relaxation</h3><p>The relaxation response is the body's natural off-switch for stress. Slow breathing is one of the quickest ways to activate it.</p></div>
+    <div class="feature-card"><h3>&#x23F1;&#xFE0F; The 4-2-6 Rhythm</h3><p>Inhale for 4 seconds, hold for 2, exhale for 6. The longer exhale is what signals your body to calm down.</p></div>
+    <div class="feature-card"><h3>&#x1F501; Build the Habit</h3><p>Practise twice a day for 10&ndash;20 breaths. Once it feels familiar, use it anytime anxiety arises.</p></div>
+  </div>
+</div>
+
+<div class="worksheet-container">
+
+  <!-- BREATHING ANIMATOR -->
+  <div class="panel">
+    <h2>&#x1F9D8; Guided Breathing Circle</h2>
+    <p class="panel-sub">Find a safe, calm space and sit comfortably. Press start and breathe in time with the circle &mdash; it expands as you inhale, holds, then shrinks as you exhale. Breathe in and out through your nose.</p>
+    <div class="breath-stage">
+      <div class="breath-circle-wrap">
+        <div class="breath-ring"></div>
+        <div class="breath-circle" id="breathCircle">
+          <div class="breath-phase" id="breathPhase">Ready</div>
+          <div class="breath-count" id="breathCount">4-2-6</div>
+        </div>
+      </div>
+      <div class="breath-cycle-info" id="cycleInfo">Press start when you're ready.</div>
+      <div class="breath-controls">
+        <button class="breath-btn btn-start" id="startBtn" onclick="startBreathing()">&#x25B6; Start</button>
+        <button class="breath-btn btn-stop" id="stopBtn" onclick="stopBreathing()" style="display:none;">&#x25A0; Stop</button>
+      </div>
+    </div>
+    <div class="phase-legend">
+      <div class="legend-item"><span class="legend-num">1</span> Inhale &middot; 4s &#x1F443;</div>
+      <div class="legend-item"><span class="legend-num">2</span> Hold &middot; 2s &#x270B;</div>
+      <div class="legend-item"><span class="legend-num">3</span> Exhale &middot; 6s &#x1F62E;&#x200D;&#x1F4A8;</div>
+    </div>
+  </div>
+
+  <!-- REFLECTION -->
+  <div class="panel">
+    <h2>&#x1F4DD; My Practice Reflection</h2>
+    <p class="panel-sub">Take a moment to notice how the exercise affected you.</p>
+    <div class="reflect-grid">
+      <div class="field-group">
+        <label class="field-label">&#x1F61F; How tense / anxious did I feel <em>before</em>? (0&ndash;10)</label>
+        <div class="rating-row" id="rating_before"></div>
+      </div>
+      <div class="field-group">
+        <label class="field-label">&#x1F60C; How tense / anxious did I feel <em>after</em>? (0&ndash;10)</label>
+        <div class="rating-row" id="rating_after"></div>
+      </div>
+    </div>
+    <div class="field-group">
+      <label class="field-label" for="cycles_completed">&#x1F504; How many breaths did I complete?</label>
+      <input type="number" class="cycles-input" id="cycles_completed" min="0" max="100" placeholder="&#x2014;">
+    </div>
+    <div class="field-group">
+      <label class="field-label" for="how_i_feel">&#x1F4AD; How do I feel now? What did I notice in my body?</label>
+      <textarea id="how_i_feel" placeholder="e.g. My breathing feels slower, my shoulders have dropped, my heart isn't racing as much..."></textarea>
+    </div>
+    <div class="field-group" style="margin-bottom:0;">
+      <label class="field-label" for="when_to_use">&#x1F4CC; When could this technique help me most?</label>
+      <input type="text" class="field-input" id="when_to_use" placeholder="e.g. When I feel my stress response building, before a difficult situation, at bedtime...">
+    </div>
+  </div>
+
+  <div style="text-align:center; margin: 40px 0 16px;">
+    <button class="submit-btn" id="saveBtn">Save My Practice</button>
+  </div>
+
+  <div style="margin-bottom:32px;">
+    <h3 style="font-family:Montserrat,sans-serif;color:#0d4a2e;margin-bottom:12px;font-size:1rem;">Saved Sessions</h3>
+    <div id="entries"></div>
+  </div>
+
+  <p style="text-align:center; font-size:13px; color:#666; margin-bottom:48px;">&copy; 2025 The Resource Library Limited. Adapted for ChatCBT.</p>
+
+</div>
+
+<script>
+// ── Rating buttons ────────────────────────────────────────────────────────
+var ratingState = { rating_before: '', rating_after: '' };
+function buildRatings(containerId) {
+  var container = document.getElementById(containerId);
+  for (var n = 0; n <= 10; n++) {
+    (function(num) {
+      var btn = document.createElement('button');
+      btn.className = 'rating-btn';
+      btn.textContent = num;
+      btn.addEventListener('click', function() {
+        ratingState[containerId] = String(num);
+        container.querySelectorAll('.rating-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+      });
+      container.appendChild(btn);
+    })(n);
+  }
+}
+buildRatings('rating_before');
+buildRatings('rating_after');
+
+// ── Breathing animator (4-2-6) ────────────────────────────────────────────
+var phases = [
+  { name: 'Inhale', secs: 4, scale: 1.6 },
+  { name: 'Hold',   secs: 2, scale: 1.6 },
+  { name: 'Exhale', secs: 6, scale: 0.75 }
+];
+var breathTimer = null, phaseIndex = 0, secsLeft = 0, cycleCount = 0, running = false;
+
+function setPhase(idx) {
+  var phase = phases[idx];
+  secsLeft = phase.secs;
+  document.getElementById('breathPhase').textContent = phase.name;
+  document.getElementById('breathCount').textContent = secsLeft;
+  document.getElementById('breathCircle').style.transitionDuration = phase.secs + 's';
+  document.getElementById('breathCircle').style.transform = 'scale(' + phase.scale + ')';
+}
+function tick() {
+  secsLeft--;
+  if (secsLeft <= 0) {
+    if (phaseIndex === phases.length - 1) {
+      cycleCount++;
+      document.getElementById('cycleInfo').textContent = 'Breaths completed: ' + cycleCount;
+      document.getElementById('cycles_completed').value = cycleCount;
+    }
+    phaseIndex = (phaseIndex + 1) % phases.length;
+    setPhase(phaseIndex);
+  } else {
+    document.getElementById('breathCount').textContent = secsLeft;
+  }
+}
+function startBreathing() {
+  if (running) return;
+  running = true; phaseIndex = 0; cycleCount = 0;
+  document.getElementById('startBtn').style.display = 'none';
+  document.getElementById('stopBtn').style.display = 'inline-block';
+  document.getElementById('cycleInfo').textContent = 'Breaths completed: 0';
+  setPhase(0);
+  breathTimer = setInterval(tick, 1000);
+}
+function stopBreathing() {
+  running = false; clearInterval(breathTimer);
+  document.getElementById('startBtn').style.display = 'inline-block';
+  document.getElementById('stopBtn').style.display = 'none';
+  document.getElementById('breathPhase').textContent = 'Paused';
+  document.getElementById('breathCount').textContent = '4-2-6';
+  document.getElementById('breathCircle').style.transitionDuration = '0.6s';
+  document.getElementById('breathCircle').style.transform = 'scale(1)';
+}
+
+// ── Save & render ─────────────────────────────────────────────────────────
+async function saveEntry() {
+  var data = {
+    anxiety_before:   ratingState.rating_before,
+    anxiety_after:    ratingState.rating_after,
+    cycles_completed: (document.getElementById('cycles_completed').value || ''),
+    how_i_feel:       (document.getElementById('how_i_feel').value || ''),
+    when_to_use:      (document.getElementById('when_to_use').value || ''),
+    time:             new Date().toLocaleString()
+  };
+  try {
+    await fetch('/.netlify/functions/saveWorksheet', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch (err) {
+    console.error('Save error:', err);
+  }
+  var entries = JSON.parse(localStorage.getItem('426-breathing') || '[]');
+  entries.unshift(data);
+  localStorage.setItem('426-breathing', JSON.stringify(entries));
+  render();
+}
+
+function render() {
+  var el = document.getElementById('entries');
+  if (!el) return;
+  var entries = JSON.parse(localStorage.getItem('426-breathing') || '[]');
+  el.innerHTML = entries.map(function(e) {
+    return '<div style="background:#fff;border-left:4px solid #0d4a2e;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:10px;font-size:0.88rem;">'
+      + '<strong style="color:#0d4a2e;">' + (e.time || '') + '</strong><br>'
+      + 'Breaths: ' + (e.cycles_completed || '&mdash;')
+      + ' &nbsp;|&nbsp; Anxiety before: ' + (e.anxiety_before || '&mdash;')
+      + ' &rarr; after: ' + (e.anxiety_after || '&mdash;')
+      + '</div>';
+  }).join('');
+}
+
+document.getElementById('saveBtn').addEventListener('click', function() { saveEntry(); });
+render();
+</script>
+
+</body>
+</html>
