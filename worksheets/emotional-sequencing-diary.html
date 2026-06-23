@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emotional Sequencing | ChatCBT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f0f9f0; color: #1a1a1a; }
+
+    /* ── Hero ── */
+    .page-hero { background: #0d4a2e; padding: 56px 24px 48px; text-align: center; }
+    .hero-badge { display: inline-block; background: rgba(255,255,255,0.15); color: #fff; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; }
+    .page-hero h1 { font-family: 'Montserrat', sans-serif; font-size: 2.6rem; font-weight: 800; color: #ffffff !important; margin-bottom: 12px; letter-spacing: -0.5px; }
+    .page-hero p { font-size: 1.1rem; color: rgba(255,255,255,0.88); max-width: 580px; margin: 0 auto; line-height: 1.6; }
+
+    /* ── Quote ── */
+    .quote-block { background: #0d4a2e; border-top: 1px solid rgba(255,255,255,0.15); padding: 16px 24px 28px; text-align: center; }
+    .quote-text { font-family: 'Montserrat', sans-serif; font-size: 1.05rem; font-weight: 600; color: rgba(255,255,255,0.92); font-style: italic; max-width: 520px; margin: 0 auto 6px; line-height: 1.6; }
+    .quote-attr { font-size: 0.8rem; color: rgba(255,255,255,0.5); letter-spacing: 0.06em; text-transform: uppercase; }
+
+    /* ── Features ── */
+    .features-section { background: #1a5c3a; padding: 40px 24px; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 20px; max-width: 960px; margin: 0 auto; }
+    .feature-card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 22px 18px; text-align: center; color: #fff; }
+    .feature-card .icon { font-size: 1.8rem; margin-bottom: 10px; }
+    .feature-card h3 { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 700; color: #ffffff !important; margin-bottom: 7px; }
+    .feature-card p { font-size: 0.83rem; color: rgba(255,255,255,0.85); line-height: 1.5; }
+
+    /* ── Info Section ── */
+    .info-section { background: #fff; padding: 48px 24px 40px; }
+    .info-inner { max-width: 800px; margin: 0 auto; }
+    .info-section h2 { font-family: 'Montserrat', sans-serif; font-size: 1.4rem; font-weight: 800; color: #0d4a2e; margin-bottom: 10px; text-align: center; }
+    .info-intro { font-size: 0.9rem; color: #2d4a35; line-height: 1.75; margin-bottom: 32px; text-align: center; max-width: 640px; margin-left: auto; margin-right: auto; }
+
+    /* ── Sequence Flow ── */
+    .seq-flow { max-width: 560px; margin: 0 auto 36px; display: flex; flex-direction: column; gap: 0; }
+    .seq-step { display: flex; align-items: flex-start; gap: 14px; padding: 14px 18px; border-radius: 10px; border: 1px solid #d0ecd8; background: #f8fdf8; }
+    .seq-num { width: 30px; height: 30px; background: #1a5c3a; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.82rem; flex-shrink: 0; margin-top: 1px; }
+    .seq-label { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.88rem; color: #0d4a2e; margin-bottom: 2px; }
+    .seq-desc { font-size: 0.82rem; color: #4a7a5a; line-height: 1.5; }
+    .seq-arrow { text-align: center; font-size: 1.2rem; color: #4a7a5a; padding: 3px 0; }
+    .seq-transform { text-align: center; padding: 8px 0; }
+    .seq-transform-inner { display: inline-block; background: #0d4a2e; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 0.76rem; font-weight: 700; padding: 6px 18px; border-radius: 20px; letter-spacing: 0.06em; text-transform: uppercase; }
+    .seq-step-highlight { background: #e8f5e9; border-color: #1a5c3a; }
+    .seq-step-highlight .seq-num { background: #0d4a2e; }
+
+    /* ── Worked Example ── */
+    .example-box { border-radius: 12px; overflow: hidden; border: 1px solid #c0e0c8; }
+    .example-header { background: #1a5c3a; padding: 10px 18px; }
+    .example-header h4 { font-family: 'Montserrat', sans-serif; font-size: 0.82rem; font-weight: 700; color: #fff; }
+    .example-event { background: #e8f5e9; padding: 10px 18px; border-bottom: 1px solid #c0e0c8; font-size: 0.85rem; color: #1a3d28; }
+    .example-event strong { font-family: 'Montserrat', sans-serif; font-size: 0.78rem; }
+    .example-body { display: grid; grid-template-columns: 1fr 1fr; background: #fff; }
+    @media (max-width: 560px) { .example-body { grid-template-columns: 1fr; } }
+    .example-col { padding: 14px 18px; }
+    .example-col + .example-col { border-left: 1px solid #e8f5e9; }
+    .example-col-title { font-family: 'Montserrat', sans-serif; font-size: 0.74rem; font-weight: 700; color: #0d4a2e; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 9px; padding-bottom: 6px; border-bottom: 1px solid #d0ecd8; }
+    .example-item { font-size: 0.82rem; color: #1a3d28; margin-bottom: 6px; padding-left: 10px; border-left: 2px solid #1a5c3a; line-height: 1.5; font-style: italic; }
+    .example-distortions { font-size: 0.76rem; color: #4a7a5a; margin-top: 8px; font-style: italic; }
+    .example-feeling { display: inline-block; font-family: 'Montserrat', sans-serif; font-size: 0.74rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-top: 10px; }
+    .feeling-before { background: #fff0f0; color: #8a3030; border: 1px solid #d09090; }
+    .feeling-after { background: #0d4a2e; color: #fff; }
+    .example-footer { background: #e8f5e9; border-top: 1px solid #c0e0c8; padding: 10px 18px; font-size: 0.82rem; color: #1a3d28; font-style: italic; }
+
+    /* ── Instructions ── */
+    .instructions-box { background: #e8f5e9; border-left: 4px solid #1a5c3a; padding: 18px 24px; max-width: 800px; margin: 32px auto 0; border-radius: 0 8px 8px 0; }
+    .instructions-box h3 { font-family: 'Montserrat', sans-serif; font-size: 0.92rem; font-weight: 700; color: #0d4a2e; margin-bottom: 6px; }
+    .instructions-box p { font-size: 0.87rem; color: #2d4a35; line-height: 1.65; }
+
+    /* ── Worksheet ── */
+    .page-worksheet { max-width: 800px; margin: 28px auto 48px; padding: 0 16px; }
+
+    /* ── Step blocks ── */
+    .step-block { background: #fff; border-radius: 12px; padding: 28px 28px 24px; margin-bottom: 8px; border: 1px solid #d0ecd8; box-shadow: 0 2px 8px rgba(13,74,46,0.06); }
+    .step-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .step-number { width: 36px; height: 36px; background: #1a5c3a; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.9rem; flex-shrink: 0; }
+    .step-title { font-family: 'Montserrat', sans-serif; font-size: 1.08rem; font-weight: 700; color: #0d4a2e; }
+    .step-desc { font-size: 0.88rem; color: #4a7a5a; margin-bottom: 16px; line-height: 1.6; }
+
+    /* ── Flow arrow ── */
+    .flow-arrow { text-align: center; font-size: 1.4rem; color: #4a7a5a; line-height: 1; margin: 6px 0; }
+
+    /* ── Challenge divider ── */
+    .challenge-divider { text-align: center; margin: 8px 0; }
+    .challenge-divider-inner { display: inline-block; background: #0d4a2e; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 0.8rem; font-weight: 700; padding: 8px 22px; border-radius: 24px; letter-spacing: 0.05em; text-transform: uppercase; }
+
+    /* ── Distortions Grid ── */
+    .distortions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+    @media (max-width: 520px) { .distortions-grid { grid-template-columns: 1fr; } }
+    .d-check { display: flex; align-items: flex-start; gap: 9px; background: #f8fdf8; border: 1.5px solid #d0ecd8; border-radius: 8px; padding: 10px 12px; cursor: pointer; transition: background 0.15s, border-color 0.15s; }
+    .d-check.checked { background: #e8f5e9; border-color: #1a5c3a; }
+    .d-check input[type="checkbox"] { width: 15px; height: 15px; cursor: pointer; flex-shrink: 0; margin-top: 3px; accent-color: #1a5c3a; }
+    .d-name { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.8rem; color: #0d4a2e; display: block; }
+    .d-desc { font-size: 0.74rem; color: #6a9a7a; display: block; margin-top: 2px; font-style: italic; line-height: 1.4; }
+
+    /* ── Fields ── */
+    .field-label { display: block; font-size: 0.87rem; font-weight: 600; color: #1a3d28; margin-bottom: 7px; }
+    textarea { width: 100%; padding: 10px 12px; border: 1px solid #b0d8bc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #1a1a1a; background: #fff; resize: vertical; line-height: 1.5; }
+    textarea:focus { outline: none; border-color: #1a5c3a; box-shadow: 0 0 0 3px rgba(26,92,58,0.1); }
+
+    /* ── Remember ── */
+    .remember-box { background: #e8f5e9; border-radius: 12px; padding: 20px 24px; margin-top: 8px; font-size: 0.88rem; color: #1a3d28; line-height: 1.7; text-align: center; }
+
+    /* ── Submit & saved entries ── */
+    .submit-section { text-align: center; padding: 24px 0 16px; }
+    #saveBtn { display: inline-block; background: #1a5c3a; color: #ffffff; padding: 14px 36px; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700; border: none; cursor: pointer; transition: background 0.2s; margin-top: 8px; }
+    #saveBtn:hover { background: #14482d; }
+    .entries-wrap { margin-top: 24px; }
+    .entries-wrap h3 { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; color: #0d4a2e; margin-bottom: 12px; }
+    .entry-item { background: #fff; border-left: 4px solid #1a5c3a; border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 10px; font-size: 0.85rem; }
+    .entry-item strong { color: #0d4a2e; display: block; margin-bottom: 4px; }
+
+    @media (max-width: 600px) { .page-hero h1 { font-size: 2rem; } }
+  </style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section class="page-hero">
+  <div class="hero-badge">CBT Worksheet</div>
+  <h1>Emotional Sequencing</h1>
+  <p>Learn how events, thoughts, and feelings connect — and how challenging your interpretation can change the way you feel.</p>
+</section>
+
+<!-- ══ QUOTE ══ -->
+<div class="quote-block">
+  <p class="quote-text">"There is nothing either good or bad, but thinking makes it so."</p>
+  <p class="quote-attr">William Shakespeare</p>
+</div>
+
+<!-- ══ FEATURES ══ -->
+<section class="features-section">
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="icon">📍</div>
+      <h3>The Triggering Event</h3>
+      <p>Every emotional spiral starts with something that happens — and it is rarely the event itself that causes distress</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">💭</div>
+      <h3>Your Interpretation</h3>
+      <p>It is not events but how you think about them that creates your feelings — the same event can produce very different emotions in different people</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🔍</div>
+      <h3>Spot the Distortions</h3>
+      <p>Cognitive distortions are patterns of irrational thinking that amplify distress — learning to name them is the first step to challenging them</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🔄</div>
+      <h3>Challenge and Change</h3>
+      <p>By replacing distorted thoughts with rational alternatives, you can shift intense feelings to more proportionate, manageable ones</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ INFO SECTION ══ -->
+<section class="info-section">
+  <div class="info-inner">
+    <h2>How Emotional Sequencing Works</h2>
+    <p class="info-intro">Our feelings do not arise directly from events — they arise from how we <em>interpret</em> those events. The same situation can make one person depressed and another person merely disappointed, depending on what they tell themselves about it. Change the thought, and you change the feeling.</p>
+
+    <!-- Flow diagram -->
+    <div class="seq-flow">
+      <div class="seq-step">
+        <div class="seq-num">1</div>
+        <div>
+          <div class="seq-label">Event</div>
+          <div class="seq-desc">Something happens in your life — a situation, interaction, or experience</div>
+        </div>
+      </div>
+      <div class="seq-arrow">↓</div>
+      <div class="seq-step">
+        <div class="seq-num">2</div>
+        <div>
+          <div class="seq-label">Thoughts — your interpretation</div>
+          <div class="seq-desc">You make sense of what happened. These interpretations are often automatic, distorted, and more negative than the evidence warrants</div>
+        </div>
+      </div>
+      <div class="seq-arrow">↓</div>
+      <div class="seq-step">
+        <div class="seq-num">3</div>
+        <div>
+          <div class="seq-label">Feelings</div>
+          <div class="seq-desc">Intense or distorted emotions arise from the irrational interpretation — depression, panic, shame, rage</div>
+        </div>
+      </div>
+      <div class="seq-transform">
+        <span class="seq-transform-inner">Challenge the thoughts ↓</span>
+      </div>
+      <div class="seq-step seq-step-highlight">
+        <div class="seq-num">4</div>
+        <div>
+          <div class="seq-label">Challenge</div>
+          <div class="seq-desc">Replace distorted interpretations with rational, evidence-based alternatives</div>
+        </div>
+      </div>
+      <div class="seq-arrow">↓</div>
+      <div class="seq-step seq-step-highlight">
+        <div class="seq-num">5</div>
+        <div>
+          <div class="seq-label">New Feelings</div>
+          <div class="seq-desc">More proportionate emotions — still real and valid, but no longer distorted or overwhelming</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Worked Example -->
+    <div class="example-box">
+      <div class="example-header">
+        <h4>📖 Worked example — how it looks in practice</h4>
+      </div>
+      <div class="example-event">
+        <strong>EVENT:</strong> Girlfriend breaks the news that she wants to end the relationship.
+      </div>
+      <div class="example-body">
+        <div class="example-col">
+          <div class="example-col-title">Irrational thoughts</div>
+          <div class="example-item">"I can't stand living without her."</div>
+          <div class="example-item">"I must be a worthless person."</div>
+          <div class="example-item">"I'll never find a partner whom I will make happy."</div>
+          <div class="example-item">"She knew me and rejected me — there must be something seriously wrong with me."</div>
+          <div class="example-item">"I'm too old to find another girlfriend. I'll be lonely for the rest of my life."</div>
+          <div class="example-distortions">Distortions: Catastrophising · All-or-nothing · Jumping to conclusions · Personalising · Focusing on negatives</div>
+          <div><span class="example-feeling feeling-before">😔 Current feeling: Depression</span></div>
+        </div>
+        <div class="example-col">
+          <div class="example-col-title">Rational challenges</div>
+          <div class="example-item">"It's painful right now — but I can stand it."</div>
+          <div class="example-item">"There is no evidence that I am a worthless person."</div>
+          <div class="example-item">"That's predicting the future. I've been happy before and I'm still the same person."</div>
+          <div class="example-item">"There's no evidence anything is seriously wrong — we were just different."</div>
+          <div class="example-item">"There are plenty of people my age in the same situation. Being alone for a while might even be good."</div>
+          <div><span class="example-feeling feeling-after">🌱 New feeling: Sadness</span></div>
+        </div>
+      </div>
+      <div class="example-footer">
+        "I feel sad because I miss her and all the good times we had together. But I will get over these feelings — they won't last forever."
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ INSTRUCTIONS ══ -->
+<div class="instructions-box">
+  <h3>How to use this worksheet</h3>
+  <p>Think about a situation that is currently causing you distress. Work through each step in sequence — from the event to your thoughts and feelings, then through the challenge to new feelings. Take your time with Step 5: identifying and challenging your thoughts is where the real change happens.</p>
+</div>
+
+<!-- ══ WORKSHEET ══ -->
+<div class="page-worksheet">
+
+  <!-- Step 1: Event -->
+  <div class="step-block" style="margin-top:28px;">
+    <div class="step-header">
+      <div class="step-number">1</div>
+      <div class="step-title">The Event</div>
+    </div>
+    <p class="step-desc">Describe the situation that is causing you distress. Be factual and specific — stick to what actually happened, not your interpretation of it.</p>
+    <textarea id="event" rows="3" placeholder="e.g. My manager criticised my work in front of the whole team in this morning's meeting. / My partner said they need some time apart. / I didn't get the job I had been counting on…"></textarea>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 2: Irrational Thoughts -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">2</div>
+      <div class="step-title">Your Irrational Thoughts</div>
+    </div>
+    <p class="step-desc">What did you tell yourself about what happened? Write down all the thoughts, interpretations, assumptions, and conclusions that went through your mind. Don't censor them — write them exactly as they appeared.</p>
+    <textarea id="thoughts" rows="6" placeholder="e.g. I'm terrible at my job. Everyone in that meeting thinks I'm incompetent. I'm going to be fired. Nobody respects me. I always mess things up when it really matters. My manager has never liked me and has been looking for an excuse to get rid of me…"></textarea>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 3: Current Feelings -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">3</div>
+      <div class="step-title">Your Current Feelings</div>
+    </div>
+    <p class="step-desc">What emotions are those thoughts producing? Name them honestly. These are the feelings that arise from your irrational interpretation — before you challenge it.</p>
+    <textarea id="current_feelings" rows="3" placeholder="e.g. Intense shame and humiliation. A sick, sinking anxiety every time I think about going back to work. A deep sense of dread and hopelessness. Feeling worthless and exposed…"></textarea>
+  </div>
+
+  <div class="challenge-divider">
+    <span class="challenge-divider-inner">Now challenge your thinking ↓</span>
+  </div>
+
+  <!-- Step 4: Distortions -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">4</div>
+      <div class="step-title">Identify the Cognitive Distortions</div>
+    </div>
+    <p class="step-desc">Look back at the thoughts you wrote in Step 2. Which of these patterns of distorted thinking can you spot? Tick all that apply.</p>
+
+    <div class="distortions-grid">
+      <label class="d-check">
+        <input type="checkbox" class="dist-cb" value="Catastrophising">
+        <span><span class="d-name">Catastrophising</span><span class="d-desc">Imagining the worst possible outcome</span></span>
+      </label>
+      <label class="d-check">
+        <input type="checkbox" class="dist-cb" value="All-or-nothing thinking">
+        <span><span class="d-name">All-or-nothing thinking</span><span class="d-desc">Seeing in black and white — no middle ground</span></span>
+      </label>
+      <label class="d-check">
+        <input type="checkbox" class="dist-cb" value="Jumping to conclusions">
+        <span><span class="d-name">Jumping to conclusions</span><span class="d-desc">Assuming the worst without sufficient evidence</span></span>
+      </label>
+      <label class="d-check">
+        <input type="checkbox" class="dist-cb" value="Mind reading">
+        <span><span class="d-name">Mind reading</span><span class="d-desc">Assuming you know what others are thinking</span></span>
+      </label>
+      <label class="d-check">
+        <input type="checkbox" class="dist-cb" value="Fortune telling">
+        <span><span class="d-name">Fortune telling</span><span class="d-desc">Predicting negative future events as certain</span></span>
+      </label>
+      <label class="d-check">
+        <input type="checkbox" class="dist-cb" value="Personalising">
+        <span><span class="d-name">Personalising</span><span class="d-desc">Taking excessive blame or responsibility</span></span>
+      </label>
+      <label class="d-check">
+        <input type="checkbox" class="dist-cb" value="Emotional reasoning">
+        <span><span class="d-name">Emotional reasoning</span><span class="d-desc">"I feel it, therefore it must be true"</span></span>
+      </label>
+      <label class="d-check">
+        <input type="checkbox" class="dist-cb" value="Mental filter">
+        <span><span class="d-name">Mental filter</span><span class="d-desc">Only noticing the negatives, filtering out positives</span></span>
+      </label>
+      <label class="d-check">
+        <input type="checkbox" class="dist-cb" value="Overgeneralisation">
+        <span><span class="d-name">Overgeneralisation</span><span class="d-desc">One event means things are "always" or "never" so</span></span>
+      </label>
+      <label class="d-check">
+        <input type="checkbox" class="dist-cb" value="Should statements">
+        <span><span class="d-name">Should statements</span><span class="d-desc">Harsh rules about how you or others must behave</span></span>
+      </label>
+      <label class="d-check">
+        <input type="checkbox" class="dist-cb" value="Labelling">
+        <span><span class="d-name">Labelling</span><span class="d-desc">Defining yourself by a mistake — "I am a failure"</span></span>
+      </label>
+      <label class="d-check">
+        <input type="checkbox" class="dist-cb" value="Magnification">
+        <span><span class="d-name">Magnification</span><span class="d-desc">Exaggerating flaws while minimising positives</span></span>
+      </label>
+    </div>
+
+    <label class="field-label" style="margin-top:4px;">Any other distortions or observations:</label>
+    <textarea id="distortions_notes" rows="2" placeholder="e.g. I also noticed I was comparing myself to colleagues who always seem more confident and capable than me…"></textarea>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 5: Challenge -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">5</div>
+      <div class="step-title">Challenge Your Irrational Thoughts</div>
+    </div>
+    <p class="step-desc">Go back to each thought from Step 2 and write a rational, evidence-based challenge to it. Ask yourself: <em>What is the actual evidence for and against this thought? Am I catastrophising? What would I say to a close friend who thought this about themselves?</em></p>
+    <textarea id="challenges" rows="8" placeholder="e.g. 'I'm terrible at my job' — The evidence doesn't support this. I've received positive feedback and successfully completed many projects. One critical comment doesn't define my competence. | 'Everyone thinks I'm incompetent' — I have no evidence for this. I'm mind-reading. People in that meeting have their own concerns and probably haven't given this a second thought. | 'I'm going to be fired' — There is absolutely no basis for this. I am catastrophising from one piece of feedback…"></textarea>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 6: New Feelings -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">6</div>
+      <div class="step-title">Your New Feelings</div>
+    </div>
+    <p class="step-desc">Having challenged your irrational thoughts, what do you feel now — or what might you feel if you genuinely believed the rational alternative? Notice how the feeling often shifts from something overwhelming to something more proportionate and manageable.</p>
+    <textarea id="new_feelings" rows="5" placeholder="e.g. I feel embarrassed rather than humiliated — it was a difficult moment and I wish it hadn't happened that way, but it doesn't define me. I feel concerned about my relationship with my manager and motivated to address it, rather than just wanting to run away. The dread has lifted a little…"></textarea>
+  </div>
+
+  <div class="remember-box">
+    🔄 <strong>Remember:</strong> The goal is not to feel nothing — it is to feel something proportionate. Moving from depression to sadness, or from panic to concern, is a real and meaningful shift. Feelings based on distorted thinking overwhelm us. Feelings that match reality are manageable.
+  </div>
+
+  <div class="submit-section">
+    <button id="saveBtn">Save My Entry</button>
+  </div>
+
+  <div class="entries-wrap">
+    <h3>Saved Entries</h3>
+    <div id="entriesList"></div>
+  </div>
+
+</div>
+
+<script>
+  document.querySelectorAll('.dist-cb').forEach(function(cb) {
+    cb.addEventListener('change', function() {
+      cb.closest('.d-check').classList.toggle('checked', cb.checked);
+    });
+  });
+
+  function nl(v) { return (v || '').replace(/\r?\n|\r/g, ' | '); }
+
+  function collectData() {
+    var checked = Array.from(document.querySelectorAll('.dist-cb:checked')).map(function(cb) { return cb.value; }).join(', ');
+    var notes = (document.getElementById('distortions_notes').value || '').trim();
+    return {
+      event:            nl(document.getElementById('event').value),
+      thoughts:         nl(document.getElementById('thoughts').value),
+      current_feelings: nl(document.getElementById('current_feelings').value),
+      distortions:      checked + (notes ? (checked ? ' | ' + notes : notes) : ''),
+      challenges:       nl(document.getElementById('challenges').value),
+      new_feelings:     nl(document.getElementById('new_feelings').value),
+      time:             new Date().toLocaleString()
+    };
+  }
+
+  async function saveEntry() {
+    var data = collectData();
+    try {
+      await fetch('/.netlify/functions/saveWorksheet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    } catch (err) {
+      console.error('Save error:', err);
+    }
+    var entries = JSON.parse(localStorage.getItem('emotional-sequencing-diary') || '[]');
+    entries.unshift(data);
+    localStorage.setItem('emotional-sequencing-diary', JSON.stringify(entries));
+    render();
+  }
+
+  function render() {
+    var el = document.getElementById('entriesList');
+    if (!el) return;
+    var entries = JSON.parse(localStorage.getItem('emotional-sequencing-diary') || '[]');
+    if (!entries.length) { el.innerHTML = ''; return; }
+    el.innerHTML = entries.map(function(e) {
+      var preview = (e.event || '').substring(0, 80) + ((e.event || '').length > 80 ? '&hellip;' : '');
+      var dist = (e.distortions || '').split(',').filter(Boolean).length;
+      return '<div class="entry-item">'
+        + '<strong>' + (e.time || '') + '</strong>'
+        + (preview ? '<span style="color:#333;">' + preview + '</span><br>' : '')
+        + (dist ? '<span style="color:#555;">' + dist + ' distortion' + (dist === 1 ? '' : 's') + ' identified</span>' : '')
+        + '</div>';
+    }).join('');
+  }
+
+  document.getElementById('saveBtn').addEventListener('click', saveEntry);
+  render();
+</script>
+
+</body>
+</html>
