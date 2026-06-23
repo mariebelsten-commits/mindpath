@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coping Skills &amp; Strategies | ChatCBT</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Inter, sans-serif; color: #222; background: #f8faf8; }
+
+  /* HERO */
+  .page-hero { background: #0d4a2e; padding: 56px 24px 48px; text-align: center; }
+  .page-hero h1 {
+    font-family: Montserrat, sans-serif;
+    font-size: clamp(26px, 4vw, 40px);
+    font-weight: 700; color: #ffffff !important; margin-bottom: 14px;
+  }
+  .page-hero p {
+    color: rgba(255,255,255,0.85); font-size: 16px;
+    max-width: 640px; margin: 0 auto; line-height: 1.7;
+  }
+
+  /* FEATURES */
+  .features-section { background: #1a5c3a; padding: 36px 24px; }
+  .features-inner {
+    max-width: 960px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;
+  }
+  .feature-card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 22px 20px; }
+  .feature-card h3 {
+    font-family: Montserrat, sans-serif; font-size: 15px;
+    font-weight: 700; color: #ffffff !important; margin-bottom: 8px;
+  }
+  .feature-card p { font-size: 13px; color: rgba(255,255,255,0.8); line-height: 1.55; }
+
+  /* WORKSHEET */
+  .worksheet-container { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+
+  .step-block {
+    background: #fff; border-radius: 14px;
+    padding: 28px 28px 24px; margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .step-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
+  .step-num {
+    min-width: 34px; height: 34px; background: #0d4a2e; color: #fff;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-family: Montserrat, sans-serif; font-weight: 700; font-size: 14px; margin-top: 2px;
+  }
+  .step-header-text h2 {
+    font-family: Montserrat, sans-serif; font-size: 17px;
+    font-weight: 700; color: #0d4a2e; margin-bottom: 4px;
+  }
+  .step-header-text p { font-size: 13px; color: #666; line-height: 1.5; }
+
+  textarea {
+    width: 100%; padding: 12px 14px;
+    border: 2px solid #e0e0e0; border-radius: 8px;
+    font-family: Inter, sans-serif; font-size: 14px;
+    color: #333; resize: vertical; min-height: 90px;
+    transition: border-color 0.2s;
+  }
+  textarea:focus { outline: none; border-color: #0d4a2e; }
+
+  .section-divider {
+    background: #0d4a2e; border-radius: 50px;
+    padding: 10px 28px; text-align: center; margin: 32px 0;
+    color: #fff; font-family: Montserrat, sans-serif;
+    font-weight: 700; font-size: 15px;
+  }
+
+  /* Tracker */
+  .tracker-wrap {
+    background: #fff; border-radius: 14px;
+    padding: 24px 28px; margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .tracker-intro { font-size: 14px; color: #555; line-height: 1.6; margin-bottom: 20px; }
+
+  .tracker-entry {
+    background: #fff; border-radius: 10px;
+    border-left: 4px solid #e8f5e9;
+    padding: 16px 18px 14px; margin-bottom: 14px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+    position: relative; transition: border-left-color 0.2s;
+  }
+  .tracker-entry:last-child { margin-bottom: 0; }
+  .tracker-entry:focus-within { border-left-color: #1a5c3a; }
+  .entry-badge {
+    position: absolute; top: 14px; left: -16px;
+    width: 28px; height: 28px; background: #0d4a2e; color: #fff;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-family: Montserrat, sans-serif; font-weight: 700; font-size: 12px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  .tracker-top {
+    display: grid; grid-template-columns: 1fr 88px 88px;
+    gap: 12px; margin-bottom: 10px; align-items: end;
+  }
+  .tr-label {
+    font-size: 12px; font-weight: 600; color: #555;
+    margin-bottom: 5px; display: block;
+  }
+  .tr-text {
+    width: 100%; padding: 9px 12px;
+    border: 1.5px solid #e0e0e0; border-radius: 7px;
+    font-family: Inter, sans-serif; font-size: 14px; color: #333;
+    transition: border-color 0.2s;
+  }
+  .tr-text:focus { outline: none; border-color: #0d4a2e; }
+  .tr-field { margin-bottom: 10px; }
+  .tr-field:last-child { margin-bottom: 0; }
+
+  .score-input {
+    width: 100%; padding: 7px 4px;
+    border: 1.5px solid #e0e0e0; border-radius: 7px;
+    font-family: Montserrat, sans-serif; font-weight: 700;
+    font-size: 18px; color: #0d4a2e; text-align: center;
+    -moz-appearance: textfield; transition: border-color 0.2s;
+  }
+  .score-input::-webkit-outer-spin-button,
+  .score-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .score-input:focus { outline: none; border-color: #0d4a2e; }
+  .score-sub { font-size: 10px; color: #999; text-align: center; margin-top: 3px; }
+
+  /* Coping cards */
+  .cards-wrap {
+    background: #fff; border-radius: 14px;
+    padding: 24px 28px; margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .cards-intro { font-size: 14px; color: #555; line-height: 1.6; margin-bottom: 20px; }
+
+  .coping-card {
+    border: 2px dashed #ccc; border-radius: 12px;
+    overflow: hidden; margin-bottom: 16px;
+    transition: border-color 0.2s;
+  }
+  .coping-card:last-child { margin-bottom: 0; }
+  .coping-card:focus-within { border-color: #0d4a2e; }
+  .card-num-bar {
+    background: #0d4a2e; color: #fff;
+    font-family: Montserrat, sans-serif; font-weight: 700; font-size: 12px;
+    padding: 5px 14px;
+  }
+  .card-inner { display: grid; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 520px) { .card-inner { grid-template-columns: 1fr; } }
+  .card-thought { background: #fff8f0; padding: 14px 16px; border-right: 2px dashed #e8ccaa; }
+  @media (max-width: 520px) { .card-thought { border-right: none; border-bottom: 2px dashed #e8ccaa; } }
+  .card-response { background: #f0faf0; padding: 14px 16px; }
+  .card-col-label {
+    font-family: Montserrat, sans-serif; font-weight: 700;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;
+    margin-bottom: 8px; display: block;
+  }
+  .card-thought .card-col-label { color: #b85c00; }
+  .card-response .card-col-label { color: #1b5e20; }
+  .card-thought textarea { background: transparent; border-color: #e0c8a0; min-height: 80px; }
+  .card-response textarea { background: transparent; border-color: #b8ddb8; min-height: 80px; }
+
+  /* Submit */
+  .submit-btn {
+    background: #0d4a2e; color: #fff; border: none;
+    padding: 16px 40px; border-radius: 50px;
+    font-family: Montserrat, sans-serif; font-size: 17px;
+    font-weight: 700; cursor: pointer; transition: background 0.2s;
+  }
+  .submit-btn:hover { background: #1a5c3a; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="page-hero">
+  <h1>Coping Skills &amp; Strategies</h1>
+  <p>Identify what works for you, track your coping strategies in action, and build personal coping cards to keep for difficult moments.</p>
+</div>
+
+<!-- FEATURES -->
+<div class="features-section">
+  <div class="features-inner">
+    <div class="feature-card">
+      <h3>&#x1F9E0; What Works for Me</h3>
+      <p>Reflect on the coping strategies you already use, want to try, and the situations where they help most.</p>
+    </div>
+    <div class="feature-card">
+      <h3>&#x1F4CA; Coping Skills Tracker</h3>
+      <p>Record strategies as you use them with before and after distress ratings (0&ndash;100) to see what's actually helping.</p>
+    </div>
+    <div class="feature-card">
+      <h3>&#x1F0CF; My Coping Cards</h3>
+      <p>Create personal coping cards &mdash; pairing an unhelpful thought with a helpful response you can return to anytime.</p>
+    </div>
+  </div>
+</div>
+
+<!-- WORKSHEET -->
+<div class="worksheet-container">
+
+  <!-- PART 1 -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">1</div>
+      <div class="step-header-text">
+        <h2>Coping Strategies I Already Use</h2>
+        <p>What do you already do when feeling anxious, stressed, or overwhelmed? (e.g. grounding, rest, talking to someone, distraction, exercise)</p>
+      </div>
+    </div>
+    <textarea id="already_use" placeholder="e.g. Going for a walk, calling a friend, listening to music, slow breathing..."></textarea>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">2</div>
+      <div class="step-header-text">
+        <h2>Strategies I Want to Try or Use More Often</h2>
+        <p>Are there any coping strategies you've heard about or tried briefly but haven't fully explored yet?</p>
+      </div>
+    </div>
+    <textarea id="want_to_try" placeholder="e.g. Journalling, progressive muscle relaxation, guided meditation, cold water on my face..."></textarea>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">3</div>
+      <div class="step-header-text">
+        <h2>When These Strategies Help Most</h2>
+        <p>When do you tend to need coping strategies most? Think about times of day, situations, or emotional states.</p>
+      </div>
+    </div>
+    <textarea id="when_helpful" placeholder="e.g. Late evenings when I overthink, after difficult work meetings, when I'm sleep-deprived..."></textarea>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">4</div>
+      <div class="step-header-text">
+        <h2>Strategies That Are Less Helpful for Me</h2>
+        <p>Are there strategies that haven't helped, or that sometimes make things worse?</p>
+      </div>
+    </div>
+    <textarea id="less_helpful" placeholder="e.g. Scrolling social media, avoiding the problem entirely, excessive caffeine..."></textarea>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">5</div>
+      <div class="step-header-text">
+        <h2>My Short Coping List for Hard Moments</h2>
+        <p>Write 2&ndash;3 realistic, go-to strategies you can turn to quickly when things feel difficult.</p>
+      </div>
+    </div>
+    <textarea id="short_list" placeholder="e.g. 1. Take 3 slow breaths and step outside. 2. Text a friend. 3. Put on a playlist and lie down for 10 minutes."></textarea>
+  </div>
+
+  <!-- TRACKER DIVIDER -->
+  <div class="section-divider">&#x1F4CA; Coping Skills Tracker</div>
+
+  <!-- PART 2: TRACKER -->
+  <div class="tracker-wrap">
+    <p class="tracker-intro">Record coping strategies as you use them. Rate your distress <strong>before</strong> and <strong>after</strong> on a scale of 0&ndash;100, and note what helped or didn't help.</p>
+
+    <!-- Entry 1 -->
+    <div class="tracker-entry">
+      <div class="entry-badge">1</div>
+      <div class="tracker-top">
+        <div><label class="tr-label">&#x1F4C5; Date</label><input type="text" class="tr-text" id="track_date_1" placeholder="dd/mm/yyyy"></div>
+        <div><label class="tr-label">&#x1F61F; Before</label><input type="number" class="score-input" id="track_before_1" min="0" max="100" placeholder="&mdash;"><div class="score-sub">0&ndash;100</div></div>
+        <div><label class="tr-label">&#x1F60C; After</label><input type="number" class="score-input" id="track_after_1" min="0" max="100" placeholder="&mdash;"><div class="score-sub">0&ndash;100</div></div>
+      </div>
+      <div class="tr-field"><label class="tr-label">&#x26A1; Situation / Trigger</label><input type="text" class="tr-text" id="track_situation_1" placeholder="What triggered it?"></div>
+      <div class="tr-field"><label class="tr-label">&#x1F6E0;&#xFE0F; Coping Skill Used</label><input type="text" class="tr-text" id="track_skill_1" placeholder="What strategy did you try?"></div>
+      <div class="tr-field"><label class="tr-label">&#x1F4DD; Notes</label><input type="text" class="tr-text" id="track_notes_1" placeholder="What helped or didn't help?"></div>
+    </div>
+
+    <!-- Entry 2 -->
+    <div class="tracker-entry">
+      <div class="entry-badge">2</div>
+      <div class="tracker-top">
+        <div><label class="tr-label">&#x1F4C5; Date</label><input type="text" class="tr-text" id="track_date_2" placeholder="dd/mm/yyyy"></div>
+        <div><label class="tr-label">&#x1F61F; Before</label><input type="number" class="score-input" id="track_before_2" min="0" max="100" placeholder="&mdash;"><div class="score-sub">0&ndash;100</div></div>
+        <div><label class="tr-label">&#x1F60C; After</label><input type="number" class="score-input" id="track_after_2" min="0" max="100" placeholder="&mdash;"><div class="score-sub">0&ndash;100</div></div>
+      </div>
+      <div class="tr-field"><label class="tr-label">&#x26A1; Situation / Trigger</label><input type="text" class="tr-text" id="track_situation_2" placeholder="What triggered it?"></div>
+      <div class="tr-field"><label class="tr-label">&#x1F6E0;&#xFE0F; Coping Skill Used</label><input type="text" class="tr-text" id="track_skill_2" placeholder="What strategy did you try?"></div>
+      <div class="tr-field"><label class="tr-label">&#x1F4DD; Notes</label><input type="text" class="tr-text" id="track_notes_2" placeholder="What helped or didn't help?"></div>
+    </div>
+
+    <!-- Entry 3 -->
+    <div class="tracker-entry">
+      <div class="entry-badge">3</div>
+      <div class="tracker-top">
+        <div><label class="tr-label">&#x1F4C5; Date</label><input type="text" class="tr-text" id="track_date_3" placeholder="dd/mm/yyyy"></div>
+        <div><label class="tr-label">&#x1F61F; Before</label><input type="number" class="score-input" id="track_before_3" min="0" max="100" placeholder="&mdash;"><div class="score-sub">0&ndash;100</div></div>
+        <div><label class="tr-label">&#x1F60C; After</label><input type="number" class="score-input" id="track_after_3" min="0" max="100" placeholder="&mdash;"><div class="score-sub">0&ndash;100</div></div>
+      </div>
+      <div class="tr-field"><label class="tr-label">&#x26A1; Situation / Trigger</label><input type="text" class="tr-text" id="track_situation_3" placeholder="What triggered it?"></div>
+      <div class="tr-field"><label class="tr-label">&#x1F6E0;&#xFE0F; Coping Skill Used</label><input type="text" class="tr-text" id="track_skill_3" placeholder="What strategy did you try?"></div>
+      <div class="tr-field"><label class="tr-label">&#x1F4DD; Notes</label><input type="text" class="tr-text" id="track_notes_3" placeholder="What helped or didn't help?"></div>
+    </div>
+
+    <!-- Entry 4 -->
+    <div class="tracker-entry">
+      <div class="entry-badge">4</div>
+      <div class="tracker-top">
+        <div><label class="tr-label">&#x1F4C5; Date</label><input type="text" class="tr-text" id="track_date_4" placeholder="dd/mm/yyyy"></div>
+        <div><label class="tr-label">&#x1F61F; Before</label><input type="number" class="score-input" id="track_before_4" min="0" max="100" placeholder="&mdash;"><div class="score-sub">0&ndash;100</div></div>
+        <div><label class="tr-label">&#x1F60C; After</label><input type="number" class="score-input" id="track_after_4" min="0" max="100" placeholder="&mdash;"><div class="score-sub">0&ndash;100</div></div>
+      </div>
+      <div class="tr-field"><label class="tr-label">&#x26A1; Situation / Trigger</label><input type="text" class="tr-text" id="track_situation_4" placeholder="What triggered it?"></div>
+      <div class="tr-field"><label class="tr-label">&#x1F6E0;&#xFE0F; Coping Skill Used</label><input type="text" class="tr-text" id="track_skill_4" placeholder="What strategy did you try?"></div>
+      <div class="tr-field"><label class="tr-label">&#x1F4DD; Notes</label><input type="text" class="tr-text" id="track_notes_4" placeholder="What helped or didn't help?"></div>
+    </div>
+
+    <!-- Entry 5 -->
+    <div class="tracker-entry" style="margin-bottom:0;">
+      <div class="entry-badge">5</div>
+      <div class="tracker-top">
+        <div><label class="tr-label">&#x1F4C5; Date</label><input type="text" class="tr-text" id="track_date_5" placeholder="dd/mm/yyyy"></div>
+        <div><label class="tr-label">&#x1F61F; Before</label><input type="number" class="score-input" id="track_before_5" min="0" max="100" placeholder="&mdash;"><div class="score-sub">0&ndash;100</div></div>
+        <div><label class="tr-label">&#x1F60C; After</label><input type="number" class="score-input" id="track_after_5" min="0" max="100" placeholder="&mdash;"><div class="score-sub">0&ndash;100</div></div>
+      </div>
+      <div class="tr-field"><label class="tr-label">&#x26A1; Situation / Trigger</label><input type="text" class="tr-text" id="track_situation_5" placeholder="What triggered it?"></div>
+      <div class="tr-field"><label class="tr-label">&#x1F6E0;&#xFE0F; Coping Skill Used</label><input type="text" class="tr-text" id="track_skill_5" placeholder="What strategy did you try?"></div>
+      <div class="tr-field"><label class="tr-label">&#x1F4DD; Notes</label><input type="text" class="tr-text" id="track_notes_5" placeholder="What helped or didn't help?"></div>
+    </div>
+
+  </div><!-- end tracker-wrap -->
+
+  <!-- CARDS DIVIDER -->
+  <div class="section-divider">&#x1F0CF; My Coping Cards</div>
+
+  <!-- PART 3: COPING CARDS -->
+  <div class="cards-wrap">
+    <p class="cards-intro">Coping cards pair an unhelpful thought with a helpful response prepared in advance. Fill in up to 3 below to save and return to in difficult moments.</p>
+
+    <!-- Card 1 -->
+    <div class="coping-card">
+      <div class="card-num-bar">Card 1</div>
+      <div class="card-inner">
+        <div class="card-thought">
+          <label class="card-col-label" for="card_thought_1">&#x1F534; Unhelpful Thought</label>
+          <textarea id="card_thought_1" placeholder="e.g. Everything is going wrong and I can't cope."></textarea>
+        </div>
+        <div class="card-response">
+          <label class="card-col-label" for="card_response_1">&#x1F7E2; Helpful Response</label>
+          <textarea id="card_response_1" placeholder="e.g. This feeling will pass. I have managed before and I can again."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="coping-card">
+      <div class="card-num-bar">Card 2</div>
+      <div class="card-inner">
+        <div class="card-thought">
+          <label class="card-col-label" for="card_thought_2">&#x1F534; Unhelpful Thought</label>
+          <textarea id="card_thought_2" placeholder="e.g. I should be able to handle this on my own."></textarea>
+        </div>
+        <div class="card-response">
+          <label class="card-col-label" for="card_response_2">&#x1F7E2; Helpful Response</label>
+          <textarea id="card_response_2" placeholder="e.g. Asking for help is a strength. Progress, not perfection."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="coping-card" style="margin-bottom:0;">
+      <div class="card-num-bar">Card 3</div>
+      <div class="card-inner">
+        <div class="card-thought">
+          <label class="card-col-label" for="card_thought_3">&#x1F534; Unhelpful Thought</label>
+          <textarea id="card_thought_3" placeholder="e.g. I'll always feel this way."></textarea>
+        </div>
+        <div class="card-response">
+          <label class="card-col-label" for="card_response_3">&#x1F7E2; Helpful Response</label>
+          <textarea id="card_response_3" placeholder="e.g. Breathe slowly, stay present, take one step at a time."></textarea>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end cards-wrap -->
+
+  <!-- SUBMIT -->
+  <div style="text-align:center; margin: 40px 0 16px;">
+    <button class="submit-btn" id="saveBtn">Save My Entry</button>
+  </div>
+
+  <div style="margin-bottom:32px;">
+    <h3 style="font-family:Montserrat,sans-serif;color:#0d4a2e;margin-bottom:12px;font-size:1rem;">Saved Entries</h3>
+    <div id="entries"></div>
+  </div>
+
+  <p style="text-align:center; font-size:13px; color:#666; margin-bottom:48px;">
+    &copy; 2025 The Resource Library Limited. Adapted for ChatCBT.
+  </p>
+
+</div><!-- end worksheet-container -->
+
+<script>
+function g(id) { return (document.getElementById(id).value || '').trim(); }
+
+function collectData() {
+  var data = {
+    already_use:  g('already_use'),
+    want_to_try:  g('want_to_try'),
+    when_helpful: g('when_helpful'),
+    less_helpful: g('less_helpful'),
+    short_list:   g('short_list'),
+    time:         new Date().toLocaleString()
+  };
+  for (var i = 1; i <= 5; i++) {
+    data['track_date_'      + i] = g('track_date_'      + i);
+    data['track_situation_' + i] = g('track_situation_' + i);
+    data['track_skill_'     + i] = g('track_skill_'     + i);
+    data['track_before_'    + i] = g('track_before_'    + i);
+    data['track_after_'     + i] = g('track_after_'     + i);
+    data['track_notes_'     + i] = g('track_notes_'     + i);
+  }
+  for (var j = 1; j <= 3; j++) {
+    data['card_thought_'  + j] = g('card_thought_'  + j);
+    data['card_response_' + j] = g('card_response_' + j);
+  }
+  return data;
+}
+
+async function saveEntry() {
+  var data = collectData();
+  try {
+    await fetch('/.netlify/functions/saveWorksheet', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch (err) {
+    console.error('Save error:', err);
+  }
+  var entries = JSON.parse(localStorage.getItem('coping-skills') || '[]');
+  entries.unshift(data);
+  localStorage.setItem('coping-skills', JSON.stringify(entries));
+  render();
+}
+
+function render() {
+  var el = document.getElementById('entries');
+  if (!el) return;
+  var entries = JSON.parse(localStorage.getItem('coping-skills') || '[]');
+  el.innerHTML = entries.map(function(e) {
+    var strategies = (e.already_use || '').substring(0, 80) + ((e.already_use || '').length > 80 ? '&hellip;' : '');
+    var tracked = [1,2,3,4,5].filter(function(n) { return (e['track_skill_' + n] || '').trim(); }).length;
+    return '<div style="background:#fff;border-left:4px solid #0d4a2e;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:10px;font-size:0.88rem;">'
+      + '<strong style="color:#0d4a2e;">' + (e.time || '') + '</strong><br>'
+      + (strategies ? '<span style="color:#333;">' + strategies + '</span><br>' : '')
+      + (tracked ? '<span style="color:#555;">' + tracked + ' tracker entr' + (tracked === 1 ? 'y' : 'ies') + ' recorded</span>' : '')
+      + '</div>';
+  }).join('');
+}
+
+document.getElementById('saveBtn').addEventListener('click', function() { saveEntry(); });
+render();
+</script>
+
+</body>
+</html>
