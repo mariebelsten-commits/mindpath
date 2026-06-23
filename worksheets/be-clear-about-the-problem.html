@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Be Clear About The Problem | ChatCBT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f0f9f0;
+      color: #1a2e1a;
+      line-height: 1.7;
+    }
+
+    /* ── HERO ── */
+    .page-hero {
+      background: linear-gradient(135deg, #0d4a2e 0%, #1a5c3a 60%, #2d7a50 100%);
+      color: #fff;
+      padding: 72px 24px 60px;
+      text-align: center;
+    }
+    .page-hero h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 20px;
+      line-height: 1.15;
+      color: #fff !important;
+    }
+    .page-hero p {
+      font-size: 1.15rem;
+      max-width: 640px;
+      margin: 0 auto 44px;
+      opacity: 0.92;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    .feature-card {
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 14px;
+      padding: 22px 20px;
+    }
+    .feature-card .icon { font-size: 1.6rem; margin-bottom: 10px; }
+    .feature-card h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #fff !important;
+    }
+    .feature-card p { font-size: 0.9rem; opacity: 0.88; }
+
+    /* ── SECTION LABELS ── */
+    .section-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #1a5c3a;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .section-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: #0d4a2e;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .section-sub {
+      text-align: center;
+      color: #4a6a4a;
+      margin-bottom: 44px;
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .page-howto {
+      background: #fff;
+      padding: 64px 24px;
+    }
+    .steps-stack {
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .step-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      background: #f8fdf8;
+      border-radius: 14px;
+      padding: 22px 24px;
+      border: 1px solid #d4edda;
+    }
+    .step-num {
+      background: #1a5c3a;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-text h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      color: #0d4a2e;
+      margin-bottom: 4px;
+    }
+    .step-text p { color: #4a6a4a; font-size: 0.95rem; }
+    .info-box {
+      max-width: 680px;
+      margin: 28px auto 0;
+      background: #b5e8c4;
+      border-radius: 14px;
+      padding: 20px 24px;
+      color: #0d4a2e;
+      font-size: 0.95rem;
+    }
+    .info-box strong { font-weight: 700; }
+
+    /* ── WORKSHEET ── */
+    .page-worksheet {
+      background: #f0f9f0;
+      padding: 64px 24px 80px;
+    }
+    .ws-inner { max-width: 900px; margin: 0 auto; }
+
+    .remember-box {
+      background: #b5e8c4;
+      border-radius: 14px;
+      padding: 22px 26px;
+      margin-bottom: 32px;
+      color: #0d4a2e;
+    }
+    .remember-box h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+    .remember-box p { font-size: 0.94rem; line-height: 1.65; }
+
+    /* ── PROBLEM TABLE ── */
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: 14px;
+      box-shadow: 0 2px 20px rgba(26,92,58,0.12);
+      margin-bottom: 32px;
+    }
+    .problem-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      min-width: 780px;
+      table-layout: fixed;
+    }
+
+    .problem-table thead th {
+      background: #1a5c3a;
+      color: #fff !important;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      line-height: 1.4;
+      padding: 16px 12px;
+      text-align: left;
+      vertical-align: top;
+      border-right: 1px solid rgba(255,255,255,0.18);
+    }
+    .problem-table thead th:last-child { border-right: none; }
+
+    .col-text-wide  { width: 24%; }
+    .col-pct        { width: 10%; }
+    .col-text-mid   { width: 21%; }
+
+    .problem-table tbody tr { border-bottom: 1px solid #d4edda; }
+    .problem-table tbody tr:nth-child(even) { background: #f8fdf8; }
+    .problem-table tbody tr:last-child { border-bottom: none; }
+
+    .problem-table tbody td {
+      border-right: 1px solid #d4edda;
+      padding: 0;
+      vertical-align: top;
+    }
+    .problem-table tbody td:last-child { border-right: none; }
+
+    .problem-table tbody textarea {
+      width: 100%;
+      min-height: 100px;
+      border: none;
+      background: transparent;
+      padding: 10px 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      color: #1a2e1a;
+      resize: vertical;
+      line-height: 1.6;
+      display: block;
+    }
+    .problem-table tbody textarea:focus {
+      outline: none;
+      background: rgba(181,232,196,0.18);
+    }
+    .problem-table tbody textarea::placeholder {
+      color: #b5d5b5;
+      font-size: 0.8rem;
+    }
+
+    .pct-td {
+      text-align: center;
+      vertical-align: middle !important;
+      padding: 12px 6px !important;
+    }
+    .pct-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+    }
+    .pct-wrap input[type="number"] {
+      width: 48px;
+      border: 1.5px solid #c8e6d0;
+      border-radius: 8px;
+      padding: 8px 4px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #1a5c3a;
+      text-align: center;
+      background: #f8fdf8;
+      -moz-appearance: textfield;
+    }
+    .pct-wrap input[type="number"]::-webkit-outer-spin-button,
+    .pct-wrap input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    .pct-wrap input[type="number"]:focus {
+      outline: none;
+      border-color: #1a5c3a;
+      background: #fff;
+    }
+    .pct-sign {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #1a5c3a;
+    }
+
+    .scroll-hint {
+      font-size: 0.8rem;
+      color: #7a9a7a;
+      text-align: center;
+      margin-bottom: 10px;
+      display: none;
+    }
+
+    .submit-wrap { text-align: center; margin-top: 16px; }
+    .btn-submit {
+      background: linear-gradient(135deg, #0d4a2e, #1a5c3a);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding: 16px 44px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      box-shadow: 0 4px 20px rgba(13,74,46,0.28);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 28px rgba(13,74,46,0.38);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 760px) {
+      .page-hero h1 { font-size: 2rem; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .scroll-hint { display: block; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<section class="page-hero">
+  <h1>Be Clear About The Problem</h1>
+  <p>Understanding your problems precisely is the essential first step in CBT. This worksheet helps you map what you want to change, how much it affects you, and the feelings and thoughts that come with it.</p>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="icon">&#x1F3AF;</div>
+      <h3>Get Specific</h3>
+      <p>Vague problems are hard to solve. Name exactly what you want to start doing, stop doing, or do differently.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">&#x1F4CA;</div>
+      <h3>Rate the Impact</h3>
+      <p>Putting a number on how much each problem interferes with your life helps you see it more clearly and track progress.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">&#x1F9E0;</div>
+      <h3>Map Your Inner World</h3>
+      <p>Seeing your feelings and thoughts laid out alongside each problem reveals the full picture of what's going on.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">&#x1F680;</div>
+      <h3>Set Priorities</h3>
+      <p>Use the ratings to decide which problems are most important to tackle first in your CBT work.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ── -->
+<section class="page-howto">
+  <p class="section-label">How It Works</p>
+  <h2 class="section-title">A step-by-step guide</h2>
+  <p class="section-sub">Work through one problem per row. You don't need to fill in every row &mdash; focus on the problems that feel most relevant right now.</p>
+  <div class="steps-stack">
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <h4>Identify what you want to change</h4>
+        <p>In the first column, describe a specific behaviour you want to start, stop, or change. Be as concrete as possible &mdash; avoid vague descriptions like &ldquo;feel better.&rdquo;</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <h4>Rate how much it interferes with your life</h4>
+        <p>Give a percentage from 0 to 100 to show how much this problem gets in the way of the life you want to live. 0 = no interference at all, 100 = completely prevents you from living normally.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <h4>Name the feelings you don&rsquo;t like</h4>
+        <p>Write down the emotions associated with this problem &mdash; for example: anxious, ashamed, hopeless, angry, sad. Then rate how strongly you feel them (0&ndash;100%).</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">4</div>
+      <div class="step-text">
+        <h4>Identify the thoughts you don&rsquo;t like</h4>
+        <p>Write the unhelpful thoughts that come with this problem &mdash; for example: &ldquo;I&rsquo;m not good enough&rdquo;, &ldquo;Things will never improve.&rdquo; Then rate how strongly you believe each one (0&ndash;100%).</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">5</div>
+      <div class="step-text">
+        <h4>Use this as your starting map</h4>
+        <p>This worksheet gives you and your therapist &mdash; or your future self &mdash; a clear picture of where you are now. You can return to it later to see how things have changed.</p>
+      </div>
+    </div>
+  </div>
+  <div class="info-box">
+    <strong>&#x1F4A1; Tip:</strong> You don't need to fill in every row in one sitting. Work through as many problems as feel relevant today, and come back to add more as they become clearer.
+  </div>
+</section>
+
+<!-- ── WORKSHEET ── -->
+<section class="page-worksheet">
+  <div class="ws-inner">
+    <p class="section-label">Your Worksheet</p>
+    <h2 class="section-title">Be Clear About The Problem</h2>
+    <p class="section-sub" style="margin-bottom:36px;">Fill in one row per problem. When you're done, click the button at the bottom to save your entry.</p>
+
+    <div class="remember-box">
+      <h4>&#x1F4DD; Before you begin</h4>
+      <p>Think about the problems that have led you to seek support. For each one, you'll note what you'd like to be doing differently, how much it affects your life, and the feelings and thoughts that come with it. Rate each one from 0&ndash;100%, where 0 = not at all and 100 = as strongly as possible.</p>
+    </div>
+
+    <p class="scroll-hint">&larr; Scroll left and right to see all columns &rarr;</p>
+
+    <div class="table-wrapper">
+      <table class="problem-table">
+        <thead>
+          <tr>
+            <th class="col-text-wide">What I want to be doing, or what I want to stop doing</th>
+            <th class="col-pct">Extent to which this interferes with my life (0&ndash;100%)</th>
+            <th class="col-text-mid">The feelings that I don&rsquo;t like</th>
+            <th class="col-pct">Strength of feelings (0&ndash;100%)</th>
+            <th class="col-text-mid">The thoughts that I don&rsquo;t like</th>
+            <th class="col-pct">Strength of my belief in the thoughts (0&ndash;100%)</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <!-- Row 1 -->
+          <tr>
+            <td><textarea placeholder="e.g. I want to stop avoiding social situations..."></textarea></td>
+            <td class="pct-td"><div class="pct-wrap"><input type="number" min="0" max="100" placeholder="0"><span class="pct-sign">%</span></div></td>
+            <td><textarea placeholder="e.g. anxious, ashamed..."></textarea></td>
+            <td class="pct-td"><div class="pct-wrap"><input type="number" min="0" max="100" placeholder="0"><span class="pct-sign">%</span></div></td>
+            <td><textarea placeholder="e.g. People will judge me..."></textarea></td>
+            <td class="pct-td"><div class="pct-wrap"><input type="number" min="0" max="100" placeholder="0"><span class="pct-sign">%</span></div></td>
+          </tr>
+
+          <!-- Row 2 -->
+          <tr>
+            <td><textarea placeholder="Describe the problem..."></textarea></td>
+            <td class="pct-td"><div class="pct-wrap"><input type="number" min="0" max="100" placeholder="0"><span class="pct-sign">%</span></div></td>
+            <td><textarea placeholder="Name the feelings..."></textarea></td>
+            <td class="pct-td"><div class="pct-wrap"><input type="number" min="0" max="100" placeholder="0"><span class="pct-sign">%</span></div></td>
+            <td><textarea placeholder="Write the thoughts..."></textarea></td>
+            <td class="pct-td"><div class="pct-wrap"><input type="number" min="0" max="100" placeholder="0"><span class="pct-sign">%</span></div></td>
+          </tr>
+
+          <!-- Row 3 -->
+          <tr>
+            <td><textarea placeholder="Describe the problem..."></textarea></td>
+            <td class="pct-td"><div class="pct-wrap"><input type="number" min="0" max="100" placeholder="0"><span class="pct-sign">%</span></div></td>
+            <td><textarea placeholder="Name the feelings..."></textarea></td>
+            <td class="pct-td"><div class="pct-wrap"><input type="number" min="0" max="100" placeholder="0"><span class="pct-sign">%</span></div></td>
+            <td><textarea placeholder="Write the thoughts..."></textarea></td>
+            <td class="pct-td"><div class="pct-wrap"><input type="number" min="0" max="100" placeholder="0"><span class="pct-sign">%</span></div></td>
+          </tr>
+
+          <!-- Row 4 -->
+          <tr>
+            <td><textarea placeholder="Describe the problem..."></textarea></td>
+            <td class="pct-td"><div class="pct-wrap"><input type="number" min="0" max="100" placeholder="0"><span class="pct-sign">%</span></div></td>
+            <td><textarea placeholder="Name the feelings..."></textarea></td>
+            <td class="pct-td"><div class="pct-wrap"><input type="number" min="0" max="100" placeholder="0"><span class="pct-sign">%</span></div></td>
+            <td><textarea placeholder="Write the thoughts..."></textarea></td>
+            <td class="pct-td"><div class="pct-wrap"><input type="number" min="0" max="100" placeholder="0"><span class="pct-sign">%</span></div></td>
+          </tr>
+
+          <!-- Row 5 -->
+          <tr>
+            <td><textarea placeholder="Describe the problem..."></textarea></td>
+            <td class="pct-td"><div class="pct-wrap"><input type="number" min="0" max="100" placeholder="0"><span class="pct-sign">%</span></div></td>
+            <td><textarea placeholder="Name the feelings..."></textarea></td>
+            <td class="pct-td"><div class="pct-wrap"><input type="number" min="0" max="100" placeholder="0"><span class="pct-sign">%</span></div></td>
+            <td><textarea placeholder="Write the thoughts..."></textarea></td>
+            <td class="pct-td"><div class="pct-wrap"><input type="number" min="0" max="100" placeholder="0"><span class="pct-sign">%</span></div></td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <div class="remember-box">
+      <h4>&#x1F33F; Remember</h4>
+      <p>There are no right or wrong answers here. The goal is simply to get your problems out of your head and onto the page, so you can look at them clearly and start to work with them. Honesty with yourself is what makes this exercise powerful.</p>
+    </div>
+
+    <div class="submit-wrap">
+      <button class="btn-submit" id="saveBtn">Save My Entry</button>
+    </div>
+
+    <div style="margin-top:32px;">
+      <h3 style="font-family:'Montserrat',sans-serif;color:#0d4a2e;margin-bottom:12px;font-size:1rem;">Saved Entries</h3>
+      <div id="entries"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  var fieldNames = [
+    'row1_behaviour', 'row1_interference',
+    'row1_feelings',  'row1_feeling_strength',
+    'row1_thoughts',  'row1_thought_belief',
+    'row2_behaviour', 'row2_interference',
+    'row2_feelings',  'row2_feeling_strength',
+    'row2_thoughts',  'row2_thought_belief',
+    'row3_behaviour', 'row3_interference',
+    'row3_feelings',  'row3_feeling_strength',
+    'row3_thoughts',  'row3_thought_belief',
+    'row4_behaviour', 'row4_interference',
+    'row4_feelings',  'row4_feeling_strength',
+    'row4_thoughts',  'row4_thought_belief',
+    'row5_behaviour', 'row5_interference',
+    'row5_feelings',  'row5_feeling_strength',
+    'row5_thoughts',  'row5_thought_belief'
+  ];
+
+  function collectData() {
+    var section = document.querySelector('.page-worksheet');
+    var allFields = Array.from(section.querySelectorAll('textarea, input[type="number"]'));
+    var data = { time: new Date().toLocaleString() };
+    allFields.forEach(function(field, i) {
+      if (fieldNames[i]) data[fieldNames[i]] = field.value.replace(/\r?\n|\r/g, ' | ');
+    });
+    return data;
+  }
+
+  async function saveEntry() {
+    var data = collectData();
+    try {
+      await fetch('/.netlify/functions/saveWorksheet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    } catch (err) {
+      console.error('Save error:', err);
+    }
+    var entries = JSON.parse(localStorage.getItem('clear-about-problem') || '[]');
+    entries.unshift(data);
+    localStorage.setItem('clear-about-problem', JSON.stringify(entries));
+    render();
+  }
+
+  function render() {
+    var el = document.getElementById('entries');
+    if (!el) return;
+    var entries = JSON.parse(localStorage.getItem('clear-about-problem') || '[]');
+    el.innerHTML = entries.map(function(e) {
+      var behaviour = (e.row1_behaviour || '').substring(0, 80) + ((e.row1_behaviour || '').length > 80 ? '&hellip;' : '');
+      var rows = [1,2,3,4,5].filter(function(n) { return (e['row' + n + '_behaviour'] || '').trim(); }).length;
+      return '<div style="background:#fff;border-left:4px solid #0d4a2e;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:10px;font-size:0.88rem;">'
+        + '<strong style="color:#0d4a2e;">' + (e.time || '') + '</strong><br>'
+        + (behaviour ? '<span style="color:#333;">' + behaviour + '</span><br>' : '')
+        + '<span style="color:#555;">' + rows + ' problem' + (rows !== 1 ? 's' : '') + ' recorded</span>'
+        + '</div>';
+    }).join('');
+  }
+
+  document.getElementById('saveBtn').addEventListener('click', function() { saveEntry(); });
+  render();
+</script>
+</body>
+</html>
