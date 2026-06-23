@@ -1,727 +1,632 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Finding Alternative Thoughts | ChatCBT</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: 'Inter', sans-serif;
-  background: #f0f9f0;
-  color: #1a2e1a;
-  line-height: 1.7;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Finding Alternative Thoughts | ChatCBT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ── HERO ── */
-.page-hero {
-  background: linear-gradient(135deg, #0d4a2e 0%, #1a5c3a 60%, #2d7a50 100%);
-  color: #fff;
-  padding: 72px 24px 60px;
-  text-align: center;
-}
-.page-hero h1 {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 3rem;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  margin-bottom: 20px;
-  line-height: 1.15;
-  color: #ffffff !important;
-}
-.page-hero p {
-  font-size: 1.15rem;
-  max-width: 640px;
-  margin: 0 auto 44px;
-  opacity: 0.92;
-}
-.feature-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  max-width: 700px;
-  margin: 0 auto;
-  text-align: left;
-}
-.feature-card {
-  background: rgba(255,255,255,0.10);
-  border: 1px solid rgba(255,255,255,0.18);
-  border-radius: 14px;
-  padding: 22px 20px;
-}
-.feature-card .icon { font-size: 1.6rem; margin-bottom: 10px; }
-.feature-card h3 {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  margin-bottom: 6px;
-  color: #ffffff !important;
-}
-.feature-card p { font-size: 0.9rem; opacity: 0.88; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f0f9f0;
+      color: #1a2e1a;
+      line-height: 1.7;
+    }
 
-/* ── SECTION LABELS ── */
-.section-label {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #1a5c3a;
-  margin-bottom: 10px;
-  text-align: center;
-}
-.section-title {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 2rem;
-  font-weight: 800;
-  color: #0d4a2e;
-  margin-bottom: 10px;
-  text-align: center;
-}
-.section-sub {
-  text-align: center;
-  color: #4a6a4a;
-  margin-bottom: 44px;
-  max-width: 560px;
-  margin-left: auto;
-  margin-right: auto;
-}
+    /* ── HERO ── */
+    .page-hero {
+      background: linear-gradient(135deg, #0d4a2e 0%, #1a5c3a 60%, #2d7a50 100%);
+      color: #fff;
+      padding: 72px 24px 60px;
+      text-align: center;
+    }
+    .page-hero h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 20px;
+      line-height: 1.15;
+      color: #ffffff !important;
+    }
+    .page-hero p {
+      font-size: 1.15rem;
+      max-width: 640px;
+      margin: 0 auto 44px;
+      opacity: 0.92;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    .feature-card {
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 14px;
+      padding: 22px 20px;
+    }
+    .feature-card .icon { font-size: 1.6rem; margin-bottom: 10px; }
+    .feature-card h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #ffffff !important;
+    }
+    .feature-card p { font-size: 0.9rem; opacity: 0.88; }
 
-/* ── HOW IT WORKS ── */
-.page-howto {
-  background: #fff;
-  padding: 64px 24px;
-}
-.steps-stack {
-  max-width: 680px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-.step-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 18px;
-  background: #f8fdf8;
-  border-radius: 14px;
-  padding: 22px 24px;
-  border: 1px solid #d4edda;
-}
-.step-num {
-  background: #1a5c3a;
-  color: #fff;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 800;
-  font-size: 1rem;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-.step-text h4 {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  color: #0d4a2e;
-  margin-bottom: 4px;
-}
-.step-text p { color: #4a6a4a; font-size: 0.95rem; }
+    /* ── SECTION LABELS ── */
+    .section-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #1a5c3a;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .section-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: #0d4a2e;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .section-sub {
+      text-align: center;
+      color: #4a6a4a;
+      margin-bottom: 44px;
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
+    }
 
-.info-box {
-  max-width: 680px;
-  margin: 28px auto 0;
-  background: #b5e8c4;
-  border-radius: 14px;
-  padding: 20px 24px;
-  color: #0d4a2e;
-  font-size: 0.95rem;
-}
-.info-box strong { font-weight: 700; }
+    /* ── HOW IT WORKS ── */
+    .page-howto {
+      background: #fff;
+      padding: 64px 24px;
+    }
+    .steps-stack {
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .step-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      background: #f8fdf8;
+      border-radius: 14px;
+      padding: 22px 24px;
+      border: 1px solid #d4edda;
+    }
+    .step-num {
+      background: #1a5c3a;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-text h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      color: #0d4a2e;
+      margin-bottom: 4px;
+    }
+    .step-text p { color: #4a6a4a; font-size: 0.95rem; }
 
-/* ── WORKSHEET ── */
-.page-worksheet {
-  background: #f0f9f0;
-  padding: 64px 24px 80px;
-}
-.ws-inner { max-width: 760px; margin: 0 auto; }
+    .info-box {
+      max-width: 680px;
+      margin: 28px auto 0;
+      background: #b5e8c4;
+      border-radius: 14px;
+      padding: 20px 24px;
+      color: #0d4a2e;
+      font-size: 0.95rem;
+    }
+    .info-box strong { font-weight: 700; }
 
-/* ── HABIT CARDS ── */
-.habit-card {
-  background: #fff;
-  border-radius: 16px;
-  border-left: 5px solid #1a5c3a;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 12px rgba(26,92,58,0.07);
-  overflow: hidden;
-}
+    /* ── WORKSHEET ── */
+    .page-worksheet {
+      background: #f0f9f0;
+      padding: 64px 24px 80px;
+    }
+    .ws-inner { max-width: 760px; margin: 0 auto; }
 
-.habit-header {
-  background: #1a5c3a;
-  padding: 14px 22px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.habit-num {
-  background: rgba(255,255,255,0.22);
-  color: #ffffff;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 800;
-  font-size: 0.75rem;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.habit-name {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  font-size: 1rem;
-  color: #ffffff !important;
-}
+    /* ── HABIT CARDS ── */
+    .habit-card {
+      background: #fff;
+      border-radius: 16px;
+      border-left: 5px solid #1a5c3a;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 12px rgba(26,92,58,0.07);
+      overflow: hidden;
+    }
 
-.habit-prompt {
-  background: #f0f9f0;
-  border-bottom: 1px solid #d4edda;
-  padding: 14px 22px;
-}
-.habit-prompt .prompt-label {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #1a5c3a;
-  margin-bottom: 6px;
-}
-.habit-prompt p {
-  font-size: 0.9rem;
-  color: #4a6a4a;
-  font-style: italic;
-  line-height: 1.65;
-}
+    .habit-header {
+      background: #1a5c3a;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .habit-num {
+      background: rgba(255,255,255,0.22);
+      color: #ffffff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 0.75rem;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .habit-name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #ffffff !important;
+    }
 
-.habit-answer {
-  padding: 18px 22px 20px;
-}
-.habit-answer label {
-  display: block;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  font-size: 0.8rem;
-  color: #0d4a2e;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  margin-bottom: 10px;
-}
-.habit-answer textarea {
-  width: 100%;
-  min-height: 90px;
-  border: 1.5px solid #c8e6d0;
-  border-radius: 10px;
-  padding: 12px 14px;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.95rem;
-  color: #1a2e1a;
-  background: #f8fdf8;
-  resize: vertical;
-  transition: border-color 0.2s;
-  line-height: 1.6;
-}
-.habit-answer textarea:focus {
-  outline: none;
-  border-color: #1a5c3a;
-  background: #fff;
-}
-.habit-answer textarea::placeholder { color: #9ab89a; }
+    .habit-prompt {
+      background: #f0f9f0;
+      border-bottom: 1px solid #d4edda;
+      padding: 14px 22px;
+    }
+    .habit-prompt .prompt-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #1a5c3a;
+      margin-bottom: 6px;
+    }
+    .habit-prompt p {
+      font-size: 0.9rem;
+      color: #4a6a4a;
+      font-style: italic;
+      line-height: 1.65;
+    }
 
-/* ── REMEMBER BOX ── */
-.remember-box {
-  background: #b5e8c4;
-  border-radius: 14px;
-  padding: 22px 26px;
-  margin-bottom: 32px;
-  color: #0d4a2e;
-}
-.remember-box h4 {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  margin-bottom: 8px;
-  font-size: 1rem;
-}
-.remember-box p { font-size: 0.94rem; line-height: 1.65; }
+    .habit-answer {
+      padding: 18px 22px 20px;
+    }
+    .habit-answer label {
+      display: block;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: #0d4a2e;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 10px;
+    }
+    .habit-answer textarea {
+      width: 100%;
+      min-height: 90px;
+      border: 1.5px solid #c8e6d0;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      color: #1a2e1a;
+      background: #f8fdf8;
+      resize: vertical;
+      transition: border-color 0.2s;
+      line-height: 1.6;
+    }
+    .habit-answer textarea:focus {
+      outline: none;
+      border-color: #1a5c3a;
+      background: #fff;
+    }
+    .habit-answer textarea::placeholder { color: #9ab89a; }
 
-/* ── SUBMIT ── */
-.submit-wrap { text-align: center; margin-top: 8px; }
-.btn-submit {
-  background: linear-gradient(135deg, #0d4a2e, #1a5c3a);
-  color: #fff;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  font-size: 1.05rem;
-  padding: 16px 44px;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  letter-spacing: 0.3px;
-  box-shadow: 0 4px 20px rgba(13,74,46,0.28);
-  transition: transform 0.15s, box-shadow 0.15s;
-}
-.btn-submit:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 28px rgba(13,74,46,0.38);
-}
-.attribution {
-  text-align: center;
-  font-size: 0.78rem;
-  color: #7a9a7a;
-  margin-top: 22px;
-}
+    /* ── REMEMBER BOX ── */
+    .remember-box {
+      background: #b5e8c4;
+      border-radius: 14px;
+      padding: 22px 26px;
+      margin-bottom: 32px;
+      color: #0d4a2e;
+    }
+    .remember-box h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+    .remember-box p { font-size: 0.94rem; line-height: 1.65; }
 
-/* ── MODAL ── */
-.email-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.55);
-  z-index: 9999;
-  align-items: center;
-  justify-content: center;
-}
-.email-modal.active { display: flex; }
-#findingAltModalContent {
-  background: #fff;
-  border-radius: 20px;
-  padding: 36px 32px;
-  max-width: 440px;
-  width: 90%;
-  box-shadow: 0 12px 48px rgba(0,0,0,0.2);
-  text-align: center;
-}
-#findingAltModalContent h3 {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: #0d4a2e;
-  margin-bottom: 10px;
-}
-#findingAltModalContent p {
-  color: #4a6a4a;
-  font-size: 0.95rem;
-  margin-bottom: 22px;
-}
-#findingAltModalContent input[type="email"] {
-  width: 100%;
-  padding: 13px 16px;
-  border: 1.5px solid #c8e6d0;
-  border-radius: 10px;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.97rem;
-  margin-bottom: 16px;
-  color: #1a2e1a;
-}
-#findingAltModalContent input[type="email"]:focus {
-  outline: none;
-  border-color: #1a5c3a;
-}
-.modal-actions { display: flex; gap: 12px; justify-content: center; }
-.btn-confirm {
-  background: linear-gradient(135deg, #0d4a2e, #1a5c3a);
-  color: #fff;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  font-size: 0.97rem;
-  padding: 13px 30px;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-}
-.btn-cancel {
-  background: #f0f9f0;
-  color: #1a5c3a;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
-  font-size: 0.97rem;
-  padding: 13px 26px;
-  border: 1.5px solid #c8e6d0;
-  border-radius: 50px;
-  cursor: pointer;
-}
+    /* ── SUBMIT ── */
+    .submit-wrap { text-align: center; margin-top: 8px; }
+    .btn-submit {
+      background: linear-gradient(135deg, #0d4a2e, #1a5c3a);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding: 16px 44px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      box-shadow: 0 4px 20px rgba(13,74,46,0.28);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 28px rgba(13,74,46,0.38);
+    }
+    .attribution {
+      text-align: center;
+      font-size: 0.78rem;
+      color: #7a9a7a;
+      margin-top: 22px;
+    }
 
-/* ── RESPONSIVE ── */
-@media (max-width: 760px) {
-  .page-hero h1 { font-size: 2rem; }
-  .feature-grid { grid-template-columns: 1fr; }
-  .habit-header { padding: 12px 18px; }
-  .habit-prompt, .habit-answer { padding: 14px 18px; }
-}
-</style>
+    /* ── RESPONSIVE ── */
+    @media (max-width: 760px) {
+      .page-hero h1 { font-size: 2rem; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .habit-header { padding: 12px 18px; }
+      .habit-prompt, .habit-answer { padding: 14px 18px; }
+    }
+  </style>
 </head>
 <body>
 
 <!-- ── HERO ── -->
 <section class="page-hero">
-<h1>Finding Alternative Thoughts</h1>
-<p>Unhelpful thinking habits shape how we feel — but they can be challenged. For each common pattern, use the guiding prompts to find a more balanced, realistic way of seeing the situation.</p>
-<div class="feature-grid">
-<div class="feature-card">
-<div class="icon">🧠</div>
-<h3>12 Thinking Habits</h3>
-<p>Each section covers one of the most common unhelpful thinking patterns recognised in CBT.</p>
-</div>
-<div class="feature-card">
-<div class="icon">💬</div>
-<h3>Built-in Prompts</h3>
-<p>Every habit comes with guiding questions to help you gently challenge the thought and see it differently.</p>
-</div>
-<div class="feature-card">
-<div class="icon">✍️</div>
-<h3>Write Your Own</h3>
-<p>Space to record your personal alternative thought — in your own words, for your own situation.</p>
-</div>
-<div class="feature-card">
-<div class="icon">🔄</div>
-<h3>Use It Anytime</h3>
-<p>Return to this worksheet whenever an unhelpful thought appears. The more you practise, the more natural it becomes.</p>
-</div>
-</div>
+  <h1>Finding Alternative Thoughts</h1>
+  <p>Unhelpful thinking habits shape how we feel — but they can be challenged. For each common pattern, use the guiding prompts to find a more balanced, realistic way of seeing the situation.</p>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="icon">🧠</div>
+      <h3>12 Thinking Habits</h3>
+      <p>Each section covers one of the most common unhelpful thinking patterns recognised in CBT.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">💬</div>
+      <h3>Built-in Prompts</h3>
+      <p>Every habit comes with guiding questions to help you gently challenge the thought and see it differently.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">✍️</div>
+      <h3>Write Your Own</h3>
+      <p>Space to record your personal alternative thought — in your own words, for your own situation.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🔄</div>
+      <h3>Use It Anytime</h3>
+      <p>Return to this worksheet whenever an unhelpful thought appears. The more you practise, the more natural it becomes.</p>
+    </div>
+  </div>
 </section>
 
 <!-- ── HOW IT WORKS ── -->
 <section class="page-howto">
-<p class="section-label">How It Works</p>
-<h2 class="section-title">A step-by-step guide</h2>
-<p class="section-sub">You don't need to complete every section — focus on the thinking habits that feel most relevant to you right now.</p>
-<div class="steps-stack">
-<div class="step-row">
-<div class="step-num">1</div>
-<div class="step-text">
-<h4>Notice the unhelpful thought</h4>
-<p>When you're feeling anxious, low, or distressed, try to identify the thought that's driving the feeling. What are you telling yourself about the situation?</p>
-</div>
-</div>
-<div class="step-row">
-<div class="step-num">2</div>
-<div class="step-text">
-<h4>Match it to a thinking habit</h4>
-<p>Look through the 12 thought patterns below and find the thinking habit that best describes what your mind is doing. You might recognise more than one — that's common.</p>
-</div>
-</div>
-<div class="step-row">
-<div class="step-num">3</div>
-<div class="step-text">
-<h4>Use the guiding prompts</h4>
-<p>Read the prompts for that thinking habit slowly. Let them land. They're designed to gently loosen the grip of the unhelpful thought and open up alternative ways of seeing things.</p>
-</div>
-</div>
-<div class="step-row">
-<div class="step-num">4</div>
-<div class="step-text">
-<h4>Write your alternative thought</h4>
-<p>In the text box, write your own more balanced, realistic thought. It doesn't need to be wildly positive — just a bit more accurate and a bit kinder than the original.</p>
-</div>
-</div>
-</div>
-<div class="info-box">
-<strong>💡 Tip:</strong> Alternative thoughts work best when they feel genuinely believable, not just forced positivity. Aim for "more balanced and realistic" rather than "perfectly happy."
-</div>
+  <p class="section-label">How It Works</p>
+  <h2 class="section-title">A step-by-step guide</h2>
+  <p class="section-sub">You don't need to complete every section — focus on the thinking habits that feel most relevant to you right now.</p>
+  <div class="steps-stack">
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <h4>Notice the unhelpful thought</h4>
+        <p>When you're feeling anxious, low, or distressed, try to identify the thought that's driving the feeling. What are you telling yourself about the situation?</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <h4>Match it to a thinking habit</h4>
+        <p>Look through the 12 thought patterns below and find the thinking habit that best describes what your mind is doing. You might recognise more than one — that's common.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <h4>Use the guiding prompts</h4>
+        <p>Read the prompts for that thinking habit slowly. Let them land. They're designed to gently loosen the grip of the unhelpful thought and open up alternative ways of seeing things.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">4</div>
+      <div class="step-text">
+        <h4>Write your alternative thought</h4>
+        <p>In the text box, write your own more balanced, realistic thought. It doesn't need to be wildly positive — just a bit more accurate and a bit kinder than the original.</p>
+      </div>
+    </div>
+  </div>
+  <div class="info-box">
+    <strong>💡 Tip:</strong> Alternative thoughts work best when they feel genuinely believable, not just forced positivity. Aim for "more balanced and realistic" rather than "perfectly happy."
+  </div>
 </section>
 
 <!-- ── WORKSHEET ── -->
 <section class="page-worksheet">
-<div class="ws-inner">
-<p class="section-label">Your Worksheet</p>
-<h2 class="section-title">Finding Alternative Thoughts</h2>
-<p class="section-sub" style="margin-bottom:36px;">Work through the thinking habits that feel most relevant to you. When you're done, click the button at the bottom to receive your completed worksheet by email.</p>
-<div class="remember-box">
-  <h4>📝 How to use this worksheet</h4>
-  <p>For each thinking habit, read the guiding prompts — then write your own more balanced alternative thought in the box below. Focus on the habits that feel most familiar. You can skip any that don't apply to your current situation.</p>
-</div>
+  <div class="ws-inner">
+    <p class="section-label">Your Worksheet</p>
+    <h2 class="section-title">Finding Alternative Thoughts</h2>
+    <p class="section-sub" style="margin-bottom:36px;">Work through the thinking habits that feel most relevant to you. When you're done, click Save Worksheet to store your answers.</p>
 
-<!-- 1. Mental Filter -->
-<div class="habit-card">
-  <div class="habit-header">
-    <div class="habit-num">1</div>
-    <div class="habit-name">Mental Filter</div>
-  </div>
-  <div class="habit-prompt">
-    <div class="prompt-label">Guiding prompts</div>
-    <p>Am I only noticing the bad stuff? Am I filtering out the positives? Am I wearing those gloomy specs? What would be more realistic?</p>
-  </div>
-  <div class="habit-answer">
-    <label>My alternative, more balanced thought</label>
-    <textarea placeholder="Write your alternative thought here..."></textarea>
-  </div>
-</div>
+    <div class="remember-box">
+      <h4>📝 How to use this worksheet</h4>
+      <p>For each thinking habit, read the guiding prompts — then write your own more balanced alternative thought in the box below. Focus on the habits that feel most familiar. You can skip any that don't apply to your current situation.</p>
+    </div>
 
-<!-- 2. Mind-Reading -->
-<div class="habit-card">
-  <div class="habit-header">
-    <div class="habit-num">2</div>
-    <div class="habit-name">Mind-Reading</div>
-  </div>
-  <div class="habit-prompt">
-    <div class="prompt-label">Guiding prompts</div>
-    <p>Am I assuming I know what others are thinking? What's the evidence? Those are my own thoughts, not theirs. Is there another, more balanced way of looking at it?</p>
-  </div>
-  <div class="habit-answer">
-    <label>My alternative, more balanced thought</label>
-    <textarea placeholder="Write your alternative thought here..."></textarea>
-  </div>
-</div>
+    <!-- 1. Mental Filter -->
+    <div class="habit-card">
+      <div class="habit-header">
+        <div class="habit-num">1</div>
+        <div class="habit-name">Mental Filter</div>
+      </div>
+      <div class="habit-prompt">
+        <div class="prompt-label">Guiding prompts</div>
+        <p>Am I only noticing the bad stuff? Am I filtering out the positives? Am I wearing those gloomy specs? What would be more realistic?</p>
+      </div>
+      <div class="habit-answer">
+        <label>My alternative, more balanced thought</label>
+        <textarea id="alt_mental_filter" placeholder="Write your alternative thought here..."></textarea>
+      </div>
+    </div>
 
-<!-- 3. Prediction -->
-<div class="habit-card">
-  <div class="habit-header">
-    <div class="habit-num">3</div>
-    <div class="habit-name">Prediction</div>
-  </div>
-  <div class="habit-prompt">
-    <div class="prompt-label">Guiding prompts</div>
-    <p>Am I thinking that I can predict the future? How likely is it that that might really happen?</p>
-  </div>
-  <div class="habit-answer">
-    <label>My alternative, more balanced thought</label>
-    <textarea placeholder="Write your alternative thought here..."></textarea>
-  </div>
-</div>
+    <!-- 2. Mind-Reading -->
+    <div class="habit-card">
+      <div class="habit-header">
+        <div class="habit-num">2</div>
+        <div class="habit-name">Mind-Reading</div>
+      </div>
+      <div class="habit-prompt">
+        <div class="prompt-label">Guiding prompts</div>
+        <p>Am I assuming I know what others are thinking? What's the evidence? Those are my own thoughts, not theirs. Is there another, more balanced way of looking at it?</p>
+      </div>
+      <div class="habit-answer">
+        <label>My alternative, more balanced thought</label>
+        <textarea id="alt_mind_reading" placeholder="Write your alternative thought here..."></textarea>
+      </div>
+    </div>
 
-<!-- 4. Compare & Despair -->
-<div class="habit-card">
-  <div class="habit-header">
-    <div class="habit-num">4</div>
-    <div class="habit-name">Compare &amp; Despair</div>
-  </div>
-  <div class="habit-prompt">
-    <div class="prompt-label">Guiding prompts</div>
-    <p>Am I doing that compare and despair thing? What would be a more balanced and helpful way of looking at it?</p>
-  </div>
-  <div class="habit-answer">
-    <label>My alternative, more balanced thought</label>
-    <textarea placeholder="Write your alternative thought here..."></textarea>
-  </div>
-</div>
+    <!-- 3. Prediction -->
+    <div class="habit-card">
+      <div class="habit-header">
+        <div class="habit-num">3</div>
+        <div class="habit-name">Prediction</div>
+      </div>
+      <div class="habit-prompt">
+        <div class="prompt-label">Guiding prompts</div>
+        <p>Am I thinking that I can predict the future? How likely is it that that might really happen?</p>
+      </div>
+      <div class="habit-answer">
+        <label>My alternative, more balanced thought</label>
+        <textarea id="alt_prediction" placeholder="Write your alternative thought here..."></textarea>
+      </div>
+    </div>
 
-<!-- 5. Critical Self -->
-<div class="habit-card">
-  <div class="habit-header">
-    <div class="habit-num">5</div>
-    <div class="habit-name">Critical Self</div>
-  </div>
-  <div class="habit-prompt">
-    <div class="prompt-label">Guiding prompts</div>
-    <p>There I go — that internal bully's at it again. Would most people who really know me say that about me? Is this something that I am totally responsible for?</p>
-  </div>
-  <div class="habit-answer">
-    <label>My alternative, more balanced thought</label>
-    <textarea placeholder="Write your alternative thought here..."></textarea>
-  </div>
-</div>
+    <!-- 4. Compare & Despair -->
+    <div class="habit-card">
+      <div class="habit-header">
+        <div class="habit-num">4</div>
+        <div class="habit-name">Compare &amp; Despair</div>
+      </div>
+      <div class="habit-prompt">
+        <div class="prompt-label">Guiding prompts</div>
+        <p>Am I doing that compare and despair thing? What would be a more balanced and helpful way of looking at it?</p>
+      </div>
+      <div class="habit-answer">
+        <label>My alternative, more balanced thought</label>
+        <textarea id="alt_compare_despair" placeholder="Write your alternative thought here..."></textarea>
+      </div>
+    </div>
 
-<!-- 6. Shoulds and Musts -->
-<div class="habit-card">
-  <div class="habit-header">
-    <div class="habit-num">6</div>
-    <div class="habit-name">Shoulds &amp; Musts</div>
-  </div>
-  <div class="habit-prompt">
-    <div class="prompt-label">Guiding prompts</div>
-    <p>Am I putting more pressure on myself, setting up expectations of myself that are almost impossible? What would be more realistic?</p>
-  </div>
-  <div class="habit-answer">
-    <label>My alternative, more balanced thought</label>
-    <textarea placeholder="Write your alternative thought here..."></textarea>
-  </div>
-</div>
+    <!-- 5. Critical Self -->
+    <div class="habit-card">
+      <div class="habit-header">
+        <div class="habit-num">5</div>
+        <div class="habit-name">Critical Self</div>
+      </div>
+      <div class="habit-prompt">
+        <div class="prompt-label">Guiding prompts</div>
+        <p>There I go — that internal bully's at it again. Would most people who really know me say that about me? Is this something that I am totally responsible for?</p>
+      </div>
+      <div class="habit-answer">
+        <label>My alternative, more balanced thought</label>
+        <textarea id="alt_critical_self" placeholder="Write your alternative thought here..."></textarea>
+      </div>
+    </div>
 
-<!-- 7. Judgements -->
-<div class="habit-card">
-  <div class="habit-header">
-    <div class="habit-num">7</div>
-    <div class="habit-name">Judgements</div>
-  </div>
-  <div class="habit-prompt">
-    <div class="prompt-label">Guiding prompts</div>
-    <p>I'm making an evaluation about the situation or person. It's how I make sense of the world, but that doesn't mean my judgements are always right or helpful. Is there another perspective?</p>
-  </div>
-  <div class="habit-answer">
-    <label>My alternative, more balanced thought</label>
-    <textarea placeholder="Write your alternative thought here..."></textarea>
-  </div>
-</div>
+    <!-- 6. Shoulds and Musts -->
+    <div class="habit-card">
+      <div class="habit-header">
+        <div class="habit-num">6</div>
+        <div class="habit-name">Shoulds &amp; Musts</div>
+      </div>
+      <div class="habit-prompt">
+        <div class="prompt-label">Guiding prompts</div>
+        <p>Am I putting more pressure on myself, setting up expectations of myself that are almost impossible? What would be more realistic?</p>
+      </div>
+      <div class="habit-answer">
+        <label>My alternative, more balanced thought</label>
+        <textarea id="alt_shoulds_musts" placeholder="Write your alternative thought here..."></textarea>
+      </div>
+    </div>
 
-<!-- 8. Emotional Reasoning -->
-<div class="habit-card">
-  <div class="habit-header">
-    <div class="habit-num">8</div>
-    <div class="habit-name">Emotional Reasoning</div>
-  </div>
-  <div class="habit-prompt">
-    <div class="prompt-label">Guiding prompts</div>
-    <p>Just because it feels bad, doesn't necessarily mean it is bad. My feelings are just a reaction to my thoughts — and thoughts are just automatic brain reflexes.</p>
-  </div>
-  <div class="habit-answer">
-    <label>My alternative, more balanced thought</label>
-    <textarea placeholder="Write your alternative thought here..."></textarea>
-  </div>
-</div>
+    <!-- 7. Judgements -->
+    <div class="habit-card">
+      <div class="habit-header">
+        <div class="habit-num">7</div>
+        <div class="habit-name">Judgements</div>
+      </div>
+      <div class="habit-prompt">
+        <div class="prompt-label">Guiding prompts</div>
+        <p>I'm making an evaluation about the situation or person. It's how I make sense of the world, but that doesn't mean my judgements are always right or helpful. Is there another perspective?</p>
+      </div>
+      <div class="habit-answer">
+        <label>My alternative, more balanced thought</label>
+        <textarea id="alt_judgements" placeholder="Write your alternative thought here..."></textarea>
+      </div>
+    </div>
 
-<!-- 9. Mountains and Molehills -->
-<div class="habit-card">
-  <div class="habit-header">
-    <div class="habit-num">9</div>
-    <div class="habit-name">Mountains &amp; Molehills</div>
-  </div>
-  <div class="habit-prompt">
-    <div class="prompt-label">Guiding prompts</div>
-    <p>Am I exaggerating the good aspects of others, and putting myself down? Or am I exaggerating the negative and minimising the positives? How would someone else see it? What's the bigger picture?</p>
-  </div>
-  <div class="habit-answer">
-    <label>My alternative, more balanced thought</label>
-    <textarea placeholder="Write your alternative thought here..."></textarea>
-  </div>
-</div>
+    <!-- 8. Emotional Reasoning -->
+    <div class="habit-card">
+      <div class="habit-header">
+        <div class="habit-num">8</div>
+        <div class="habit-name">Emotional Reasoning</div>
+      </div>
+      <div class="habit-prompt">
+        <div class="prompt-label">Guiding prompts</div>
+        <p>Just because it feels bad, doesn't necessarily mean it is bad. My feelings are just a reaction to my thoughts — and thoughts are just automatic brain reflexes.</p>
+      </div>
+      <div class="habit-answer">
+        <label>My alternative, more balanced thought</label>
+        <textarea id="alt_emotional_reasoning" placeholder="Write your alternative thought here..."></textarea>
+      </div>
+    </div>
 
-<!-- 10. Catastrophising -->
-<div class="habit-card">
-  <div class="habit-header">
-    <div class="habit-num">10</div>
-    <div class="habit-name">Catastrophising</div>
-  </div>
-  <div class="habit-prompt">
-    <div class="prompt-label">Guiding prompts</div>
-    <p>OK, thinking that the worst possible thing will definitely happen isn't really helpful right now. What's most likely to happen?</p>
-  </div>
-  <div class="habit-answer">
-    <label>My alternative, more balanced thought</label>
-    <textarea placeholder="Write your alternative thought here..."></textarea>
-  </div>
-</div>
+    <!-- 9. Mountains and Molehills -->
+    <div class="habit-card">
+      <div class="habit-header">
+        <div class="habit-num">9</div>
+        <div class="habit-name">Mountains &amp; Molehills</div>
+      </div>
+      <div class="habit-prompt">
+        <div class="prompt-label">Guiding prompts</div>
+        <p>Am I exaggerating the good aspects of others, and putting myself down? Or am I exaggerating the negative and minimising the positives? How would someone else see it? What's the bigger picture?</p>
+      </div>
+      <div class="habit-answer">
+        <label>My alternative, more balanced thought</label>
+        <textarea id="alt_mountains_molehills" placeholder="Write your alternative thought here..."></textarea>
+      </div>
+    </div>
 
-<!-- 11. Black and White Thinking -->
-<div class="habit-card">
-  <div class="habit-header">
-    <div class="habit-num">11</div>
-    <div class="habit-name">Black &amp; White Thinking</div>
-  </div>
-  <div class="habit-prompt">
-    <div class="prompt-label">Guiding prompts</div>
-    <p>Things aren't either totally white or totally black — there are shades of grey. Where is this on the spectrum?</p>
-  </div>
-  <div class="habit-answer">
-    <label>My alternative, more balanced thought</label>
-    <textarea placeholder="Write your alternative thought here..."></textarea>
-  </div>
-</div>
+    <!-- 10. Catastrophising -->
+    <div class="habit-card">
+      <div class="habit-header">
+        <div class="habit-num">10</div>
+        <div class="habit-name">Catastrophising</div>
+      </div>
+      <div class="habit-prompt">
+        <div class="prompt-label">Guiding prompts</div>
+        <p>OK, thinking that the worst possible thing will definitely happen isn't really helpful right now. What's most likely to happen?</p>
+      </div>
+      <div class="habit-answer">
+        <label>My alternative, more balanced thought</label>
+        <textarea id="alt_catastrophising" placeholder="Write your alternative thought here..."></textarea>
+      </div>
+    </div>
 
-<!-- 12. Memories -->
-<div class="habit-card">
-  <div class="habit-header">
-    <div class="habit-num">12</div>
-    <div class="habit-name">Memories</div>
-  </div>
-  <div class="habit-prompt">
-    <div class="prompt-label">Guiding prompts</div>
-    <p>This is just a reminder of the past. That was then, and this is now. Even though this memory makes me feel upset, it's not actually happening again right now.</p>
-  </div>
-  <div class="habit-answer">
-    <label>My alternative, more balanced thought</label>
-    <textarea placeholder="Write your alternative thought here..."></textarea>
-  </div>
-</div>
+    <!-- 11. Black and White Thinking -->
+    <div class="habit-card">
+      <div class="habit-header">
+        <div class="habit-num">11</div>
+        <div class="habit-name">Black &amp; White Thinking</div>
+      </div>
+      <div class="habit-prompt">
+        <div class="prompt-label">Guiding prompts</div>
+        <p>Things aren't either totally white or totally black — there are shades of grey. Where is this on the spectrum?</p>
+      </div>
+      <div class="habit-answer">
+        <label>My alternative, more balanced thought</label>
+        <textarea id="alt_black_white" placeholder="Write your alternative thought here..."></textarea>
+      </div>
+    </div>
 
-<div class="remember-box" style="margin-top:8px;">
-  <h4>🌿 Well done</h4>
-  <p>Finding alternative thoughts is a skill that gets easier with practice. The more you catch and challenge unhelpful thinking habits, the less automatic power they have over how you feel. Keep this worksheet and return to it whenever you need it.</p>
-</div>
+    <!-- 12. Memories -->
+    <div class="habit-card">
+      <div class="habit-header">
+        <div class="habit-num">12</div>
+        <div class="habit-name">Memories</div>
+      </div>
+      <div class="habit-prompt">
+        <div class="prompt-label">Guiding prompts</div>
+        <p>This is just a reminder of the past. That was then, and this is now. Even though this memory makes me feel upset, it's not actually happening again right now.</p>
+      </div>
+      <div class="habit-answer">
+        <label>My alternative, more balanced thought</label>
+        <textarea id="alt_memories" placeholder="Write your alternative thought here..."></textarea>
+      </div>
+    </div>
 
-<div class="submit-wrap">
-  <button class="btn-submit" id="submitFindingAlt">Send it to me by email 📩</button>
-</div>
+    <div class="remember-box" style="margin-top:8px;">
+      <h4>🌿 Well done</h4>
+      <p>Finding alternative thoughts is a skill that gets easier with practice. The more you catch and challenge unhelpful thinking habits, the less automatic power they have over how you feel. Keep this worksheet and return to it whenever you need it.</p>
+    </div>
 
-<p class="attribution">Based on material from <a href="https://www.get.gg" style="color:#7a9a7a;">get.gg</a> — a free CBT self-help resource</p>
-</div>
+    <div class="submit-wrap">
+      <button class="btn-submit" id="saveBtn">Save Worksheet</button>
+    </div>
+
+    <p class="attribution">Based on material from <a href="https://www.get.gg" style="color:#7a9a7a;">get.gg</a> — a free CBT self-help resource</p>
+  </div>
 </section>
 
-<!-- ── EMAIL MODAL ── -->
-<div class="email-modal" id="findingAltModal">
-<div id="findingAltModalContent">
-<h3>Get your worksheet</h3>
-<p>Enter your email address and we'll send your completed worksheet as a PDF.</p>
-<input type="email" id="findingAltEmail" placeholder="your@email.com" />
-<div class="modal-actions">
-<button class="btn-confirm" id="confirmSendFindingAlt">Send my PDF</button>
-<button class="btn-cancel" onclick="document.getElementById('findingAltModal').classList.remove('active')">Cancel</button>
-</div>
-</div>
-</div>
 <script>
-document.getElementById('submitFindingAlt').addEventListener('click', function () {
-document.getElementById('findingAltModal').classList.add('active');
-});
+document.addEventListener("DOMContentLoaded", function () {
 
-document.getElementById('confirmSendFindingAlt').addEventListener('click', function () {
-const email = document.getElementById('findingAltEmail').value.trim();
-if (!email) {
-alert('Please enter your email address.');
-return;
-}
-const data = collectWorksheetData();
-data.email = email;
+  function el(id) { return document.getElementById(id); }
 
-fetch("https://hooks.zapier.com/hooks/catch/27250519/uj8oesl/", {
-  method: "POST",
-  mode: 'no-cors',
-  body: JSON.stringify(data)
-})
-.then(function () {
-  document.getElementById('findingAltModalContent').innerHTML = '<div style="text-align:center;padding:8px 0"><div style="font-size:2.5rem;margin-bottom:12px">&#128233;</div><h3 style="font-family:Montserrat,sans-serif;color:#0d4a2e;margin-bottom:8px">On its way!</h3><p style="color:#4a6a4a;font-size:0.9rem;margin-bottom:18px;line-height:1.6">Check your inbox in a few minutes.</p><button class="btn-cancel worksheet-modal-close">Close</button></div>';
-}).catch(function () {
-  document.getElementById('findingAltModalContent').innerHTML = '<div style="text-align:center;padding:8px 0"><div style="font-size:2.5rem;margin-bottom:12px">&#128233;</div><h3 style="font-family:Montserrat,sans-serif;color:#0d4a2e;margin-bottom:8px">On its way!</h3><p style="color:#4a6a4a;font-size:0.9rem;margin-bottom:18px;line-height:1.6">Check your inbox in a few minutes.</p><button class="btn-cancel worksheet-modal-close">Close</button></div>';
-});
-});
+  async function saveEntry() {
+    const data = {
+      alt_mental_filter:       el("alt_mental_filter")?.value || "",
+      alt_mind_reading:        el("alt_mind_reading")?.value || "",
+      alt_prediction:          el("alt_prediction")?.value || "",
+      alt_compare_despair:     el("alt_compare_despair")?.value || "",
+      alt_critical_self:       el("alt_critical_self")?.value || "",
+      alt_shoulds_musts:       el("alt_shoulds_musts")?.value || "",
+      alt_judgements:          el("alt_judgements")?.value || "",
+      alt_emotional_reasoning: el("alt_emotional_reasoning")?.value || "",
+      alt_mountains_molehills: el("alt_mountains_molehills")?.value || "",
+      alt_catastrophising:     el("alt_catastrophising")?.value || "",
+      alt_black_white:         el("alt_black_white")?.value || "",
+      alt_memories:            el("alt_memories")?.value || "",
+      time: new Date().toLocaleString()
+    };
 
-function collectWorksheetData() {
-const section = document.querySelector('.page-worksheet');
-const allFields = Array.from(section.querySelectorAll('textarea'));
-const fieldNames = [
-'alt_mental_filter',
-'alt_mind_reading',
-'alt_prediction',
-'alt_compare_despair',
-'alt_critical_self',
-'alt_shoulds_musts',
-'alt_judgements',
-'alt_emotional_reasoning',
-'alt_mountains_molehills',
-'alt_catastrophising',
-'alt_black_white',
-'alt_memories'
-];
-const data = {};
-allFields.forEach(function (field, i) {
-if (fieldNames[i]) data[fieldNames[i]] = field.value.replace(/\r?\n|\r/g, ' | ');
-});
-return data;
-}
+    try {
+      const res = await fetch('/.netlify/functions/saveWorksheet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const result = await res.json();
+      console.log("Server response:", result);
+    } catch (err) {
+      console.error("Error saving to server:", err);
+    }
 
-document.addEventListener("click", function(e) {
-  if (!e.target.classList.contains("worksheet-modal-close")) return;
-  var modal = e.target.closest(".email-modal");
-  if (modal) { modal.classList.remove("active"); return; }
-  modal = e.target.parentElement;
-  while (modal) {
-    if (modal.style && modal.style.display === "flex") { modal.style.display = "none"; return; }
-    modal = modal.parentElement;
+    let entries = JSON.parse(localStorage.getItem("finding-alt-thoughts") || "[]");
+    entries.unshift(data);
+    localStorage.setItem("finding-alt-thoughts", JSON.stringify(entries));
+
+    alert("Worksheet saved!");
   }
+
+  const btn = el("saveBtn");
+  if (btn) btn.addEventListener("click", saveEntry);
+
 });
 </script>
 </body>
