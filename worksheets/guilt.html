@@ -254,6 +254,7 @@
 
 </div>
 
+<script src="/js/save.js"></script>
 <script>
 function g(id) {
   return (document.getElementById(id).value || '').replace(/\r?\n|\r/g, ' | ').trim();
@@ -261,6 +262,7 @@ function g(id) {
 
 function collectData() {
   return {
+    type:              'Guilt: Getting to Grips With It',
     feeling_bad_about: g('feeling_bad_about'),
     pct_intention:     document.getElementById('pct_intention').value || '0',
     pct_control:       document.getElementById('pct_control').value || '0',
@@ -278,17 +280,9 @@ function collectData() {
   };
 }
 
-async function saveEntry() {
+function saveEntry() {
   var data = collectData();
-  try {
-    await fetch('/.netlify/functions/saveWorksheet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-  } catch (err) {
-    console.error('Save error:', err);
-  }
+  saveToServer(data);
   var entries = JSON.parse(localStorage.getItem('guilt') || '[]');
   entries.unshift(data);
   localStorage.setItem('guilt', JSON.stringify(entries));
