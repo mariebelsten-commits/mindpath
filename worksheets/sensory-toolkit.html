@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Sensory Toolkit | ChatCBT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f0f9f0;
+      color: #1a2e1a;
+      line-height: 1.7;
+    }
+
+    /* ── HERO ── */
+    .page-hero {
+      background: linear-gradient(135deg, #0d4a2e 0%, #1a5c3a 60%, #2d7a50 100%);
+      color: #fff;
+      padding: 72px 24px 60px;
+      text-align: center;
+    }
+    .page-hero h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 20px;
+      line-height: 1.15;
+      color: #ffffff !important;
+    }
+    .page-hero p {
+      font-size: 1.15rem;
+      max-width: 640px;
+      margin: 0 auto 44px;
+      opacity: 0.92;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    .feature-card {
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 14px;
+      padding: 22px 20px;
+    }
+    .feature-card .icon { font-size: 1.6rem; margin-bottom: 10px; }
+    .feature-card h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #ffffff !important;
+    }
+    .feature-card p { font-size: 0.9rem; opacity: 0.88; }
+
+    /* ── SECTION LABELS ── */
+    .section-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #1a5c3a;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .section-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: #0d4a2e;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .section-sub {
+      text-align: center;
+      color: #4a6a4a;
+      margin-bottom: 44px;
+      max-width: 580px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .page-howto {
+      background: #fff;
+      padding: 64px 24px;
+    }
+    .steps-stack {
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .step-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      background: #f8fdf8;
+      border-radius: 14px;
+      padding: 22px 24px;
+      border: 1px solid #d4edda;
+    }
+    .step-num {
+      background: #1a5c3a;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-text h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      color: #0d4a2e;
+      margin-bottom: 4px;
+    }
+    .step-text p { color: #4a6a4a; font-size: 0.95rem; }
+
+    /* ── SENSES TABLE ── */
+    .senses-table-wrap {
+      max-width: 680px;
+      margin: 32px auto 0;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1.5px solid #d4edda;
+    }
+    .senses-table-title {
+      background: linear-gradient(135deg, #0d4a2e, #1a5c3a);
+      padding: 13px 20px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: #ffffff !important;
+    }
+    .senses-table-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr 2fr;
+      background: #155232;
+      padding: 8px 20px;
+      gap: 12px;
+    }
+    .senses-table-cols span {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,0.75) !important;
+    }
+    .sense-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 2fr;
+      gap: 12px;
+      padding: 10px 20px;
+      border-bottom: 1px solid #e8f5e9;
+      align-items: start;
+    }
+    .sense-row:nth-child(odd)  { background: #fff; }
+    .sense-row:nth-child(even) { background: #f8fdf8; }
+    .sense-row:last-child { border-bottom: none; }
+    .sense-name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #0d4a2e;
+      line-height: 1.3;
+    }
+    .sense-name span {
+      display: block;
+      font-weight: 500;
+      font-size: 0.78rem;
+      color: #6a8a6a;
+      font-family: 'Inter', sans-serif;
+    }
+    .sense-location { font-size: 0.82rem; color: #6a8a6a; font-style: italic; }
+    .sense-detail   { font-size: 0.82rem; color: #4a6a4a; line-height: 1.45; }
+
+    /* ── EXAMPLE GRID ── */
+    .example-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #0d4a2e;
+      margin: 22px auto 12px;
+      text-align: center;
+      max-width: 680px;
+    }
+    .example-grid {
+      max-width: 680px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+    }
+    .example-col {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #d4edda;
+    }
+    .example-col-header {
+      padding: 8px 12px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: #ffffff !important;
+      background: #1a5c3a;
+    }
+    .example-col-body {
+      background: #f8fdf8;
+      padding: 10px 12px;
+      font-size: 0.8rem;
+      color: #4a6a4a;
+      font-style: italic;
+      line-height: 1.65;
+    }
+
+    .info-box {
+      max-width: 680px;
+      margin: 22px auto 0;
+      background: #b5e8c4;
+      border-radius: 14px;
+      padding: 20px 24px;
+      color: #0d4a2e;
+      font-size: 0.95rem;
+    }
+    .info-box strong { font-weight: 700; }
+
+    /* ── WORKSHEET ── */
+    .page-worksheet {
+      background: #f0f9f0;
+      padding: 64px 24px 80px;
+    }
+    .ws-inner { max-width: 900px; margin: 0 auto; }
+
+    .remember-box {
+      background: #b5e8c4;
+      border-radius: 14px;
+      padding: 22px 26px;
+      margin-bottom: 32px;
+      color: #0d4a2e;
+    }
+    .remember-box h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+    .remember-box p { font-size: 0.94rem; line-height: 1.65; }
+    .remember-box p + p { margin-top: 8px; }
+
+    /* ── SENSE GRID ── */
+    .sense-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      margin-bottom: 28px;
+    }
+    .sense-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 20px rgba(26,92,58,0.10);
+      overflow: hidden;
+    }
+    .sense-card.sight    { border-left: 5px solid #e91e63; }
+    .sense-card.sound    { border-left: 5px solid #f9a825; }
+    .sense-card.smell    { border-left: 5px solid #43a047; }
+    .sense-card.taste    { border-left: 5px solid #039be5; }
+    .sense-card.touch    { border-left: 5px solid #7b1fa2; }
+    .sense-card.activity { border-left: 5px solid #00897b; }
+
+    .sense-card-header {
+      background: linear-gradient(135deg, #0d4a2e, #1a5c3a);
+      padding: 16px 20px;
+    }
+    .sense-card-header h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: #ffffff !important;
+      margin: 0 0 3px;
+    }
+    .sense-card-header p {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.82) !important;
+      margin: 0;
+    }
+    .sense-card-body { padding: 18px 20px; }
+    .sense-card-body textarea {
+      width: 100%;
+      min-height: 200px;
+      border: 1.5px solid #c8e6d0;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: #1a2e1a;
+      background: #f8fdf8;
+      resize: vertical;
+      line-height: 1.65;
+      transition: border-color 0.2s;
+    }
+    .sense-card-body textarea:focus {
+      outline: none;
+      border-color: #1a5c3a;
+      background: #fff;
+    }
+    .sense-card-body textarea::placeholder { color: #9ab89a; }
+
+    .entry-item{background:#fff;border-left:4px solid #0d4a2e;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:10px;font-size:.85rem;}
+    .entry-item strong{color:#0d4a2e;display:block;margin-bottom:4px;}
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 760px) {
+      .page-hero h1 { font-size: 2rem; }
+      .feature-grid   { grid-template-columns: 1fr; }
+      .sense-grid     { grid-template-columns: 1fr; }
+      .example-grid   { grid-template-columns: 1fr; }
+      .senses-table-cols { display: none; }
+      .sense-row { grid-template-columns: 1fr; gap: 4px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<section class="page-hero">
+  <h1>My Sensory Toolkit</h1>
+  <p>Our senses are our most direct connection to comfort and calm in the present moment. This worksheet helps you build a personalised inventory of the sights, sounds, smells, tastes, textures, and activities that genuinely soothe and restore you.</p>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="icon">🧠</div>
+      <h3>Beyond the Classic Five</h3>
+      <p>We have more than five senses — balance, body awareness, and internal state awareness can all be deliberately engaged to reduce distress.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🛡️</div>
+      <h3>A Self-Soothing Tool</h3>
+      <p>Deliberately engaging the senses is one of the most effective distress tolerance strategies, especially when feelings become intense.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">📝</div>
+      <h3>Deeply Personal</h3>
+      <p>What soothes one person may not soothe another. Your sensory toolkit is unique — built entirely from things that genuinely work for you.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">⏱️</div>
+      <h3>Build Now, Use Later</h3>
+      <p>Create your toolkit when you're calm, so that when distress rises and thinking becomes harder, you have a ready-made list to turn to.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ── -->
+<section class="page-howto">
+  <p class="section-label">How It Works</p>
+  <h2 class="section-title">A step-by-step guide</h2>
+  <p class="section-sub">Work through each sense category and list as many items as you can — aim for 10–20 per category. The more specific you are, the more useful your toolkit will be.</p>
+
+  <div class="steps-stack">
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <h4>Understand what you're looking for</h4>
+        <p>For each sense category, you're looking for things that bring you genuine <strong>pleasure, enjoyment, or comfort</strong>. These could be everyday things (a cup of tea, birdsong) or more deliberate experiences (a massage, a favourite piece of music). There are no right or wrong answers — only what actually works for you.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <h4>Think beyond the classic five senses</h4>
+        <p>We actually have more than five senses. <strong>Proprioception</strong> (body awareness) and <strong>vestibular</strong> (balance and movement) respond well to stretching, rocking, dancing, or weighted blankets. <strong>Interoception</strong> — awareness of internal body states — can be engaged through warmth, slow breathing, and staying hydrated. Include these kinds of activities in your Activity &amp; Movement category.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <h4>Be as specific as possible</h4>
+        <p>Instead of "music", write the specific genre, artist, or track. Instead of "nature", write "watching waves from a cliff". The more specific your entries, the more likely you are to actually use them when distress is high and decision-making feels hard.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">4</div>
+      <div class="step-text">
+        <h4>Aim for variety across distress levels</h4>
+        <p>Some items work when distress is low (reading a novel, listening to music). Others work when distress is very high (cold water on your face, intense exercise, a weighted blanket). Try to include items that work across a range of distress levels so your toolkit is useful at any point on the SUDS scale.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">5</div>
+      <div class="step-text">
+        <h4>Use your toolkit when distress rises</h4>
+        <p>Sensory self-soothing is especially effective at <strong>SUDS 5–6</strong> (moderate to strong distress). When you feel distress building, open your toolkit, choose something from a relevant category, and engage with it fully and mindfully — not as a distraction, but as a deliberate act of self-care.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SENSES TABLE -->
+  <div class="senses-table-wrap">
+    <div class="senses-table-title">Our Sensory Systems — An Overview</div>
+    <div class="senses-table-cols">
+      <span>Sense</span>
+      <span>Located in</span>
+      <span>What it does</span>
+    </div>
+    <div class="sense-row">
+      <div class="sense-name">👁️ Visual <span>(sight)</span></div>
+      <div class="sense-location">retina</div>
+      <div class="sense-detail">Provides information about objects and people.</div>
+    </div>
+    <div class="sense-row">
+      <div class="sense-name">👂 Auditory <span>(hearing)</span></div>
+      <div class="sense-location">inner ear</div>
+      <div class="sense-detail">Provides information about sounds in the environment.</div>
+    </div>
+    <div class="sense-row">
+      <div class="sense-name">👃 Olfactory <span>(smell)</span></div>
+      <div class="sense-location">nose</div>
+      <div class="sense-detail">Provides information about different types of smell.</div>
+    </div>
+    <div class="sense-row">
+      <div class="sense-name">👅 Gustatory <span>(taste)</span></div>
+      <div class="sense-location">tongue</div>
+      <div class="sense-detail">Provides information about different types of taste.</div>
+    </div>
+    <div class="sense-row">
+      <div class="sense-name">🤚 Tactile <span>(touch)</span></div>
+      <div class="sense-location">skin</div>
+      <div class="sense-detail">Tells us about pain, pressure, heat, and object qualities. Has protective and discriminative functions.</div>
+    </div>
+    <div class="sense-row">
+      <div class="sense-name">🤸 Vestibular <span>(balance)</span></div>
+      <div class="sense-location">inner ear</div>
+      <div class="sense-detail">Provides information about where our body is in space and whether we or our surroundings are moving.</div>
+    </div>
+    <div class="sense-row">
+      <div class="sense-name">💪 Proprioception <span>(body awareness)</span></div>
+      <div class="sense-location">joints, muscles, ligaments</div>
+      <div class="sense-detail">Provides information about body position and gauges the force needed to do activities.</div>
+    </div>
+    <div class="sense-row">
+      <div class="sense-name">🫀 Interoception <span>(internal state)</span></div>
+      <div class="sense-location">internal organs</div>
+      <div class="sense-detail">Provides information about the state of our internal organs — hunger, thirst, temperature, heartbeat.</div>
+    </div>
+  </div>
+
+  <!-- EXAMPLES -->
+  <p class="example-label">Example entries — for inspiration</p>
+  <div class="example-grid">
+    <div class="example-col">
+      <div class="example-col-header">👁️ Sight</div>
+      <div class="example-col-body">The sea on a sunny day · Beautiful flowers · Lit candles · Interesting patterns · Breathtaking views of nature · Birds and animals</div>
+    </div>
+    <div class="example-col">
+      <div class="example-col-header">👂 Sound</div>
+      <div class="example-col-body">Birdsong · Waves lapping on a beach · Rain on the roof · Gentle music · Laughter · A purring cat · Silence</div>
+    </div>
+    <div class="example-col">
+      <div class="example-col-header">👃 Smell</div>
+      <div class="example-col-body">Freshly baked bread · Lavender · Sea air · Freshly cut grass · Favourite perfume · Scented candles · Bonfire</div>
+    </div>
+    <div class="example-col">
+      <div class="example-col-header">👅 Taste</div>
+      <div class="example-col-body">Chocolate · Hot porridge · Freshly squeezed orange juice · Roast dinner · Mango chutney · Favourite comfort food</div>
+    </div>
+    <div class="example-col">
+      <div class="example-col-header">🤚 Touch</div>
+      <div class="example-col-body">Stroking a pet · Warm sand underfoot · Soft fleece · Sunshine on skin · Cuddling a loved one · A warm bath</div>
+    </div>
+    <div class="example-col">
+      <div class="example-col-header">🏃 Activity</div>
+      <div class="example-col-body">Dancing · Reading a good novel · Singing · Floating in water · Lunch with a friend · Playing music · Colouring in</div>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <strong>💡 Tip:</strong> Keep your completed toolkit somewhere accessible — save it to your phone or print it out. The goal is to be able to open it quickly when you need it most, without having to think about what to try.
+  </div>
+</section>
+
+<!-- ── WORKSHEET ── -->
+<section class="page-worksheet">
+  <div class="ws-inner">
+    <p class="section-label">Your Worksheet</p>
+    <h2 class="section-title">My Sensory Toolkit</h2>
+    <p class="section-sub" style="margin-bottom:36px;">List as many items as you can in each category — aim for 10–20. Enter one item per line, or separate items with a comma. When you're done, click Save My Entry to store your toolkit.</p>
+
+    <div class="remember-box">
+      <h4>📝 Before you begin</h4>
+      <p>For each category, list things that bring you genuine <strong>pleasure, enjoyment, or comfort</strong> — not things you think you <em>should</em> enjoy, but things that actually work for you. Be as specific as you can. The more detailed your entries, the more useful your toolkit will be when you need it.</p>
+    </div>
+
+    <div class="sense-grid">
+
+      <div class="sense-card sight">
+        <div class="sense-card-header">
+          <h3>👁️ Sight</h3>
+          <p>Things that are beautiful, calming, or uplifting to look at</p>
+        </div>
+        <div class="sense-card-body">
+          <textarea id="sightItems" placeholder="e.g. The sea on a sunny day&#10;Beautiful flowers&#10;Lit candles&#10;Interesting patterns&#10;Breathtaking views of nature&#10;Birds and animals..."></textarea>
+        </div>
+      </div>
+
+      <div class="sense-card sound">
+        <div class="sense-card-header">
+          <h3>👂 Sound</h3>
+          <p>Things that are soothing, energising, or comforting to hear</p>
+        </div>
+        <div class="sense-card-body">
+          <textarea id="soundItems" placeholder="e.g. Birdsong&#10;Waves lapping on a beach&#10;Rain on the roof&#10;Favourite music&#10;Laughter&#10;A purring cat&#10;Silence..."></textarea>
+        </div>
+      </div>
+
+      <div class="sense-card smell">
+        <div class="sense-card-header">
+          <h3>👃 Smell</h3>
+          <p>Scents that calm, comfort, or lift your mood</p>
+        </div>
+        <div class="sense-card-body">
+          <textarea id="smellItems" placeholder="e.g. Freshly baked bread&#10;Lavender&#10;Sea air&#10;Freshly cut grass&#10;Favourite perfume&#10;Scented candles&#10;Bonfire..."></textarea>
+        </div>
+      </div>
+
+      <div class="sense-card taste">
+        <div class="sense-card-header">
+          <h3>👅 Taste</h3>
+          <p>Foods and drinks that are genuinely comforting or pleasurable</p>
+        </div>
+        <div class="sense-card-body">
+          <textarea id="tasteItems" placeholder="e.g. Chocolate&#10;Hot porridge&#10;Freshly squeezed orange juice&#10;Roast dinner&#10;Favourite comfort food&#10;Herbal tea..."></textarea>
+        </div>
+      </div>
+
+      <div class="sense-card touch">
+        <div class="sense-card-header">
+          <h3>🤚 Touch</h3>
+          <p>Textures, temperatures, and physical sensations that soothe</p>
+        </div>
+        <div class="sense-card-body">
+          <textarea id="touchItems" placeholder="e.g. Stroking a pet&#10;Warm sand underfoot&#10;Soft fleece blanket&#10;Sunshine on skin&#10;A warm bath&#10;Cuddling a loved one&#10;Gentle massage..."></textarea>
+        </div>
+      </div>
+
+      <div class="sense-card activity">
+        <div class="sense-card-header">
+          <h3>🏃 Activity &amp; Movement</h3>
+          <p>Things to do that engage your body, mind, or sense of balance</p>
+        </div>
+        <div class="sense-card-body">
+          <textarea id="activityItems" placeholder="e.g. Dancing&#10;Reading a good novel&#10;Singing&#10;Floating in water&#10;Lunch with a friend&#10;Playing music&#10;Gentle stretching&#10;Colouring in..."></textarea>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="remember-box">
+      <h4>🌿 Remember</h4>
+      <p>Your sensory toolkit is a living document — add to it whenever you discover something new that works for you. Share it with your therapist if you're working with one; they can help you identify which items to reach for at different distress levels.</p>
+    </div>
+
+    <div class="submit-wrap" style="text-align:center;margin:40px 0 16px;">
+      <button id="saveBtn" style="background:#0d4a2e;color:#fff;border:none;padding:16px 40px;border-radius:50px;font-family:Montserrat,sans-serif;font-size:17px;font-weight:700;cursor:pointer;">Save My Entry</button>
+      <div style="margin-top:24px;">
+        <h3 style="font-family:Montserrat,sans-serif;font-size:0.95rem;color:#0d4a2e;margin-bottom:12px;text-align:center;">Saved Entries</h3>
+        <div id="entriesList"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  function clean(id) {
+    var el = document.getElementById(id);
+    if (!el) return '';
+    return (el.value || '')
+      .replace(/\r\n/g, ' | ')
+      .replace(/\r/g, ' | ')
+      .replace(/\n/g, ' | ')
+      .replace(/"/g, "'");
+  }
+
+  function collectData() {
+    return {
+      sightItems:    clean('sightItems'),
+      soundItems:    clean('soundItems'),
+      smellItems:    clean('smellItems'),
+      tasteItems:    clean('tasteItems'),
+      touchItems:    clean('touchItems'),
+      activityItems: clean('activityItems')
+    };
+  }
+
+  async function saveEntry() {
+    var data = collectData();
+    data.time = new Date().toLocaleString();
+    try {
+      await fetch('/.netlify/functions/saveWorksheet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    } catch (err) { console.error('Save error:', err); }
+    var entries = JSON.parse(localStorage.getItem('sensory-toolkit') || '[]');
+    entries.unshift(data);
+    localStorage.setItem('sensory-toolkit', JSON.stringify(entries));
+    render();
+  }
+
+  function render() {
+    var el = document.getElementById('entriesList');
+    if (!el) return;
+    var entries = JSON.parse(localStorage.getItem('sensory-toolkit') || '[]');
+    if (!entries.length) { el.innerHTML = ''; return; }
+    el.innerHTML = entries.map(function(e) {
+      var p = (e.sightItems || '').substring(0, 80);
+      return '<div class="entry-item"><strong>' + (e.time || '') + '</strong>' + (p ? '<span style="color:#333;">' + p + '</span>' : '') + '</div>';
+    }).join('');
+  }
+
+  document.getElementById('saveBtn').addEventListener('click', saveEntry);
+  render();
+</script>
+</body>
+</html>
