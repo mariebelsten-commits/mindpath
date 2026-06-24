@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Theory A vs Theory B | ChatCBT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f0f9f0;
+      color: #1a2e1a;
+      line-height: 1.7;
+    }
+
+    /* ── HERO ── */
+    .page-hero {
+      background: linear-gradient(135deg, #0d4a2e 0%, #1a5c3a 60%, #2d7a50 100%);
+      color: #fff;
+      padding: 72px 24px 60px;
+      text-align: center;
+    }
+    .page-hero h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 20px;
+      line-height: 1.15;
+      color: #ffffff !important;
+    }
+    .page-hero p {
+      font-size: 1.15rem;
+      max-width: 640px;
+      margin: 0 auto 44px;
+      opacity: 0.92;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    .feature-card {
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 14px;
+      padding: 22px 20px;
+    }
+    .feature-card .icon { font-size: 1.6rem; margin-bottom: 10px; }
+    .feature-card h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #ffffff !important;
+    }
+    .feature-card p { font-size: 0.9rem; opacity: 0.88; }
+
+    /* ── SECTION LABELS ── */
+    .section-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #1a5c3a;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .section-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: #0d4a2e;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .section-sub {
+      text-align: center;
+      color: #4a6a4a;
+      margin-bottom: 44px;
+      max-width: 580px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .page-howto {
+      background: #fff;
+      padding: 64px 24px;
+    }
+    .steps-stack {
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .step-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      background: #f8fdf8;
+      border-radius: 14px;
+      padding: 22px 24px;
+      border: 1px solid #d4edda;
+    }
+    .step-num {
+      background: #1a5c3a;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-text h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      color: #0d4a2e;
+      margin-bottom: 4px;
+    }
+    .step-text p { color: #4a6a4a; font-size: 0.95rem; }
+
+    .example-comparison {
+      max-width: 680px;
+      margin: 28px auto 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .example-col {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #d4edda;
+    }
+    .example-col-header {
+      padding: 10px 16px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #ffffff !important;
+    }
+    .example-col-header.a { background: #1a5c3a; }
+    .example-col-header.b { background: #0d4a2e; }
+    .example-col-body {
+      background: #f8fdf8;
+      padding: 14px 16px;
+      font-size: 0.88rem;
+      color: #4a6a4a;
+      font-style: italic;
+      line-height: 1.6;
+    }
+
+    .info-box {
+      max-width: 680px;
+      margin: 22px auto 0;
+      background: #b5e8c4;
+      border-radius: 14px;
+      padding: 20px 24px;
+      color: #0d4a2e;
+      font-size: 0.95rem;
+    }
+    .info-box strong { font-weight: 700; }
+
+    /* ── WORKSHEET ── */
+    .page-worksheet {
+      background: #f0f9f0;
+      padding: 64px 24px 80px;
+    }
+    .ws-inner { max-width: 900px; margin: 0 auto; }
+
+    .remember-box {
+      background: #b5e8c4;
+      border-radius: 14px;
+      padding: 22px 26px;
+      margin-bottom: 32px;
+      color: #0d4a2e;
+    }
+    .remember-box h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+    .remember-box p { font-size: 0.94rem; line-height: 1.65; }
+    .remember-box p + p { margin-top: 8px; }
+
+    /* ── THEORY COMPARISON TABLE ── */
+    .theory-container {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 20px rgba(26,92,58,0.10);
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+
+    .theory-headers {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .theory-col-header {
+      padding: 20px 26px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: #ffffff !important;
+      letter-spacing: -0.2px;
+    }
+    .theory-col-header.col-a { background: #1a5c3a; }
+    .theory-col-header.col-b {
+      background: #0d4a2e;
+      border-left: 2px solid rgba(255,255,255,0.15);
+    }
+
+    .theory-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 2px solid #d4edda;
+    }
+    .theory-cell {
+      padding: 22px 24px;
+    }
+    .theory-cell.cell-a {
+      border-right: 2px solid #d4edda;
+    }
+    .cell-question {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: #0d4a2e;
+      margin-bottom: 12px;
+      line-height: 1.45;
+    }
+    .theory-cell textarea {
+      width: 100%;
+      min-height: 120px;
+      border: 1.5px solid #c8e6d0;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.92rem;
+      color: #1a2e1a;
+      background: #f8fdf8;
+      resize: vertical;
+      transition: border-color 0.2s;
+      line-height: 1.6;
+    }
+    .theory-cell textarea:focus {
+      outline: none;
+      border-color: #1a5c3a;
+      background: #fff;
+    }
+    .theory-cell textarea::placeholder { color: #9ab89a; }
+    .theory-cell textarea.tall { min-height: 160px; }
+
+    .scroll-hint {
+      font-size: 0.8rem;
+      color: #7a9a7a;
+      text-align: center;
+      margin-bottom: 10px;
+      display: none;
+    }
+
+    .submit-wrap { text-align: center; margin-top: 16px; }
+
+    .entry-item{background:#fff;border-left:4px solid #0d4a2e;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:10px;font-size:.85rem;}
+    .entry-item strong{color:#0d4a2e;display:block;margin-bottom:4px;}
+
+    @media (max-width: 760px) {
+      .page-hero h1 { font-size: 2rem; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .example-comparison { grid-template-columns: 1fr; }
+      .scroll-hint { display: block; }
+      .theory-headers,
+      .theory-section { grid-template-columns: 1fr; }
+      .theory-col-header.col-b { border-left: none; border-top: 2px solid rgba(255,255,255,0.15); }
+      .theory-cell.cell-a { border-right: none; border-bottom: 2px solid #d4edda; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<section class="page-hero">
+  <h1>Theory A vs Theory B</h1>
+  <p>Anxiety often rests on a hidden assumption about what the real problem is. This worksheet helps you put two competing theories side by side — and discover which one the evidence actually supports.</p>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="icon">🔬</div>
+      <h3>Two Explanations</h3>
+      <p>Theory A and Theory B offer competing accounts of the same experience. Only one can be right — or at least, one fits the evidence better.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">⚖️</div>
+      <h3>Weigh the Evidence</h3>
+      <p>What actually supports each theory? Looking at real evidence helps you move beyond gut feelings and anxious assumptions.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🎯</div>
+      <h3>Consider the Implications</h3>
+      <p>If each theory were true, what would you need to do? The answer often reveals which theory is keeping your anxiety going.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🔮</div>
+      <h3>Look to the Future</h3>
+      <p>Which theory, if true, would open up a better life? Seeing the future implications can be powerfully motivating.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ── -->
+<section class="page-howto">
+  <p class="section-label">How It Works</p>
+  <h2 class="section-title">A step-by-step guide</h2>
+  <p class="section-sub">Work through each section for both theories before moving to the next. Try to be as honest and specific as you can.</p>
+
+  <div class="steps-stack">
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <h4>Understand the two theories</h4>
+        <p><strong>Theory A</strong> is usually the anxiety-maintaining belief — it frames the problem as an external threat or a real danger that must be managed. <strong>Theory B</strong> reframes the problem: the anxiety itself is the issue, not the feared thing. Theory B opens the door to different, more helpful responses.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <h4>State both theories clearly</h4>
+        <p>Write each theory as a simple statement. Theory A often begins "My problem is that there is real danger/illness/risk..." Theory B often begins "My problem is that I am anxious about..."</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <h4>Gather evidence for each</h4>
+        <p>Write down any evidence that supports each theory. Try to be specific and honest — the evidence column often reveals that Theory B is better supported than it first appears.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">4</div>
+      <div class="step-text">
+        <h4>Consider what each theory requires</h4>
+        <p>If Theory A were true, what would you need to do? If Theory B were true, what then? The actions each theory demands can reveal a lot about which one is actually driving your behaviour.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">5</div>
+      <div class="step-text">
+        <h4>Reflect on the future</h4>
+        <p>What would each theory mean for you and your future if it turned out to be true? This question helps you see the long-term consequences of living by each theory.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="example-comparison">
+    <div class="example-col">
+      <div class="example-col-header a">Theory A — Example</div>
+      <div class="example-col-body">"My problem is that I have a serious undetected illness. My anxiety is a reasonable response to a genuine health risk, and I need to keep checking to stay safe."</div>
+    </div>
+    <div class="example-col">
+      <div class="example-col-header b">Theory B — Example</div>
+      <div class="example-col-body">"My problem is that I am highly anxious about my health. My body's normal sensations are being misinterpreted as dangerous. The anxiety — not the illness — is what I need to address."</div>
+    </div>
+  </div>
+
+  <div class="info-box" style="margin-top:22px;">
+    <strong>💡 Tip:</strong> Theory B is not about dismissing your concerns — it's about asking whether there might be a more accurate explanation for what you're experiencing. Working with your therapist on this exercise gives it extra power.
+  </div>
+</section>
+
+<!-- ── WORKSHEET ── -->
+<section class="page-worksheet">
+  <div class="ws-inner">
+    <p class="section-label">Your Worksheet</p>
+    <h2 class="section-title">Theory A vs Theory B</h2>
+    <p class="section-sub" style="margin-bottom:36px;">Fill in both columns as fully as you can, then save your entry below.</p>
+
+    <div class="remember-box">
+      <h4>📝 Before you begin</h4>
+      <p><strong>Theory A</strong> is the anxiety-maintaining view: it treats the feared thing as the real problem (e.g., "There is actual danger / I am genuinely ill / Something really will go wrong").</p>
+      <p><strong>Theory B</strong> is the alternative: it treats the anxiety response itself as the problem (e.g., "My problem is that I experience intense anxiety, and this anxiety — not the feared thing — is what needs to be addressed").</p>
+    </div>
+
+    <p class="scroll-hint">← Scroll left and right to see both columns →</p>
+
+    <div class="theory-container">
+
+      <div class="theory-headers">
+        <div class="theory-col-header col-a">Theory A</div>
+        <div class="theory-col-header col-b">Theory B</div>
+      </div>
+
+      <!-- Row 1: Theory statements -->
+      <div class="theory-section">
+        <div class="theory-cell cell-a">
+          <div class="cell-question">State Theory A:</div>
+          <textarea id="theory_a" placeholder='e.g. "My problem is that I have a serious illness that has not yet been detected."'></textarea>
+        </div>
+        <div class="theory-cell cell-b">
+          <div class="cell-question">State Theory B:</div>
+          <textarea id="theory_b" placeholder='e.g. "My problem is that I am extremely anxious about my health, and this anxiety is causing my symptoms."'></textarea>
+        </div>
+      </div>
+
+      <!-- Row 2: Evidence -->
+      <div class="theory-section">
+        <div class="theory-cell cell-a">
+          <div class="cell-question">Evidence for Theory A:</div>
+          <textarea id="evidence_for_a" placeholder="What evidence supports this theory? List specific examples..."></textarea>
+        </div>
+        <div class="theory-cell cell-b">
+          <div class="cell-question">Evidence for Theory B:</div>
+          <textarea id="evidence_for_b" placeholder="What evidence supports this theory? List specific examples..."></textarea>
+        </div>
+      </div>
+
+      <!-- Row 3: What to do -->
+      <div class="theory-section">
+        <div class="theory-cell cell-a">
+          <div class="cell-question">What do I need to do if Theory A is true?</div>
+          <textarea id="action_if_a" class="tall" placeholder="e.g. Keep checking my body, seek reassurance from doctors, avoid physical activity in case it triggers something..."></textarea>
+        </div>
+        <div class="theory-cell cell-b">
+          <div class="cell-question">What do I need to do if Theory B is true?</div>
+          <textarea id="action_if_b" class="tall" placeholder="e.g. Stop checking and seeking reassurance, face the anxiety rather than avoiding it, learn to tolerate uncertainty..."></textarea>
+        </div>
+      </div>
+
+      <!-- Row 4: Future implications -->
+      <div class="theory-section">
+        <div class="theory-cell cell-a">
+          <div class="cell-question">If Theory A were true, what would it mean for me and my future?</div>
+          <textarea id="meaning_if_a" class="tall" placeholder="e.g. I would need to stay vigilant forever, life would remain restricted, I might never feel safe..."></textarea>
+        </div>
+        <div class="theory-cell cell-b">
+          <div class="cell-question">If Theory B were true, what would it mean for me and my future?</div>
+          <textarea id="meaning_if_b" class="tall" placeholder="e.g. I could learn to manage my anxiety, gradually regain my freedom, live a fuller life without constant fear..."></textarea>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="remember-box">
+      <h4>🌿 Remember</h4>
+      <p>You don't have to believe Theory B fully right now — just be willing to consider it as a possibility and act as if it might be true. The evidence will build over time as you test it out. Discuss your conclusions with your therapist if you're working with one.</p>
+    </div>
+
+    <div class="submit-wrap" style="text-align:center;margin:40px 0 16px;">
+      <button id="saveBtn" style="background:#0d4a2e;color:#fff;border:none;padding:16px 40px;border-radius:50px;font-family:Montserrat,sans-serif;font-size:17px;font-weight:700;cursor:pointer;">Save My Entry</button>
+      <div style="margin-top:24px;">
+        <h3 style="font-family:Montserrat,sans-serif;font-size:0.95rem;color:#0d4a2e;margin-bottom:12px;text-align:center;">Saved Entries</h3>
+        <div id="entriesList"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  function clean(id) {
+    var el = document.getElementById(id);
+    if (!el) return '';
+    return (el.value || '')
+      .replace(/\r\n/g, ' | ')
+      .replace(/\r/g, ' | ')
+      .replace(/\n/g, ' | ')
+      .replace(/"/g, "'");
+  }
+
+  function collectData() {
+    return {
+      theory_a:      clean('theory_a'),
+      theory_b:      clean('theory_b'),
+      evidence_for_a: clean('evidence_for_a'),
+      evidence_for_b: clean('evidence_for_b'),
+      action_if_a:   clean('action_if_a'),
+      action_if_b:   clean('action_if_b'),
+      meaning_if_a:  clean('meaning_if_a'),
+      meaning_if_b:  clean('meaning_if_b')
+    };
+  }
+
+  async function saveEntry() {
+    var data = collectData();
+    data.time = new Date().toLocaleString();
+    try {
+      await fetch('/.netlify/functions/saveWorksheet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    } catch (err) { console.error('Save error:', err); }
+    var entries = JSON.parse(localStorage.getItem('theory-a-vs-b') || '[]');
+    entries.unshift(data);
+    localStorage.setItem('theory-a-vs-b', JSON.stringify(entries));
+    render();
+  }
+
+  function render() {
+    var el = document.getElementById('entriesList');
+    if (!el) return;
+    var entries = JSON.parse(localStorage.getItem('theory-a-vs-b') || '[]');
+    if (!entries.length) { el.innerHTML = ''; return; }
+    el.innerHTML = entries.map(function(e) {
+      var p = (e.theory_a || '').substring(0, 80);
+      return '<div class="entry-item"><strong>' + (e.time || '') + '</strong>' + (p ? '<span style="color:#333;">' + p + '</span>' : '') + '</div>';
+    }).join('');
+  }
+
+  document.getElementById('saveBtn').addEventListener('click', saveEntry);
+  render();
+</script>
+</body>
+</html>
