@@ -567,12 +567,14 @@
   </div>
 </section>
 
+<script src="/js/save.js"></script>
 <script>
   function nl(v) { return (v || '').replace(/\r?\n|\r/g, ' | '); }
   function gv(id) { return nl(document.getElementById(id).value); }
 
   function collectData() {
     return {
+      type:                   'Thinking Distortion Quiz',
       scenario_1_distortions: gv('scenario_1_distortions'),
       scenario_1_keywords:    gv('scenario_1_keywords'),
       scenario_2_distortions: gv('scenario_2_distortions'),
@@ -587,17 +589,9 @@
     };
   }
 
-  async function saveEntry() {
+  function saveEntry() {
     var data = collectData();
-    try {
-      await fetch('/.netlify/functions/saveWorksheet', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-    } catch (err) {
-      console.error('Save error:', err);
-    }
+    saveToServer(data);
     var entries = JSON.parse(localStorage.getItem('distorted-thinking-quiz') || '[]');
     entries.unshift(data);
     localStorage.setItem('distorted-thinking-quiz', JSON.stringify(entries));
