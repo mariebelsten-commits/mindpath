@@ -393,6 +393,7 @@
 
 </div>
 
+<script src="/js/save.js"></script>
 <script>
   document.querySelectorAll('.dist-cb').forEach(function(cb) {
     cb.addEventListener('change', function() {
@@ -406,6 +407,7 @@
     var checked = Array.from(document.querySelectorAll('.dist-cb:checked')).map(function(cb) { return cb.value; }).join(', ');
     var notes = (document.getElementById('distortions_notes').value || '').trim();
     return {
+      type:             'Emotional Sequencing',
       event:            nl(document.getElementById('event').value),
       thoughts:         nl(document.getElementById('thoughts').value),
       current_feelings: nl(document.getElementById('current_feelings').value),
@@ -416,17 +418,9 @@
     };
   }
 
-  async function saveEntry() {
+  function saveEntry() {
     var data = collectData();
-    try {
-      await fetch('/.netlify/functions/saveWorksheet', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-    } catch (err) {
-      console.error('Save error:', err);
-    }
+    saveToServer(data);
     var entries = JSON.parse(localStorage.getItem('emotional-sequencing-diary') || '[]');
     entries.unshift(data);
     localStorage.setItem('emotional-sequencing-diary', JSON.stringify(entries));
