@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Responsibility Pie | ChatCBT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f0f9f0; color: #1a1a1a; }
+
+    .page-hero { background: #0d4a2e; padding: 56px 24px 48px; text-align: center; }
+    .hero-badge { display: inline-block; background: rgba(255,255,255,0.15); color: #fff; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; }
+    .page-hero h1 { font-family: 'Montserrat', sans-serif; font-size: 2.6rem; font-weight: 800; color: #ffffff; margin-bottom: 12px; letter-spacing: -0.5px; }
+    .page-hero p { font-size: 1.1rem; color: rgba(255,255,255,0.88); max-width: 580px; margin: 0 auto; line-height: 1.6; }
+
+    .features-section { background: #1a5c3a; padding: 40px 24px; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 20px; max-width: 960px; margin: 0 auto; }
+    .feature-card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 22px 18px; text-align: center; color: #fff; }
+    .feature-card .icon { font-size: 1.8rem; margin-bottom: 10px; }
+    .feature-card h3 { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 700; color: #ffffff; margin-bottom: 7px; }
+    .feature-card p { font-size: 0.83rem; color: rgba(255,255,255,0.85); line-height: 1.5; }
+
+    .instructions-box { background: #e8f5e9; border-left: 4px solid #1a5c3a; padding: 18px 24px; max-width: 800px; margin: 32px auto 0; border-radius: 0 8px 8px 0; }
+    .instructions-box h3 { font-family: 'Montserrat', sans-serif; font-size: 0.92rem; font-weight: 700; color: #0d4a2e; margin-bottom: 6px; }
+    .instructions-box p { font-size: 0.87rem; color: #2d4a35; line-height: 1.65; }
+
+    .page-worksheet { max-width: 800px; margin: 28px auto 48px; padding: 0 16px; }
+
+    .step-block { background: #fff; border-radius: 12px; padding: 28px 28px 24px; margin-bottom: 8px; border: 1px solid #d0ecd8; box-shadow: 0 2px 8px rgba(13,74,46,0.06); }
+    .step-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .step-number { width: 36px; height: 36px; background: #1a5c3a; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.9rem; flex-shrink: 0; }
+    .step-title { font-family: 'Montserrat', sans-serif; font-size: 1.08rem; font-weight: 700; color: #0d4a2e; }
+    .step-desc { font-size: 0.88rem; color: #4a7a5a; margin-bottom: 16px; line-height: 1.6; }
+
+    .flow-arrow { text-align: center; font-size: 1.4rem; color: #4a7a5a; line-height: 1; margin: 6px 0; }
+
+    .prompt-box { background: #e8f5e9; border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; font-size: 0.86rem; color: #1a3d28; line-height: 1.65; }
+    .prompt-box strong { font-family: 'Montserrat', sans-serif; font-size: 0.82rem; font-weight: 700; color: #0d4a2e; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 5px; }
+
+    .example-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 14px; }
+    .example-chip { background: #f0f9f0; border: 1px solid #b0d8bc; border-radius: 20px; padding: 4px 12px; font-size: 0.78rem; color: #1a5c3a; font-style: italic; }
+
+    .field-label { display: block; font-size: 0.87rem; font-weight: 600; color: #1a3d28; margin-bottom: 6px; margin-top: 20px; }
+    .field-label:first-of-type { margin-top: 0; }
+    textarea, input[type="text"], input[type="number"] { width: 100%; padding: 10px 12px; border: 1px solid #b0d8bc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #1a1a1a; background: #fff; line-height: 1.5; }
+    textarea { resize: vertical; }
+    textarea:focus, input[type="text"]:focus, input[type="number"]:focus { outline: none; border-color: #1a5c3a; box-shadow: 0 0 0 3px rgba(26,92,58,0.1); }
+    input[type="number"] { -moz-appearance: textfield; }
+    input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+    .pie-layout { display: grid; grid-template-columns: 1fr 240px; gap: 28px; align-items: start; }
+    @media (max-width: 620px) { .pie-layout { grid-template-columns: 1fr; } }
+
+    .factor-table-head { display: grid; grid-template-columns: 1fr 72px; gap: 8px; padding: 8px 12px; background: #1a5c3a; border-radius: 8px 8px 0 0; }
+    .factor-table-head span { font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 0.05em; }
+    .factor-table-head .th-pct { text-align: center; }
+    .factor-rows-wrap { border: 1px solid #d0ecd8; border-top: none; border-radius: 0 0 8px 8px; overflow: hidden; }
+    .factor-row { display: grid; grid-template-columns: 1fr 72px; gap: 8px; padding: 6px 8px; border-bottom: 1px solid #e8f5e9; align-items: center; }
+    .factor-row:last-child { border-bottom: none; }
+    .factor-row input[type="text"] { border: 1px solid #d0ecd8; border-radius: 6px; padding: 7px 10px; font-size: 0.85rem; }
+    .factor-row input[type="number"] { border: 1px solid #d0ecd8; border-radius: 6px; padding: 7px 6px; font-size: 0.85rem; text-align: center; width: 100%; }
+    .factor-row input:focus { border-color: #1a5c3a; box-shadow: 0 0 0 2px rgba(26,92,58,0.1); }
+
+    .me-row-wrap { margin-top: 8px; background: #fef2f2; border: 2px solid #e05252; border-radius: 8px; padding: 8px 12px; display: grid; grid-template-columns: 1fr 72px; gap: 8px; align-items: center; }
+    .me-label { font-family: 'Montserrat', sans-serif; font-size: 0.9rem; font-weight: 700; color: #b91c1c; }
+    .me-row-wrap input[type="number"] { border: 1px solid #f5a0a0; border-radius: 6px; padding: 7px 6px; font-size: 0.85rem; text-align: center; width: 100%; background: #fff; }
+    .me-row-wrap input[type="number"]:focus { border-color: #e05252; box-shadow: 0 0 0 2px rgba(224,82,82,0.12); }
+
+    .total-row { display: flex; justify-content: flex-end; align-items: center; gap: 7px; margin-top: 10px; font-size: 0.84rem; color: #4a7a5a; }
+    .total-num { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1rem; color: #4a7a5a; transition: color 0.2s; }
+    .total-num.complete { color: #1a5c3a; }
+    .total-num.over { color: #dc2626; }
+
+    .pie-chart-col { display: flex; flex-direction: column; align-items: center; gap: 14px; padding-top: 4px; }
+    #pieCanvas { display: block; }
+    .pie-legend { width: 100%; }
+    .legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 0.78rem; color: #1a3d28; line-height: 1.3; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .pie-empty-msg { font-size: 0.78rem; color: #9ab8a0; text-align: center; font-style: italic; }
+
+    .remember-box { background: #e8f5e9; border-radius: 12px; padding: 20px 24px; margin-top: 8px; font-size: 0.88rem; color: #1a3d28; line-height: 1.7; text-align: center; }
+
+    .submit-section { text-align: center; padding: 24px 0 16px; }
+    #saveBtn { display: inline-block; background: #1a5c3a; color: #ffffff; padding: 14px 36px; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700; border: none; cursor: pointer; transition: background 0.2s; margin-top: 8px; }
+    #saveBtn:hover { background: #14482d; }
+    .entries-wrap { margin-top: 28px; }
+    .entries-wrap h3 { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; color: #0d4a2e; margin-bottom: 12px; text-align: center; }
+    .entry-item { background: #fff; border-left: 4px solid #0d4a2e; border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 10px; font-size: 0.85rem; }
+    .entry-item strong { color: #0d4a2e; display: block; margin-bottom: 4px; }
+
+    @media (max-width: 600px) { .page-hero h1 { font-size: 2rem; } }
+  </style>
+</head>
+<body>
+
+<section class="page-hero">
+  <div class="hero-badge">CBT Worksheet</div>
+  <h1>The Responsibility Pie</h1>
+  <p>When guilt or blame feels overwhelming, this exercise helps you distribute responsibility fairly — and see that your slice is often much smaller than it feels.</p>
+</section>
+
+<section class="features-section">
+  <div class="features-grid">
+    <div class="feature-card"><div class="icon">🔍</div><h3>Find the Full Picture</h3><p>Look beyond yourself to identify all the people, circumstances, and factors that contributed</p></div>
+    <div class="feature-card"><div class="icon">⚖️</div><h3>Distribute Fairly</h3><p>Assign responsibility proportionally across all contributing factors — honestly and compassionately</p></div>
+    <div class="feature-card"><div class="icon">🥧</div><h3>See Your Slice</h3><p>Discover your actual share of responsibility, which is often far smaller than it first appears</p></div>
+    <div class="feature-card"><div class="icon">🌱</div><h3>Take Action</h3><p>Use your new perspective to ease guilt and shame and identify one constructive next step</p></div>
+  </div>
+</section>
+
+<div class="instructions-box">
+  <h3>How to use this worksheet</h3>
+  <p>This exercise is most helpful when you are experiencing guilt, shame, or excessive self-blame following a difficult situation. Work through each step honestly and compassionately. The goal is not to avoid responsibility — it is to see it clearly, in proportion, and in context.</p>
+</div>
+
+<div class="page-worksheet">
+
+  <!-- Step 1 -->
+  <div class="step-block" style="margin-top:28px;">
+    <div class="step-header">
+      <div class="step-number">1</div>
+      <div class="step-title">Identify the Situation</div>
+    </div>
+    <p class="step-desc">Describe the situation that has been troubling you — one where you have been carrying a strong sense of guilt, blame, or responsibility.</p>
+    <div class="example-chips">
+      <span class="example-chip">A conflict with a colleague</span>
+      <span class="example-chip">A relationship breakdown</span>
+      <span class="example-chip">A project that went wrong</span>
+      <span class="example-chip">A family argument</span>
+      <span class="example-chip">An academic setback</span>
+    </div>
+    <textarea id="situation" rows="4" placeholder="e.g. My team missed an important deadline and I feel entirely responsible for the failure, even though others were involved..."></textarea>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 2 -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">2</div>
+      <div class="step-title">Build Your Responsibility Pie</div>
+    </div>
+    <p class="step-desc">List every person, circumstance, or organisation that played any part in the situation — no matter how small. Assign each one a percentage. Add yourself last. Try to reach 100% across all factors.</p>
+    <div class="prompt-box">
+      <strong>Who or what else contributed?</strong>
+      Consider: other people involved, organisational factors, unclear expectations, lack of resources, timing, past events, wider circumstances, upbringing, or anything else that played a role — however small.
+    </div>
+
+    <div class="pie-layout">
+      <div>
+        <div class="factor-table-head">
+          <span>Person / Circumstance / Factor</span>
+          <span class="th-pct">%</span>
+        </div>
+        <div class="factor-rows-wrap">
+          <div class="factor-row"><input type="text" id="factor_1" placeholder="e.g. My manager..." oninput="updatePie()" /><input type="number" id="pct_1" min="0" max="100" placeholder="0" oninput="updatePie()" /></div>
+          <div class="factor-row"><input type="text" id="factor_2" placeholder="e.g. Unclear brief..." oninput="updatePie()" /><input type="number" id="pct_2" min="0" max="100" placeholder="0" oninput="updatePie()" /></div>
+          <div class="factor-row"><input type="text" id="factor_3" placeholder="e.g. Tight deadline..." oninput="updatePie()" /><input type="number" id="pct_3" min="0" max="100" placeholder="0" oninput="updatePie()" /></div>
+          <div class="factor-row"><input type="text" id="factor_4" placeholder="e.g. Colleague's absence..." oninput="updatePie()" /><input type="number" id="pct_4" min="0" max="100" placeholder="0" oninput="updatePie()" /></div>
+          <div class="factor-row"><input type="text" id="factor_5" placeholder="e.g. Lack of resources..." oninput="updatePie()" /><input type="number" id="pct_5" min="0" max="100" placeholder="0" oninput="updatePie()" /></div>
+          <div class="factor-row"><input type="text" id="factor_6" placeholder="e.g. Unexpected event..." oninput="updatePie()" /><input type="number" id="pct_6" min="0" max="100" placeholder="0" oninput="updatePie()" /></div>
+        </div>
+        <div class="me-row-wrap">
+          <span class="me-label">🙋 Me</span>
+          <input type="number" id="pct_me" min="0" max="100" placeholder="0" oninput="updatePie()" />
+        </div>
+        <div class="total-row">
+          <span>Total:</span>
+          <span class="total-num" id="pctTotal">0%</span>
+        </div>
+      </div>
+
+      <div class="pie-chart-col">
+        <canvas id="pieCanvas" width="200" height="200"></canvas>
+        <div id="pieLegend" class="pie-legend">
+          <p class="pie-empty-msg">Your pie will appear here as you enter percentages</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 3 -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">3</div>
+      <div class="step-title">Reflect on What You See</div>
+    </div>
+    <p class="step-desc">Now that you have distributed responsibility across all the contributing factors, take a moment to reflect honestly on what the pie reveals.</p>
+
+    <label class="field-label" style="margin-top:0;">How does this responsibility pie affect your feelings of guilt or shame?</label>
+    <textarea id="guilt_reflection" rows="5" placeholder="e.g. Seeing it laid out like this, I realise I was carrying responsibility for things that were genuinely outside my control. My slice is smaller than I thought..."></textarea>
+
+    <label class="field-label">What one action could you take to make the situation better?</label>
+    <textarea id="action_reflection" rows="5" placeholder="e.g. I could speak to my manager about the resourcing issues that contributed, and ask for clearer briefs going forward..."></textarea>
+  </div>
+
+  <div class="remember-box">
+    🥧 <strong>Remember:</strong> Taking responsibility for your part is healthy and important. But carrying the weight of everyone else's contributions — or of circumstances beyond your control — is neither fair nor accurate. Your slice of the pie is rarely as large as it feels.
+  </div>
+
+  <div class="submit-section">
+    <button id="saveBtn">Save My Entry</button>
+    <div class="entries-wrap">
+      <h3>Saved Entries</h3>
+      <div id="entriesList"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+var PIE_COLORS = ['#1a5c3a','#2d8a5e','#4aaa7a','#6bc49a','#8fd4b4','#b3e4ce','#e05252'];
+
+function updatePie() {
+  var factors = [];
+  for (var i = 1; i <= 6; i++) {
+    var name = document.getElementById('factor_' + i).value.trim();
+    var pct  = parseFloat(document.getElementById('pct_' + i).value) || 0;
+    if (pct > 0) { factors.push({ name: name || ('Factor ' + i), pct: pct, color: PIE_COLORS[i - 1] }); }
+  }
+  var mePct = parseFloat(document.getElementById('pct_me').value) || 0;
+  if (mePct > 0) { factors.push({ name: 'Me', pct: mePct, color: PIE_COLORS[6] }); }
+
+  var total = factors.reduce(function(s, f) { return s + f.pct; }, 0);
+  var totalEl = document.getElementById('pctTotal');
+  totalEl.textContent = total + '%';
+  totalEl.className = 'total-num' + (total > 100 ? ' over' : total === 100 ? ' complete' : '');
+
+  var canvas = document.getElementById('pieCanvas');
+  var ctx = canvas.getContext('2d');
+  var cx = canvas.width / 2, cy = canvas.height / 2, r = Math.min(cx, cy) - 6;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.beginPath(); ctx.arc(cx, cy, r, 0, 2 * Math.PI); ctx.fillStyle = '#e8f5e9'; ctx.fill();
+  ctx.strokeStyle = '#d0ecd8'; ctx.lineWidth = 2; ctx.stroke();
+
+  if (total > 0) {
+    var startAngle = -Math.PI / 2;
+    factors.forEach(function(f) {
+      var angle = (Math.min(f.pct, 100) / 100) * 2 * Math.PI;
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, r, startAngle, startAngle + angle); ctx.closePath();
+      ctx.fillStyle = f.color; ctx.fill(); ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
+      startAngle += angle;
+    });
+  }
+
+  var legend = document.getElementById('pieLegend');
+  if (factors.length === 0) {
+    legend.innerHTML = '<p class="pie-empty-msg">Your pie will appear here as you enter percentages</p>';
+  } else {
+    legend.innerHTML = '';
+    factors.forEach(function(f) {
+      var item = document.createElement('div'); item.className = 'legend-item';
+      item.innerHTML = '<div class="legend-dot" style="background:' + f.color + '"></div><span>' + f.name + ' — ' + f.pct + '%</span>';
+      legend.appendChild(item);
+    });
+  }
+}
+
+function g(id) { return (document.getElementById(id).value || '').replace(/\r?\n|\r/g, ' | ').trim(); }
+
+function collectData() {
+  return {
+    situation:         g('situation'),
+    factor_1:          g('factor_1'), pct_1: g('pct_1') || '0',
+    factor_2:          g('factor_2'), pct_2: g('pct_2') || '0',
+    factor_3:          g('factor_3'), pct_3: g('pct_3') || '0',
+    factor_4:          g('factor_4'), pct_4: g('pct_4') || '0',
+    factor_5:          g('factor_5'), pct_5: g('pct_5') || '0',
+    factor_6:          g('factor_6'), pct_6: g('pct_6') || '0',
+    pct_me:            g('pct_me') || '0',
+    guilt_reflection:  g('guilt_reflection'),
+    action_reflection: g('action_reflection'),
+    time: new Date().toLocaleString()
+  };
+}
+
+async function saveEntry() {
+  var data = collectData();
+  try {
+    await fetch('/.netlify/functions/saveWorksheet', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch (err) { console.error('Save error:', err); }
+  var entries = JSON.parse(localStorage.getItem('responsibility-pie') || '[]');
+  entries.unshift(data);
+  localStorage.setItem('responsibility-pie', JSON.stringify(entries));
+  render();
+}
+
+function render() {
+  var el = document.getElementById('entriesList');
+  if (!el) return;
+  var entries = JSON.parse(localStorage.getItem('responsibility-pie') || '[]');
+  if (!entries.length) { el.innerHTML = ''; return; }
+  el.innerHTML = entries.map(function(e) {
+    var preview = (e.situation || '').substring(0, 80) + ((e.situation || '').length > 80 ? '…' : '');
+    var mySlice = e.pct_me && e.pct_me !== '0' ? ' · My share: ' + e.pct_me + '%' : '';
+    return '<div class="entry-item">'
+      + '<strong>' + (e.time || '') + mySlice + '</strong>'
+      + (preview ? '<span style="color:#333;">' + preview + '</span>' : '')
+      + '</div>';
+  }).join('');
+}
+
+document.getElementById('saveBtn').addEventListener('click', saveEntry);
+updatePie();
+render();
+</script>
+
+</body>
+</html>
