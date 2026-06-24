@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Looking After Yourself | ChatCBT</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Inter, sans-serif; color: #222; background: #f8faf8; }
+
+  .page-hero { background: #0d4a2e; padding: 56px 24px 48px; text-align: center; }
+  .page-hero h1 { font-family: Montserrat, sans-serif; font-size: clamp(26px, 4vw, 40px); font-weight: 700; color: #ffffff !important; margin-bottom: 14px; }
+  .page-hero p { color: rgba(255,255,255,0.85); font-size: 16px; max-width: 640px; margin: 0 auto; line-height: 1.7; }
+
+  .features-section { background: #1a5c3a; padding: 36px 24px; }
+  .features-inner { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+  .feature-card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 22px 20px; }
+  .feature-card h3 { font-family: Montserrat, sans-serif; font-size: 15px; font-weight: 700; color: #ffffff !important; margin-bottom: 8px; }
+  .feature-card p { font-size: 13px; color: rgba(255,255,255,0.8); line-height: 1.55; }
+
+  .worksheet-container { max-width: 840px; margin: 0 auto; padding: 40px 24px 60px; }
+
+  .step-block { background: #fff; border-radius: 14px; padding: 28px 28px 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .step-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 18px; }
+  .step-num { min-width: 34px; height: 34px; background: #0d4a2e; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: Montserrat, sans-serif; font-weight: 700; font-size: 14px; margin-top: 2px; }
+  .step-header-text h2 { font-family: Montserrat, sans-serif; font-size: 17px; font-weight: 700; color: #0d4a2e; margin-bottom: 4px; }
+  .step-header-text p { font-size: 13px; color: #666; line-height: 1.5; }
+
+  textarea { width: 100%; padding: 12px 14px; border: 2px solid #e0e0e0; border-radius: 8px; font-family: Inter, sans-serif; font-size: 14px; color: #333; resize: vertical; min-height: 64px; transition: border-color 0.2s; }
+  textarea:focus { outline: none; border-color: #0d4a2e; }
+  .tr-input { width: 100%; padding: 9px 12px; border: 1.5px solid #e0e0e0; border-radius: 7px; font-family: Inter, sans-serif; font-size: 14px; color: #333; }
+  .tr-input:focus { outline: none; border-color: #0d4a2e; }
+
+  /* Quiz */
+  .quiz-row { display: grid; grid-template-columns: 1fr 200px; gap: 14px; align-items: center; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+  @media (max-width: 600px) { .quiz-row { grid-template-columns: 1fr; gap: 8px; } }
+  .quiz-text { font-size: 14px; color: #333; line-height: 1.4; }
+  .quiz-num { font-family: Montserrat, sans-serif; font-weight: 700; color: #1a5c3a; margin-right: 6px; }
+  .score-btns { display: flex; gap: 6px; justify-content: flex-end; }
+  @media (max-width: 600px) { .score-btns { justify-content: flex-start; } }
+  .score-btn { width: 40px; height: 40px; border: 2px solid #e0e0e0; background: #fff; border-radius: 8px; font-family: Montserrat, sans-serif; font-weight: 700; font-size: 15px; color: #555; cursor: pointer; transition: all 0.15s; }
+  .score-btn:hover { border-color: #0d4a2e; }
+  .score-btn.active { background: #0d4a2e; border-color: #0d4a2e; color: #fff; }
+  .score-key { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: #777; margin-bottom: 16px; }
+  .score-key span strong { color: #0d4a2e; }
+  .quiz-total-bar { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; background: #e8f5e9; border-radius: 10px; padding: 16px 20px; margin-top: 18px; }
+  .quiz-total-num { font-family: Montserrat, sans-serif; font-weight: 700; font-size: 26px; color: #0d4a2e; }
+  .quiz-msg { font-size: 13px; color: #2a4a2a; line-height: 1.5; flex: 1; min-width: 200px; }
+
+  /* Checklist */
+  .checklist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 640px) { .checklist-grid { grid-template-columns: 1fr; } }
+  .checklist-cat h3 { font-family: Montserrat, sans-serif; font-weight: 700; font-size: 14px; color: #0d4a2e; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .chk-item { display: flex; align-items: center; gap: 10px; padding: 7px 10px; border-radius: 7px; cursor: pointer; transition: background 0.15s; user-select: none; }
+  .chk-item:hover { background: #f0f9f0; }
+  .chk-item.checked { background: #e8f5e9; }
+  .chk-box { min-width: 18px; width: 18px; height: 18px; border: 2px solid #ccc; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #fff; transition: all 0.2s; }
+  .chk-item.checked .chk-box { background: #0d4a2e; border-color: #0d4a2e; }
+  .chk-item span:last-child { font-size: 14px; color: #333; }
+  .other-input-row { display: flex; align-items: center; gap: 10px; padding: 7px 10px; }
+  .other-mini { width: 18px; height: 18px; border: 2px solid #ccc; border-radius: 4px; }
+  .other-field { flex: 1; border: none; border-bottom: 1.5px solid #ddd; background: transparent; font-family: Inter, sans-serif; font-size: 14px; color: #333; outline: none; padding: 4px 2px; }
+
+  /* Menu rows */
+  .menu-row { display: grid; grid-template-columns: 170px 1fr; gap: 14px; align-items: start; margin-bottom: 14px; }
+  @media (max-width: 560px) { .menu-row { grid-template-columns: 1fr; gap: 6px; } }
+  .menu-cat-label { font-family: Montserrat, sans-serif; font-weight: 700; font-size: 13px; color: #0d4a2e; padding-top: 10px; }
+  .menu-cat-label small { display: block; font-family: Inter, sans-serif; font-weight: 400; font-size: 11px; color: #999; margin-top: 2px; }
+
+  /* Planner / grid tables */
+  .day-row { display: grid; gap: 10px; align-items: center; margin-bottom: 10px; }
+  .planner-row { grid-template-columns: 100px 1fr 130px 50px; }
+  @media (max-width: 680px) { .planner-row { grid-template-columns: 80px 1fr; } .planner-row .pl-time, .planner-row .pl-done { grid-column: 2; } }
+  .grid-row { grid-template-columns: 100px 1fr 1fr; }
+  @media (max-width: 680px) { .grid-row { grid-template-columns: 1fr; } }
+  .day-label { font-family: Montserrat, sans-serif; font-weight: 700; font-size: 13px; color: #1a5c3a; }
+  .planner-header, .grid-header { display: grid; gap: 10px; font-family: Montserrat, sans-serif; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; color: #1a5c3a; padding-bottom: 8px; margin-bottom: 8px; border-bottom: 2px solid #e8f5e9; }
+  .planner-header { grid-template-columns: 100px 1fr 130px 50px; }
+  .grid-header { grid-template-columns: 100px 1fr 1fr; }
+  @media (max-width: 680px) { .planner-header, .grid-header { display: none; } }
+  .done-check { width: 26px; height: 26px; border: 2px solid #ccc; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 15px; color: #fff; background: #fff; transition: all 0.2s; margin: 0 auto; }
+  .done-check.checked { background: #0d4a2e; border-color: #0d4a2e; }
+  .energised-input { border-color: #b8ddb8 !important; background: #f6fcf6; }
+  .drained-input { border-color: #f0c8a0 !important; background: #fffaf3; }
+
+  /* Submit & saved entries */
+  .submit-wrap { text-align: center; margin: 40px 0 16px; }
+  #saveBtn { background: #0d4a2e; color: #fff; border: none; padding: 16px 40px; border-radius: 50px; font-family: Montserrat, sans-serif; font-size: 17px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+  #saveBtn:hover { background: #1a5c3a; }
+  .entries-wrap { margin-top: 28px; }
+  .entries-wrap h3 { font-family: Montserrat, sans-serif; font-size: 0.95rem; color: #0d4a2e; margin-bottom: 12px; text-align: center; }
+  .entry-item { background: #fff; border-left: 4px solid #0d4a2e; border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 10px; font-size: 0.85rem; }
+  .entry-item strong { color: #0d4a2e; display: block; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+
+<div class="page-hero">
+  <h1>Looking After Yourself</h1>
+  <p>Self-care means doing the things you enjoy and taking deliberate steps to support your physical, emotional, mental, social, and spiritual wellbeing. Having a clear plan makes it easier to practise self-care regularly — not just when you're already stressed. This worksheet helps you build a personalised self-care menu and commit to small, realistic actions across the week.</p>
+  <p style="margin-top:12px;">Work through each step below in turn. Use your self-care menu to inspire your weekly plan — small and consistent always beats ambitious and unsustainable.</p>
+</div>
+
+<div class="features-section">
+  <div class="features-inner">
+    <div class="feature-card"><h3>📋 Check In With Yourself</h3><p>Start with a short self-assessment to see how well you're currently looking after yourself.</p></div>
+    <div class="feature-card"><h3>🗂️ Map the Five Areas</h3><p>Review which areas of self-care you're supporting — and where you may need more focus.</p></div>
+    <div class="feature-card"><h3>🔋 Notice Your Energy</h3><p>Like a battery, some things recharge us and others drain us. Track what lifts you and what leaves you low.</p></div>
+    <div class="feature-card"><h3>📆 Plan Small Actions</h3><p>Build a personal self-care menu and plan small, realistic actions across the week.</p></div>
+  </div>
+</div>
+
+<div class="worksheet-container">
+
+  <!-- STEP 1: SELF-ASSESSMENT -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">1</div>
+      <div class="step-header-text">
+        <h2>How Well Do I Look After Myself?</h2>
+        <p>Looking after ourselves and paying attention to our own needs is an important skill. For each statement, choose the score that fits you best.</p>
+      </div>
+    </div>
+    <div class="score-key">
+      <span><strong>3</strong> = Very like me</span>
+      <span><strong>2</strong> = Like me</span>
+      <span><strong>1</strong> = Unlike me</span>
+      <span><strong>0</strong> = Very unlike me</span>
+    </div>
+
+    <div id="quizContainer"></div>
+
+    <div class="quiz-total-bar">
+      <div>
+        <div style="font-size:11px; color:#777; font-family:Montserrat,sans-serif; font-weight:600; text-transform:uppercase; letter-spacing:0.5px;">My score</div>
+        <div class="quiz-total-num" id="quizTotalDisplay">0 / 48</div>
+      </div>
+      <div class="quiz-msg" id="quizMsg">Answer the statements above to see your score.</div>
+    </div>
+  </div>
+
+  <!-- STEP 2: CHECKLIST -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">2</div>
+      <div class="step-header-text">
+        <h2>My Self-Care Checklist</h2>
+        <p>Tick the things you already do. This helps you see which areas you're supporting and where you may need more focus.</p>
+      </div>
+    </div>
+    <div class="checklist-grid">
+
+      <div class="checklist-cat">
+        <h3>💚 Emotional</h3>
+        <div class="chk-item" data-cat="emotional" data-label="Participate in hobbies"><span class="chk-box"></span><span>Participate in hobbies</span></div>
+        <div class="chk-item" data-cat="emotional" data-label="Get away from distractions"><span class="chk-box"></span><span>Get away from distractions (e.g. phone)</span></div>
+        <div class="chk-item" data-cat="emotional" data-label="Learn new things"><span class="chk-box"></span><span>Learn new things</span></div>
+        <div class="chk-item" data-cat="emotional" data-label="Express my feelings through art"><span class="chk-box"></span><span>Express my feelings through art</span></div>
+        <div class="chk-item" data-cat="emotional" data-label="Regularly communicate with family/friends"><span class="chk-box"></span><span>Regularly communicate with family/friends</span></div>
+        <div class="chk-item" data-cat="emotional" data-label="Find reasons to laugh"><span class="chk-box"></span><span>Find reasons to laugh</span></div>
+        <div class="chk-item" data-cat="emotional" data-label="Watch an enjoyable movie"><span class="chk-box"></span><span>Watch an enjoyable movie</span></div>
+        <div class="chk-item" data-cat="emotional" data-label="Go on holidays or day trips"><span class="chk-box"></span><span>Go on holidays or day trips</span></div>
+        <div class="chk-item" data-cat="emotional" data-label="Recognise/celebrate my achievements"><span class="chk-box"></span><span>Recognise/celebrate my achievements</span></div>
+        <div class="other-input-row"><div class="other-mini"></div><input type="text" class="other-field" id="other_emotional" placeholder="Other..."></div>
+      </div>
+
+      <div class="checklist-cat">
+        <h3>💪 Physical</h3>
+        <div class="chk-item" data-cat="physical" data-label="Eat healthy foods"><span class="chk-box"></span><span>Eat healthy foods</span></div>
+        <div class="chk-item" data-cat="physical" data-label="Look after personal hygiene"><span class="chk-box"></span><span>Look after personal hygiene</span></div>
+        <div class="chk-item" data-cat="physical" data-label="Regular exercise"><span class="chk-box"></span><span>Regular exercise</span></div>
+        <div class="chk-item" data-cat="physical" data-label="Do enjoyable activities"><span class="chk-box"></span><span>Do enjoyable activities</span></div>
+        <div class="chk-item" data-cat="physical" data-label="Get good quality sleep"><span class="chk-box"></span><span>Get good quality sleep</span></div>
+        <div class="chk-item" data-cat="physical" data-label="Get regular health checks"><span class="chk-box"></span><span>Get regular health checks</span></div>
+        <div class="chk-item" data-cat="physical" data-label="Take time off/rest"><span class="chk-box"></span><span>Take time off/rest</span></div>
+        <div class="chk-item" data-cat="physical" data-label="Stretching/relaxation exercises"><span class="chk-box"></span><span>Stretching/relaxation exercises</span></div>
+        <div class="other-input-row"><div class="other-mini"></div><input type="text" class="other-field" id="other_physical" placeholder="Other..."></div>
+      </div>
+
+      <div class="checklist-cat">
+        <h3>🕊️ Spiritual</h3>
+        <div class="chk-item" data-cat="spiritual" data-label="Spend time in nature"><span class="chk-box"></span><span>Spend time in nature</span></div>
+        <div class="chk-item" data-cat="spiritual" data-label="Meditate"><span class="chk-box"></span><span>Meditate</span></div>
+        <div class="chk-item" data-cat="spiritual" data-label="Pray"><span class="chk-box"></span><span>Pray</span></div>
+        <div class="chk-item" data-cat="spiritual" data-label="Act in accordance with my values"><span class="chk-box"></span><span>Act in accordance with my values</span></div>
+        <div class="chk-item" data-cat="spiritual" data-label="Set aside time for reflection"><span class="chk-box"></span><span>Set aside time for thought and reflection</span></div>
+        <div class="chk-item" data-cat="spiritual" data-label="Participate in a cause important to me"><span class="chk-box"></span><span>Participate in a cause important to me</span></div>
+        <div class="other-input-row"><div class="other-mini"></div><input type="text" class="other-field" id="other_spiritual" placeholder="Other..."></div>
+      </div>
+
+      <div class="checklist-cat">
+        <h3>🤝 Social</h3>
+        <div class="chk-item" data-cat="social" data-label="Spend time with people I like"><span class="chk-box"></span><span>Spend time with people I like</span></div>
+        <div class="chk-item" data-cat="social" data-label="Make a phone call to a friend"><span class="chk-box"></span><span>Make a phone call to a friend</span></div>
+        <div class="chk-item" data-cat="social" data-label="Have stimulating conversations"><span class="chk-box"></span><span>Have stimulating conversations</span></div>
+        <div class="chk-item" data-cat="social" data-label="Meet new people"><span class="chk-box"></span><span>Meet new people</span></div>
+        <div class="chk-item" data-cat="social" data-label="Spend time with my friends"><span class="chk-box"></span><span>Spend time with my friends</span></div>
+        <div class="chk-item" data-cat="social" data-label="Ask others for help when needed"><span class="chk-box"></span><span>Ask others for help when needed</span></div>
+        <div class="chk-item" data-cat="social" data-label="Try a new class or activity"><span class="chk-box"></span><span>Try a new class or activity</span></div>
+        <div class="other-input-row"><div class="other-mini"></div><input type="text" class="other-field" id="other_social" placeholder="Other..."></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- STEP 3: SELF-CARE MENU -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">3</div>
+      <div class="step-header-text">
+        <h2>Build My Self-Care Menu</h2>
+        <p>Write down activities you can turn to when you need rest, balance, or energy. 🌿 Remember: You don't need to do something different every day — repeating activities that work is perfectly fine. The goal is consistency, not variety. Even on difficult days, one small act of self-care sends an important message to yourself: I am worth looking after.</p>
+      </div>
+    </div>
+    <div class="menu-row">
+      <div class="menu-cat-label">💪 Physical<small>walk, stretch, balanced meal, sleep</small></div>
+      <textarea id="menu_physical" placeholder="Physical self-care activities..."></textarea>
+    </div>
+    <div class="menu-row">
+      <div class="menu-cat-label">💚 Emotional<small>journalling, talking, boundaries, music</small></div>
+      <textarea id="menu_emotional" placeholder="Emotional self-care activities..."></textarea>
+    </div>
+    <div class="menu-row">
+      <div class="menu-cat-label">🧠 Mental<small>mindfulness, reading, creativity, learning</small></div>
+      <textarea id="menu_mental" placeholder="Mental self-care activities..."></textarea>
+    </div>
+    <div class="menu-row">
+      <div class="menu-cat-label">🤝 Social<small>family, groups, supportive people</small></div>
+      <textarea id="menu_social" placeholder="Social self-care activities..."></textarea>
+    </div>
+    <div class="menu-row" style="margin-bottom:0;">
+      <div class="menu-cat-label">🕊️ Spiritual<small>meditation, nature, gratitude, reflection</small></div>
+      <textarea id="menu_spiritual" placeholder="Spiritual self-care activities..."></textarea>
+    </div>
+  </div>
+
+  <!-- STEP 4: WEEKLY PLANNER -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">4</div>
+      <div class="step-header-text">
+        <h2>My Weekly Self-Care Planner</h2>
+        <p>Plan one small, realistic self-care action for each day. Tick it off once you've done it.</p>
+      </div>
+    </div>
+    <div class="planner-header">
+      <div>Day</div><div>One small self-care activity</div><div>Time of day</div><div>Done</div>
+    </div>
+    <div id="plannerContainer"></div>
+  </div>
+
+  <!-- STEP 5: ENERGY GRID -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">5</div>
+      <div class="step-header-text">
+        <h2>My Self-Care Energy Grid</h2>
+        <p>Each day, reflect on what boosted your energy or mood — and what left you feeling drained, stressed, or low.</p>
+      </div>
+    </div>
+    <div class="grid-header">
+      <div>Day</div><div>🔋 Energised / lifted me</div><div>🪫 Drained / left me low</div>
+    </div>
+    <div id="gridContainer"></div>
+  </div>
+
+  <!-- SUBMIT & SAVED ENTRIES -->
+  <div class="submit-wrap">
+    <button id="saveBtn">Save My Plan</button>
+    <div class="entries-wrap">
+      <h3>Saved Entries</h3>
+      <div id="entriesList"></div>
+    </div>
+  </div>
+
+  <p style="text-align:center; font-size:13px; color:#666; margin-bottom:48px;">© 2025 The Resource Library Limited. Adapted for ChatCBT.</p>
+
+</div>
+
+<script>
+function g(id) {
+  var el = document.getElementById(id);
+  return el ? (el.value || '').replace(/\r?\n|\r/g, ' | ').trim() : '';
+}
+
+// ── Build quiz ────────────────────────────────────────────────────────────
+var quizStatements = [
+  "I occasionally give myself something nice, like a present or treat",
+  "I make time to do relaxing activities",
+  "I believe it is necessary to be selfish at times",
+  "I like it when others look after me when I am ill",
+  "I plan events to look forward to, such as holidays and outings",
+  "Every day I make sure I have some time to do something pleasurable for myself",
+  "I make a point of looking after my appearance and health",
+  "I like it when someone gives me a present or compliments something I've done",
+  "I can praise myself when I think I've done a good job",
+  "I feel in control of my life, rather than living by what others want",
+  "I make a point of eating healthily and not skipping meals",
+  "I deliberately exercise and keep myself physically fit",
+  "I deliberately make time to nurture friendships with people I like",
+  "I make time for absorbing, meaningful hobbies and activities",
+  "I sometimes put my own needs first, even if others may be disappointed",
+  "I can say 'no' when others make demands on me"
+];
+var quizScores = {};
+var quizContainer = document.getElementById('quizContainer');
+quizStatements.forEach(function(text, idx) {
+  var n = idx + 1;
+  var row = document.createElement('div');
+  row.className = 'quiz-row';
+  row.setAttribute('data-q', 'q' + n);
+  var btns = '';
+  [3,2,1,0].forEach(function(s) {
+    btns += '<button class="score-btn" data-score="' + s + '">' + s + '</button>';
+  });
+  row.innerHTML = '<div class="quiz-text"><span class="quiz-num">' + n + '.</span>' + text + '</div><div class="score-btns">' + btns + '</div>';
+  quizContainer.appendChild(row);
+});
+document.querySelectorAll('.quiz-row').forEach(function(row) {
+  var q = row.getAttribute('data-q');
+  row.querySelectorAll('.score-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      quizScores[q] = btn.getAttribute('data-score');
+      row.querySelectorAll('.score-btn').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      updateTotal();
+    });
+  });
+});
+function updateTotal() {
+  var t = 0;
+  Object.keys(quizScores).forEach(function(k) { t += parseInt(quizScores[k] || 0, 10); });
+  document.getElementById('quizTotalDisplay').textContent = t + ' / 48';
+  var msg = document.getElementById('quizMsg');
+  if (Object.keys(quizScores).length === 0) { msg.textContent = 'Answer the statements above to see your score.'; }
+  else if (t < 25) { msg.textContent = '💡 A score under 25 suggests self-care is an area worth gently building on. Use the steps below to start.'; }
+  else { msg.textContent = '🌿 You\'re already doing a good amount to look after yourself — the steps below can help you keep it up.'; }
+}
+
+// ── Build planner & grid ──────────────────────────────────────────────────
+var days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+var plannerContainer = document.getElementById('plannerContainer');
+var gridContainer    = document.getElementById('gridContainer');
+days.forEach(function(day, i) {
+  var n = i + 1;
+  var pr = document.createElement('div');
+  pr.className = 'day-row planner-row';
+  pr.innerHTML =
+    '<div class="day-label">' + day + '</div>' +
+    '<input type="text" class="tr-input" id="plan_act_' + n + '" placeholder="Self-care activity...">' +
+    '<input type="text" class="tr-input pl-time" id="plan_time_' + n + '" placeholder="Time of day">' +
+    '<div class="done-check pl-done" id="plan_donebox_' + n + '" onclick="togglePlanDone(' + n + ')"></div>' +
+    '<input type="hidden" id="plan_done_' + n + '" value="">';
+  plannerContainer.appendChild(pr);
+
+  var gr = document.createElement('div');
+  gr.className = 'day-row grid-row';
+  gr.innerHTML =
+    '<div class="day-label">' + day + '</div>' +
+    '<input type="text" class="tr-input energised-input" id="energised_' + n + '" placeholder="What lifted me...">' +
+    '<input type="text" class="tr-input drained-input" id="drained_' + n + '" placeholder="What drained me...">';
+  gridContainer.appendChild(gr);
+});
+function togglePlanDone(n) {
+  var box    = document.getElementById('plan_donebox_' + n);
+  var hidden = document.getElementById('plan_done_' + n);
+  if (box.classList.contains('checked')) { box.classList.remove('checked'); box.textContent = ''; hidden.value = ''; }
+  else { box.classList.add('checked'); box.textContent = '✓'; hidden.value = 'Yes'; }
+}
+
+// ── Checklist toggles ─────────────────────────────────────────────────────
+document.querySelectorAll('.chk-item').forEach(function(item) {
+  item.addEventListener('click', function() {
+    var box = item.querySelector('.chk-box');
+    if (item.classList.contains('checked')) { item.classList.remove('checked'); box.textContent = ''; }
+    else { item.classList.add('checked'); box.textContent = '✓'; }
+  });
+});
+function collectCat(cat) {
+  var labels = [];
+  document.querySelectorAll('.chk-item.checked[data-cat="' + cat + '"]').forEach(function(it) {
+    labels.push(it.getAttribute('data-label'));
+  });
+  var otherEl = document.getElementById('other_' + cat);
+  if (otherEl && otherEl.value.trim()) labels.push(otherEl.value.trim());
+  return labels.join(', ');
+}
+
+// ── Collect data ──────────────────────────────────────────────────────────
+function collectData() {
+  var data = {};
+  for (var q = 1; q <= 16; q++) { data['q' + q] = quizScores['q' + q] || ''; }
+  var total = 0;
+  Object.keys(quizScores).forEach(function(k) { total += parseInt(quizScores[k] || 0, 10); });
+  data.quiz_total = total;
+
+  data.check_emotional = collectCat('emotional');
+  data.check_physical  = collectCat('physical');
+  data.check_spiritual = collectCat('spiritual');
+  data.check_social    = collectCat('social');
+
+  data.menu_physical  = g('menu_physical');
+  data.menu_emotional = g('menu_emotional');
+  data.menu_mental    = g('menu_mental');
+  data.menu_social    = g('menu_social');
+  data.menu_spiritual = g('menu_spiritual');
+
+  for (var d = 1; d <= 7; d++) {
+    data['plan_act_'  + d] = g('plan_act_'  + d);
+    data['plan_time_' + d] = g('plan_time_' + d);
+    data['plan_done_' + d] = (document.getElementById('plan_done_' + d) || {}).value || '';
+    data['energised_' + d] = g('energised_' + d);
+    data['drained_'   + d] = g('drained_'   + d);
+  }
+  return data;
+}
+
+// ── Save & render ─────────────────────────────────────────────────────────
+async function saveEntry() {
+  var data = collectData();
+  data.time = new Date().toLocaleString();
+  try {
+    await fetch('/.netlify/functions/saveWorksheet', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch (err) { console.error('Save error:', err); }
+  var entries = JSON.parse(localStorage.getItem('self-care-routines') || '[]');
+  entries.unshift(data);
+  localStorage.setItem('self-care-routines', JSON.stringify(entries));
+  render();
+}
+
+function render() {
+  var el = document.getElementById('entriesList');
+  if (!el) return;
+  var entries = JSON.parse(localStorage.getItem('self-care-routines') || '[]');
+  if (!entries.length) { el.innerHTML = ''; return; }
+  el.innerHTML = entries.map(function(e) {
+    var preview = (e.menu_physical || e.menu_emotional || '').substring(0, 80);
+    return '<div class="entry-item">'
+      + '<strong>' + (e.time || '') + ' · Score: ' + (e.quiz_total || 0) + '/48</strong>'
+      + (preview ? '<span style="color:#333;">' + preview + '</span>' : '')
+      + '</div>';
+  }).join('');
+}
+
+document.getElementById('saveBtn').addEventListener('click', saveEntry);
+render();
+</script>
+
+</body>
+</html>
