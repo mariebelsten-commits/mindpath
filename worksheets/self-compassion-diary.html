@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Developing Compassionate Self Talk | ChatCBT</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: #1a1a1a;
+  line-height: 1.6;
+  background: #f0f9f0;
+}
+
+h1, h2, h3, h4 { font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif; }
+
+textarea, input[type="text"] {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  border: 2px solid #c3e6cb;
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: #fff;
+  color: #1a1a1a;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+textarea { resize: vertical; }
+textarea:focus, input:focus {
+  outline: none;
+  border-color: #2d6a4f;
+  box-shadow: 0 0 0 3px rgba(45,106,79,0.15);
+}
+input::placeholder, textarea::placeholder { color: #999; font-style: italic; }
+
+/* ===== HERO ===== */
+.page-hero {
+  padding: 70px 40px 60px;
+  background: linear-gradient(135deg, rgba(212,237,218,0.88) 0%, rgba(232,245,233,0.85) 40%, rgba(240,249,232,0.88) 100%);
+}
+.page-hero h1 { font-size: 3rem; color: #0d4a2e; margin-bottom: 20px; letter-spacing: -0.5px; }
+.badge {
+  display: inline-block;
+  background: #d4f1dd;
+  color: #0d4a2e;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  border: 1px solid #b8dbc0;
+}
+.page-hero .intro { font-size: 1.05rem; color: #333; max-width: 900px; margin-bottom: 40px; line-height: 1.7; }
+.feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 1100px; }
+.feature-card { background: rgba(212,237,218,0.55); border: 1.5px solid #b8dbc0; border-radius: 12px; padding: 26px 28px; }
+.feature-card h3 { font-size: 1.35rem; color: #0d4a2e; margin-bottom: 10px; font-weight: 700; }
+.feature-card p { font-size: 0.98rem; color: #333; line-height: 1.55; }
+
+/* ===== HOW IT WORKS ===== */
+.page-howto { padding: 70px 40px 60px; background: linear-gradient(160deg, #e8f5e9 0%, #f0f9f0 50%, #d4edda 100%); }
+.page-howto h2 { font-size: 2.4rem; color: #0d4a2e; margin-bottom: 16px; }
+.page-howto .lead { font-size: 1rem; color: #333; max-width: 900px; margin-bottom: 34px; line-height: 1.7; }
+.steps-stack { display: flex; flex-direction: column; gap: 14px; max-width: 1100px; }
+.step-row {
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  background: rgba(212,237,218,0.45);
+  border: 1.5px solid #b8dbc0;
+  border-radius: 10px;
+  padding: 18px 22px;
+  align-items: start;
+}
+.step-num { font-family: 'Montserrat', sans-serif; font-size: 2rem; font-weight: 700; color: #0d4a2e; text-align: center; }
+.step-body h3 { font-size: 1.2rem; color: #0d4a2e; margin-bottom: 6px; font-weight: 700; }
+.step-body p { font-size: 0.95rem; color: #333; line-height: 1.6; }
+.step-body em { color: #555; }
+.info-box { margin-top: 30px; background: #b5e8c4; border-radius: 10px; padding: 20px 24px; max-width: 1100px; color: #0d4a2e; font-size: 0.95rem; line-height: 1.65; }
+
+/* ===== WORKSHEET ===== */
+.page-worksheet { padding: 70px 40px 60px; background: linear-gradient(160deg, #d4edda 0%, #e8f5e9 40%, #f0f9e8 100%); }
+.page-worksheet h2 { font-size: 2.4rem; color: #0d4a2e; margin-bottom: 14px; }
+.page-worksheet .lead { font-size: 1rem; color: #333; max-width: 900px; margin-top: 24px; margin-bottom: 34px; line-height: 1.7; }
+
+.ws-wrapper { max-width: 1100px; }
+
+.section-block { margin-bottom: 20px; }
+
+.section-header {
+  padding: 14px 20px;
+  border-radius: 10px 10px 0 0;
+  background: #0d4a2e;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff !important;
+}
+
+.section-body {
+  background: rgba(212,237,218,0.45);
+  border: 1.5px solid #b8dbc0;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  padding: 20px;
+}
+
+.section-body p { font-size: 0.95rem; color: #333; margin-bottom: 14px; line-height: 1.6; }
+.section-body ul { margin: 0 0 14px 18px; }
+.section-body ul li { font-size: 0.95rem; color: #333; margin-bottom: 6px; }
+
+.example-block {
+  background: rgba(255,255,255,0.6);
+  border-left: 4px solid #2d6a4f;
+  border-radius: 0 6px 6px 0;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  font-size: 0.9rem;
+  color: #555;
+  font-style: italic;
+}
+
+.comparison-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+.comparison-table th {
+  background: #0d4a2e;
+  color: #ffffff !important;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 12px 16px;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+.comparison-table th:first-child { border-radius: 8px 0 0 0; }
+.comparison-table th:last-child { border-radius: 0 8px 0 0; }
+.comparison-table td { padding: 8px 10px; border: 1.5px solid #c3e6cb; background: #fff; vertical-align: top; }
+.comparison-table tr:last-child td:first-child { border-radius: 0 0 0 8px; }
+.comparison-table tr:last-child td:last-child { border-radius: 0 0 8px 0; }
+.example-row td { background: rgba(212,237,218,0.35); font-style: italic; color: #555; font-size: 0.9rem; text-align: center; padding: 12px 14px; }
+
+.phrase-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.phrase-chip { background: rgba(45,106,79,0.12); border: 1.5px solid #2d6a4f; border-radius: 20px; padding: 6px 14px; font-size: 0.88rem; font-weight: 600; color: #0d4a2e; }
+
+.remember-box { margin-top: 30px; background: #b5e8c4; border-radius: 10px; padding: 20px 24px; max-width: 1100px; color: #0d4a2e; font-size: 0.95rem; line-height: 1.65; }
+
+/* ===== SUBMIT & SAVED ENTRIES ===== */
+.submit-area { padding: 40px 40px 60px; background: linear-gradient(160deg, #d4edda 0%, #f0f9f0 100%); text-align: center; }
+#saveBtn {
+  display: inline-block;
+  background: #0d4a2e;
+  color: #ffffff !important;
+  padding: 16px 40px;
+  border-radius: 50px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+#saveBtn:hover { background: #1a5c3a; }
+.entries-wrap { margin-top: 28px; max-width: 700px; margin-left: auto; margin-right: auto; }
+.entries-wrap h3 { font-family: Montserrat, sans-serif; font-size: 0.95rem; color: #0d4a2e; margin-bottom: 12px; }
+.entry-item { background: #fff; border-left: 4px solid #0d4a2e; border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 10px; font-size: 0.85rem; text-align: left; }
+.entry-item strong { color: #0d4a2e; display: block; margin-bottom: 4px; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 760px) {
+  .feature-grid { grid-template-columns: 1fr; }
+  .page-hero, .page-howto, .page-worksheet, .submit-area { padding: 50px 22px; }
+  .page-hero h1 { font-size: 2.2rem; }
+  .page-howto h2, .page-worksheet h2 { font-size: 1.9rem; }
+  .step-row { grid-template-columns: 44px 1fr; }
+  .step-num { font-size: 1.6rem; }
+  .comparison-table th, .comparison-table td { font-size: 0.85rem; }
+  .phrase-chips { gap: 6px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<section class="page-hero">
+  <h1>Developing Compassionate Self Talk</h1>
+  <div class="badge">Cognitive Behavioural Therapy</div>
+  <p class="intro">Compassionate self talk means speaking to yourself with the same warmth, patience, and understanding that you would offer to someone you care about. This worksheet helps you practise recognising critical inner voices and developing gentler, more helpful ways to respond.</p>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <h3>👁️ Awareness</h3>
+      <p>Learn to notice the tone and content of your inner voice — especially when things feel difficult or go wrong</p>
+    </div>
+    <div class="feature-card">
+      <h3>🔄 Reframing</h3>
+      <p>Transform harsh self-critical thoughts into compassionate alternatives — the way a caring friend would speak to you</p>
+    </div>
+    <div class="feature-card">
+      <h3>🌿 Soothing Language</h3>
+      <p>Build a personal library of grounding phrases that remind your nervous system it is safe and cared for</p>
+    </div>
+    <div class="feature-card">
+      <h3>💬 Practice</h3>
+      <p>Compassionate self talk is a skill — regular practice makes gentler, more helpful self-talk feel more natural over time</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="page-howto">
+  <h2>How to Use This Worksheet</h2>
+  <p class="lead">Work through each section in order. There are no right or wrong answers — the goal is honest reflection and gentle practice. You can complete this on your own or with your therapist.</p>
+  <div class="steps-stack">
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Notice Your Inner Voice</h3>
+        <p>Begin by simply observing how you currently speak to yourself when things go wrong. Write down the kinds of words or phrases you tend to use — without judgement. Awareness is the first step.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>The Impact of Critical Self Talk</h3>
+        <p>Reflect on how your inner critic affects your feelings, confidence, and motivation. Understanding the real cost of self-criticism helps build the motivation to change it.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Building Compassionate Alternatives</h3>
+        <p>Take each critical thought from Step 1 and rewrite it as a compassionate response — the kind of thing a kind friend, mentor, or therapist might say to you in that moment.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>Using Soothing Language</h3>
+        <p>Choose or write a few gentle phrases you can use when you feel stressed or overwhelmed. Saying these aloud or writing them down can help regulate your nervous system.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h3>Reflection</h3>
+        <p>Notice how it feels to speak to yourself more kindly. Over time, this reflection helps you track progress and deepen your self-compassion practice.</p>
+      </div>
+    </div>
+  </div>
+  <div class="info-box">
+    💡 <strong>Remember:</strong> Self-compassion is not self-indulgence or making excuses. It is treating yourself with the same basic kindness you would offer to anyone who was struggling. Research shows that compassionate self talk reduces anxiety, improves resilience, and supports lasting wellbeing.
+  </div>
+</section>
+
+<!-- ===== WORKSHEET ===== -->
+<section class="page-worksheet">
+  <h2>My Compassionate Self Talk Worksheet</h2>
+  <div class="badge">Complete This Section</div>
+  <p class="lead">Work through each section in order. Be honest about your current self-talk — and be curious rather than self-critical as you explore it.</p>
+
+  <div class="ws-wrapper">
+
+    <div class="section-block">
+      <div class="section-header">1. Notice Your Inner Voice</div>
+      <div class="section-body">
+        <p>Think about how you usually talk to yourself when things go wrong or feel difficult. What tone or words do you often use?</p>
+        <div class="example-block">
+          Example: <em>"I always mess things up"</em> &nbsp;·&nbsp; <em>"I should be stronger"</em> &nbsp;·&nbsp; <em>"No one else would make this mistake"</em>
+        </div>
+        <textarea id="inner_voice" rows="5" placeholder="Write the kinds of things you say to yourself when you are struggling..."></textarea>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-header">2. The Impact of Critical Self Talk</div>
+      <div class="section-body">
+        <p>Reflect on how these messages affect you:</p>
+        <ul>
+          <li>How do these messages make you feel about yourself?</li>
+          <li>How do they affect your motivation, confidence, or relationships?</li>
+        </ul>
+        <textarea id="impact" rows="5" placeholder="Describe the effect your inner critic has on how you feel and function..."></textarea>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-header">3. Building Compassionate Alternatives</div>
+      <div class="section-body">
+        <p>Imagine how a caring friend, mentor, or therapist might respond to you in those moments.</p>
+        <ul>
+          <li>What words would they use?</li>
+          <li>What tone would they speak with?</li>
+        </ul>
+        <div class="example-block">
+          <em>"You are learning, and it is okay to make mistakes."</em><br>
+          <em>"You are trying your best in a hard situation."</em><br>
+          <em>"You deserve kindness, not criticism."</em>
+        </div>
+        <p>Now rewrite your own examples from Step 1 using a compassionate voice:</p>
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Critical Self Talk</th>
+              <th>Compassionate Response</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="example-row">
+              <td>I cannot do anything right</td>
+              <td>Everyone makes mistakes. I can learn and try again</td>
+            </tr>
+            <tr>
+              <td><input type="text" id="critical_1" placeholder="Your critical thought..."></td>
+              <td><input type="text" id="compassionate_1" placeholder="A compassionate response..."></td>
+            </tr>
+            <tr>
+              <td><input type="text" id="critical_2" placeholder="Your critical thought..."></td>
+              <td><input type="text" id="compassionate_2" placeholder="A compassionate response..."></td>
+            </tr>
+            <tr>
+              <td><input type="text" id="critical_3" placeholder="Your critical thought..."></td>
+              <td><input type="text" id="compassionate_3" placeholder="A compassionate response..."></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-header">4. Using Soothing Language</div>
+      <div class="section-body">
+        <p>Try using gentle phrases that remind your nervous system you are safe and cared for. You can write these down or say them aloud when you feel stressed.</p>
+        <div class="phrase-chips">
+          <span class="phrase-chip">I am allowed to slow down</span>
+          <span class="phrase-chip">I am doing the best I can with what I know</span>
+          <span class="phrase-chip">I can speak to myself kindly even when I am struggling</span>
+          <span class="phrase-chip">I can be patient with myself as I grow</span>
+        </div>
+        <p>Write a few phrases that feel natural to you:</p>
+        <textarea id="soothing_phrases" rows="5" placeholder="Write your own soothing phrases here..."></textarea>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-header">5. Reflection</div>
+      <div class="section-body">
+        <ul>
+          <li>How does it feel to speak to yourself in a more compassionate way?</li>
+          <li>What changes do you notice in your mood or body when you do this regularly?</li>
+        </ul>
+        <textarea id="reflection" rows="5" placeholder="Reflect on your experience with compassionate self talk..."></textarea>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="remember-box">
+    🌿 <strong>Remember:</strong> Compassionate self talk is a practice, not a performance. Some days it will feel easy; other days it will feel forced or unfamiliar. That is completely normal. The simple act of noticing your inner voice — and gently choosing a kinder response — is already an act of self-compassion.
+  </div>
+
+</section>
+
+<!-- ===== SUBMIT & SAVED ENTRIES ===== -->
+<section class="submit-area">
+  <button id="saveBtn">Save My Entry</button>
+  <div class="entries-wrap">
+    <h3>Saved Entries</h3>
+    <div id="entriesList"></div>
+  </div>
+</section>
+
+<script>
+function clean(id) {
+  var el = document.getElementById(id);
+  if (!el) return '';
+  return el.value.replace(/\r?\n|\r/g, ' | ').trim();
+}
+
+function collectData() {
+  return {
+    inner_voice:      clean('inner_voice'),
+    impact:           clean('impact'),
+    critical_1:       clean('critical_1'),
+    compassionate_1:  clean('compassionate_1'),
+    critical_2:       clean('critical_2'),
+    compassionate_2:  clean('compassionate_2'),
+    critical_3:       clean('critical_3'),
+    compassionate_3:  clean('compassionate_3'),
+    soothing_phrases: clean('soothing_phrases'),
+    reflection:       clean('reflection')
+  };
+}
+
+async function saveEntry() {
+  var data = collectData();
+  data.time = new Date().toLocaleString();
+  try {
+    await fetch('/.netlify/functions/saveWorksheet', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch (err) { console.error('Save error:', err); }
+  var entries = JSON.parse(localStorage.getItem('self-compassion-diary') || '[]');
+  entries.unshift(data);
+  localStorage.setItem('self-compassion-diary', JSON.stringify(entries));
+  render();
+}
+
+function render() {
+  var el = document.getElementById('entriesList');
+  if (!el) return;
+  var entries = JSON.parse(localStorage.getItem('self-compassion-diary') || '[]');
+  if (!entries.length) { el.innerHTML = ''; return; }
+  el.innerHTML = entries.map(function(e) {
+    var preview = (e.inner_voice || '').substring(0, 80);
+    return '<div class="entry-item">'
+      + '<strong>' + (e.time || '') + '</strong>'
+      + (preview ? '<span style="color:#333;">' + preview + '</span>' : '')
+      + '</div>';
+  }).join('');
+}
+
+document.getElementById('saveBtn').addEventListener('click', saveEntry);
+render();
+</script>
+
+</body>
+</html>
