@@ -357,6 +357,7 @@
 
 </div><!-- end worksheet-container -->
 
+<script src="/js/save.js"></script>
 <script>
 // ── Emotion checkboxes ────────────────────────────────────────────────────
 var emoIds = ['emo_sad','emo_anxious','emo_angry','emo_ashamed','emo_guilty','emo_frustrated'];
@@ -402,8 +403,9 @@ function collectEmotions() {
   return emotions.join(', ');
 }
 
-async function saveEntry() {
+function saveEntry() {
   var data = {
+    type:                'Balanced Thinking',
     situation:           (document.getElementById('situation').value || ''),
     emotions:            collectEmotions(),
     intensity_before:    (document.getElementById('intensity_before').value || ''),
@@ -417,15 +419,7 @@ async function saveEntry() {
     final_reflection:    (document.getElementById('final_reflection').value || ''),
     time:                new Date().toLocaleString()
   };
-  try {
-    await fetch('/.netlify/functions/saveWorksheet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-  } catch (err) {
-    console.error('Save error:', err);
-  }
+  saveToServer(data);
   var entries = JSON.parse(localStorage.getItem('balanced-thinking') || '[]');
   entries.unshift(data);
   localStorage.setItem('balanced-thinking', JSON.stringify(entries));
