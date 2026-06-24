@@ -490,6 +490,7 @@ input::placeholder, textarea::placeholder { color: #999; font-style: italic; }
   </div>
 </section>
 
+<script src="/js/save.js"></script>
 <script>
 function g(id) {
   return (document.getElementById(id).value || '').replace(/\r?\n|\r/g, ' | ').trim();
@@ -497,6 +498,7 @@ function g(id) {
 
 function collectData() {
   return {
+    type:                  'Exposure Practice & Learning Logs',
     target_situation:      g('target_situation'),
     feared_outcome:        g('feared_outcome'),
     why_it_matters:        g('why_it_matters'),
@@ -531,17 +533,9 @@ function collectData() {
   };
 }
 
-async function saveEntry() {
+function saveEntry() {
   var data = collectData();
-  try {
-    await fetch('/.netlify/functions/saveWorksheet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-  } catch (err) {
-    console.error('Save error:', err);
-  }
+  saveToServer(data);
   var entries = JSON.parse(localStorage.getItem('exposure-practice-logs') || '[]');
   entries.unshift(data);
   localStorage.setItem('exposure-practice-logs', JSON.stringify(entries));
