@@ -242,10 +242,11 @@
   </div>
 
 </div>
-
+<script src="/save.js"></script>
 <script>
 function collectData() {
   return {
+    type:              'Building Resilience',
     skill_area:        document.getElementById('skill_area').value.replace(/\r?\n|\r/g, ' | '),
     actions:           document.getElementById('actions').value.replace(/\r?\n|\r/g, ' | '),
     thoughts:          document.getElementById('thoughts').value.replace(/\r?\n|\r/g, ' | '),
@@ -259,17 +260,9 @@ function collectData() {
   };
 }
 
-async function saveEntry() {
+function saveEntry() {
   var data = collectData();
-  try {
-    await fetch('/.netlify/functions/saveWorksheet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-  } catch (err) {
-    console.error('Save error:', err);
-  }
+  saveToServer(data);                 // ← writes to Supabase with your user_id (via save.js)
   var entries = JSON.parse(localStorage.getItem('building-resilience') || '[]');
   entries.unshift(data);
   localStorage.setItem('building-resilience', JSON.stringify(entries));
