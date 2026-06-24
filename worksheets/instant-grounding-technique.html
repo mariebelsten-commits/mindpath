@@ -270,6 +270,7 @@
 
 </div>
 
+<script src="/js/save.js"></script>
 <script>
 function v(id) { return (document.getElementById(id).value || '').trim(); }
 
@@ -300,6 +301,7 @@ reminders.forEach(function(r) {
 
 function collectData() {
   return {
+    type:             'Instant Grounding Technique',
     body_sensations:  v('body_sensations'),
     see_1:            v('see_1'),
     see_2:            v('see_2'),
@@ -312,17 +314,9 @@ function collectData() {
   };
 }
 
-async function saveEntry() {
+function saveEntry() {
   var data = collectData();
-  try {
-    await fetch('/.netlify/functions/saveWorksheet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-  } catch (err) {
-    console.error('Save error:', err);
-  }
+  saveToServer(data);
   var entries = JSON.parse(localStorage.getItem('instant-grounding-technique') || '[]');
   entries.unshift(data);
   localStorage.setItem('instant-grounding-technique', JSON.stringify(entries));
