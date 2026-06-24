@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Worry Tree | ChatCBT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f0f9f0; color: #1a1a1a; }
+
+    /* ── Hero ── */
+    .page-hero {
+      background: #0d4a2e;
+      padding: 56px 24px 48px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+    .page-hero h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.6rem;
+      font-weight: 800;
+      color: #ffffff !important;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+    .page-hero p {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.88);
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ── Feature cards ── */
+    .features-section {
+      background: #1a5c3a;
+      padding: 40px 24px;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 20px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .feature-card {
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 22px 18px;
+      text-align: center;
+      color: #fff;
+    }
+    .feature-card .icon { font-size: 1.8rem; margin-bottom: 10px; }
+    .feature-card h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #ffffff !important;
+      margin-bottom: 7px;
+    }
+    .feature-card p { font-size: 0.83rem; color: rgba(255,255,255,0.85); line-height: 1.5; }
+
+    /* ── Instructions banner ── */
+    .instructions-box {
+      background: #e8f5e9;
+      border-left: 4px solid #1a5c3a;
+      padding: 18px 24px;
+      max-width: 800px;
+      margin: 32px auto 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .instructions-box h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #0d4a2e;
+      margin-bottom: 6px;
+    }
+    .instructions-box p { font-size: 0.87rem; color: #2d4a35; line-height: 1.65; }
+
+    /* ── Worksheet wrapper ── */
+    .page-worksheet {
+      max-width: 800px;
+      margin: 28px auto 48px;
+      padding: 0 16px;
+    }
+
+    /* ── Step blocks ── */
+    .step-block {
+      background: #fff;
+      border-radius: 12px;
+      padding: 28px 28px 24px;
+      margin-bottom: 8px;
+      border: 1px solid #d0ecd8;
+      box-shadow: 0 2px 8px rgba(13,74,46,0.06);
+    }
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .step-number {
+      width: 36px;
+      height: 36px;
+      background: #1a5c3a;
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .step-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: #0d4a2e;
+    }
+    .step-desc {
+      font-size: 0.88rem;
+      color: #4a7a5a;
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    /* ── Flow arrow ── */
+    .flow-arrow {
+      text-align: center;
+      font-size: 1.5rem;
+      color: #4a7a5a;
+      line-height: 1;
+      margin: 6px 0;
+    }
+
+    /* ── YES branch ── */
+    .branch-yes {
+      background: #f0f9f0;
+      border: 2px solid #1a5c3a;
+      border-radius: 12px;
+      padding: 24px 26px;
+      margin-bottom: 8px;
+    }
+    .branch-label {
+      display: inline-block;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 4px 13px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+      background: #1a5c3a;
+      color: #fff;
+    }
+    .branch-yes h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #0d4a2e;
+      margin-bottom: 6px;
+    }
+    .branch-yes .step-desc { margin-bottom: 18px; }
+
+    /* ── Suggestion hint box ── */
+    .hint-box {
+      background: #e8f5e9;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      font-size: 0.85rem;
+      color: #1a3d28;
+      line-height: 1.7;
+    }
+    .hint-box strong { font-weight: 600; display: block; margin-bottom: 4px; }
+    .hint-box ul { padding-left: 18px; }
+    .hint-box li { margin-bottom: 2px; }
+    .hint-box em { color: #2d5a3a; }
+
+    /* ── Form elements ── */
+    .field-label {
+      display: block;
+      font-size: 0.87rem;
+      font-weight: 600;
+      color: #1a3d28;
+      margin-bottom: 6px;
+      margin-top: 18px;
+    }
+    .field-label:first-of-type { margin-top: 0; }
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #b0d8bc;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: #1a1a1a;
+      background: #fff;
+      resize: vertical;
+      line-height: 1.5;
+    }
+    textarea:focus { outline: none; border-color: #1a5c3a; box-shadow: 0 0 0 3px rgba(26,92,58,0.1); }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #b0d8bc;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: #1a1a1a;
+      background: #fff;
+    }
+    input[type="text"]:focus { outline: none; border-color: #1a5c3a; box-shadow: 0 0 0 3px rgba(26,92,58,0.1); }
+
+    /* ── Radio group ── */
+    .radio-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f5faf6;
+      border: 2px solid #b0d8bc;
+      border-radius: 8px;
+      padding: 10px 18px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #1a3d28;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .radio-option:has(input:checked) {
+      border-color: #1a5c3a;
+      background: #e0f2e8;
+    }
+    .radio-option input[type="radio"] { accent-color: #1a5c3a; width: 16px; height: 16px; }
+
+    /* ── Two-col grid for action plan ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .entry-item{background:#fff;border-left:4px solid #0d4a2e;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:10px;font-size:.85rem;}
+    .entry-item strong{color:#0d4a2e;display:block;margin-bottom:4px;}
+
+    @media (max-width: 580px) {
+      .page-hero h1 { font-size: 2rem; }
+      .two-col { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section class="page-hero">
+  <div class="hero-badge">CBT Worksheet</div>
+  <h1>The Worry Tree</h1>
+  <p>A step-by-step CBT tool to help you decide what to do with a worry — and then let it go.</p>
+</section>
+
+<!-- ══ FEATURE CARDS ══ -->
+<section class="features-section">
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="icon">🌳</div>
+      <h3>Notice the Worry</h3>
+      <p>The first step is simply to pause and name what you are worrying about</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">❓</div>
+      <h3>Ask the Key Question</h3>
+      <p>Can I actually do something about this worry right now or in the near future?</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">📋</div>
+      <h3>Make a Plan</h3>
+      <p>If yes, create a simple action plan — what you will do, when, and how</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🍃</div>
+      <h3>Let It Go</h3>
+      <p>Whether or not you can act, practise letting go and redirecting your attention</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ INSTRUCTIONS ══ -->
+<div class="instructions-box">
+  <h3>How to use this worksheet</h3>
+  <p>Work through the steps in order. At Step 2, answer the key question honestly. If your answer is <strong>No</strong>, skip the Action Plan box and go straight to Step 3. If your answer is <strong>Yes</strong>, complete the Action Plan first, then continue to Step 3. Steps 3 and 4 are for everyone.</p>
+</div>
+
+<!-- ══ WORKSHEET ══ -->
+<div class="page-worksheet">
+
+  <!-- STEP 1: Notice Your Worry -->
+  <div class="step-block" style="margin-top: 28px;">
+    <div class="step-header">
+      <div class="step-number">1</div>
+      <div class="step-title">Notice Your Worry</div>
+    </div>
+    <p class="step-desc">Take a moment to pause and name what is on your mind. What are you worrying about right now?</p>
+    <label class="field-label" for="worry">Describe your worry in as much detail as you like</label>
+    <textarea id="worry" rows="5" placeholder="Write your worry here..."></textarea>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- STEP 2: The Key Question -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">2</div>
+      <div class="step-title">The Key Question</div>
+    </div>
+    <p class="step-desc">This is the heart of the Worry Tree. Answer honestly — is this something you can actually do something about?</p>
+    <label class="field-label">Can I do something about this worry?</label>
+    <div class="radio-group">
+      <label class="radio-option">
+        <input type="radio" name="can_do_something" value="Yes — I can take action" />
+        Yes — I can take action
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="can_do_something" value="No — this is outside my control" />
+        No — this is outside my control
+      </label>
+    </div>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- ACTION PLAN (YES branch) -->
+  <div class="branch-yes">
+    <span class="branch-label">If your answer is YES — complete this section</span>
+    <h4>Action Plan</h4>
+    <p class="step-desc">You can do something about this — great. Make a clear, simple plan below. Once you have your plan, you can let the worry go.</p>
+
+    <label class="field-label" for="action_what">What will you do?</label>
+    <textarea id="action_what" rows="3" placeholder="Describe the action you will take, e.g. Call the doctor to make an appointment..."></textarea>
+
+    <label class="field-label" style="margin-top: 18px;">Is now a good time to act?</label>
+    <div class="radio-group">
+      <label class="radio-option">
+        <input type="radio" name="action_timing" value="Now — I will do it straight away" />
+        Now — I'll do it straight away
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="action_timing" value="Later — I will schedule it" />
+        Later — I'll schedule it
+      </label>
+    </div>
+
+    <div class="two-col" style="margin-top: 4px;">
+      <div>
+        <label class="field-label" for="action_when">When will you do it?</label>
+        <input type="text" id="action_when" placeholder="e.g. Tuesday at 10am / This evening..." />
+      </div>
+      <div>
+        <label class="field-label" for="action_how">How will you do it?</label>
+        <input type="text" id="action_how" placeholder="e.g. Online booking form / Phone call..." />
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- STEP 3: Let the Worry Go -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">3</div>
+      <div class="step-title">Let the Worry Go &amp; Change Focus</div>
+    </div>
+    <p class="step-desc">Whether or not you can take action, the next step is always the same — practise letting the worry go, and redirect your attention to something else.</p>
+
+    <div class="hint-box">
+      <strong>Letting-go strategies you could try:</strong>
+      <ul>
+        <li>Acknowledge it without engaging: <em>"I notice I'm having the thought that..."</em></li>
+        <li>Visualise placing the worry on a leaf and watching it float downstream</li>
+        <li>Take three slow, deep breaths and return your attention to the present</li>
+        <li>Remind yourself: <em>"I've made my plan — worrying more won't help"</em> (if YES)</li>
+        <li>Use the 5-4-3-2-1 grounding technique (5 things you can see, 4 you can touch...)</li>
+        <li>Postpone the worry: <em>"I'll think about this at my designated worry time, not now"</em></li>
+      </ul>
+    </div>
+
+    <label class="field-label" for="letting_go_strategy">Which strategy (or strategies) will you use to let this worry go?</label>
+    <textarea id="letting_go_strategy" rows="3" placeholder="e.g. I'll use the leaf visualisation and then take three deep breaths..."></textarea>
+
+    <label class="field-label" for="new_focus">What will you change your focus of attention to instead?</label>
+    <textarea id="new_focus" rows="3" placeholder="e.g. I'll go for a short walk / put some music on / return to what I was doing..."></textarea>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- STEP 4: Reflection -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">4</div>
+      <div class="step-title">Reflection</div>
+    </div>
+    <p class="step-desc">After working through the Worry Tree, take a moment to reflect on what you noticed.</p>
+    <label class="field-label" for="reflection">How did working through the Worry Tree help you? What did you notice?</label>
+    <textarea id="reflection" rows="5" placeholder="e.g. I realised the worry was outside my control, which made it easier to stop trying to solve it. I noticed the worry's intensity dropped once I chose to let it go..."></textarea>
+  </div>
+
+  <div class="submit-wrap" style="text-align:center;margin:40px 0 16px;">
+    <button id="saveBtn" style="background:#1a5c3a;color:#fff;border:none;padding:16px 40px;border-radius:50px;font-family:Montserrat,sans-serif;font-size:17px;font-weight:700;cursor:pointer;">Save My Entry</button>
+    <div style="margin-top:24px;">
+      <h3 style="font-family:Montserrat,sans-serif;font-size:0.95rem;color:#0d4a2e;margin-bottom:12px;text-align:center;">Saved Entries</h3>
+      <div id="entriesList"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function clean(id) {
+    var el = document.getElementById(id);
+    if (!el) return '';
+    return (el.value || '')
+      .replace(/\r\n/g, ' | ')
+      .replace(/\r/g, ' | ')
+      .replace(/\n/g, ' | ')
+      .replace(/"/g, "'");
+  }
+
+  function getVal(id) {
+    var el = document.getElementById(id);
+    if (!el) return '';
+    return (el.value || '')
+      .replace(/\r\n/g, ' | ')
+      .replace(/\r/g, ' | ')
+      .replace(/\n/g, ' | ')
+      .replace(/"/g, "'")
+      .trim();
+  }
+
+  function collectData() {
+    var r1 = document.querySelector('input[name="can_do_something"]:checked');
+    var r2 = document.querySelector('input[name="action_timing"]:checked');
+    return {
+      worry:               clean('worry'),
+      can_do_something:    r1 ? r1.value : '',
+      action_what:         clean('action_what'),
+      action_timing:       r2 ? r2.value : '',
+      action_when:         getVal('action_when'),
+      action_how:          getVal('action_how'),
+      letting_go_strategy: clean('letting_go_strategy'),
+      new_focus:           clean('new_focus'),
+      reflection:          clean('reflection')
+    };
+  }
+
+  async function saveEntry() {
+    var data = collectData();
+    data.time = new Date().toLocaleString();
+    try {
+      await fetch('/.netlify/functions/saveWorksheet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    } catch (err) { console.error('Save error:', err); }
+    var entries = JSON.parse(localStorage.getItem('worry-tree') || '[]');
+    entries.unshift(data);
+    localStorage.setItem('worry-tree', JSON.stringify(entries));
+    render();
+  }
+
+  function render() {
+    var el = document.getElementById('entriesList');
+    if (!el) return;
+    var entries = JSON.parse(localStorage.getItem('worry-tree') || '[]');
+    if (!entries.length) { el.innerHTML = ''; return; }
+    el.innerHTML = entries.map(function(e) {
+      var p = (e.worry || '').substring(0, 80);
+      return '<div class="entry-item"><strong>' + (e.time || '') + '</strong>' + (p ? '<span style="color:#333;">' + p + '</span>' : '') + '</div>';
+    }).join('');
+  }
+
+  document.getElementById('saveBtn').addEventListener('click', saveEntry);
+  render();
+</script>
+</body>
+</html>
