@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Safety Plan and Support Network | ChatCBT</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Inter, sans-serif; color: #222; background: #f8faf8; }
+
+  .page-hero { background: #0d4a2e; padding: 56px 24px 48px; text-align: center; }
+  .page-hero h1 { font-family: Montserrat, sans-serif; font-size: clamp(26px, 4vw, 40px); font-weight: 700; color: #ffffff; margin-bottom: 14px; }
+  .page-hero p { color: rgba(255,255,255,0.85); font-size: 16px; max-width: 640px; margin: 0 auto 20px; line-height: 1.6; }
+  .crisis-notice { display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.35); color: #fff; border-radius: 8px; padding: 10px 20px; font-size: 14px; max-width: 560px; line-height: 1.5; }
+
+  .features-section { background: #1a5c3a; padding: 36px 24px; }
+  .features-inner { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+  .feature-card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 22px 20px; }
+  .feature-card h3 { font-family: Montserrat, sans-serif; font-size: 15px; font-weight: 700; color: #ffffff; margin-bottom: 8px; }
+  .feature-card p { font-size: 13px; color: rgba(255,255,255,0.8); line-height: 1.55; }
+
+  .worksheet-container { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+
+  .step-block { background: #fff; border-radius: 14px; padding: 28px 28px 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .step-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
+  .step-num { min-width: 34px; height: 34px; background: #0d4a2e; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: Montserrat, sans-serif; font-weight: 700; font-size: 14px; margin-top: 2px; }
+  .step-header-text h2 { font-family: Montserrat, sans-serif; font-size: 17px; font-weight: 700; color: #0d4a2e; margin-bottom: 4px; }
+  .step-header-text p { font-size: 13px; color: #666; line-height: 1.5; }
+
+  textarea { width: 100%; padding: 12px 14px; border: 2px solid #e0e0e0; border-radius: 8px; font-family: Inter, sans-serif; font-size: 14px; color: #333; resize: vertical; min-height: 90px; transition: border-color 0.2s; }
+  textarea:focus { outline: none; border-color: #0d4a2e; }
+
+  .field-input { width: 100%; padding: 11px 14px; border: 2px solid #e0e0e0; border-radius: 8px; font-family: Inter, sans-serif; font-size: 14px; color: #333; transition: border-color 0.2s; }
+  .field-input:focus { outline: none; border-color: #0d4a2e; }
+  .field-label { font-size: 13px; font-weight: 600; color: #444; margin-bottom: 6px; display: block; }
+  .field-group { margin-bottom: 14px; }
+  .field-group:last-child { margin-bottom: 0; }
+
+  .checkbox-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; margin-bottom: 12px; }
+  .check-item { display: flex; align-items: center; gap: 10px; background: #f8faf8; border: 2px solid #e0e0e0; border-radius: 8px; padding: 10px 14px; cursor: pointer; transition: border-color 0.2s, background 0.2s; user-select: none; }
+  .check-item:hover { border-color: #0d4a2e; }
+  .check-item.checked { border-color: #0d4a2e; background: #e8f5e9; }
+  .check-item input[type="checkbox"] { display: none; }
+  .check-box { min-width: 20px; width: 20px; height: 20px; border: 2px solid #ccc; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 13px; transition: all 0.2s; }
+  .check-item.checked .check-box { background: #0d4a2e; border-color: #0d4a2e; color: #fff; }
+  .check-item span { font-size: 14px; color: #333; }
+
+  .other-row { display: flex; align-items: center; gap: 10px; background: #f8faf8; border: 2px solid #e0e0e0; border-radius: 8px; padding: 10px 14px; }
+  .other-row.active { border-color: #0d4a2e; background: #e8f5e9; }
+  .other-box { min-width: 20px; width: 20px; height: 20px; border: 2px solid #ccc; border-radius: 4px; }
+  .other-box.active { background: #0d4a2e; border-color: #0d4a2e; color: #fff; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 13px; }
+  .other-input { flex: 1; border: none; background: transparent; font-family: Inter, sans-serif; font-size: 14px; color: #333; outline: none; }
+  .other-input::placeholder { color: #aaa; }
+
+  .section-divider { background: #0d4a2e; border-radius: 50px; padding: 10px 28px; text-align: center; margin: 32px 0; color: #fff; font-family: Montserrat, sans-serif; font-weight: 700; font-size: 15px; }
+
+  /* Submit & saved entries */
+  .submit-wrap { text-align: center; margin: 40px 0 16px; }
+  #saveBtn { background: #0d4a2e; color: #fff; border: none; padding: 16px 40px; border-radius: 50px; font-family: Montserrat, sans-serif; font-size: 17px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+  #saveBtn:hover { background: #1a5c3a; }
+  .entries-wrap { margin-top: 28px; }
+  .entries-wrap h3 { font-family: Montserrat, sans-serif; font-size: 0.95rem; color: #0d4a2e; margin-bottom: 12px; text-align: center; }
+  .entry-item { background: #fff; border-left: 4px solid #0d4a2e; border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 10px; font-size: 0.85rem; }
+  .entry-item strong { color: #0d4a2e; display: block; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+
+<div class="page-hero">
+  <h1>My Safety Plan &amp; Support Network</h1>
+  <p>A practical tool to guide you through moments of crisis — completed in advance so it's ready when you need it most.</p>
+  <div class="crisis-notice">
+    🆘 If you are in immediate danger, please call <strong>999</strong> (UK) or your local emergency number now.
+  </div>
+</div>
+
+<div class="features-section">
+  <div class="features-inner">
+    <div class="feature-card">
+      <h3>🛡️ What Is a Safety Plan?</h3>
+      <p>A personalised set of coping strategies and contacts you prepare in advance to help you stay safe during periods of emotional crisis.</p>
+    </div>
+    <div class="feature-card">
+      <h3>📋 How to Use It</h3>
+      <p>Fill in each section honestly and thoughtfully. Keep your completed plan somewhere accessible — you might also share it with someone you trust.</p>
+    </div>
+    <div class="feature-card">
+      <h3>🌐 Support Network Map</h3>
+      <p>The second part helps you identify your wider network — people, professionals, and everyday sources of support that can help you through difficult times.</p>
+    </div>
+  </div>
+</div>
+
+<div class="worksheet-container">
+
+  <!-- Step 1 -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">1</div>
+      <div class="step-header-text">
+        <h2>My Warning Signs</h2>
+        <p>What thoughts, emotions, physical sensations, or behaviours indicate that I may be moving towards a crisis?</p>
+      </div>
+    </div>
+    <textarea id="warning_signs" placeholder="e.g. Feeling hopeless, withdrawing from others, difficulty sleeping, racing thoughts..."></textarea>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">2</div>
+      <div class="step-header-text">
+        <h2>My Coping Strategies</h2>
+        <p>Activities or techniques I can use to reduce distress, manage difficult feelings, or distract myself before seeking additional support.</p>
+      </div>
+    </div>
+    <div class="checkbox-grid">
+      <label class="check-item" id="label_cope_breathing">
+        <input type="checkbox" id="cope_breathing">
+        <div class="check-box" id="box_cope_breathing"></div>
+        <span>Breathing or relaxation techniques</span>
+      </label>
+      <label class="check-item" id="label_cope_grounding">
+        <input type="checkbox" id="cope_grounding">
+        <div class="check-box" id="box_cope_grounding"></div>
+        <span>Grounding exercises</span>
+      </label>
+      <label class="check-item" id="label_cope_music">
+        <input type="checkbox" id="cope_music">
+        <div class="check-box" id="box_cope_music"></div>
+        <span>Listening to music</span>
+      </label>
+      <label class="check-item" id="label_cope_walk">
+        <input type="checkbox" id="cope_walk">
+        <div class="check-box" id="box_cope_walk"></div>
+        <span>Going for a walk</span>
+      </label>
+      <label class="check-item" id="label_cope_writing">
+        <input type="checkbox" id="cope_writing">
+        <div class="check-box" id="box_cope_writing"></div>
+        <span>Writing about my thoughts or feelings</span>
+      </label>
+    </div>
+    <div class="other-row" id="other-row">
+      <div class="other-box" id="other-box"></div>
+      <input type="text" class="other-input" id="cope_other" placeholder="Other: describe your own coping strategy...">
+    </div>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">3</div>
+      <div class="step-header-text">
+        <h2>People I Can Turn To</h2>
+        <p>Individuals I can contact when I need support.</p>
+      </div>
+    </div>
+    <div class="field-group">
+      <label class="field-label" for="contact_friend">👥 Friend or family member</label>
+      <input type="text" class="field-input" id="contact_friend" placeholder="Name and how to contact them">
+    </div>
+    <div class="field-group">
+      <label class="field-label" for="contact_therapist">🧑‍⚕️ Support worker, therapist, or counsellor</label>
+      <input type="text" class="field-input" id="contact_therapist" placeholder="Name and contact details">
+    </div>
+    <div class="field-group">
+      <label class="field-label" for="contact_other">💬 Other supportive contact</label>
+      <input type="text" class="field-input" id="contact_other" placeholder="Name and how to contact them">
+    </div>
+  </div>
+
+  <!-- Step 4 -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">4</div>
+      <div class="step-header-text">
+        <h2>Safe Places</h2>
+        <p>Places where I feel secure, calm, or supported.</p>
+      </div>
+    </div>
+    <textarea id="safe_places" placeholder="e.g. At home in my bedroom, a friend's house, a local park, a library..."></textarea>
+  </div>
+
+  <!-- Step 5 -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">5</div>
+      <div class="step-header-text">
+        <h2>Professional and Emergency Support</h2>
+        <p>If I am unable to cope on my own, I will contact:</p>
+      </div>
+    </div>
+    <div class="field-group">
+      <label class="field-label" for="professional_gp">🏥 My GP, therapist, or healthcare professional</label>
+      <input type="text" class="field-input" id="professional_gp" placeholder="Name and contact details or appointment number">
+    </div>
+    <div class="field-group">
+      <label class="field-label" for="professional_crisis">📞 Crisis support line</label>
+      <input type="text" class="field-input" id="professional_crisis" placeholder="e.g. Samaritans: 116 123 (UK, free, 24/7)">
+    </div>
+    <div class="field-group">
+      <label class="field-label" for="professional_emergency">🚨 Emergency services</label>
+      <input type="text" class="field-input" id="professional_emergency" placeholder="e.g. 999 (UK) or A&amp;E at your nearest hospital">
+    </div>
+  </div>
+
+  <!-- Step 6 -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">6</div>
+      <div class="step-header-text">
+        <h2>My Commitment to Staying Safe</h2>
+        <p>One action I will take to help keep myself safe during a crisis.</p>
+      </div>
+    </div>
+    <textarea id="commitment" placeholder="e.g. I will call a friend before acting on any urges. I will contact the Samaritans if I feel I cannot cope alone..."></textarea>
+  </div>
+
+  <div class="section-divider">🌐 My Support Network Map</div>
+
+  <!-- Step 7 -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">7</div>
+      <div class="step-header-text">
+        <h2>People Who Can Support Me</h2>
+        <p>People I can reach out to for emotional support, practical assistance, companionship, or encouragement.</p>
+      </div>
+    </div>
+    <textarea id="network_people" placeholder="e.g. My sister Sarah — very understanding and always available to talk. My friend James — good at practical help..."></textarea>
+  </div>
+
+  <!-- Step 8 -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">8</div>
+      <div class="step-header-text">
+        <h2>Professional and Community Support</h2>
+        <p>Professional services, organisations, or community groups that may be able to help.</p>
+      </div>
+    </div>
+    <textarea id="network_professional" placeholder="e.g. My CBT therapist (Tuesdays). Mind helpline: 0300 123 3393. Local anxiety support group on Wednesdays..."></textarea>
+  </div>
+
+  <!-- Step 9 -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">9</div>
+      <div class="step-header-text">
+        <h2>Everyday Sources of Support</h2>
+        <p>Support from regular routines, familiar environments, activities, or meaningful connections that are not necessarily with other people.</p>
+      </div>
+    </div>
+    <textarea id="network_everyday" placeholder="e.g. My dog Max — walking him always helps. My morning routine. The online CBT community forum..."></textarea>
+  </div>
+
+  <!-- Step 10 -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">10</div>
+      <div class="step-header-text">
+        <h2>Signs That I May Need Additional Support</h2>
+        <p>What indicators suggest that it may be time to seek extra help or reach out to someone?</p>
+      </div>
+    </div>
+    <textarea id="network_signs" placeholder="e.g. When I start cancelling plans, when I haven't left the house in two days, when intrusive thoughts increase..."></textarea>
+  </div>
+
+  <!-- Step 11 -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">11</div>
+      <div class="step-header-text">
+        <h2>A Simple Plan for Reaching Out</h2>
+        <p>If I need support, what is one straightforward step I can take to make contact?</p>
+      </div>
+    </div>
+    <textarea id="network_plan" placeholder="e.g. I will text my sister and say 'I'm having a hard time — could we speak today?'"></textarea>
+  </div>
+
+  <!-- SUBMIT & SAVED ENTRIES -->
+  <div class="submit-wrap">
+    <button id="saveBtn">Save My Plan</button>
+    <div class="entries-wrap">
+      <h3>Saved Entries</h3>
+      <div id="entriesList"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function v(id) { return (document.getElementById(id).value || '').trim(); }
+
+// Checkbox toggle
+var checkIds = ['cope_breathing','cope_grounding','cope_music','cope_walk','cope_writing'];
+checkIds.forEach(function(id) {
+  var label   = document.getElementById('label_' + id);
+  var checkbox = document.getElementById(id);
+  var box     = document.getElementById('box_' + id);
+  label.addEventListener('click', function(e) {
+    e.preventDefault();
+    checkbox.checked = !checkbox.checked;
+    if (checkbox.checked) { label.classList.add('checked'); box.textContent = '✓'; }
+    else { label.classList.remove('checked'); box.textContent = ''; }
+  });
+});
+
+// Other coping strategy — auto-check when text is typed
+var otherInput = document.getElementById('cope_other');
+var otherRow   = document.getElementById('other-row');
+var otherBox   = document.getElementById('other-box');
+otherInput.addEventListener('input', function() {
+  if (this.value.trim()) { otherRow.classList.add('active'); otherBox.classList.add('active'); otherBox.textContent = '✓'; }
+  else { otherRow.classList.remove('active'); otherBox.classList.remove('active'); otherBox.textContent = ''; }
+});
+
+function collectData() {
+  var copeMap = {
+    'cope_breathing': 'Breathing or relaxation techniques',
+    'cope_grounding':  'Grounding exercises',
+    'cope_music':      'Listening to music',
+    'cope_walk':       'Going for a walk',
+    'cope_writing':    'Writing about thoughts or feelings'
+  };
+  var coping = [];
+  Object.keys(copeMap).forEach(function(id) {
+    if (document.getElementById(id).checked) coping.push(copeMap[id]);
+  });
+  var otherVal = v('cope_other');
+  if (otherVal) coping.push('Other: ' + otherVal);
+
+  return {
+    warning_signs:          v('warning_signs'),
+    coping_strategies:      coping.join(', '),
+    contact_friend:         v('contact_friend'),
+    contact_therapist:      v('contact_therapist'),
+    contact_other:          v('contact_other'),
+    safe_places:            v('safe_places'),
+    professional_gp:        v('professional_gp'),
+    professional_crisis:    v('professional_crisis'),
+    professional_emergency: v('professional_emergency'),
+    commitment:             v('commitment'),
+    network_people:         v('network_people'),
+    network_professional:   v('network_professional'),
+    network_everyday:       v('network_everyday'),
+    network_signs:          v('network_signs'),
+    network_plan:           v('network_plan'),
+    time: new Date().toLocaleString()
+  };
+}
+
+async function saveEntry() {
+  var data = collectData();
+  try {
+    await fetch('/.netlify/functions/saveWorksheet', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch (err) { console.error('Save error:', err); }
+  var entries = JSON.parse(localStorage.getItem('safety-plan') || '[]');
+  entries.unshift(data);
+  localStorage.setItem('safety-plan', JSON.stringify(entries));
+  render();
+}
+
+function render() {
+  var el = document.getElementById('entriesList');
+  if (!el) return;
+  var entries = JSON.parse(localStorage.getItem('safety-plan') || '[]');
+  if (!entries.length) { el.innerHTML = ''; return; }
+  el.innerHTML = entries.map(function(e) {
+    var preview = (e.commitment || e.warning_signs || '').substring(0, 80);
+    return '<div class="entry-item">'
+      + '<strong>' + (e.time || '') + '</strong>'
+      + (preview ? '<span style="color:#333;">' + preview + '</span>' : '')
+      + '</div>';
+  }).join('');
+}
+
+document.getElementById('saveBtn').addEventListener('click', saveEntry);
+render();
+</script>
+
+</body>
+</html>
