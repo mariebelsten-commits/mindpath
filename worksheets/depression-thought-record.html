@@ -236,9 +236,11 @@ body{font-family:'Inter',sans-serif;background:#f4f6f4;color:#1a1a1a;}
 
 </main>
 
+<script src="/js/save.js"></script>
 <script>
   function collect() {
     return {
+      type:                    'Thought Record — Depression',
       situation:               (document.getElementById('situation').value || '').trim(),
       unhelpful_thoughts:      (document.getElementById('unhelpful_thoughts').value || '').trim(),
       deeper_meaning:          (document.getElementById('deeper_meaning').value || '').trim(),
@@ -251,17 +253,9 @@ body{font-family:'Inter',sans-serif;background:#f4f6f4;color:#1a1a1a;}
     };
   }
 
-  async function saveEntry() {
+  function saveEntry() {
     var data = collect();
-    try {
-      await fetch('/.netlify/functions/saveWorksheet', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-    } catch (err) {
-      console.error('Save error:', err);
-    }
+    saveToServer(data);
     var entries = JSON.parse(localStorage.getItem('depression-thought-record') || '[]');
     entries.unshift(data);
     localStorage.setItem('depression-thought-record', JSON.stringify(entries));
