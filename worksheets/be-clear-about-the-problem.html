@@ -482,7 +482,7 @@
     </div>
   </div>
 </section>
-
+<script src="/js/save.js"></script>
 <script>
   var fieldNames = [
     'row1_behaviour', 'row1_interference',
@@ -505,24 +505,16 @@
   function collectData() {
     var section = document.querySelector('.page-worksheet');
     var allFields = Array.from(section.querySelectorAll('textarea, input[type="number"]'));
-    var data = { time: new Date().toLocaleString() };
+    var data = { type: 'Be Clear About the Problem', time: new Date().toLocaleString() };
     allFields.forEach(function(field, i) {
       if (fieldNames[i]) data[fieldNames[i]] = field.value.replace(/\r?\n|\r/g, ' | ');
     });
     return data;
   }
 
-  async function saveEntry() {
+  function saveEntry() {
     var data = collectData();
-    try {
-      await fetch('/.netlify/functions/saveWorksheet', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-    } catch (err) {
-      console.error('Save error:', err);
-    }
+    saveToServer(data);
     var entries = JSON.parse(localStorage.getItem('clear-about-problem') || '[]');
     entries.unshift(data);
     localStorage.setItem('clear-about-problem', JSON.stringify(entries));
