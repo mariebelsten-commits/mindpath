@@ -364,7 +364,7 @@
   </div>
 
 </div>
-
+<script src="/js/save.js"></script>
 <script>
 var emotionData = {
   HAPPY: {
@@ -552,16 +552,11 @@ function collectData() {
   };
 }
 
-async function saveEntry() {
+function saveEntry() {
   var data = collectData();
+  data.type = 'The Feelings Wheel';
   data.time = new Date().toLocaleString();
-  try {
-    await fetch('/.netlify/functions/saveWorksheet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-  } catch (err) { console.error('Save error:', err); }
+  saveToServer(data);
   var entries = JSON.parse(localStorage.getItem('feelings-wheel') || '[]');
   entries.unshift(data);
   localStorage.setItem('feelings-wheel', JSON.stringify(entries));
