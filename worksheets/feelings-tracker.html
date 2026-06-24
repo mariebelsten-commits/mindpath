@@ -410,7 +410,8 @@
   <button class="btn-submit" id="saveBtn">Save Worksheet</button>
 </div>
 
-<script>
+<script src="/js/save.js"></script>
+  <script>
   // ── Default emotion setup ──
   var emotions = [
     { name: 'Happy',   colour: '#f1c40f' },
@@ -565,21 +566,12 @@
   }
 
   // ── Save ──
-  async function saveEntry() {
+  function saveEntry() {
     var data = collectData();
+    data.type = 'Feelings Tracker';
     data.time = new Date().toLocaleString();
 
-    try {
-      var res = await fetch('/.netlify/functions/saveWorksheet', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      var result = await res.json();
-      console.log("Server response:", result);
-    } catch (err) {
-      console.error("Error saving to server:", err);
-    }
+    saveToServer(data);
 
     var entries = JSON.parse(localStorage.getItem("feelings-tracker") || "[]");
     entries.unshift(data);
