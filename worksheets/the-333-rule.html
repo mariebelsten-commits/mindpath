@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The 333 Rule — ChatCBT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5f9f5;
+      color: #1a2e1a;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .ws-header {
+      background: linear-gradient(135deg, #0d4a2e 0%, #1a5c3a 100%);
+      padding: 48px 24px 40px;
+      text-align: center;
+    }
+    .ws-header h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      color: #ffffff !important;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+    .ws-header p {
+      color: #b5e8c4 !important;
+      font-size: 1.05rem;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+
+    /* ── Container ── */
+    .ws-container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 32px 24px 48px;
+    }
+
+    /* ── Cards ── */
+    .ws-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .ws-card h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: #0d4a2e;
+      margin-bottom: 14px;
+    }
+    .ws-card p {
+      color: #3a4a3a;
+      line-height: 1.65;
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+    .ws-card p:last-of-type { margin-bottom: 0; }
+
+    /* ── How It Works grid ── */
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 16px;
+    }
+    .how-item {
+      background: #f0f9f0;
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .how-item h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #0d4a2e;
+      margin-bottom: 6px;
+    }
+    .how-item p {
+      font-size: 0.85rem;
+      color: #3a5a3a;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* ── When to Use callout ── */
+    .when-card {
+      background: #f0f9f0;
+      border: 1px solid #d4edda;
+      border-left: 4px solid #1a5c3a;
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+    }
+    .when-card h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #0d4a2e;
+      margin-bottom: 10px;
+    }
+    .when-card ul {
+      list-style: none;
+      padding: 0;
+    }
+    .when-card ul li {
+      color: #2d4a2d;
+      font-size: 0.9rem;
+      padding: 3px 0 3px 22px;
+      position: relative;
+      line-height: 1.5;
+    }
+    .when-card ul li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: #1a5c3a;
+      font-weight: 700;
+    }
+
+    /* ── Pause card ── */
+    .pause-card {
+      background: linear-gradient(135deg, #0d4a2e 0%, #1a5c3a 100%);
+      border-radius: 12px;
+      padding: 32px 28px;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    .pause-card h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: #ffffff !important;
+      margin-bottom: 12px;
+    }
+    .pause-card p {
+      color: #b5e8c4 !important;
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 6px;
+    }
+    .pause-card p:last-child { margin-bottom: 0; }
+
+    /* ── Section badge ── */
+    .section-badge {
+      display: inline-block;
+      background: #0d4a2e;
+      color: #ffffff !important;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+    }
+
+    /* ── Step cards ── */
+    .step-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border-top: 4px solid var(--step-color);
+    }
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .step-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--step-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .step-header-text h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #0d4a2e;
+      margin: 0 0 3px;
+    }
+    .step-header-text p {
+      font-size: 0.88rem;
+      color: #5a7a5a;
+      margin: 0;
+      line-height: 1.4;
+    }
+    .step-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .step-input-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .step-num {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--step-color);
+      color: #ffffff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ── Form elements ── */
+    .ws-textarea,
+    .ws-input {
+      width: 100%;
+      border: 1.5px solid #d4edda;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      color: #1a2e1a;
+      background: #fafffe;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    .ws-textarea {
+      resize: vertical;
+      min-height: 88px;
+      line-height: 1.6;
+    }
+    .ws-textarea:focus,
+    .ws-input:focus {
+      border-color: #1a5c3a;
+      box-shadow: 0 0 0 3px rgba(26,92,58,0.1);
+      background: #ffffff;
+    }
+    .step-input-row .ws-input { flex: 1; }
+
+    label.ws-label {
+      display: block;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: #0d4a2e;
+      margin-bottom: 7px;
+    }
+
+    /* ── Reassuring statement options ── */
+    .statement-options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .statement-option {
+      background: #f0f9f0;
+      border: 2px solid #d4edda;
+      border-radius: 8px;
+      padding: 12px 14px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: #2d4a2d;
+      line-height: 1.4;
+      transition: border-color 0.2s, background 0.2s;
+      user-select: none;
+    }
+    .statement-option:hover {
+      border-color: #1a5c3a;
+      background: #e6f5ea;
+    }
+    .statement-option.selected {
+      border-color: #0d4a2e;
+      background: #d4edda;
+      color: #0d4a2e;
+      font-weight: 600;
+    }
+
+    .entry-item{background:#fff;border-left:4px solid #0d4a2e;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:10px;font-size:.85rem;}
+    .entry-item strong{color:#0d4a2e;display:block;margin-bottom:4px;}
+
+    @media (max-width: 600px) {
+      .ws-header { padding: 36px 16px 28px; }
+      .ws-container { padding: 20px 16px 40px; }
+      .ws-card, .step-card { padding: 20px; }
+      .how-grid { grid-template-columns: 1fr; }
+      .statement-options { grid-template-columns: 1fr; }
+      .pause-card { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="ws-header">
+  <h1>The 333 Rule</h1>
+  <p>A grounding technique to bring you back to the present moment when anxiety, panic, or overwhelm sets in.</p>
+</header>
+
+<div class="ws-container">
+
+  <!-- How It Works -->
+  <div class="ws-card">
+    <h2>How It Works</h2>
+    <p>The 333 Rule works by redirecting your attention from racing thoughts and internal panic toward the present, physical environment. From a CBT perspective, it activates three key mechanisms:</p>
+    <div class="how-grid">
+      <div class="how-item">
+        <h4>Grounding</h4>
+        <p>Shifts attention away from anxious thoughts toward the external world around you.</p>
+      </div>
+      <div class="how-item">
+        <h4>Brain Regulation</h4>
+        <p>Activates the prefrontal cortex (rational brain) and calms the amygdala (the brain's fear centre).</p>
+      </div>
+      <div class="how-item">
+        <h4>Breaking the Cycle</h4>
+        <p>Offers an immediate, actionable way to interrupt the spiral of anxious thoughts before they escalate.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- When to Use -->
+  <div class="when-card">
+    <h3>When to Use the 333 Rule</h3>
+    <ul>
+      <li>During a panic attack or moment of high stress</li>
+      <li>When feeling overwhelmed, anxious, or unable to focus</li>
+      <li>When you feel "frozen" or disconnected from the present moment</li>
+    </ul>
+  </div>
+
+  <!-- First, Pause -->
+  <div class="pause-card">
+    <h2>First, Pause</h2>
+    <p>Take one slow breath if you can.</p>
+    <p>You do not need to change your breathing. Just notice it.</p>
+  </div>
+
+  <!-- Body Awareness -->
+  <div class="ws-card">
+    <div class="section-badge">Bring Attention to Your Body</div>
+    <p>Place your feet on the floor if possible. Notice the weight of your body being supported.</p>
+    <label class="ws-label" for="bodyNotice">What do you notice in your body right now?</label>
+    <textarea id="bodyNotice" class="ws-textarea" placeholder="e.g. tension in my shoulders, heaviness in my chest, warmth in my hands…" rows="3"></textarea>
+  </div>
+
+  <!-- Step 1: See -->
+  <div class="step-card" style="--step-color: #039be5;">
+    <div class="step-header">
+      <div class="step-icon">👁️</div>
+      <div class="step-header-text">
+        <h2>Step 1 — See 3 Things</h2>
+        <p>Look around and name three objects you can see right now — a pen, a chair, a cloud.</p>
+      </div>
+    </div>
+    <div class="step-inputs">
+      <div class="step-input-row">
+        <div class="step-num">1</div>
+        <input type="text" id="see1" class="ws-input" placeholder="e.g. a mug on the desk">
+      </div>
+      <div class="step-input-row">
+        <div class="step-num">2</div>
+        <input type="text" id="see2" class="ws-input" placeholder="e.g. a window with light coming through">
+      </div>
+      <div class="step-input-row">
+        <div class="step-num">3</div>
+        <input type="text" id="see3" class="ws-input" placeholder="e.g. a plant in the corner">
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2: Hear -->
+  <div class="step-card" style="--step-color: #43a047;">
+    <div class="step-header">
+      <div class="step-icon">👂</div>
+      <div class="step-header-text">
+        <h2>Step 2 — Hear 3 Sounds</h2>
+        <p>Listen carefully and name three distinct sounds — traffic, a clock ticking, your own breath.</p>
+      </div>
+    </div>
+    <div class="step-inputs">
+      <div class="step-input-row">
+        <div class="step-num">1</div>
+        <input type="text" id="hear1" class="ws-input" placeholder="e.g. traffic outside">
+      </div>
+      <div class="step-input-row">
+        <div class="step-num">2</div>
+        <input type="text" id="hear2" class="ws-input" placeholder="e.g. a clock ticking">
+      </div>
+      <div class="step-input-row">
+        <div class="step-num">3</div>
+        <input type="text" id="hear3" class="ws-input" placeholder="e.g. my own breathing">
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3: Move -->
+  <div class="step-card" style="--step-color: #8e24aa;">
+    <div class="step-header">
+      <div class="step-icon">🤲</div>
+      <div class="step-header-text">
+        <h2>Step 3 — Move 3 Body Parts</h2>
+        <p>Consciously move three parts of your body — roll your shoulders, wiggle your toes, turn your head.</p>
+      </div>
+    </div>
+    <div class="step-inputs">
+      <div class="step-input-row">
+        <div class="step-num">1</div>
+        <input type="text" id="move1" class="ws-input" placeholder="e.g. rolled my shoulders">
+      </div>
+      <div class="step-input-row">
+        <div class="step-num">2</div>
+        <input type="text" id="move2" class="ws-input" placeholder="e.g. wiggled my toes">
+      </div>
+      <div class="step-input-row">
+        <div class="step-num">3</div>
+        <input type="text" id="move3" class="ws-input" placeholder="e.g. turned my head slowly left and right">
+      </div>
+    </div>
+  </div>
+
+  <!-- Reassuring Statement -->
+  <div class="ws-card">
+    <h2>A Simple Reassuring Statement</h2>
+    <p>Choose one statement that feels most helpful right now, or write your own below.</p>
+    <div class="statement-options">
+      <div class="statement-option" onclick="selectStatement(this, 'I am safe in this moment')">I am safe in this moment</div>
+      <div class="statement-option" onclick="selectStatement(this, 'This feeling will pass')">This feeling will pass</div>
+      <div class="statement-option" onclick="selectStatement(this, 'I do not need to solve everything right now')">I do not need to solve everything right now</div>
+      <div class="statement-option" onclick="selectStatement(this, 'I can take this one moment at a time')">I can take this one moment at a time</div>
+    </div>
+    <label class="ws-label" for="chosenStatement">My chosen statement:</label>
+    <input type="text" id="chosenStatement" class="ws-input" placeholder="Type or select a statement above…">
+  </div>
+
+  <!-- Reflection -->
+  <div class="ws-card">
+    <h2>After Using the 333 Rule</h2>
+    <label class="ws-label" for="reflection">How do you feel now compared to before? What did you notice?</label>
+    <textarea id="reflection" class="ws-textarea" placeholder="e.g. I feel a little calmer. I noticed my breathing had slowed down by the time I reached Step 3…" rows="4"></textarea>
+  </div>
+
+  <div class="submit-wrap" style="text-align:center;margin:40px 0 16px;">
+    <button id="saveBtn" style="background:#0d4a2e;color:#fff;border:none;padding:16px 40px;border-radius:50px;font-family:Montserrat,sans-serif;font-size:17px;font-weight:700;cursor:pointer;">Save My Entry</button>
+    <div style="margin-top:24px;">
+      <h3 style="font-family:Montserrat,sans-serif;font-size:0.95rem;color:#0d4a2e;margin-bottom:12px;text-align:center;">Saved Entries</h3>
+      <div id="entriesList"></div>
+    </div>
+  </div>
+
+</div><!-- /ws-container -->
+
+<script>
+  function selectStatement(el, text) {
+    document.querySelectorAll('.statement-option').forEach(function(o) { o.classList.remove('selected'); });
+    el.classList.add('selected');
+    document.getElementById('chosenStatement').value = text;
+  }
+
+  function clean(id) {
+    var el = document.getElementById(id);
+    if (!el) return '';
+    return (el.value || '')
+      .replace(/\r\n/g, ' | ')
+      .replace(/\r/g, ' | ')
+      .replace(/\n/g, ' | ')
+      .replace(/"/g, "'");
+  }
+
+  function collectData() {
+    return {
+      bodyNotice:      clean('bodyNotice'),
+      see1:            clean('see1'),
+      see2:            clean('see2'),
+      see3:            clean('see3'),
+      hear1:           clean('hear1'),
+      hear2:           clean('hear2'),
+      hear3:           clean('hear3'),
+      move1:           clean('move1'),
+      move2:           clean('move2'),
+      move3:           clean('move3'),
+      chosenStatement: clean('chosenStatement'),
+      reflection:      clean('reflection')
+    };
+  }
+
+  async function saveEntry() {
+    var data = collectData();
+    data.time = new Date().toLocaleString();
+    try {
+      await fetch('/.netlify/functions/saveWorksheet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    } catch (err) { console.error('Save error:', err); }
+    var entries = JSON.parse(localStorage.getItem('the-333-rule') || '[]');
+    entries.unshift(data);
+    localStorage.setItem('the-333-rule', JSON.stringify(entries));
+    render();
+  }
+
+  function render() {
+    var el = document.getElementById('entriesList');
+    if (!el) return;
+    var entries = JSON.parse(localStorage.getItem('the-333-rule') || '[]');
+    if (!entries.length) { el.innerHTML = ''; return; }
+    el.innerHTML = entries.map(function(e) {
+      var p = (e.reflection || '').substring(0, 80);
+      return '<div class="entry-item"><strong>' + (e.time || '') + '</strong>' + (p ? '<span style="color:#333;">' + p + '</span>' : '') + '</div>';
+    }).join('');
+  }
+
+  document.getElementById('saveBtn').addEventListener('click', saveEntry);
+  render();
+</script>
+</body>
+</html>
