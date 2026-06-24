@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Probability Estimation | ChatCBT</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Inter, sans-serif; color: #222; background: #f8faf8; }
+
+  /* HERO */
+  .page-hero { background: #0d4a2e; padding: 56px 24px 48px; text-align: center; }
+  .page-hero h1 {
+    font-family: Montserrat, sans-serif;
+    font-size: clamp(26px, 4vw, 40px);
+    font-weight: 700; color: #ffffff; margin-bottom: 14px;
+  }
+  .page-hero p {
+    color: rgba(255,255,255,0.85); font-size: 16px;
+    max-width: 640px; margin: 0 auto; line-height: 1.7;
+  }
+
+  /* FEATURES */
+  .features-section { background: #1a5c3a; padding: 36px 24px; }
+  .features-inner {
+    max-width: 960px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;
+  }
+  .feature-card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 22px 20px; }
+  .feature-card h3 {
+    font-family: Montserrat, sans-serif; font-size: 15px;
+    font-weight: 700; color: #ffffff; margin-bottom: 8px;
+  }
+  .feature-card p { font-size: 13px; color: rgba(255,255,255,0.8); line-height: 1.55; }
+
+  /* WORKSHEET */
+  .worksheet-container { max-width: 760px; margin: 0 auto; padding: 40px 24px 60px; }
+
+  .step-block {
+    background: #fff; border-radius: 14px;
+    padding: 28px 28px 24px; margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .step-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
+  .step-num {
+    min-width: 34px; height: 34px; background: #0d4a2e; color: #fff;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-family: Montserrat, sans-serif; font-weight: 700; font-size: 14px; margin-top: 2px;
+  }
+  .step-header-text h2 {
+    font-family: Montserrat, sans-serif; font-size: 17px;
+    font-weight: 700; color: #0d4a2e; margin-bottom: 4px;
+  }
+  .step-header-text p { font-size: 13px; color: #666; line-height: 1.5; }
+
+  textarea {
+    width: 100%; padding: 12px 14px;
+    border: 2px solid #e0e0e0; border-radius: 8px;
+    font-family: Inter, sans-serif; font-size: 14px;
+    color: #333; resize: vertical; min-height: 100px;
+    transition: border-color 0.2s;
+  }
+  textarea:focus { outline: none; border-color: #0d4a2e; }
+
+  /* Likelihood slider + number */
+  .likelihood-wrap { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .likelihood-slider {
+    flex: 1; min-width: 200px; -webkit-appearance: none; appearance: none;
+    height: 8px; border-radius: 50px; background: #e0e0e0; outline: none;
+  }
+  .likelihood-slider::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: #0d4a2e; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  .likelihood-slider::-moz-range-thumb {
+    width: 24px; height: 24px; border-radius: 50%; border: none;
+    background: #0d4a2e; cursor: pointer;
+  }
+  .pct-display {
+    min-width: 84px; text-align: center;
+    background: #0d4a2e; color: #fff; border-radius: 10px;
+    padding: 8px 6px; font-family: Montserrat, sans-serif; font-weight: 700; font-size: 22px;
+  }
+
+  /* Feared outcome — amber */
+  .feared-block { background: #fff8f0; border-left: 4px solid #e65100; }
+  .feared-block textarea { background: rgba(255,255,255,0.95); min-height: 70px; }
+
+  /* Evidence two-column */
+  .evidence-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .evidence-grid { grid-template-columns: 1fr; } }
+  .evidence-col-label {
+    font-family: Montserrat, sans-serif; font-weight: 700; font-size: 13px;
+    margin-bottom: 8px; display: block;
+  }
+  .ev-sup-label { color: #b85c00; }
+  .ev-ag-label  { color: #1b5e20; }
+  .ev-sup textarea { border-color: #e8ccaa; background: #fffaf3; min-height: 130px; }
+  .ev-ag textarea  { border-color: #b8ddb8; background: #f6fcf6; min-height: 130px; }
+
+  /* Revised — green */
+  .revised-block { background: #e8f5e9; border-left: 4px solid #0d4a2e; }
+  .revised-block .pct-display { background: #1b5e20; }
+
+  .insight-tip {
+    background: #f0f9f0; border-radius: 10px;
+    padding: 14px 18px; font-size: 13px; color: #2a4a2a; line-height: 1.6; margin-top: 16px;
+  }
+
+  /* Submit & saved entries */
+  .submit-wrap { text-align: center; margin: 40px 0 16px; }
+  #saveBtn {
+    background: #0d4a2e; color: #fff; border: none;
+    padding: 16px 40px; border-radius: 50px;
+    font-family: Montserrat, sans-serif; font-size: 17px;
+    font-weight: 700; cursor: pointer; transition: background 0.2s;
+  }
+  #saveBtn:hover { background: #1a5c3a; }
+  .entries-wrap { margin-top: 28px; }
+  .entries-wrap h3 { font-family: Montserrat, sans-serif; font-size: 0.95rem; color: #0d4a2e; margin-bottom: 12px; text-align: center; }
+  .entry-item { background: #fff; border-left: 4px solid #0d4a2e; border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 10px; font-size: 0.85rem; }
+  .entry-item strong { color: #0d4a2e; display: block; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="page-hero">
+  <h1>Probability Estimation</h1>
+  <p>Anxiety often overestimates how likely a feared outcome really is. This exercise helps you identify a worry, examine the actual evidence, and calculate a fairer, more realistic estimate.</p>
+</div>
+
+<!-- FEATURES -->
+<div class="features-section">
+  <div class="features-inner">
+    <div class="feature-card">
+      <h3>🎯 Name the Fear</h3>
+      <p>Identify a specific feared outcome and rate how likely it feels right now, before examining any evidence.</p>
+    </div>
+    <div class="feature-card">
+      <h3>⚖️ Weigh the Evidence</h3>
+      <p>List the real evidence for and against the outcome — focusing on facts rather than how the worry feels.</p>
+    </div>
+    <div class="feature-card">
+      <h3>📉 Revise the Estimate</h3>
+      <p>Re-rate the likelihood with the evidence in front of you. Fears often shrink once you see the facts clearly.</p>
+    </div>
+  </div>
+</div>
+
+<!-- WORKSHEET -->
+<div class="worksheet-container">
+
+  <!-- Step 1: Feared Outcome -->
+  <div class="step-block feared-block">
+    <div class="step-header">
+      <div class="step-num">1</div>
+      <div class="step-header-text">
+        <h2>Feared Outcome</h2>
+        <p>What is the specific outcome you're worried might happen?</p>
+      </div>
+    </div>
+    <textarea id="feared_outcome" placeholder="e.g. If I speak up in the meeting, I'll say something stupid and everyone will think less of me."></textarea>
+  </div>
+
+  <!-- Step 2: Initial Likelihood -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">2</div>
+      <div class="step-header-text">
+        <h2>Initial Likelihood</h2>
+        <p>Before looking at any evidence, how likely does this outcome feel right now? (0–100%)</p>
+      </div>
+    </div>
+    <div class="likelihood-wrap">
+      <input type="range" class="likelihood-slider" id="initial_slider" min="0" max="100" value="50" oninput="syncInitial(this.value)">
+      <div class="pct-display" id="initial_display">50%</div>
+    </div>
+    <input type="hidden" id="initial_likelihood" value="50">
+  </div>
+
+  <!-- Step 3: Evidence -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">3</div>
+      <div class="step-header-text">
+        <h2>Examine the Evidence</h2>
+        <p>List the real evidence on both sides. Focus on facts, not feelings.</p>
+      </div>
+    </div>
+    <div class="evidence-grid">
+      <div class="ev-sup">
+        <label class="evidence-col-label ev-sup-label">⚠️ Evidence SUPPORTING the fear</label>
+        <textarea id="evidence_supporting" placeholder="What facts suggest this outcome could happen?"></textarea>
+      </div>
+      <div class="ev-ag">
+        <label class="evidence-col-label ev-ag-label">✅ Evidence AGAINST the fear</label>
+        <textarea id="evidence_against" placeholder="What facts suggest it's unlikely? Past experience? Times it didn't happen?"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 4: Revised Likelihood -->
+  <div class="step-block revised-block">
+    <div class="step-header">
+      <div class="step-num">4</div>
+      <div class="step-header-text">
+        <h2>Revised Likelihood</h2>
+        <p>Now that you've weighed the evidence, how likely is the outcome really? (0–100%)</p>
+      </div>
+    </div>
+    <div class="likelihood-wrap">
+      <input type="range" class="likelihood-slider" id="revised_slider" min="0" max="100" value="50" oninput="syncRevised(this.value)">
+      <div class="pct-display" id="revised_display">50%</div>
+    </div>
+    <input type="hidden" id="revised_likelihood" value="50">
+    <div class="insight-tip">💡 Notice the gap between your first estimate and your revised one. That difference is the space anxiety was filling with worry rather than fact.</div>
+  </div>
+
+  <!-- SUBMIT & SAVED ENTRIES -->
+  <div class="submit-wrap">
+    <button id="saveBtn">Save My Entry</button>
+    <div class="entries-wrap">
+      <h3>Saved Entries</h3>
+      <div id="entriesList"></div>
+    </div>
+  </div>
+
+  <p style="text-align:center; font-size:13px; color:#666; margin-top:24px;">
+    © 2025 The Resource Library Limited. Adapted for ChatCBT.
+  </p>
+
+</div>
+
+<script>
+function g(id) {
+  return (document.getElementById(id).value || '').replace(/\r?\n|\r/g, ' | ').trim();
+}
+
+function syncInitial(val) {
+  document.getElementById('initial_display').textContent = val + '%';
+  document.getElementById('initial_likelihood').value = val;
+}
+function syncRevised(val) {
+  document.getElementById('revised_display').textContent = val + '%';
+  document.getElementById('revised_likelihood').value = val;
+}
+
+function collectData() {
+  return {
+    feared_outcome:      g('feared_outcome'),
+    initial_likelihood:  document.getElementById('initial_likelihood').value,
+    evidence_supporting: g('evidence_supporting'),
+    evidence_against:    g('evidence_against'),
+    revised_likelihood:  document.getElementById('revised_likelihood').value,
+    time: new Date().toLocaleString()
+  };
+}
+
+async function saveEntry() {
+  var data = collectData();
+  try {
+    await fetch('/.netlify/functions/saveWorksheet', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch (err) {
+    console.error('Save error:', err);
+  }
+  var entries = JSON.parse(localStorage.getItem('probability-estimator') || '[]');
+  entries.unshift(data);
+  localStorage.setItem('probability-estimator', JSON.stringify(entries));
+  render();
+}
+
+function render() {
+  var el = document.getElementById('entriesList');
+  if (!el) return;
+  var entries = JSON.parse(localStorage.getItem('probability-estimator') || '[]');
+  if (!entries.length) { el.innerHTML = ''; return; }
+  el.innerHTML = entries.map(function(e) {
+    var preview = (e.feared_outcome || '').substring(0, 80) + ((e.feared_outcome || '').length > 80 ? '…' : '');
+    var gap = e.initial_likelihood && e.revised_likelihood
+      ? ' · ' + e.initial_likelihood + '% → ' + e.revised_likelihood + '%'
+      : '';
+    return '<div class="entry-item">'
+      + '<strong>' + (e.time || '') + gap + '</strong>'
+      + (preview ? '<span style="color:#333;">' + preview + '</span>' : '')
+      + '</div>';
+  }).join('');
+}
+
+document.getElementById('saveBtn').addEventListener('click', saveEntry);
+render();
+</script>
+
+</body>
+</html>
