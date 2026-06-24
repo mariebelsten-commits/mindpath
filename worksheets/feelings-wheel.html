@@ -165,8 +165,8 @@
     }
     textarea:focus { outline: none; border-color: #1a5c3a; box-shadow: 0 0 0 3px rgba(26,92,58,0.1); }
 
-    /* ── Submit ── */
-    .submit-section { text-align: center; padding: 24px 0 16px; }
+    .entry-item{background:#fff;border-left:4px solid #0d4a2e;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:10px;font-size:.85rem;}
+    .entry-item strong{color:#0d4a2e;display:block;margin-bottom:4px;}
 
     @media (max-width: 600px) {
       .page-hero h1 { font-size: 2rem; }
@@ -229,7 +229,7 @@
       <div class="step-title">The Situation</div>
     </div>
     <p class="step-desc">Briefly describe what has just happened or what is happening right now. This gives context to the emotion.</p>
-    <textarea rows="4" placeholder="e.g. I've just had a difficult conversation with my partner / I'm about to give a presentation at work / I received some unexpected news..."></textarea>
+    <textarea id="situation" rows="4" placeholder="e.g. I've just had a difficult conversation with my partner / I'm about to give a presentation at work / I received some unexpected news..."></textarea>
   </div>
 
   <div class="flow-arrow">↓</div>
@@ -342,27 +342,31 @@
     </div>
     <div class="intensity-labels"><span>Barely noticeable</span><span>Overwhelming</span></div>
 
-    <label class="field-label">Where do you feel this emotion in your body?</label>
-    <textarea rows="3" placeholder="e.g. Tightness in my chest / knot in my stomach / tension in my shoulders and jaw..."></textarea>
+    <label class="field-label" for="body_sensation">Where do you feel this emotion in your body?</label>
+    <textarea id="body_sensation" rows="3" placeholder="e.g. Tightness in my chest / knot in my stomach / tension in my shoulders and jaw..."></textarea>
 
-    <label class="field-label">What may have triggered this feeling?</label>
-    <textarea rows="3" placeholder="e.g. A comment someone made / a specific memory / a worry about the future / something I noticed..."></textarea>
+    <label class="field-label" for="trigger">What may have triggered this feeling?</label>
+    <textarea id="trigger" rows="3" placeholder="e.g. A comment someone made / a specific memory / a worry about the future / something I noticed..."></textarea>
 
-    <label class="field-label">What might this feeling be telling you about what you need right now?</label>
-    <textarea rows="3" placeholder="e.g. I might need reassurance / some time alone / to set a boundary / to rest and recover..."></textarea>
+    <label class="field-label" for="what_i_need">What might this feeling be telling you about what you need right now?</label>
+    <textarea id="what_i_need" rows="3" placeholder="e.g. I might need reassurance / some time alone / to set a boundary / to rest and recover..."></textarea>
 
-    <label class="field-label">How will you respond to this feeling in a helpful way?</label>
-    <textarea rows="3" placeholder="e.g. Talk to someone I trust / go for a walk / write in my journal / take a short break..."></textarea>
+    <label class="field-label" for="helpful_response">How will you respond to this feeling in a helpful way?</label>
+    <textarea id="helpful_response" rows="3" placeholder="e.g. Talk to someone I trust / go for a walk / write in my journal / take a short break..."></textarea>
   </div>
 
-  <div class="submit-section">
-    <!-- Paste submit button code here -->
+  <div class="submit-wrap" style="text-align:center;margin:40px 0 16px;">
+    <button id="saveBtn" style="background:#0d4a2e;color:#fff;border:none;padding:16px 40px;border-radius:50px;font-family:Montserrat,sans-serif;font-size:17px;font-weight:700;cursor:pointer;">Save My Entry</button>
+    <div style="margin-top:24px;">
+      <h3 style="font-family:Montserrat,sans-serif;font-size:0.95rem;color:#0d4a2e;margin-bottom:12px;text-align:center;">Saved Entries</h3>
+      <div id="entriesList"></div>
+    </div>
   </div>
 
 </div>
 
 <script>
-const emotionData = {
+var emotionData = {
   HAPPY: {
     color: '#d97706', bg: '#fffbeb',
     secondaries: {
@@ -441,33 +445,33 @@ const emotionData = {
   }
 };
 
-let selectedCore = null, selectedSecondary = null, selectedTertiary = null;
+var selectedCore = null, selectedSecondary = null, selectedTertiary = null;
 
 function updateSummary() {
-  const wrap = document.getElementById('emotion-summary-wrap');
-  const display = document.getElementById('emotion-summary-display');
+  var wrap = document.getElementById('emotion-summary-wrap');
+  var display = document.getElementById('emotion-summary-display');
   if (!selectedCore) { wrap.style.display = 'none'; return; }
   wrap.style.display = 'block';
-  const ed = emotionData[selectedCore];
-  let html = `<span class="path-crumb" style="background:${ed.color};color:#fff;">${selectedCore}</span>`;
+  var ed = emotionData[selectedCore];
+  var html = '<span class="path-crumb" style="background:' + ed.color + ';color:#fff;">' + selectedCore + '</span>';
   if (selectedSecondary) {
-    html += `<span class="path-arrow-text">→</span><span class="path-crumb" style="background:${ed.bg};color:${ed.color};border:2px solid ${ed.color};">${selectedSecondary}</span>`;
+    html += '<span class="path-arrow-text">→</span><span class="path-crumb" style="background:' + ed.bg + ';color:' + ed.color + ';border:2px solid ' + ed.color + ';">' + selectedSecondary + '</span>';
   }
   if (selectedTertiary) {
-    html += `<span class="path-arrow-text">→</span><span class="path-crumb" style="background:${ed.bg};color:${ed.color};border:2px solid ${ed.color};font-size:0.9rem;padding:6px 16px;">${selectedTertiary}</span>`;
+    html += '<span class="path-arrow-text">→</span><span class="path-crumb" style="background:' + ed.bg + ';color:' + ed.color + ';border:2px solid ' + ed.color + ';font-size:0.9rem;padding:6px 16px;">' + selectedTertiary + '</span>';
   }
   display.innerHTML = html;
 }
 
 function buildChips(containerId, items, radioName, colorHex, bgHex, onSelect) {
-  const wrap = document.getElementById(containerId);
+  var wrap = document.getElementById(containerId);
   wrap.innerHTML = '';
   items.forEach(function(item) {
-    const label = document.createElement('label');
+    var label = document.createElement('label');
     label.className = 'emotion-chip';
     label.style.setProperty('--ec', colorHex);
     label.style.setProperty('--eb', bgHex);
-    const inp = document.createElement('input');
+    var inp = document.createElement('input');
     inp.type = 'radio'; inp.name = radioName; inp.value = item;
     inp.addEventListener('change', function() { onSelect(item); });
     label.appendChild(inp);
@@ -481,10 +485,10 @@ document.querySelectorAll('input[name="core_emotion"]').forEach(function(radio) 
     selectedCore = this.value;
     selectedSecondary = null;
     selectedTertiary = null;
-    const ed = emotionData[selectedCore];
-    const displayName = selectedCore.charAt(0) + selectedCore.slice(1).toLowerCase();
+    var ed = emotionData[selectedCore];
+    var displayName = selectedCore.charAt(0) + selectedCore.slice(1).toLowerCase();
 
-    document.getElementById('secondary-title').textContent = 'You're feeling ' + displayName + ' — which of these is closest?';
+    document.getElementById('secondary-title').textContent = 'You\'re feeling ' + displayName + ' — which of these is closest?';
 
     buildChips('secondary-chips', Object.keys(ed.secondaries), 'secondary_emotion', ed.color, ed.bg, function(sec) {
       selectedSecondary = sec;
@@ -519,91 +523,65 @@ document.querySelectorAll('input[name="core_emotion"]').forEach(function(radio) 
     }, 80);
   });
 });
-</script>
-<!-- Submit Button -->
-<button id="submitFeelingsWheel">Send me my worksheet</button>
 
-<!-- Email Modal -->
-<div id="feelingsWheelModal" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.55);display:none;justify-content:center;align-items:center;z-index:9999;">
-  <div id="feelingsWheelModalContent" style="background:#fff;padding:28px 28px 24px;border-radius:12px;max-width:400px;width:90%;text-align:center;font-family:'Inter',sans-serif;box-shadow:0 8px 32px rgba(0,0,0,0.18);">
-    <h3 style="font-family:'Montserrat',sans-serif;color:#0d4a2e;font-size:1.1rem;margin-bottom:8px;">Where should we send your worksheet?</h3>
-    <p style="font-size:0.87rem;color:#555;margin-bottom:16px;">We'll email you a PDF copy of your completed Feelings Wheel.</p>
-    <input type="email" id="feelingsWheelEmail" placeholder="Enter your email address" style="width:100%;padding:10px 12px;border:1px solid #b0d8bc;border-radius:8px;font-family:'Inter',sans-serif;font-size:0.9rem;margin-bottom:12px;box-sizing:border-box;" />
-    <button id="confirmSendFeelingsWheel" style="background:#1a5c3a;color:#fff;border:none;padding:12px 24px;border-radius:8px;font-family:'Montserrat',sans-serif;font-size:0.95rem;font-weight:700;cursor:pointer;width:100%;">Send PDF →</button>
-    <p style="font-size:0.78rem;color:#999;margin-top:10px;">Your answers are only used to generate your PDF.</p>
-  </div>
-</div>
-
-<style>
-#submitFeelingsWheel {
-  display: inline-block;
-  background: #1a5c3a;
-  color: #ffffff !important;
-  padding: 14px 36px;
-  border-radius: 8px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s;
-  margin-top: 8px;
-}
-#submitFeelingsWheel:hover { background: #14482d; }
-</style>
-
-<script>
-function collectFeelingsWheelData() {
-  const allFields = document.querySelectorAll('.page-worksheet textarea');
-  const fieldNames = ['situation', 'body_sensation', 'trigger', 'what_i_need', 'helpful_response'];
-  const data = {};
-  allFields.forEach(function(field, i) {
-    if (fieldNames[i]) {
-      data[fieldNames[i]] = field.value.replace(/\r?\
-|\r/g, ' | ');
-    }
-  });
-  const r1 = document.querySelector('input[name="core_emotion"]:checked');
-  data.core_emotion = r1 ? r1.value : '';
-  const r2 = document.querySelector('input[name="secondary_emotion"]:checked');
-  data.secondary_emotion = r2 ? r2.value : '';
-  const r3 = document.querySelector('input[name="tertiary_emotion"]:checked');
-  data.tertiary_emotion = r3 ? r3.value : '';
-  const r4 = document.querySelector('input[name="intensity"]:checked');
-  data.intensity = r4 ? r4.value : '';
-  return data;
+function clean(id) {
+  var el = document.getElementById(id);
+  if (!el) return '';
+  return (el.value || '')
+    .replace(/\r\n/g, ' | ')
+    .replace(/\r/g, ' | ')
+    .replace(/\n/g, ' | ')
+    .replace(/"/g, "'");
 }
 
-document.getElementById('submitFeelingsWheel').addEventListener('click', function() {
-  document.getElementById('feelingsWheelModal').style.display = 'flex';
-});
+function collectData() {
+  var r1 = document.querySelector('input[name="core_emotion"]:checked');
+  var r2 = document.querySelector('input[name="secondary_emotion"]:checked');
+  var r3 = document.querySelector('input[name="tertiary_emotion"]:checked');
+  var r4 = document.querySelector('input[name="intensity"]:checked');
+  return {
+    situation:         clean('situation'),
+    core_emotion:      r1 ? r1.value : '',
+    secondary_emotion: r2 ? r2.value : '',
+    tertiary_emotion:  r3 ? r3.value : '',
+    intensity:         r4 ? r4.value : '',
+    body_sensation:    clean('body_sensation'),
+    trigger:           clean('trigger'),
+    what_i_need:       clean('what_i_need'),
+    helpful_response:  clean('helpful_response')
+  };
+}
 
-document.getElementById('confirmSendFeelingsWheel').addEventListener('click', function() {
-  var email = document.getElementById('feelingsWheelEmail').value;
-  if (!email) { alert('Please enter your email address.'); return; }
+async function saveEntry() {
+  var data = collectData();
+  data.time = new Date().toLocaleString();
+  try {
+    await fetch('/.netlify/functions/saveWorksheet', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch (err) { console.error('Save error:', err); }
+  var entries = JSON.parse(localStorage.getItem('feelings-wheel') || '[]');
+  entries.unshift(data);
+  localStorage.setItem('feelings-wheel', JSON.stringify(entries));
+  render();
+}
 
-  var data = collectFeelingsWheelData();
-  data.email = email;
+function render() {
+  var el = document.getElementById('entriesList');
+  if (!el) return;
+  var entries = JSON.parse(localStorage.getItem('feelings-wheel') || '[]');
+  if (!entries.length) { el.innerHTML = ''; return; }
+  el.innerHTML = entries.map(function(e) {
+    var emotion = [e.core_emotion, e.secondary_emotion, e.tertiary_emotion].filter(Boolean).join(' → ');
+    var p = emotion || (e.situation || '').substring(0, 60);
+    return '<div class="entry-item"><strong>' + (e.time || '') + '</strong>' + (p ? '<span style="color:#333;">' + p + '</span>' : '') + '</div>';
+  }).join('');
+}
 
-  fetch('https://hooks.zapier.com/hooks/catch/27250519/ujz802h/', {
-    method: 'POST',
-    mode: 'no-cors',
-    body: JSON.stringify(data)
-  }).then(function() {
-    document.getElementById('feelingsWheelModalContent').innerHTML = '<div style="text-align:center;padding:8px 0"><div style="font-size:2.5rem;margin-bottom:12px">&#128233;</div><h3 style="font-family:Montserrat,sans-serif;color:#0d4a2e;margin-bottom:8px">On its way!</h3><p style="color:#4a6a4a;font-size:0.9rem;margin-bottom:18px;line-height:1.6">Check your inbox in a few minutes.</p><button class="btn-cancel worksheet-modal-close">Close</button></div>';
-  }).catch(function() {
-    document.getElementById('feelingsWheelModalContent').innerHTML = '<div style="text-align:center;padding:8px 0"><div style="font-size:2.5rem;margin-bottom:12px">&#128233;</div><h3 style="font-family:Montserrat,sans-serif;color:#0d4a2e;margin-bottom:8px">On its way!</h3><p style="color:#4a6a4a;font-size:0.9rem;margin-bottom:18px;line-height:1.6">Check your inbox in a few minutes.</p><button class="btn-cancel worksheet-modal-close">Close</button></div>';
-  });
-});
-
-document.addEventListener("click", function(e) {
-  if (!e.target.classList.contains("worksheet-modal-close")) return;
-  var modal = e.target.closest(".email-modal");
-  if (modal) { modal.classList.remove("active"); return; }
-  modal = e.target.parentElement;
-  while (modal) {
-    if (modal.style && modal.style.display === "flex") { modal.style.display = "none"; return; }
-    modal = modal.parentElement;
-  }
-});
+document.getElementById('saveBtn').addEventListener('click', saveEntry);
+render();
 </script>
+</body>
+</html>
