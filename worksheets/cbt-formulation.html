@@ -444,6 +444,7 @@
   </div>
 </div>
 
+<script src="/js/save.js"></script>
 <script>
 var fieldNames = [
   'background_factors',
@@ -460,24 +461,16 @@ var fieldNames = [
 function collectData() {
   var section = document.querySelector('.page-worksheet');
   var allFields = Array.from(section.querySelectorAll('textarea, input[type="text"], input[type="number"]'));
-  var data = { time: new Date().toLocaleString() };
+  var data = { type: 'CBT Formulation', time: new Date().toLocaleString() };
   allFields.forEach(function(field, i) {
     if (fieldNames[i]) data[fieldNames[i]] = field.value.replace(/\r?\n|\r/g, ' | ');
   });
   return data;
 }
 
-async function saveEntry() {
+function saveEntry() {
   var data = collectData();
-  try {
-    await fetch('/.netlify/functions/saveWorksheet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-  } catch (err) {
-    console.error('Save error:', err);
-  }
+  saveToServer(data);
   var entries = JSON.parse(localStorage.getItem('cbt-formulation') || '[]');
   entries.unshift(data);
   localStorage.setItem('cbt-formulation', JSON.stringify(entries));
