@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Putting Beliefs on Trial — ChatCBT</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; color: #1a1a1a; line-height: 1.6; background: #f0f4f0; }
+  h1, h2, h3, h4 { font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif; }
+
+  textarea {
+    width: 100%; padding: 12px 14px; border: 2px solid #c3e6cb; border-radius: 8px;
+    font-family: 'Inter', sans-serif; font-size: 0.95rem; resize: vertical;
+    background: #fff; color: #1a1a1a; transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  textarea:focus { outline: none; border-color: #2d6a4f; box-shadow: 0 0 0 3px rgba(45,106,79,0.15); }
+  textarea::placeholder { color: #999; font-style: italic; }
+
+  /* ===== SLIDE 1 ===== */
+  .slide-hero {
+    display: grid; grid-template-columns: 1fr 1fr; min-height: 520px;
+    background: linear-gradient(135deg, #d4edda 0%, #e8f8e0 30%, #f0f9e8 60%, #e0f0d8 100%);
+    overflow: hidden;
+  }
+  .hero-image { min-height: 520px; overflow: hidden; }
+  .hero-image img { width: 100%; height: 100%; object-fit: cover; }
+  .hero-content { padding: 60px 50px; display: flex; flex-direction: column; justify-content: center; }
+  .hero-content h1 { font-size: 2.8rem; color: #0d4a2e; margin-bottom: 8px; letter-spacing: -0.5px; line-height: 1.15; }
+  .hero-content .subtitle { font-size: 1.25rem; color: #0d4a2e; font-weight: 700; margin-bottom: 30px; }
+  .diamond-steps { display: flex; flex-direction: column; gap: 10px; margin-bottom: 30px; }
+  .diamond-step { display: flex; align-items: center; gap: 14px; }
+  .diamond-icon { width: 44px; height: 44px; background: linear-gradient(135deg, #3ecf8e, #2d9d6a); border-radius: 8px; transform: rotate(45deg); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .diamond-icon span { transform: rotate(-45deg); font-size: 1.1rem; }
+  .diamond-step-text { background: rgba(255,255,255,0.75); border-radius: 8px; padding: 8px 16px; flex: 1; }
+  .diamond-step-text strong { display: block; color: #0d4a2e; font-size: 0.95rem; }
+  .diamond-step-text span { color: #555; font-size: 0.85rem; }
+  .hero-description { font-style: italic; color: #2d6a4f; font-size: 1rem; line-height: 1.6; margin-bottom: 20px; font-weight: 500; }
+  .hero-btn { display: inline-block; background: #1a5c3a; color: #ffffff; padding: 12px 24px; border-radius: 8px; font-size: 0.95rem; font-weight: 600; text-decoration: none; border: 2px solid #1a5c3a; transition: background 0.2s; align-self: flex-start; }
+  .hero-btn:hover { background: #0d4a2e; }
+
+  /* ===== SLIDE 2 ===== */
+  .slide-courtroom { background: linear-gradient(160deg, #c3e6cb 0%, #e8f5e9 40%, #f0f9f0 70%, #d4edda 100%); padding: 60px 24px; }
+  .slide-courtroom .section-title { text-align: center; font-size: 2.6rem; color: #0d4a2e; margin-bottom: 40px; }
+  .courtroom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 1100px; margin: 0 auto; }
+  .court-card { background: rgba(255,255,255,0.85); border-radius: 16px; border: 2px solid #2d6a4f; padding: 30px; backdrop-filter: blur(8px); }
+  .court-card h2 { font-size: 1.8rem; color: #0d4a2e; margin-bottom: 20px; text-align: center; }
+  .role-box { background: rgba(255,255,255,0.9); border-radius: 12px; border: 1.5px solid #c3e6cb; padding: 20px; margin-bottom: 16px; }
+  .role-box h3 { font-size: 1.15rem; color: #0d4a2e; margin-bottom: 8px; }
+  .role-box p { font-size: 0.95rem; color: #333; }
+  .input-section { background: #1a5c3a; border-radius: 12px; padding: 24px; margin-bottom: 16px; }
+  .input-section h3 { color: #fff; font-size: 1.15rem; margin-bottom: 8px; }
+  .input-section p { color: #c3e6cb; font-size: 0.92rem; margin-bottom: 12px; }
+  .input-section .hint { color: #a0d8b0; font-style: italic; font-size: 0.88rem; margin-bottom: 10px; }
+
+  /* ===== SLIDE 3 ===== */
+  .slide-truth { display: grid; grid-template-columns: 1.1fr 0.9fr; min-height: 480px; background: linear-gradient(160deg, #e8f5e9 0%, #f0f9f0 50%, #d4edda 100%); overflow: hidden; }
+  .truth-content { padding: 50px 45px; display: flex; flex-direction: column; justify-content: center; }
+  .truth-content h2 { font-size: 2.4rem; color: #0d4a2e; margin-bottom: 16px; }
+  .truth-content .lead { font-style: italic; color: #2d6a4f; font-size: 1rem; line-height: 1.7; margin-bottom: 8px; font-weight: 500; }
+  .truth-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 24px; margin-bottom: 14px; }
+  .truth-card { background: rgba(255,255,255,0.8); border-radius: 10px; border: 1.5px solid #c3e6cb; padding: 18px; text-align: center; }
+  .truth-card.wide { grid-column: 1 / -1; max-width: 70%; justify-self: center; }
+  .truth-card h4 { font-size: 1.05rem; color: #0d4a2e; margin-bottom: 6px; }
+  .truth-card p { font-size: 0.88rem; color: #555; }
+  .truth-image { overflow: hidden; }
+  .truth-image img { width: 100%; height: 100%; object-fit: cover; }
+  .scales-icon { text-align: center; margin-top: 16px; font-size: 3rem; opacity: 0.3; }
+
+  /* ===== SLIDE 4 ===== */
+  .slide-examine { display: grid; grid-template-columns: 1fr 1fr; min-height: 440px; background: linear-gradient(135deg, #d4edda 0%, #e8f8e0 40%, #f0f9e8 100%); overflow: hidden; }
+  .examine-image { overflow: hidden; border-radius: 0 0 50% 0; }
+  .examine-image img { width: 100%; height: 100%; object-fit: cover; }
+  .examine-content { padding: 60px 50px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+  .examine-content h2 { font-size: 2.6rem; color: #0d4a2e; margin-bottom: 16px; }
+  .examine-content .lead { font-style: italic; font-weight: 500; color: #2d6a4f; font-size: 1.05rem; margin-bottom: 30px; max-width: 480px; line-height: 1.6; }
+  .sides-preview { display: grid; grid-template-columns: 1fr 1fr; border-radius: 12px; overflow: hidden; width: 100%; max-width: 480px; }
+  .side-card { padding: 20px 24px; color: #fff; text-align: center; }
+  .side-card h3 { font-size: 1.15rem; margin-bottom: 6px; color: #fff; }
+  .side-card p { font-size: 0.9rem; opacity: 0.9; color: #fff; }
+  .side-defence { background: #1a5c3a; }
+  .side-prosecution { background: #5c2a4a; }
+
+  /* ===== SLIDES 5 & 6 ===== */
+  .slide-defence { background: linear-gradient(160deg, rgba(212,237,218,0.88) 0%, rgba(232,245,233,0.88) 40%, rgba(240,249,240,0.88) 100%); padding: 60px 24px; }
+  .slide-prosecution { background: linear-gradient(160deg, rgba(243,229,245,0.88) 0%, rgba(237,224,240,0.88) 40%, rgba(248,240,250,0.88) 100%); padding: 60px 24px; }
+  .evidence-layout { display: grid; grid-template-columns: 1fr 1.4fr; gap: 40px; max-width: 1100px; margin: 0 auto; align-items: start; }
+  .evidence-layout.reversed { grid-template-columns: 1.4fr 1fr; }
+  .evidence-info-card { border-radius: 16px; padding: 30px; color: #fff; }
+  .defence-card { background: #1a5c3a; border: 2px solid #2d6a4f; }
+  .prosecution-card { background: #5c2a4a; border: 2px solid #7a3d65; }
+  .evidence-info-card img { width: 100%; height: 240px; object-fit: cover; border-radius: 12px; margin-bottom: 20px; }
+  .evidence-info-card h3 { font-size: 1.2rem; margin-bottom: 10px; color: #fff; }
+  .evidence-info-card p { font-size: 0.95rem; line-height: 1.6; opacity: 0.92; color: #fff; }
+  .evidence-right h2 { font-size: 1.8rem; color: #0d4a2e; margin-bottom: 24px; }
+  .evidence-right-prosecution h2 { font-size: 1.8rem; color: #5c2a4a; margin-bottom: 24px; }
+  .points-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .point-item { position: relative; padding-left: 16px; }
+  .point-item::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; border-radius: 2px; }
+  .slide-defence .point-item::before { background: #1a5c3a; }
+  .slide-prosecution .point-item::before { background: #5c2a4a; }
+  .point-item.full-width { grid-column: 1 / -1; max-width: calc(50% - 10px); }
+  .point-item label { font-weight: 700; font-size: 1rem; margin-bottom: 8px; display: block; }
+  .slide-defence .point-item label { color: #0d4a2e; }
+  .slide-prosecution .point-item label { color: #5c2a4a; }
+  .prosecution-textarea { border-color: #d4b5cc; }
+  .prosecution-textarea:focus { border-color: #7a3d65; box-shadow: 0 0 0 3px rgba(122,61,101,0.15); }
+
+  /* ===== SLIDE 7 ===== */
+  .slide-summary { background: linear-gradient(180deg, rgba(26,58,42,0.92) 0%, rgba(45,74,58,0.92) 100%); padding: 60px 24px; text-align: center; color: #fff; }
+  .slide-summary h2 { font-size: 2.4rem; color: #fff; margin-bottom: 12px; }
+  .slide-summary > p { font-style: italic; max-width: 700px; margin: 0 auto 40px; opacity: 0.9; font-size: 1.05rem; color: #fff; }
+  .summary-grid { display: grid; grid-template-columns: 1fr 1fr; max-width: 900px; margin: 0 auto; border-radius: 16px; overflow: hidden; }
+  .summary-card { padding: 30px; text-align: left; }
+  .summary-defence { background: #1a5c3a; }
+  .summary-prosecution { background: #3a7d2a; }
+  .summary-card h3 { font-size: 1.3rem; margin-bottom: 10px; color: #fff; }
+  .summary-card p { font-size: 0.92rem; margin-bottom: 14px; color: #c3e6cb; }
+  .summary-card textarea { background: rgba(255,255,255,0.95); }
+
+  /* ===== SLIDE 8 ===== */
+  .slide-review { background: linear-gradient(160deg, rgba(232,245,233,0.95) 0%, rgba(240,249,240,0.95) 50%, rgba(232,245,233,0.95) 100%); padding: 60px 24px; text-align: center; }
+  .slide-review h2 { font-size: 2.4rem; color: #0d4a2e; margin-bottom: 12px; }
+  .slide-review > p { font-style: italic; color: #2d6a4f; max-width: 700px; margin: 0 auto 40px; font-size: 1.05rem; }
+  .review-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 1000px; margin: 0 auto; }
+  .review-card { background: rgba(255,255,255,0.9); border-radius: 16px; border: 2px solid #2d6a4f; padding: 30px; text-align: left; }
+  .review-card h3 { font-size: 1.3rem; color: #0d4a2e; margin-bottom: 10px; }
+  .review-card p { font-size: 0.95rem; color: #333; margin-bottom: 14px; }
+
+  /* ===== SLIDE 9 ===== */
+  .slide-verdict { background: linear-gradient(160deg, rgba(212,237,218,0.92) 0%, rgba(232,245,233,0.92) 40%, rgba(195,230,203,0.92) 100%); padding: 60px 24px; }
+  .verdict-layout { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 40px; max-width: 1100px; margin: 0 auto; align-items: start; }
+  .verdict-left img { width: 100%; max-width: 360px; height: 380px; object-fit: cover; border-radius: 16px; }
+  .verdict-right h2 { font-size: 2.4rem; color: #0d4a2e; margin-bottom: 10px; }
+  .verdict-right > p { font-style: italic; color: #2d6a4f; margin-bottom: 30px; font-size: 1rem; line-height: 1.6; }
+  .verdict-steps { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .verdict-step { background: rgba(255,255,255,0.85); border-radius: 14px; border: 1.5px solid #c3e6cb; padding: 24px; text-align: center; }
+  .verdict-step.full-width { grid-column: 1 / -1; max-width: 50%; justify-self: center; }
+  .step-number { width: 36px; height: 36px; background: #1a5c3a; color: #fff; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.95rem; margin-bottom: 10px; }
+  .verdict-step h3 { font-size: 1.3rem; color: #0d4a2e; margin-bottom: 6px; }
+  .verdict-step p { font-size: 0.88rem; color: #555; margin-bottom: 12px; }
+  .verdict-textarea { background: #1a5c3a; color: #fff; border-color: #2d6a4f; }
+  .verdict-textarea::placeholder { color: rgba(255,255,255,0.5); }
+  .verdict-textarea:focus { border-color: #3a7d5c; box-shadow: 0 0 0 3px rgba(45,106,79,0.25); }
+
+  /* ===== SUBMIT & SAVED ENTRIES ===== */
+  .submit-wrap { text-align: center; padding: 50px 24px 60px; background: #f0f9e8; }
+  #saveBtn { display: inline-block; background: #0d4a2e; color: #fff; padding: 16px 40px; border-radius: 30px; font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700; border: none; cursor: pointer; transition: background 0.2s; box-shadow: 0 4px 12px rgba(13,74,46,0.25); }
+  #saveBtn:hover { background: #1a5c3a; }
+  .entries-wrap { margin-top: 28px; max-width: 760px; margin-left: auto; margin-right: auto; }
+  .entries-wrap h3 { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; color: #0d4a2e; margin-bottom: 12px; text-align: center; }
+  .entry-item { background: #fff; border-left: 4px solid #0d4a2e; border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 10px; font-size: 0.85rem; }
+  .entry-item strong { color: #0d4a2e; display: block; margin-bottom: 4px; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .slide-hero, .slide-truth, .slide-examine, .courtroom-grid, .evidence-layout, .evidence-layout.reversed, .summary-grid, .review-grid, .verdict-layout, .verdict-steps, .points-grid, .truth-cards, .sides-preview { grid-template-columns: 1fr; }
+    .point-item.full-width, .verdict-step.full-width, .truth-card.wide { max-width: 100%; }
+    .hero-content { padding: 40px 24px; }
+    .hero-content h1 { font-size: 2.2rem; }
+    .truth-content { padding: 40px 24px; }
+    .examine-content { padding: 40px 24px; }
+    .evidence-layout.reversed .evidence-info-card { order: -1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: HERO -->
+<section class="slide-hero">
+  <div class="hero-image">
+    <img src="https://payhip.com/cdn-cgi/image/format=auto,width=1200/https://pe56d.s3.amazonaws.com/o_1jm5f9la81rev16j62913uv13crh.png" alt="Courtroom Interior">
+  </div>
+  <div class="hero-content">
+    <h1>Putting Beliefs on Trial</h1>
+    <p class="subtitle">Cognitive Restructuring</p>
+    <div class="diamond-steps">
+      <div class="diamond-step">
+        <div class="diamond-icon"><span>&#10003;</span></div>
+        <div class="diamond-step-text"><strong>Decide &amp; Act</strong><span>Choose the best response based on the evidence</span></div>
+      </div>
+      <div class="diamond-step">
+        <div class="diamond-icon"><span>&#128161;</span></div>
+        <div class="diamond-step-text"><strong>Consider Alternatives</strong><span>List other possible explanations</span></div>
+      </div>
+      <div class="diamond-step">
+        <div class="diamond-icon"><span>&#9878;</span></div>
+        <div class="diamond-step-text"><strong>Examine the Evidence</strong><span>Separate opinions from facts</span></div>
+      </div>
+      <div class="diamond-step">
+        <div class="diamond-icon"><span>&#128269;</span></div>
+        <div class="diamond-step-text"><strong>Question the Thought</strong><span>Identify the underpinning belief clearly</span></div>
+      </div>
+    </div>
+    <p class="hero-description">A structured framework for examining beliefs and statements — weighing evidence on both sides to reach a balanced, rational verdict.</p>
+    <a href="https://chatcbt.online/cognitive-restructuring" class="hero-btn" target="_blank" rel="noopener">Learn more about Cognitive Restructuring</a>
+  </div>
+</section>
+
+<!-- SLIDE 2: THE COURTROOM -->
+<section class="slide-courtroom">
+  <h2 class="section-title">The Courtroom</h2>
+  <div class="courtroom-grid">
+    <div class="court-card">
+      <h2>The Judge &amp; Jury</h2>
+      <img src="https://payhip.com/cdn-cgi/image/format=auto,width=1200/https://pe56d.s3.amazonaws.com/o_1jm3t7l2t18ejsp15it11bu1kn73r.png" alt="Judge and Jury" style="width:100%;height:220px;object-fit:cover;border-radius:12px;margin-bottom:20px;">
+      <div class="role-box">
+        <h3>The Judge's Role</h3>
+        <p>The Judge presides over the trial, overseeing the entire process — impartial, rational, and committed to finding the truth.</p>
+        <p style="margin-top:8px;">The Judge's task is to ensure that all evidence — both for and against — is heard fairly before delivering a final, balanced verdict.</p>
+      </div>
+      <div class="role-box">
+        <h3>The Jury's Role</h3>
+        <p>Members of the Jury hear the evidence to determine the facts and deliver a verdict — guilty or not guilty — based on that evidence.</p>
+        <p style="margin-top:8px;">They remain impartial, listen to evidence from both the prosecution and the defence, and follow the judge's legal directions.</p>
+      </div>
+    </div>
+    <div class="court-card">
+      <h2 style="color:#0d4a2e;">The Accused</h2>
+      <img src="https://payhip.com/cdn-cgi/image/format=auto,width=1200/https://pe56d.s3.amazonaws.com/o_1jm3t6mqhi8f117f16jvh7bio72e.png" alt="The Accused" style="width:100%;height:220px;object-fit:cover;border-radius:12px;margin-bottom:20px;">
+      <div class="input-section">
+        <h3>Key Statement / Belief: What's on Trial?</h3>
+        <p>What statement or belief is on trial? Define it clearly before proceeding. We will be placing this statement or belief in the dock.</p>
+        <p class="hint">Type your statement into the box below.</p>
+        <textarea id="belief_statement" rows="3" placeholder="Enter your statement or belief here..."></textarea>
+      </div>
+      <div class="input-section">
+        <h3>Initial Rating</h3>
+        <p>Understanding your starting point helps reveal how evidence shifts your perspective by the end of the trial.</p>
+        <p>Before examining any evidence, <strong style="color:#fff;">rate your initial belief that this statement is true</strong> on a scale of 0 to 100%.</p>
+        <textarea id="initial_rating" rows="2" placeholder="Enter your initial belief rating (0–100%)..."></textarea>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 3: IN SEARCH OF TRUTH -->
+<section class="slide-truth">
+  <div class="truth-content">
+    <h2>In Search of Truth</h2>
+    <p class="lead">The courtroom process is designed to move beyond gut feeling and assumption — toward evidence-based thinking.</p>
+    <p class="lead">Both sides of the argument must be examined with equal rigour.</p>
+    <div class="truth-cards">
+      <div class="truth-card">
+        <h4>Facts vs. Opinion</h4>
+        <p>Distinguish between hard factual evidence and personal opinion throughout the process.</p>
+      </div>
+      <div class="truth-card">
+        <h4>Witness Perspectives</h4>
+        <p>Consider what others would say — different viewpoints strengthen the quality of the verdict.</p>
+      </div>
+      <div class="truth-card wide">
+        <h4>Balanced Outcome</h4>
+        <p>The goal is a realistic, rational closing statement — not simply confirming what you already believe.</p>
+      </div>
+    </div>
+    <div class="scales-icon">&#9878;</div>
+  </div>
+  <div class="truth-image">
+    <img src="https://payhip.com/cdn-cgi/image/format=auto,width=1200/https://pe56d.s3.amazonaws.com/o_1jm5f9la8174i1mvcd1vvg0i2dg.png" alt="Courthouse">
+  </div>
+</section>
+
+<!-- SLIDE 4: EXAMINE THE EVIDENCE -->
+<section class="slide-examine">
+  <div class="examine-image">
+    <img src="https://payhip.com/cdn-cgi/image/format=auto,width=1200/https://pe56d.s3.amazonaws.com/o_1jm3vevmm1jmo177auke1qvu1pdv4v.png" alt="Detective examining evidence">
+  </div>
+  <div class="examine-content">
+    <h2>Examine the Evidence</h2>
+    <p class="lead">The evidence is divided into two sides. Both must be examined thoroughly and honestly before any conclusions are drawn.</p>
+    <div class="sides-preview">
+      <div class="side-card side-defence">
+        <h3>The Defence</h3>
+        <p>Evidence <strong>supporting</strong> the statement</p>
+      </div>
+      <div class="side-card side-prosecution">
+        <h3>The Prosecution</h3>
+        <p>Evidence <strong>challenging</strong> the statement</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 5: THE DEFENCE -->
+<section class="slide-defence">
+  <div class="evidence-layout">
+    <div class="evidence-info-card defence-card">
+      <img src="https://payhip.com/cdn-cgi/image/format=auto,width=1200/https://pe56d.s3.amazonaws.com/o_1jm3vf90e144u11tg12ltu2c1n4d58.png" alt="Defence Lawyer">
+      <h3>Core Question</h3>
+      <p>What tells you this statement or belief is <strong>true</strong>? What <strong>hard, factual evidence</strong> supports it?</p>
+      <p style="margin-top:10px;">List all evidence that argues in favour of the belief — be specific and honest.</p>
+    </div>
+    <div class="evidence-right">
+      <h2>Evidence for the Defence</h2>
+      <div class="points-grid">
+        <div class="point-item"><label>Point 1:</label><textarea id="defence_1" rows="3" placeholder="Enter defence evidence..."></textarea></div>
+        <div class="point-item"><label>Point 2:</label><textarea id="defence_2" rows="3" placeholder="Enter defence evidence..."></textarea></div>
+        <div class="point-item"><label>Point 3:</label><textarea id="defence_3" rows="3" placeholder="Enter defence evidence..."></textarea></div>
+        <div class="point-item"><label>Point 4:</label><textarea id="defence_4" rows="3" placeholder="Enter defence evidence..."></textarea></div>
+        <div class="point-item full-width"><label>Point 5:</label><textarea id="defence_5" rows="3" placeholder="Enter defence evidence..."></textarea></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 6: THE PROSECUTION -->
+<section class="slide-prosecution">
+  <div class="evidence-layout reversed">
+    <div class="evidence-right-prosecution">
+      <h2>Evidence for the Prosecution</h2>
+      <div class="points-grid">
+        <div class="point-item"><label>Point 1:</label><textarea id="prosecution_1" rows="3" class="prosecution-textarea" placeholder="Enter prosecution evidence..."></textarea></div>
+        <div class="point-item"><label>Point 2:</label><textarea id="prosecution_2" rows="3" class="prosecution-textarea" placeholder="Enter prosecution evidence..."></textarea></div>
+        <div class="point-item"><label>Point 3:</label><textarea id="prosecution_3" rows="3" class="prosecution-textarea" placeholder="Enter prosecution evidence..."></textarea></div>
+        <div class="point-item"><label>Point 4:</label><textarea id="prosecution_4" rows="3" class="prosecution-textarea" placeholder="Enter prosecution evidence..."></textarea></div>
+        <div class="point-item full-width"><label>Point 5:</label><textarea id="prosecution_5" rows="3" class="prosecution-textarea" placeholder="Enter prosecution evidence..."></textarea></div>
+      </div>
+    </div>
+    <div class="evidence-info-card prosecution-card">
+      <img src="https://payhip.com/cdn-cgi/image/format=auto,width=1200/https://pe56d.s3.amazonaws.com/o_1jm3vfgpd15amb82166ui6l6ke5h.png" alt="Prosecution Lawyer">
+      <h3>Core Question</h3>
+      <p>What tells you this statement or belief is <strong>not totally true, all of the time</strong>? What is merely <strong>opinion</strong>, and what <strong>factual evidence</strong> is there?</p>
+      <p style="margin-top:10px;">Consider what witnesses — others who know the situation — would say.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 7: SUMMARISING BOTH SIDES -->
+<section class="slide-summary">
+  <h2>Summarising Both Sides</h2>
+  <p>After gathering all evidence, summarise the key arguments from each side.<br>Then rate your belief in each summary before moving to the Judge's final verdict.</p>
+  <div class="summary-grid">
+    <div class="summary-card summary-defence">
+      <h3>Defence Summary</h3>
+      <p>Summarise the defence's strongest points in a few sentences.<br>Rate your belief in this summary: <strong style="color:#fff;">0–100%.</strong></p>
+      <textarea id="defence_summary" rows="4" placeholder="Summarise the defence and rate your belief..."></textarea>
+    </div>
+    <div class="summary-card summary-prosecution">
+      <h3>Prosecution Summary</h3>
+      <p>Summarise the prosecution's strongest points in a few sentences.<br>Rate your belief in this summary: <strong style="color:#fff;">0–100%.</strong></p>
+      <textarea id="prosecution_summary" rows="4" placeholder="Summarise the prosecution and rate your belief..."></textarea>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 8: REVIEW & SUM UP -->
+<section class="slide-review">
+  <h2>Review the Evidence &amp; Sum Up</h2>
+  <p>With all evidence heard from both the Defence and the Prosecution, the Judge now delivers a closing statement.<br>This must be <u>based on the evidence</u> — realistic, rational, and balanced.</p>
+  <div class="review-grid">
+    <div class="review-card">
+      <h3>The Judge's Closing Statement</h3>
+      <p>Find a realistic, rational, balanced closing statement that fairly reflects both sides of the evidence. Avoid extremes — the truth is rarely black and white.</p>
+      <textarea id="judge_statement" rows="5" style="background:#5c2a4a;color:#fff;border-color:#7a3d65;" placeholder="Write the judge's closing statement..."></textarea>
+    </div>
+    <div class="review-card">
+      <h3>Final Belief Rating</h3>
+      <p>How much do you believe this new statement is true? Rate it from <strong>0 to 100%</strong> — and compare it to your initial rating at the start of the trial.</p>
+      <textarea id="final_rating" rows="5" style="background:#1a5c3a;color:#fff;border-color:#2d6a4f;" placeholder="Enter your final belief rating..."></textarea>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 9: THE VERDICT -->
+<section class="slide-verdict">
+  <div class="verdict-layout">
+    <div class="verdict-left">
+      <img src="https://payhip.com/cdn-cgi/image/format=auto,width=1200/https://pe56d.s3.amazonaws.com/o_1jm3vfq7csmc1gu79sho7l1ndi5q.png" alt="Gavel">
+    </div>
+    <div class="verdict-right">
+      <h2>The Verdict</h2>
+      <p><strong>The trial is complete.</strong> A balanced, evidence-based verdict replaces an unchallenged belief — the foundation of clearer, more rational thinking.</p>
+      <div class="verdict-steps">
+        <div class="verdict-step">
+          <div class="step-number">1</div>
+          <h3>Start</h3>
+          <p>Initial belief rating (0–100%) before examining evidence:</p>
+          <textarea id="starting_rating" rows="3" class="verdict-textarea" placeholder="Your starting rating..."></textarea>
+        </div>
+        <div class="verdict-step">
+          <div class="step-number">2</div>
+          <h3>Evidence</h3>
+          <p>Defence and prosecution arguments weighed fairly.</p>
+          <textarea id="takeaways" rows="3" class="verdict-textarea" placeholder="Key takeaways from the evidence..."></textarea>
+        </div>
+        <div class="verdict-step full-width">
+          <div class="step-number">3</div>
+          <h3>Verdict</h3>
+          <p>Final belief rating (0–100%) after a balanced review:</p>
+          <textarea id="final_verdict" rows="3" class="verdict-textarea" placeholder="Your final verdict..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUBMIT & SAVED ENTRIES -->
+<div class="submit-wrap">
+  <button id="saveBtn">Save My Entry</button>
+  <div class="entries-wrap">
+    <h3>Saved Entries</h3>
+    <div id="entriesList"></div>
+  </div>
+</div>
+
+<script>
+function g(id) {
+  return (document.getElementById(id).value || '').replace(/\r?\n|\r/g, ' | ').trim();
+}
+
+function collectData() {
+  return {
+    belief_statement:    g('belief_statement'),
+    initial_rating:      g('initial_rating'),
+    defence_1:           g('defence_1'),
+    defence_2:           g('defence_2'),
+    defence_3:           g('defence_3'),
+    defence_4:           g('defence_4'),
+    defence_5:           g('defence_5'),
+    prosecution_1:       g('prosecution_1'),
+    prosecution_2:       g('prosecution_2'),
+    prosecution_3:       g('prosecution_3'),
+    prosecution_4:       g('prosecution_4'),
+    prosecution_5:       g('prosecution_5'),
+    defence_summary:     g('defence_summary'),
+    prosecution_summary: g('prosecution_summary'),
+    judge_statement:     g('judge_statement'),
+    final_rating:        g('final_rating'),
+    starting_rating:     g('starting_rating'),
+    takeaways:           g('takeaways'),
+    final_verdict:       g('final_verdict'),
+    time: new Date().toLocaleString()
+  };
+}
+
+async function saveEntry() {
+  var data = collectData();
+  try {
+    await fetch('/.netlify/functions/saveWorksheet', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch (err) {
+    console.error('Save error:', err);
+  }
+  var entries = JSON.parse(localStorage.getItem('putting-beliefs-on-trial') || '[]');
+  entries.unshift(data);
+  localStorage.setItem('putting-beliefs-on-trial', JSON.stringify(entries));
+  render();
+}
+
+function render() {
+  var el = document.getElementById('entriesList');
+  if (!el) return;
+  var entries = JSON.parse(localStorage.getItem('putting-beliefs-on-trial') || '[]');
+  if (!entries.length) { el.innerHTML = ''; return; }
+  el.innerHTML = entries.map(function(e) {
+    var preview = (e.belief_statement || '').substring(0, 80) + ((e.belief_statement || '').length > 80 ? '…' : '');
+    var ratings = e.initial_rating && e.final_rating ? ' · ' + e.initial_rating + ' → ' + e.final_rating : '';
+    return '<div class="entry-item">'
+      + '<strong>' + (e.time || '') + ratings + '</strong>'
+      + (preview ? '<span style="color:#333;">' + preview + '</span>' : '')
+      + '</div>';
+  }).join('');
+}
+
+document.getElementById('saveBtn').addEventListener('click', saveEntry);
+render();
+</script>
+
+</body>
+</html>
