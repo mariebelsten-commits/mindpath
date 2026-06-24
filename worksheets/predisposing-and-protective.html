@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Predisposing &amp; Protective Factors — ChatCBT</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body { font-family: 'Inter', sans-serif; color: #1a1a1a; line-height: 1.6; background: #f0f9f0; }
+  h1, h2, h3, h4 { font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif; }
+
+  textarea, input[type="text"], input[type="number"] {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    border: 2px solid #c3e6cb;
+    border-radius: 8px;
+    padding: 10px 12px;
+    background: #fff;
+    color: #1a1a1a;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+  }
+  textarea { resize: vertical; }
+  textarea:focus, input:focus {
+    outline: none;
+    border-color: #2d6a4f;
+    box-shadow: 0 0 0 3px rgba(45,106,79,0.15);
+  }
+  input::placeholder, textarea::placeholder { color: #999; font-style: italic; }
+
+  /* ===== HERO ===== */
+  .page-hero { padding: 70px 40px 60px; background: linear-gradient(135deg, rgba(212,237,218,0.88) 0%, rgba(232,245,233,0.85) 40%, rgba(240,249,232,0.88) 100%); }
+  .page-hero h1 { font-size: 3rem; color: #0d4a2e; margin-bottom: 20px; letter-spacing: -0.5px; }
+  .badge { display: inline-block; background: #d4f1dd; color: #0d4a2e; font-size: 0.78rem; font-weight: 700; letter-spacing: 1.5px; padding: 6px 14px; border-radius: 6px; margin-bottom: 24px; text-transform: uppercase; border: 1px solid #b8dbc0; }
+  .page-hero .intro { font-size: 1.05rem; color: #333; max-width: 900px; margin-bottom: 40px; line-height: 1.7; }
+  .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 1100px; }
+  .feature-card { background: rgba(212,237,218,0.55); border: 1.5px solid #b8dbc0; border-radius: 12px; padding: 26px 28px; }
+  .feature-card h3 { font-size: 1.35rem; color: #0d4a2e; margin-bottom: 10px; font-weight: 700; }
+  .feature-card p { font-size: 0.98rem; color: #333; line-height: 1.55; }
+
+  /* ===== HOW IT WORKS ===== */
+  .page-howto { padding: 70px 40px 60px; background: linear-gradient(160deg, #e8f5e9 0%, #f0f9f0 50%, #d4edda 100%); }
+  .page-howto h2 { font-size: 2.4rem; color: #0d4a2e; margin-bottom: 16px; }
+  .page-howto .lead { font-size: 1rem; color: #333; max-width: 900px; margin-bottom: 34px; line-height: 1.7; }
+  .steps-stack { display: flex; flex-direction: column; gap: 14px; max-width: 1100px; }
+  .step-row { display: grid; grid-template-columns: 70px 1fr; background: rgba(212,237,218,0.45); border: 1.5px solid #b8dbc0; border-radius: 10px; padding: 18px 22px; align-items: start; }
+  .step-num { font-family: 'Montserrat', sans-serif; font-size: 2rem; font-weight: 700; color: #0d4a2e; text-align: center; }
+  .step-body h3 { font-size: 1.2rem; color: #0d4a2e; margin-bottom: 6px; font-weight: 700; }
+  .step-body p { font-size: 0.95rem; color: #333; line-height: 1.6; }
+  .info-box { margin-top: 30px; background: #b5e8c4; border-radius: 10px; padding: 20px 24px; max-width: 1100px; color: #0d4a2e; font-size: 0.95rem; line-height: 1.65; }
+
+  /* ===== WORKSHEET ===== */
+  .page-worksheet { padding: 70px 40px 60px; background: linear-gradient(160deg, #d4edda 0%, #e8f5e9 40%, #f0f9e8 100%); }
+  .page-worksheet h2 { font-size: 2.4rem; color: #0d4a2e; margin-bottom: 14px; }
+  .page-worksheet .lead { font-size: 1rem; color: #333; max-width: 900px; margin-top: 24px; margin-bottom: 34px; line-height: 1.7; }
+  .ws-wrapper { max-width: 1100px; }
+
+  .col-headers { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .col-header { padding: 14px 20px; border-radius: 10px; font-family: 'Montserrat', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; text-align: center; }
+  .col-header.predisposing { background: rgba(176,125,85,0.15); border: 1.5px solid #b07d55; color: #7a4f28; }
+  .col-header.protective { background: rgba(13,74,46,0.1); border: 1.5px solid #1a5c3a; color: #0d4a2e; }
+
+  .section-block { margin-bottom: 16px; }
+  .section-label { text-align: center; font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700; color: #0d4a2e; background: rgba(212,237,218,0.7); border: 1.5px solid #b8dbc0; border-radius: 8px; padding: 10px 16px; margin-bottom: 10px; }
+  .two-col-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  .col-card { background: rgba(212,237,218,0.45); border: 1.5px solid #b8dbc0; border-radius: 10px; padding: 16px 18px; }
+  .col-card.predisposing { border-left: 5px solid #b07d55; }
+  .col-card.protective { border-left: 5px solid #1a5c3a; }
+
+  .quad-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .sub-label { font-size: 0.82rem; font-weight: 700; color: #2d6a4f; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 6px; }
+
+  .flow-arrow { text-align: center; font-size: 2.5rem; color: #1a5c3a; margin: 6px 0; }
+  .remember-box { margin-top: 30px; background: #b5e8c4; border-radius: 10px; padding: 20px 24px; max-width: 1100px; color: #0d4a2e; font-size: 0.95rem; line-height: 1.65; }
+
+  /* ===== SUBMIT & SAVED ENTRIES ===== */
+  .submit-wrap { text-align: center; margin-top: 32px; max-width: 1100px; }
+  #saveBtn { display: inline-block; background: #1a5c3a; color: #ffffff; padding: 14px 40px; border-radius: 30px; font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700; border: none; cursor: pointer; transition: background 0.2s; }
+  #saveBtn:hover { background: #14482d; }
+  .entries-wrap { margin-top: 28px; }
+  .entries-wrap h3 { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; color: #0d4a2e; margin-bottom: 12px; text-align: center; }
+  .entry-item { background: #fff; border-left: 4px solid #0d4a2e; border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 10px; font-size: 0.85rem; }
+  .entry-item strong { color: #0d4a2e; display: block; margin-bottom: 4px; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 760px) {
+    .feature-grid, .col-headers, .two-col-row, .quad-grid { grid-template-columns: 1fr; }
+    .page-hero, .page-howto, .page-worksheet { padding: 50px 22px; }
+    .page-hero h1 { font-size: 2.2rem; }
+    .page-howto h2, .page-worksheet h2 { font-size: 1.9rem; }
+    .step-row { grid-template-columns: 44px 1fr; }
+    .step-num { font-size: 1.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<section class="page-hero">
+  <h1>Predisposing &amp; Protective Factors</h1>
+  <div class="badge">Cognitive Behavioural Therapy</div>
+  <p class="intro">This worksheet is used in CBT and Schema Therapy to create a balanced, compassionate picture of your psychological development. By mapping both the factors that have made you more vulnerable to difficulties alongside those that protect and support you, you and your therapist can build a more complete formulation — one that acknowledges both challenge and strength.</p>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <h3>⚠️ Predisposing Factors</h3>
+      <p>Identify the biological, social, and psychological factors that have made you more vulnerable to difficulties over time</p>
+    </div>
+    <div class="feature-card">
+      <h3>🛡️ Protective Factors</h3>
+      <p>Recognise the strengths, resources, and positive beliefs that have protected and supported you</p>
+    </div>
+    <div class="feature-card">
+      <h3>⚖️ Balance</h3>
+      <p>Holding both perspectives together creates a more complete, compassionate picture of your psychological history</p>
+    </div>
+    <div class="feature-card">
+      <h3>🌱 Growth</h3>
+      <p>Understanding what shaped you — and what helps you — guides more meaningful, targeted therapeutic work</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="page-howto">
+  <h2>How to Use This Worksheet</h2>
+  <p class="lead">Work through each section with your therapist, completing both the predisposing (left) and protective (right) columns. The predisposing column explores factors that have made you more vulnerable. The protective column explores factors that have supported, strengthened, and protected you. Holding both together creates a balanced, honest formulation.</p>
+  <div class="steps-stack">
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Developmental History</h3>
+        <p>Reflect on significant early life experiences, relationships, and events that have shaped you. The predisposing column captures what made things harder; the protective column captures what helped or shielded you during that time.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Core Beliefs</h3>
+        <p>Identify the fundamental beliefs about yourself, others, and the world that emerged from your history. Predisposing beliefs tend to be self-critical or catastrophising; protective beliefs are more compassionate and balanced.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Underlying Assumptions</h3>
+        <p>Explore the conditional rules — often "if...then" statements — that govern your behaviour. For example: <em>"If I am not perfect, then I will be rejected."</em> The protective column captures healthier, more flexible alternatives.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>Strategies</h3>
+        <p>Record the coping behaviours and approaches that have developed from your beliefs and assumptions. Predisposing strategies tend to maintain problems; protective strategies are more adaptive and helpful.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h3>Current Experience</h3>
+        <p>Map how these factors play out right now — in thoughts, emotions, behaviour, and body sensations. The predisposing column reflects the current problematic experience; the protective column reflects the healthier alternative you are working towards.</p>
+      </div>
+    </div>
+  </div>
+  <div class="info-box">
+    💡 <strong>Remember:</strong> This worksheet is completed collaboratively with your therapist. It is not a test — it is a tool for building shared understanding. Both columns matter equally: the predisposing column helps explain why you struggle; the protective column reminds you of what is already working in your favour.
+  </div>
+</section>
+
+<!-- ===== WORKSHEET ===== -->
+<section class="page-worksheet">
+  <h2>My Predisposing &amp; Protective Factors</h2>
+  <div class="badge">Complete This Section With Your Therapist</div>
+  <p class="lead">Work through each section in order, completing both columns. Take your time — this formulation will deepen and evolve as your therapy progresses.</p>
+
+  <div class="ws-wrapper">
+
+    <!-- Column Headers -->
+    <div class="col-headers">
+      <div class="col-header predisposing">⚠️ Predisposing Factors</div>
+      <div class="col-header protective">🛡️ Protective Factors</div>
+    </div>
+
+    <!-- Developmental History -->
+    <div class="section-block">
+      <div class="section-label">Developmental History</div>
+      <div class="two-col-row">
+        <div class="col-card predisposing">
+          <textarea id="developmental_predisposing" rows="6" placeholder="Describe early life experiences, relationships, or events that made things more difficult..."></textarea>
+        </div>
+        <div class="col-card protective">
+          <textarea id="developmental_protective" rows="6" placeholder="Describe early life experiences, relationships, or events that helped or protected you..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Core Beliefs -->
+    <div class="section-block">
+      <div class="section-label">Core Beliefs</div>
+      <div class="two-col-row">
+        <div class="col-card predisposing">
+          <textarea id="core_beliefs_predisposing" rows="5"></textarea>
+        </div>
+        <div class="col-card protective">
+          <textarea id="core_beliefs_protective" rows="5"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Underlying Assumptions -->
+    <div class="section-block">
+      <div class="section-label">Underlying Assumptions</div>
+      <div class="two-col-row">
+        <div class="col-card predisposing">
+          <textarea id="assumptions_predisposing" rows="5" placeholder="e.g. If I show weakness, others will take advantage of me..."></textarea>
+        </div>
+        <div class="col-card protective">
+          <textarea id="assumptions_protective" rows="5" placeholder="e.g. It is OK to ask for help when I need it..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Strategies -->
+    <div class="section-block">
+      <div class="section-label">Strategies</div>
+      <div class="two-col-row">
+        <div class="col-card predisposing">
+          <textarea id="strategies_predisposing" rows="5"></textarea>
+        </div>
+        <div class="col-card protective">
+          <textarea id="strategies_protective" rows="5"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-arrow">▼</div>
+
+    <!-- Current Experience -->
+    <div class="section-block">
+      <div class="section-label">Current Experience</div>
+      <div class="two-col-row">
+
+        <div class="col-card predisposing">
+          <div class="quad-grid">
+            <div>
+              <p class="sub-label">Thoughts</p>
+              <textarea id="thoughts_predisposing" rows="4"></textarea>
+            </div>
+            <div>
+              <p class="sub-label">Emotions</p>
+              <textarea id="emotions_predisposing" rows="4"></textarea>
+            </div>
+            <div>
+              <p class="sub-label">Behaviour</p>
+              <textarea id="behaviour_predisposing" rows="4"></textarea>
+            </div>
+            <div>
+              <p class="sub-label">Body Sensations</p>
+              <textarea id="sensations_predisposing" rows="4"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-card protective">
+          <div class="quad-grid">
+            <div>
+              <p class="sub-label">Thoughts</p>
+              <textarea id="thoughts_protective" rows="4"></textarea>
+            </div>
+            <div>
+              <p class="sub-label">Emotions</p>
+              <textarea id="emotions_protective" rows="4"></textarea>
+            </div>
+            <div>
+              <p class="sub-label">Behaviour</p>
+              <textarea id="behaviour_protective" rows="4"></textarea>
+            </div>
+            <div>
+              <p class="sub-label">Body Sensations</p>
+              <textarea id="sensations_protective" rows="4"></textarea>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /ws-wrapper -->
+
+  <div class="remember-box">
+    🌿 <strong>Remember:</strong> A formulation is a working hypothesis — not a final verdict. Both columns matter equally: the predisposing column helps explain why you struggle, while the protective column reminds you of what is already working in your favour. This balance is the foundation for compassionate, effective change.
+  </div>
+
+  <!-- SUBMIT & SAVED ENTRIES -->
+  <div class="submit-wrap">
+    <button id="saveBtn">Save My Entry</button>
+    <div class="entries-wrap">
+      <h3>Saved Entries</h3>
+      <div id="entriesList"></div>
+    </div>
+  </div>
+
+</section>
+
+<script>
+function g(id) {
+  return (document.getElementById(id).value || '').replace(/\r?\n|\r/g, ' | ').trim();
+}
+
+function collectData() {
+  return {
+    developmental_predisposing: g('developmental_predisposing'),
+    developmental_protective:   g('developmental_protective'),
+    core_beliefs_predisposing:  g('core_beliefs_predisposing'),
+    core_beliefs_protective:    g('core_beliefs_protective'),
+    assumptions_predisposing:   g('assumptions_predisposing'),
+    assumptions_protective:     g('assumptions_protective'),
+    strategies_predisposing:    g('strategies_predisposing'),
+    strategies_protective:      g('strategies_protective'),
+    thoughts_predisposing:      g('thoughts_predisposing'),
+    emotions_predisposing:      g('emotions_predisposing'),
+    behaviour_predisposing:     g('behaviour_predisposing'),
+    sensations_predisposing:    g('sensations_predisposing'),
+    thoughts_protective:        g('thoughts_protective'),
+    emotions_protective:        g('emotions_protective'),
+    behaviour_protective:       g('behaviour_protective'),
+    sensations_protective:      g('sensations_protective'),
+    time: new Date().toLocaleString()
+  };
+}
+
+async function saveEntry() {
+  var data = collectData();
+  try {
+    await fetch('/.netlify/functions/saveWorksheet', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch (err) {
+    console.error('Save error:', err);
+  }
+  var entries = JSON.parse(localStorage.getItem('predisposing-and-protective') || '[]');
+  entries.unshift(data);
+  localStorage.setItem('predisposing-and-protective', JSON.stringify(entries));
+  render();
+}
+
+function render() {
+  var el = document.getElementById('entriesList');
+  if (!el) return;
+  var entries = JSON.parse(localStorage.getItem('predisposing-and-protective') || '[]');
+  if (!entries.length) { el.innerHTML = ''; return; }
+  el.innerHTML = entries.map(function(e) {
+    var preview = (e.developmental_predisposing || e.core_beliefs_predisposing || '').substring(0, 80);
+    return '<div class="entry-item">'
+      + '<strong>' + (e.time || '') + '</strong>'
+      + (preview ? '<span style="color:#333;">' + preview + '</span>' : '')
+      + '</div>';
+  }).join('');
+}
+
+document.getElementById('saveBtn').addEventListener('click', saveEntry);
+render();
+</script>
+
+</body>
+</html>
