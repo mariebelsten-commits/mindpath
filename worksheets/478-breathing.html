@@ -263,6 +263,7 @@
 
 </div><!-- end worksheet-container -->
 
+<script src="/js/save.js"></script>
 <script>
 // ── Rating buttons (0–10) ────────────────────────────────────────────────
 var ratingState = { rating_before: '', rating_after: '' };
@@ -345,8 +346,9 @@ function stopBreathing() {
 }
 
 // ── Save & render ─────────────────────────────────────────────────────────
-async function saveEntry() {
+function saveEntry() {
   var data = {
+    type:             '4-7-8 Breathing',
     anxiety_before:   ratingState.rating_before,
     anxiety_after:    ratingState.rating_after,
     cycles_completed: (document.getElementById('cycles_completed').value || ''),
@@ -354,15 +356,7 @@ async function saveEntry() {
     when_to_use:      (document.getElementById('when_to_use').value || ''),
     time:             new Date().toLocaleString()
   };
-  try {
-    await fetch('/.netlify/functions/saveWorksheet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-  } catch (err) {
-    console.error('Save error:', err);
-  }
+  saveToServer(data);
   var entries = JSON.parse(localStorage.getItem('478-breathing') || '[]');
   entries.unshift(data);
   localStorage.setItem('478-breathing', JSON.stringify(entries));
