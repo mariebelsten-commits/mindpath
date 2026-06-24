@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sleep Hygiene | ChatCBT</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Inter, sans-serif; color: #222; background: #f8faf8; }
+
+  .page-hero { background: #0d4a2e; padding: 56px 24px 48px; text-align: center; }
+  .page-hero h1 { font-family: Montserrat, sans-serif; font-size: clamp(26px, 4vw, 40px); font-weight: 700; color: #ffffff !important; margin-bottom: 14px; }
+  .page-hero p { color: rgba(255,255,255,0.85); font-size: 16px; max-width: 640px; margin: 0 auto; line-height: 1.7; }
+
+  .features-section { background: #1a5c3a; padding: 36px 24px; }
+  .features-inner { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+  .feature-card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 22px 20px; }
+  .feature-card h3 { font-family: Montserrat, sans-serif; font-size: 15px; font-weight: 700; color: #ffffff !important; margin-bottom: 8px; }
+  .feature-card p { font-size: 13px; color: rgba(255,255,255,0.8); line-height: 1.55; }
+
+  .worksheet-container { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; }
+
+  .step-block { background: #fff; border-radius: 14px; padding: 28px 28px 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .step-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 18px; }
+  .step-num { min-width: 34px; height: 34px; background: #0d4a2e; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: Montserrat, sans-serif; font-weight: 700; font-size: 14px; margin-top: 2px; }
+  .step-header-text h2 { font-family: Montserrat, sans-serif; font-size: 17px; font-weight: 700; color: #0d4a2e; margin-bottom: 4px; }
+  .step-header-text p { font-size: 13px; color: #666; line-height: 1.5; }
+
+  textarea { width: 100%; padding: 12px 14px; border: 2px solid #e0e0e0; border-radius: 8px; font-family: Inter, sans-serif; font-size: 14px; color: #333; resize: vertical; min-height: 80px; transition: border-color 0.2s; }
+  textarea:focus { outline: none; border-color: #0d4a2e; }
+
+  /* Tip rows */
+  .tip-row { display: grid; grid-template-columns: 1fr 220px; gap: 14px; align-items: center; padding: 11px 0; border-bottom: 1px solid #f0f0f0; }
+  @media (max-width: 600px) { .tip-row { grid-template-columns: 1fr; gap: 8px; } }
+  .tip-text { font-size: 14px; color: #333; line-height: 1.45; }
+  .tip-text strong { color: #0d4a2e; }
+  .tip-btns { display: flex; gap: 8px; justify-content: flex-end; }
+  @media (max-width: 600px) { .tip-btns { justify-content: flex-start; } }
+  .tip-btn { border: 2px solid #e0e0e0; background: #fff; border-radius: 50px; padding: 6px 14px; font-family: Inter, sans-serif; font-size: 12px; font-weight: 600; color: #666; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+  .tip-btn:hover { border-color: #0d4a2e; }
+  .tip-btn.have-active { background: #e8f5e9; border-color: #1b5e20; color: #1b5e20; }
+  .tip-btn.try-active { background: #fff3e0; border-color: #e65100; color: #b85c00; }
+
+  /* Sleep diary */
+  .diary-entry { background: #fff; border-radius: 10px; border-left: 4px solid #e8f5e9; padding: 16px 18px 14px; margin-bottom: 14px; box-shadow: 0 1px 5px rgba(0,0,0,0.05); position: relative; transition: border-left-color 0.2s; }
+  .diary-entry:last-child { margin-bottom: 0; }
+  .diary-entry:focus-within { border-left-color: #1a5c3a; }
+  .entry-badge { position: absolute; top: 14px; left: -16px; width: 28px; height: 28px; background: #0d4a2e; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: Montserrat, sans-serif; font-weight: 700; font-size: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+  .diary-top { display: grid; grid-template-columns: 1fr 1fr 1fr 90px; gap: 10px; margin-bottom: 10px; }
+  @media (max-width: 600px) { .diary-top { grid-template-columns: 1fr 1fr; } }
+  .dr-label { font-size: 11px; font-weight: 600; color: #555; margin-bottom: 5px; display: block; }
+  .dr-input { width: 100%; padding: 8px 10px; border: 1.5px solid #e0e0e0; border-radius: 7px; font-family: Inter, sans-serif; font-size: 14px; color: #333; }
+  .dr-input:focus { outline: none; border-color: #0d4a2e; }
+  .quality-input { width: 100%; padding: 8px 4px; text-align: center; border: 1.5px solid #e0e0e0; border-radius: 7px; font-family: Montserrat, sans-serif; font-weight: 700; font-size: 16px; color: #0d4a2e; -moz-appearance: textfield; }
+  .quality-input::-webkit-outer-spin-button, .quality-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .quality-input:focus { outline: none; border-color: #0d4a2e; }
+
+  .entry-item{background:#fff;border-left:4px solid #0d4a2e;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:10px;font-size:.85rem;}
+  .entry-item strong{color:#0d4a2e;display:block;margin-bottom:4px;}
+</style>
+</head>
+<body>
+
+<div class="page-hero">
+  <h1>Sleep Hygiene</h1>
+  <p>Sleep is essential for mental health. While needs vary, 7–9 hours is commonly recommended. Poor sleep can raise anxiety, lower mood, and affect focus and judgment. Struggling with sleep? Use the tips below to build better habits.</p>
+</div>
+
+<div class="features-section">
+  <div class="features-inner">
+    <div class="feature-card"><h3>😴 Why Sleep Matters</h3><p>Good sleep steadies mood, sharpens focus, and lowers anxiety. Small, consistent habits make the biggest difference over time.</p></div>
+    <div class="feature-card"><h3>✅ Check Your Habits</h3><p>Review the sleep hygiene tips and mark which you already do and which you'd like to work on.</p></div>
+    <div class="feature-card"><h3>📔 Track Your Sleep</h3><p>Keep a short sleep diary to spot patterns — what helps you rest, and what gets in the way.</p></div>
+  </div>
+</div>
+
+<div class="worksheet-container">
+
+  <!-- STEP 1: TIPS CHECK -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">1</div>
+      <div class="step-header-text">
+        <h2>My Sleep Hygiene Check</h2>
+        <p>For each habit, mark whether it's something you <strong>already do</strong> or one you'd like to <strong>work on</strong>. Tap again to clear.</p>
+      </div>
+    </div>
+    <div id="tipsContainer"></div>
+  </div>
+
+  <!-- STEP 2: SLEEP DIARY -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">2</div>
+      <div class="step-header-text">
+        <h2>My Sleep Diary</h2>
+        <p>Track a few nights to spot helpful or unhelpful patterns. Rate each night's sleep quality from 1 (poor) to 10 (great).</p>
+      </div>
+    </div>
+    <div id="diaryContainer"></div>
+  </div>
+
+  <!-- STEP 3: REFLECTION -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">3</div>
+      <div class="step-header-text">
+        <h2>What I'll Focus On</h2>
+        <p>Looking at your check and diary, what would help your sleep most?</p>
+      </div>
+    </div>
+    <div style="margin-bottom:16px;">
+      <label class="dr-label" for="sleep_focus" style="font-size:13px;">🔍 Patterns or habits I want to focus on:</label>
+      <textarea id="sleep_focus" placeholder="e.g. I sleep much better on nights I avoid my phone in bed. I want to stop daytime napping..."></textarea>
+    </div>
+    <div>
+      <label class="dr-label" for="sleep_commitment" style="font-size:13px;">💚 One small change I'll commit to this week:</label>
+      <textarea id="sleep_commitment" placeholder="e.g. I'll keep the same wake-up time every day, including weekends." style="min-height:64px;"></textarea>
+    </div>
+  </div>
+
+  <div class="submit-wrap" style="text-align:center;margin:40px 0 16px;">
+    <button id="saveBtn" style="background:#0d4a2e;color:#fff;border:none;padding:16px 40px;border-radius:50px;font-family:Montserrat,sans-serif;font-size:17px;font-weight:700;cursor:pointer;">Save My Entry</button>
+    <div style="margin-top:24px;">
+      <h3 style="font-family:Montserrat,sans-serif;font-size:0.95rem;color:#0d4a2e;margin-bottom:12px;text-align:center;">Saved Entries</h3>
+      <div id="entriesList"></div>
+    </div>
+  </div>
+
+  <p style="text-align:center; font-size:13px; color:#666; margin-bottom:48px;">© 2025 The Resource Library Limited. Adapted for ChatCBT.</p>
+
+</div>
+
+<script>
+function getVal(id) {
+  var el = document.getElementById(id);
+  if (!el) return '';
+  return (el.value || '').replace(/\r\n/g, ' | ').replace(/\r/g, ' | ').replace(/\n/g, ' | ').replace(/"/g, "'").trim();
+}
+
+// ── Build tips check ──────────────────────────────────────────────────────
+var tips = [
+  { label: 'Stick to a routine', desc: 'same bed/wake time daily, even weekends' },
+  { label: 'Sleep when tired', desc: 'only go to bed when you feel sleepy' },
+  { label: 'Get up if needed', desc: 'if not asleep in 15–20 min, do something calming, then try again' },
+  { label: 'Track your sleep', desc: 'use a sleep diary to spot helpful or harmful habits' },
+  { label: 'Bed = sleep', desc: 'use your bed only for sleep and intimacy' },
+  { label: 'Skip naps', desc: 'avoid daytime naps to stay tired at bedtime' },
+  { label: 'Wind-down routine', desc: 'calming activities before bed — stretching, breathing, a warm shower' },
+  { label: 'Avoid clock-watching', desc: 'checking the time keeps you awake and adds stress' },
+  { label: 'Make it comfy', desc: 'keep your room cool, dark, and quiet' }
+];
+var tipState = {};
+var tipsContainer = document.getElementById('tipsContainer');
+tips.forEach(function(tip, idx) {
+  tipState[idx] = '';
+  var row = document.createElement('div');
+  row.className = 'tip-row';
+  row.innerHTML =
+    '<div class="tip-text"><strong>' + tip.label + '</strong> — ' + tip.desc + '</div>' +
+    '<div class="tip-btns">' +
+      '<button class="tip-btn" data-kind="have" data-idx="' + idx + '">✓ I do this</button>' +
+      '<button class="tip-btn" data-kind="try" data-idx="' + idx + '">◯ To work on</button>' +
+    '</div>';
+  tipsContainer.appendChild(row);
+});
+document.querySelectorAll('.tip-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var idx = this.getAttribute('data-idx');
+    var kind = this.getAttribute('data-kind');
+    var row = this.closest('.tip-row');
+    var haveBtn = row.querySelector('[data-kind="have"]');
+    var tryBtn  = row.querySelector('[data-kind="try"]');
+    tipState[idx] = (tipState[idx] === kind) ? '' : kind;
+    haveBtn.classList.toggle('have-active', tipState[idx] === 'have');
+    tryBtn.classList.toggle('try-active', tipState[idx] === 'try');
+  });
+});
+
+// ── Build sleep diary (5 nights) ──────────────────────────────────────────
+var diaryContainer = document.getElementById('diaryContainer');
+for (var i = 1; i <= 5; i++) {
+  var entry = document.createElement('div');
+  entry.className = 'diary-entry';
+  entry.innerHTML =
+    '<div class="entry-badge">' + i + '</div>' +
+    '<div class="diary-top">' +
+      '<div><label class="dr-label">📅 Date</label><input type="text" class="dr-input" id="night_date_' + i + '" placeholder="dd/mm"></div>' +
+      '<div><label class="dr-label">🌙 Bedtime</label><input type="text" class="dr-input" id="night_bed_' + i + '" placeholder="e.g. 11pm"></div>' +
+      '<div><label class="dr-label">☀️ Wake time</label><input type="text" class="dr-input" id="night_wake_' + i + '" placeholder="e.g. 7am"></div>' +
+      '<div><label class="dr-label">Quality</label><input type="number" class="quality-input" id="night_quality_' + i + '" min="1" max="10" placeholder="—"></div>' +
+    '</div>' +
+    '<div><label class="dr-label">📝 Notes (what helped or got in the way?)</label><input type="text" class="dr-input" id="night_notes_' + i + '" placeholder="e.g. Had coffee late, woke twice; or: read before bed, slept well"></div>';
+  diaryContainer.appendChild(entry);
+}
+
+// ── Collect & save ────────────────────────────────────────────────────────
+function collectData() {
+  var data = {};
+  var have = [], totry = [];
+  tips.forEach(function(tip, idx) {
+    if (tipState[idx] === 'have') have.push(tip.label);
+    else if (tipState[idx] === 'try') totry.push(tip.label);
+  });
+  data.habits_have = have.join(', ');
+  data.habits_try  = totry.join(', ');
+  for (var i = 1; i <= 5; i++) {
+    data['night_date_'    + i] = getVal('night_date_'    + i);
+    data['night_bed_'     + i] = getVal('night_bed_'     + i);
+    data['night_wake_'    + i] = getVal('night_wake_'    + i);
+    data['night_quality_' + i] = getVal('night_quality_' + i);
+    data['night_notes_'   + i] = getVal('night_notes_'   + i);
+  }
+  data.sleep_focus      = getVal('sleep_focus');
+  data.sleep_commitment = getVal('sleep_commitment');
+  return data;
+}
+
+async function saveEntry() {
+  var data = collectData();
+  data.time = new Date().toLocaleString();
+  try {
+    await fetch('/.netlify/functions/saveWorksheet', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch (err) { console.error('Save error:', err); }
+  var entries = JSON.parse(localStorage.getItem('sleep-hygiene') || '[]');
+  entries.unshift(data);
+  localStorage.setItem('sleep-hygiene', JSON.stringify(entries));
+  render();
+}
+
+function render() {
+  var el = document.getElementById('entriesList');
+  if (!el) return;
+  var entries = JSON.parse(localStorage.getItem('sleep-hygiene') || '[]');
+  if (!entries.length) { el.innerHTML = ''; return; }
+  el.innerHTML = entries.map(function(e) {
+    var p = (e.sleep_commitment || '').substring(0, 80);
+    return '<div class="entry-item"><strong>' + (e.time || '') + '</strong>' + (p ? '<span style="color:#333;">' + p + '</span>' : '') + '</div>';
+  }).join('');
+}
+
+document.getElementById('saveBtn').addEventListener('click', saveEntry);
+render();
+</script>
+
+</body>
+</html>
