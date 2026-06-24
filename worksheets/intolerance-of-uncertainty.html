@@ -107,7 +107,7 @@
 .submit-btn:hover { background: #14482d; }
 .entry { background:#fff; border-left:4px solid #1a5c3a; border-radius:0 8px 8px 0; padding:12px 16px; margin-bottom:10px; font-size:0.88rem; }
 </style>
-
+<script src="/js/save.js"></script>
 <script>
 var recordIdCounter = 0;
 var records = [];
@@ -232,20 +232,11 @@ function collectData() {
 }
 
 // ── Save + render ──
-async function saveEntry() {
+function saveEntry() {
   var data = collectData();
+  data.type = 'Intolerance of Uncertainty';
   data.time = new Date().toLocaleString();
-  try {
-    var res = await fetch('/.netlify/functions/saveWorksheet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-    var result = await res.json();
-    console.log('Server response:', result);
-  } catch (err) {
-    console.error('Error saving to server:', err);
-  }
+  saveToServer(data);
   var entries = JSON.parse(localStorage.getItem('intolerance-of-uncertainty') || '[]');
   entries.unshift(data);
   localStorage.setItem('intolerance-of-uncertainty', JSON.stringify(entries));
