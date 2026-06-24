@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Problem-Solving Skills | ChatCBT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f0f9f0; color: #1a1a1a; }
+
+    /* ── Hero ── */
+    .page-hero { background: #0d4a2e; padding: 56px 24px 48px; text-align: center; }
+    .hero-badge { display: inline-block; background: rgba(255,255,255,0.15); color: #fff; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; }
+    .page-hero h1 { font-family: 'Montserrat', sans-serif; font-size: 2.6rem; font-weight: 800; color: #ffffff; margin-bottom: 12px; letter-spacing: -0.5px; }
+    .page-hero p { font-size: 1.1rem; color: rgba(255,255,255,0.88); max-width: 580px; margin: 0 auto; line-height: 1.6; }
+
+    /* ── Feature cards ── */
+    .features-section { background: #1a5c3a; padding: 40px 24px; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 20px; max-width: 960px; margin: 0 auto; }
+    .feature-card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 22px 18px; text-align: center; color: #fff; }
+    .feature-card .icon { font-size: 1.8rem; margin-bottom: 10px; }
+    .feature-card h3 { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 700; color: #ffffff; margin-bottom: 7px; }
+    .feature-card p { font-size: 0.83rem; color: rgba(255,255,255,0.85); line-height: 1.5; }
+
+    /* ── Instructions ── */
+    .instructions-box { background: #e8f5e9; border-left: 4px solid #1a5c3a; padding: 18px 24px; max-width: 800px; margin: 32px auto 0; border-radius: 0 8px 8px 0; }
+    .instructions-box h3 { font-family: 'Montserrat', sans-serif; font-size: 0.92rem; font-weight: 700; color: #0d4a2e; margin-bottom: 6px; }
+    .instructions-box p { font-size: 0.87rem; color: #2d4a35; line-height: 1.65; }
+
+    /* ── Worksheet wrapper ── */
+    .page-worksheet { max-width: 800px; margin: 28px auto 48px; padding: 0 16px; }
+
+    /* ── Step blocks ── */
+    .step-block { background: #fff; border-radius: 12px; padding: 28px 28px 24px; margin-bottom: 8px; border: 1px solid #d0ecd8; box-shadow: 0 2px 8px rgba(13,74,46,0.06); }
+    .step-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .step-number { width: 36px; height: 36px; background: #1a5c3a; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.9rem; flex-shrink: 0; }
+    .step-title { font-family: 'Montserrat', sans-serif; font-size: 1.08rem; font-weight: 700; color: #0d4a2e; }
+    .step-desc { font-size: 0.88rem; color: #4a7a5a; margin-bottom: 16px; line-height: 1.6; }
+
+    /* ── Flow arrow ── */
+    .flow-arrow { text-align: center; font-size: 1.4rem; color: #4a7a5a; line-height: 1; margin: 6px 0; }
+
+    /* ── Example chips ── */
+    .example-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 14px; }
+    .example-chip { background: #f0f9f0; border: 1px solid #b0d8bc; border-radius: 20px; padding: 4px 12px; font-size: 0.78rem; color: #1a5c3a; font-style: italic; }
+
+    /* ── Form elements ── */
+    .field-label { display: block; font-size: 0.87rem; font-weight: 600; color: #1a3d28; margin-bottom: 6px; margin-top: 20px; }
+    .field-label:first-of-type { margin-top: 0; }
+    textarea, input[type="text"] { width: 100%; padding: 10px 12px; border: 1px solid #b0d8bc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #1a1a1a; background: #fff; line-height: 1.5; }
+    textarea { resize: vertical; }
+    textarea:focus, input[type="text"]:focus { outline: none; border-color: #1a5c3a; box-shadow: 0 0 0 3px rgba(26,92,58,0.1); }
+
+    /* ── Brainstorm list ── */
+    .brainstorm-list { display: flex; flex-direction: column; gap: 10px; }
+    .brainstorm-row { display: flex; align-items: center; gap: 12px; }
+    .brainstorm-num { width: 28px; height: 28px; background: #e8f5e9; border: 2px solid #1a5c3a; color: #1a5c3a; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
+
+    /* ── Options table ── */
+    .options-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 10px; overflow: hidden; border: 1px solid #d0ecd8; margin-top: 4px; }
+    .options-table thead tr { background: #1a5c3a; }
+    .options-table thead th { padding: 10px 14px; font-family: 'Montserrat', sans-serif; font-size: 0.82rem; font-weight: 700; color: #fff; text-align: left; letter-spacing: 0.04em; }
+    .options-table thead th:first-child { width: 80px; }
+    .options-table tbody tr { border-bottom: 1px solid #d0ecd8; }
+    .options-table tbody tr:last-child { border-bottom: none; }
+    .options-table tbody tr:nth-child(even) { background: #f8fdf8; }
+    .options-table tbody tr:nth-child(odd) { background: #fff; }
+    .options-table td { padding: 12px 10px; vertical-align: top; }
+    .options-table td:first-child { background: #e8f5e9; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.95rem; color: #1a5c3a; text-align: center; vertical-align: middle; border-right: 1px solid #d0ecd8; }
+    .options-table td textarea { border: 1px solid #d0ecd8; border-radius: 6px; font-size: 0.85rem; padding: 8px 10px; background: transparent; }
+    .options-table td textarea:focus { border-color: #1a5c3a; box-shadow: 0 0 0 2px rgba(26,92,58,0.1); background: #fff; }
+    .col-label { font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 700; color: #6a9a7a; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+
+    /* ── Prompt box ── */
+    .prompt-box { background: #e8f5e9; border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; font-size: 0.86rem; color: #1a3d28; line-height: 1.65; }
+    .prompt-box strong { font-family: 'Montserrat', sans-serif; font-size: 0.82rem; font-weight: 700; color: #0d4a2e; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 5px; }
+
+    /* ── Remember box ── */
+    .remember-box { background: #e8f5e9; border-radius: 12px; padding: 20px 24px; margin-top: 8px; font-size: 0.88rem; color: #1a3d28; line-height: 1.7; text-align: center; }
+
+    /* ── Submit & saved entries ── */
+    .submit-section { text-align: center; padding: 24px 0 16px; }
+    #saveBtn { display: inline-block; background: #1a5c3a; color: #ffffff; padding: 14px 36px; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700; border: none; cursor: pointer; transition: background 0.2s; margin-top: 8px; }
+    #saveBtn:hover { background: #14482d; }
+    .entries-wrap { margin-top: 28px; }
+    .entries-wrap h3 { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; color: #0d4a2e; margin-bottom: 12px; text-align: center; }
+    .entry-item { background: #fff; border-left: 4px solid #0d4a2e; border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 10px; font-size: 0.85rem; }
+    .entry-item strong { color: #0d4a2e; display: block; margin-bottom: 4px; }
+
+    @media (max-width: 600px) {
+      .page-hero h1 { font-size: 2rem; }
+      .options-table thead th:first-child { width: 50px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section class="page-hero">
+  <div class="hero-badge">CBT Worksheet</div>
+  <h1>Problem-Solving Skills</h1>
+  <p>When problems feel overwhelming, breaking them into smaller steps makes them easier to manage. Define the issue clearly, explore solutions, and plan your best next step.</p>
+</section>
+
+<!-- ══ FEATURES ══ -->
+<section class="features-section">
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="icon">🎯</div>
+      <h3>Define Clearly</h3>
+      <p>Name the problem in one focused sentence so you know exactly what you are working with</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🔍</div>
+      <h3>Understand It</h3>
+      <p>Identify the thoughts, feelings, behaviours, and practical factors that make it hard</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">💡</div>
+      <h3>Generate Options</h3>
+      <p>Brainstorm freely without judging — more ideas means more chances of finding a good path</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">✅</div>
+      <h3>Take Action</h3>
+      <p>Weigh up the options and choose the one that feels most realistic and helpful right now</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ INSTRUCTIONS ══ -->
+<div class="instructions-box">
+  <h3>How to use this worksheet</h3>
+  <p>Work through each step in order. Start by describing the problem in a single, clear sentence — keep it specific. Then break it apart, brainstorm as many solutions as you can think of (even imperfect ones), weigh up the options, and finally choose the one step you will try first. There are no right or wrong answers — the goal is to move from feeling stuck to feeling capable.</p>
+</div>
+
+<!-- ══ WORKSHEET ══ -->
+<div class="page-worksheet">
+
+  <!-- Step 1: Define the Problem -->
+  <div class="step-block" style="margin-top:28px;">
+    <div class="step-header">
+      <div class="step-number">1</div>
+      <div class="step-title">Define the Problem</div>
+    </div>
+    <p class="step-desc">Write one clear sentence describing the problem. Try to be as specific as possible — vague problems are harder to solve.</p>
+    <div class="example-chips">
+      <span class="example-chip">I am often late paying bills</span>
+      <span class="example-chip">I keep putting off a difficult conversation</span>
+      <span class="example-chip">I feel overwhelmed at work and don't know where to start</span>
+    </div>
+    <textarea id="problem_statement" rows="3" placeholder="e.g. I am often late paying bills because I avoid opening them when I feel anxious..."></textarea>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 2: Break It Down -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">2</div>
+      <div class="step-title">Break It Down</div>
+    </div>
+    <p class="step-desc">What makes this problem difficult? Consider all the factors involved — unhelpful thoughts, difficult emotions, behaviours you notice yourself doing (or avoiding), and any practical obstacles.</p>
+    <div class="prompt-box">
+      <strong>Prompts to consider</strong>
+      What thoughts come up when you think about this problem? What feelings does it bring up? What do you find yourself doing — or not doing — because of it? Are there any practical barriers (time, money, energy, support)?
+    </div>
+    <textarea id="break_it_down" rows="6" placeholder="e.g. Thoughts: 'This is too complicated, I'll deal with it later.' Feelings: anxiety, guilt, shame. Behaviours: I avoid opening post and emails. Practical: I don't have a clear system for tracking what I owe..."></textarea>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 3: Brainstorm Solutions -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">3</div>
+      <div class="step-title">Brainstorm Solutions</div>
+    </div>
+    <p class="step-desc">Write down as many ideas as you can — don't filter or judge them yet. Even solutions that seem impractical or silly are worth noting, as they can lead to better ones.</p>
+    <div class="brainstorm-list">
+      <div class="brainstorm-row">
+        <div class="brainstorm-num">1</div>
+        <input type="text" id="solution_1" placeholder="First idea..." />
+      </div>
+      <div class="brainstorm-row">
+        <div class="brainstorm-num">2</div>
+        <input type="text" id="solution_2" placeholder="Second idea..." />
+      </div>
+      <div class="brainstorm-row">
+        <div class="brainstorm-num">3</div>
+        <input type="text" id="solution_3" placeholder="Third idea..." />
+      </div>
+      <div class="brainstorm-row">
+        <div class="brainstorm-num">4</div>
+        <input type="text" id="solution_4" placeholder="Fourth idea..." />
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 4: Weigh Up Options -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">4</div>
+      <div class="step-title">Weigh Up Options</div>
+    </div>
+    <p class="step-desc">For each solution from Step 3, list the pros and cons honestly. Consider both short-term and long-term consequences.</p>
+    <table class="options-table">
+      <thead>
+        <tr>
+          <th>Option</th>
+          <th>Pros</th>
+          <th>Cons</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>
+            <div class="col-label">✅ Pros</div>
+            <textarea id="option_1_pros" rows="3" placeholder="What are the advantages?"></textarea>
+          </td>
+          <td>
+            <div class="col-label">❌ Cons</div>
+            <textarea id="option_1_cons" rows="3" placeholder="What are the drawbacks?"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>
+            <div class="col-label">✅ Pros</div>
+            <textarea id="option_2_pros" rows="3" placeholder="What are the advantages?"></textarea>
+          </td>
+          <td>
+            <div class="col-label">❌ Cons</div>
+            <textarea id="option_2_cons" rows="3" placeholder="What are the drawbacks?"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>
+            <div class="col-label">✅ Pros</div>
+            <textarea id="option_3_pros" rows="3" placeholder="What are the advantages?"></textarea>
+          </td>
+          <td>
+            <div class="col-label">❌ Cons</div>
+            <textarea id="option_3_cons" rows="3" placeholder="What are the drawbacks?"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>
+            <div class="col-label">✅ Pros</div>
+            <textarea id="option_4_pros" rows="3" placeholder="What are the advantages?"></textarea>
+          </td>
+          <td>
+            <div class="col-label">❌ Cons</div>
+            <textarea id="option_4_cons" rows="3" placeholder="What are the drawbacks?"></textarea>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 5: Choose a Solution -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">5</div>
+      <div class="step-title">Choose a Solution</div>
+    </div>
+    <p class="step-desc">Which option seems best right now? You don't need to find the perfect solution — just the most helpful one you can realistically try. Write what you will do and when.</p>
+    <div class="prompt-box">
+      <strong>Things to consider</strong>
+      Which option has the best balance of pros and cons? What feels manageable to try first? Even a small step in the right direction counts.
+    </div>
+    <textarea id="chosen_solution" rows="5" placeholder="e.g. I will try Option 2 — setting up a direct debit for my main bills this weekend. It removes the need to remember, which is where I tend to get stuck. I'll spend 20 minutes on Saturday morning doing this..."></textarea>
+  </div>
+
+  <div class="remember-box">
+    🌱 <strong>Remember:</strong> Problem-solving is a skill, and like any skill it gets easier with practice. You don't need to solve everything at once — taking one small, thoughtful step is always enough to begin.
+  </div>
+
+  <div class="submit-section">
+    <button id="saveBtn">Save My Entry</button>
+    <div class="entries-wrap">
+      <h3>Saved Entries</h3>
+      <div id="entriesList"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function g(id) {
+  return (document.getElementById(id).value || '').replace(/\r?\n|\r/g, ' | ').trim();
+}
+
+function collectData() {
+  return {
+    problem_statement: g('problem_statement'),
+    break_it_down:     g('break_it_down'),
+    solution_1:        g('solution_1'),
+    solution_2:        g('solution_2'),
+    solution_3:        g('solution_3'),
+    solution_4:        g('solution_4'),
+    option_1_pros:     g('option_1_pros'),
+    option_1_cons:     g('option_1_cons'),
+    option_2_pros:     g('option_2_pros'),
+    option_2_cons:     g('option_2_cons'),
+    option_3_pros:     g('option_3_pros'),
+    option_3_cons:     g('option_3_cons'),
+    option_4_pros:     g('option_4_pros'),
+    option_4_cons:     g('option_4_cons'),
+    chosen_solution:   g('chosen_solution'),
+    time: new Date().toLocaleString()
+  };
+}
+
+async function saveEntry() {
+  var data = collectData();
+  try {
+    await fetch('/.netlify/functions/saveWorksheet', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch (err) {
+    console.error('Save error:', err);
+  }
+  var entries = JSON.parse(localStorage.getItem('problem-solving-skills') || '[]');
+  entries.unshift(data);
+  localStorage.setItem('problem-solving-skills', JSON.stringify(entries));
+  render();
+}
+
+function render() {
+  var el = document.getElementById('entriesList');
+  if (!el) return;
+  var entries = JSON.parse(localStorage.getItem('problem-solving-skills') || '[]');
+  if (!entries.length) { el.innerHTML = ''; return; }
+  el.innerHTML = entries.map(function(e) {
+    var preview = (e.problem_statement || '').substring(0, 80) + ((e.problem_statement || '').length > 80 ? '…' : '');
+    return '<div class="entry-item">'
+      + '<strong>' + (e.time || '') + '</strong>'
+      + (preview ? '<span style="color:#333;">' + preview + '</span>' : '')
+      + '</div>';
+  }).join('');
+}
+
+document.getElementById('saveBtn').addEventListener('click', saveEntry);
+render();
+</script>
+
+</body>
+</html>
