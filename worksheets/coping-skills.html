@@ -398,11 +398,13 @@
 
 </div><!-- end worksheet-container -->
 
+<script src="/js/save.js"></script>
 <script>
 function g(id) { return (document.getElementById(id).value || '').trim(); }
 
 function collectData() {
   var data = {
+    type:         'Coping Skills & Strategies',
     already_use:  g('already_use'),
     want_to_try:  g('want_to_try'),
     when_helpful: g('when_helpful'),
@@ -425,17 +427,9 @@ function collectData() {
   return data;
 }
 
-async function saveEntry() {
+function saveEntry() {
   var data = collectData();
-  try {
-    await fetch('/.netlify/functions/saveWorksheet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-  } catch (err) {
-    console.error('Save error:', err);
-  }
+  saveToServer(data);
   var entries = JSON.parse(localStorage.getItem('coping-skills') || '[]');
   entries.unshift(data);
   localStorage.setItem('coping-skills', JSON.stringify(entries));
