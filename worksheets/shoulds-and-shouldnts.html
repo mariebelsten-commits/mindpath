@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shoulds and Shouldn'ts | ChatCBT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f0f9f0; color: #1a1a1a; }
+
+    /* ── Hero ── */
+    .page-hero { background: #0d4a2e; padding: 56px 24px 48px; text-align: center; }
+    .hero-badge { display: inline-block; background: rgba(255,255,255,0.15); color: #fff; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; }
+    .page-hero h1 { font-family: 'Montserrat', sans-serif; font-size: 2.6rem; font-weight: 800; color: #ffffff !important; margin-bottom: 12px; letter-spacing: -0.5px; }
+    .page-hero p { font-size: 1.1rem; color: rgba(255,255,255,0.88); max-width: 580px; margin: 0 auto; line-height: 1.6; }
+
+    /* ── Feature cards ── */
+    .features-section { background: #1a5c3a; padding: 40px 24px; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 20px; max-width: 960px; margin: 0 auto; }
+    .feature-card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 22px 18px; text-align: center; color: #fff; }
+    .feature-card .icon { font-size: 1.8rem; margin-bottom: 10px; }
+    .feature-card h3 { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 700; color: #ffffff !important; margin-bottom: 7px; }
+    .feature-card p { font-size: 0.83rem; color: rgba(255,255,255,0.85); line-height: 1.5; }
+
+    /* ── Instructions ── */
+    .instructions-box { background: #e8f5e9; border-left: 4px solid #1a5c3a; padding: 18px 24px; max-width: 800px; margin: 32px auto 0; border-radius: 0 8px 8px 0; }
+    .instructions-box h3 { font-family: 'Montserrat', sans-serif; font-size: 0.92rem; font-weight: 700; color: #0d4a2e; margin-bottom: 6px; }
+    .instructions-box p { font-size: 0.87rem; color: #2d4a35; line-height: 1.65; }
+
+    /* ── Worksheet wrapper ── */
+    .page-worksheet { max-width: 800px; margin: 28px auto 48px; padding: 0 16px; }
+
+    /* ── Step blocks ── */
+    .step-block { background: #fff; border-radius: 12px; padding: 28px 28px 24px; margin-bottom: 8px; border: 1px solid #d0ecd8; box-shadow: 0 2px 8px rgba(13,74,46,0.06); }
+    .step-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .step-number { width: 36px; height: 36px; background: #1a5c3a; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.9rem; flex-shrink: 0; }
+    .step-title { font-family: 'Montserrat', sans-serif; font-size: 1.08rem; font-weight: 700; color: #0d4a2e; }
+    .step-desc { font-size: 0.88rem; color: #4a7a5a; margin-bottom: 16px; line-height: 1.6; }
+
+    /* ── Flow arrow ── */
+    .flow-arrow { text-align: center; font-size: 1.4rem; color: #4a7a5a; line-height: 1; margin: 6px 0; }
+
+    /* ── Two-column layout ── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 560px) { .two-col { grid-template-columns: 1fr; } }
+
+    /* ── Highlight block (for tips/prompts) ── */
+    .prompt-box { background: #e8f5e9; border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; font-size: 0.86rem; color: #1a3d28; line-height: 1.65; }
+    .prompt-box strong { font-family: 'Montserrat', sans-serif; font-size: 0.82rem; font-weight: 700; color: #0d4a2e; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 5px; }
+
+    /* ── Example chip ── */
+    .example-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 14px; }
+    .example-chip { background: #f0f9f0; border: 1px solid #b0d8bc; border-radius: 20px; padding: 4px 12px; font-size: 0.78rem; color: #1a5c3a; font-style: italic; }
+
+    /* ── Form elements ── */
+    .field-label { display: block; font-size: 0.87rem; font-weight: 600; color: #1a3d28; margin-bottom: 6px; margin-top: 20px; }
+    .field-label:first-of-type { margin-top: 0; }
+    textarea { width: 100%; padding: 10px 12px; border: 1px solid #b0d8bc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #1a1a1a; background: #fff; resize: vertical; line-height: 1.5; }
+    textarea:focus { outline: none; border-color: #1a5c3a; box-shadow: 0 0 0 3px rgba(26,92,58,0.1); }
+
+    /* ── Remember box ── */
+    .remember-box { background: #e8f5e9; border-radius: 12px; padding: 20px 24px; margin-top: 8px; font-size: 0.88rem; color: #1a3d28; line-height: 1.7; text-align: center; }
+
+    .entry-item{background:#fff;border-left:4px solid #0d4a2e;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:10px;font-size:.85rem;}
+    .entry-item strong{color:#0d4a2e;display:block;margin-bottom:4px;}
+
+    @media (max-width: 600px) {
+      .page-hero h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section class="page-hero">
+  <div class="hero-badge">CBT Worksheet</div>
+  <h1>Shoulds and Shouldn'ts</h1>
+  <p>Identify the rigid rules and demands you place on yourself and others — then loosen their grip.</p>
+</section>
+
+<!-- ══ FEATURES ══ -->
+<section class="features-section">
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="icon">🔍</div>
+      <h3>Spot the Pattern</h3>
+      <p>Recognise the hidden "should" rules that govern your thoughts, feelings, and actions</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">⚖️</div>
+      <h3>Question the Rule</h3>
+      <p>Challenge where these demands come from and whether they are truly serving you</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🔄</div>
+      <h3>Find Flexibility</h3>
+      <p>Replace rigid rules with softer, more compassionate alternatives that leave room for being human</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🌱</div>
+      <h3>Build Awareness</h3>
+      <p>A simple daily practice to help you catch "should" thinking before it takes hold</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ INSTRUCTIONS ══ -->
+<div class="instructions-box">
+  <h3>How to use this worksheet</h3>
+  <p>Start by listing all of the "should," "must," and "ought" statements you notice yourself making — about yourself, about others, and about life. Then work through each section, taking your time with the questions. There are no right or wrong answers — the goal is awareness and flexibility, not perfection.</p>
+</div>
+
+<!-- ══ WORKSHEET ══ -->
+<div class="page-worksheet">
+
+  <!-- Step 1: Identify your shoulds -->
+  <div class="step-block" style="margin-top:28px;">
+    <div class="step-header">
+      <div class="step-number">1</div>
+      <div class="step-title">Identify Your "Should" Statements</div>
+    </div>
+    <p class="step-desc">Write down all of the "should," "must," and "ought" rules you notice yourself holding. Don't filter or judge — just list them as they come. Include rules you apply to yourself, to others, and to life in general.</p>
+
+    <div class="example-chips">
+      <span class="example-chip">I should always be productive</span>
+      <span class="example-chip">I must never show weakness</span>
+      <span class="example-chip">Others should treat me fairly</span>
+      <span class="example-chip">Life ought to be fair</span>
+      <span class="example-chip">I shouldn't need help</span>
+    </div>
+
+    <label class="field-label" for="shoulds_about_self">Rules about yourself ("I should...", "I must...", "I ought to...")</label>
+    <textarea id="shoulds_about_self" rows="5" placeholder="e.g. I should always put others first / I must never make mistakes / I ought to be further along in life by now..."></textarea>
+
+    <label class="field-label" for="shoulds_about_others">Rules about others ("They should...", "People must...", "Others ought to...")</label>
+    <textarea id="shoulds_about_others" rows="4" placeholder="e.g. People should be honest / Others should appreciate what I do for them / They must not let me down..."></textarea>
+
+    <label class="field-label" for="shoulds_about_world">Rules about life and the world ("Life should...", "The world must...", "Things ought to...")</label>
+    <textarea id="shoulds_about_world" rows="4" placeholder="e.g. Life should be fair / Things ought to work out if I try hard enough / The world must make sense..."></textarea>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 2: The Challenge -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">2</div>
+      <div class="step-title">The Challenge</div>
+    </div>
+    <p class="step-desc">Choose the most demanding "should" statement from your list above — the one that feels the most rigid or the most distressing. Write it below, then work through the questions that follow.</p>
+
+    <label class="field-label" for="chosen_should">The "should" statement I am challenging:</label>
+    <textarea id="chosen_should" rows="2" placeholder="e.g. I should always be there for everyone, no matter what..."></textarea>
+
+    <div class="prompt-box" style="margin-top:20px;">
+      <strong>Questions to explore</strong>
+      Where does this belief come from? Who says you must follow it? Is there any rule that says you have to? Why does it matter so much to you?
+    </div>
+
+    <label class="field-label" for="challenge_response">Your response:</label>
+    <textarea id="challenge_response" rows="6" placeholder="Take your time with this. Consider where you first learned this rule, whether it has ever been helpful, and what you are afraid would happen if you let it go..."></textarea>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 3: Cost–benefit analysis -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">3</div>
+      <div class="step-title">Cost–Benefit Analysis</div>
+    </div>
+    <p class="step-desc">List the advantages and disadvantages of holding onto this belief or rule. Be honest — there may be real advantages, and that is worth acknowledging.</p>
+
+    <div class="two-col">
+      <div>
+        <label class="field-label" for="advantages">✅ Advantages of holding this belief</label>
+        <textarea id="advantages" rows="6" placeholder="e.g. It motivates me to work hard / People see me as reliable / It keeps me from being selfish..."></textarea>
+      </div>
+      <div>
+        <label class="field-label" for="disadvantages">❌ Disadvantages of holding this belief</label>
+        <textarea id="disadvantages" rows="6" placeholder="e.g. I feel exhausted and resentful / I never feel good enough / It stops me from setting boundaries..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 4: Try a substitute -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">4</div>
+      <div class="step-title">Try a Substitute</div>
+    </div>
+    <p class="step-desc">Rewrite your "should" statement using a softer, more flexible phrase. The goal is not to abandon your values — it is to hold them more gently, without turning them into rigid demands.</p>
+
+    <div class="example-chips">
+      <span class="example-chip">"I would feel better if..."</span>
+      <span class="example-chip">"I would prefer it if..."</span>
+      <span class="example-chip">"I would feel more comfortable if..."</span>
+      <span class="example-chip">"It would be nice if..."</span>
+    </div>
+
+    <label class="field-label" for="substitute">My original "should" statement rewritten as a softer, more flexible belief:</label>
+    <textarea id="substitute" rows="4" placeholder="e.g. I would feel better if I could be there for others, but I also recognise that I need to take care of myself too..."></textarea>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 5: Should busting -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">5</div>
+      <div class="step-title">"Should" Busting — Daily Practice</div>
+    </div>
+    <p class="step-desc">Spend five minutes each day writing down or saying aloud all of the "should," "must," and "ought" statements you notice. Over time, this practice helps you recognise just how many unhelpful and unrealistic demands you place on yourself and others — and how automatic they have become.</p>
+
+    <div class="prompt-box">
+      <strong>Reflection</strong>
+      After trying this practice, what did you notice? Were there more "should" thoughts than you expected? Did any of them surprise you?
+    </div>
+
+    <label class="field-label" for="should_busting">Notes from your daily practice:</label>
+    <textarea id="should_busting" rows="5" placeholder="e.g. I noticed far more 'should' thoughts than I expected — especially in the mornings. Many of them were about what I should have done differently the day before..."></textarea>
+  </div>
+
+  <div class="remember-box">
+    🌿 <strong>Remember:</strong> "Should" statements are not facts — they are rules you have learned, often long ago, in a very different context. Questioning them is not weakness. It is one of the most courageous and compassionate things you can do for yourself.
+  </div>
+
+  <div class="submit-wrap" style="text-align:center;margin:40px 0 16px;">
+    <button id="saveBtn" style="background:#0d4a2e;color:#fff;border:none;padding:16px 40px;border-radius:50px;font-family:Montserrat,sans-serif;font-size:17px;font-weight:700;cursor:pointer;">Save My Entry</button>
+    <div style="margin-top:24px;">
+      <h3 style="font-family:Montserrat,sans-serif;font-size:0.95rem;color:#0d4a2e;margin-bottom:12px;text-align:center;">Saved Entries</h3>
+      <div id="entriesList"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function clean(id) {
+    var el = document.getElementById(id);
+    if (!el) return '';
+    return (el.value || '')
+      .replace(/\r\n/g, ' | ')
+      .replace(/\r/g, ' | ')
+      .replace(/\n/g, ' | ')
+      .replace(/"/g, "'");
+  }
+
+  function collectData() {
+    return {
+      shoulds_about_self:   clean('shoulds_about_self'),
+      shoulds_about_others: clean('shoulds_about_others'),
+      shoulds_about_world:  clean('shoulds_about_world'),
+      chosen_should:        clean('chosen_should'),
+      challenge_response:   clean('challenge_response'),
+      advantages:           clean('advantages'),
+      disadvantages:        clean('disadvantages'),
+      substitute:           clean('substitute'),
+      should_busting:       clean('should_busting')
+    };
+  }
+
+  async function saveEntry() {
+    var data = collectData();
+    data.time = new Date().toLocaleString();
+    try {
+      await fetch('/.netlify/functions/saveWorksheet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    } catch (err) { console.error('Save error:', err); }
+    var entries = JSON.parse(localStorage.getItem('shoulds-and-shouldnts') || '[]');
+    entries.unshift(data);
+    localStorage.setItem('shoulds-and-shouldnts', JSON.stringify(entries));
+    render();
+  }
+
+  function render() {
+    var el = document.getElementById('entriesList');
+    if (!el) return;
+    var entries = JSON.parse(localStorage.getItem('shoulds-and-shouldnts') || '[]');
+    if (!entries.length) { el.innerHTML = ''; return; }
+    el.innerHTML = entries.map(function(e) {
+      var p = (e.chosen_should || '').substring(0, 80);
+      return '<div class="entry-item"><strong>' + (e.time || '') + '</strong>' + (p ? '<span style="color:#333;">' + p + '</span>' : '') + '</div>';
+    }).join('');
+  }
+
+  document.getElementById('saveBtn').addEventListener('click', saveEntry);
+  render();
+</script>
+
+</body>
+</html>
