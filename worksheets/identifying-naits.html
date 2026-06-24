@@ -312,7 +312,7 @@
 
   </div>
 </div>
-
+<script src="/js/save.js"></script>
 <script>
   /* ── Slider helpers ── */
   var sliders = [
@@ -367,9 +367,10 @@
     }
   }
 
-  /* ── Save + render ── */
-  async function saveEntry() {
+    /* ── Save + render ── */
+  function saveEntry() {
     var data = {
+      type:              'Identifying & Challenging NAITs',
       date:              document.getElementById('naitsDate').value,
       situation:         document.getElementById('naitsSituation').value,
       thoughts:          document.getElementById('naitsThoughts').value,
@@ -391,17 +392,7 @@
       time:              new Date().toLocaleString()
     };
 
-    try {
-      var res = await fetch('/.netlify/functions/saveWorksheet', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      var result = await res.json();
-      console.log('Server response:', result);
-    } catch (err) {
-      console.error('Error saving to server:', err);
-    }
+    saveToServer(data);
 
     var entries = JSON.parse(localStorage.getItem('naits') || '[]');
     entries.unshift(data);
