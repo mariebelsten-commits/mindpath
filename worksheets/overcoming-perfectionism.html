@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Overcoming Perfectionism | ChatCBT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f0f9f0; color: #1a1a1a; }
+
+    /* ── Hero ── */
+    .page-hero { background: #0d4a2e; padding: 56px 24px 48px; text-align: center; }
+    .hero-badge { display: inline-block; background: rgba(255,255,255,0.15); color: #fff; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; }
+    .page-hero h1 { font-family: 'Montserrat', sans-serif; font-size: 2.6rem; font-weight: 800; color: #ffffff; margin-bottom: 12px; letter-spacing: -0.5px; }
+    .page-hero p { font-size: 1.1rem; color: rgba(255,255,255,0.88); max-width: 580px; margin: 0 auto; line-height: 1.6; }
+
+    /* ── Feature cards ── */
+    .features-section { background: #1a5c3a; padding: 40px 24px; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 20px; max-width: 960px; margin: 0 auto; }
+    .feature-card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 22px 18px; text-align: center; color: #fff; }
+    .feature-card .icon { font-size: 1.8rem; margin-bottom: 10px; }
+    .feature-card h3 { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 700; color: #ffffff; margin-bottom: 7px; }
+    .feature-card p { font-size: 0.83rem; color: rgba(255,255,255,0.85); line-height: 1.5; }
+
+    /* ── Quote block ── */
+    .quote-block { background: #0d4a2e; margin: 0; padding: 28px 24px; text-align: center; }
+    .quote-text { font-family: 'Montserrat', sans-serif; font-size: 1.05rem; font-weight: 600; color: rgba(255,255,255,0.92); font-style: italic; max-width: 560px; margin: 0 auto 8px; line-height: 1.6; }
+    .quote-attr { font-size: 0.82rem; color: rgba(255,255,255,0.55); letter-spacing: 0.06em; text-transform: uppercase; }
+
+    /* ── Instructions ── */
+    .instructions-box { background: #e8f5e9; border-left: 4px solid #1a5c3a; padding: 18px 24px; max-width: 800px; margin: 32px auto 0; border-radius: 0 8px 8px 0; }
+    .instructions-box h3 { font-family: 'Montserrat', sans-serif; font-size: 0.92rem; font-weight: 700; color: #0d4a2e; margin-bottom: 6px; }
+    .instructions-box p { font-size: 0.87rem; color: #2d4a35; line-height: 1.65; }
+
+    /* ── Worksheet wrapper ── */
+    .page-worksheet { max-width: 800px; margin: 28px auto 48px; padding: 0 16px; }
+
+    /* ── Step blocks ── */
+    .step-block { background: #fff; border-radius: 12px; padding: 28px 28px 24px; margin-bottom: 8px; border: 1px solid #d0ecd8; box-shadow: 0 2px 8px rgba(13,74,46,0.06); }
+    .step-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .step-number { width: 36px; height: 36px; background: #1a5c3a; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.9rem; flex-shrink: 0; }
+    .step-title { font-family: 'Montserrat', sans-serif; font-size: 1.08rem; font-weight: 700; color: #0d4a2e; }
+    .step-desc { font-size: 0.88rem; color: #4a7a5a; margin-bottom: 16px; line-height: 1.6; }
+
+    /* ── Flow arrow ── */
+    .flow-arrow { text-align: center; font-size: 1.4rem; color: #4a7a5a; line-height: 1; margin: 6px 0; }
+
+    /* ── Two-column layout ── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 560px) { .two-col { grid-template-columns: 1fr; } }
+
+    /* ── Insight list ── */
+    .insight-list { background: #f0f9f0; border-radius: 8px; padding: 14px 18px; margin-bottom: 18px; }
+    .insight-list p { font-size: 0.86rem; color: #1a3d28; line-height: 1.7; margin-bottom: 0; }
+    .insight-list p + p { margin-top: 6px; }
+    .insight-label { font-family: 'Montserrat', sans-serif; font-size: 0.82rem; font-weight: 700; color: #0d4a2e; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 8px; }
+
+    /* ── Prompt box ── */
+    .prompt-box { background: #e8f5e9; border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; font-size: 0.86rem; color: #1a3d28; line-height: 1.65; }
+    .prompt-box strong { font-family: 'Montserrat', sans-serif; font-size: 0.82rem; font-weight: 700; color: #0d4a2e; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 5px; }
+
+    /* ── Two-field row ── */
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 4px; }
+    @media (max-width: 560px) { .field-row { grid-template-columns: 1fr; } }
+
+    /* ── Form elements ── */
+    .field-label { display: block; font-size: 0.87rem; font-weight: 600; color: #1a3d28; margin-bottom: 6px; margin-top: 20px; }
+    .field-label:first-of-type { margin-top: 0; }
+    textarea, input[type="text"] { width: 100%; padding: 10px 12px; border: 1px solid #b0d8bc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #1a1a1a; background: #fff; line-height: 1.5; }
+    textarea { resize: vertical; }
+    textarea:focus, input[type="text"]:focus { outline: none; border-color: #1a5c3a; box-shadow: 0 0 0 3px rgba(26,92,58,0.1); }
+
+    /* ── Remember box ── */
+    .remember-box { background: #e8f5e9; border-radius: 12px; padding: 20px 24px; margin-top: 8px; font-size: 0.88rem; color: #1a3d28; line-height: 1.7; text-align: center; }
+
+    /* ── Submit & saved entries ── */
+    .submit-section { text-align: center; padding: 24px 0 16px; }
+    #saveBtn { display: inline-block; background: #1a5c3a; color: #ffffff; padding: 14px 36px; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700; border: none; cursor: pointer; transition: background 0.2s; margin-top: 8px; }
+    #saveBtn:hover { background: #14482d; }
+    .entries-wrap { margin-top: 24px; }
+    .entries-wrap h3 { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; color: #0d4a2e; margin-bottom: 12px; text-align: center; }
+    .entry-item { background: #fff; border-left: 4px solid #0d4a2e; border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 10px; font-size: 0.85rem; }
+    .entry-item strong { color: #0d4a2e; display: block; margin-bottom: 4px; }
+
+    @media (max-width: 600px) { .page-hero h1 { font-size: 2rem; } }
+  </style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section class="page-hero">
+  <div class="hero-badge">CBT Worksheet</div>
+  <h1>Overcoming Perfectionism</h1>
+  <p>Explore the hidden costs of perfectionism, practise lowering the bar, and discover that good enough is often more than enough.</p>
+</section>
+
+<!-- ══ QUOTE ══ -->
+<div class="quote-block">
+  <p class="quote-text">"He is a man who is impossible to please, because he is never pleased with himself."</p>
+  <p class="quote-attr">— Goethe</p>
+</div>
+
+<!-- ══ FEATURES ══ -->
+<section class="features-section">
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="icon">🔍</div>
+      <h3>Spot the Pattern</h3>
+      <p>Recognise the fears and needs that drive perfectionist thinking and behaviour</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">⚖️</div>
+      <h3>Weigh the Cost</h3>
+      <p>Honestly examine what perfectionism is costing you in energy, wellbeing, and relationships</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🎯</div>
+      <h3>Lower the Bar</h3>
+      <p>Practise completing tasks at 80% and discover that "good enough" is often genuinely great</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🌿</div>
+      <h3>Embrace Imperfection</h3>
+      <p>Build the courage to show vulnerability, enjoy the process, and let go of the end result</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ INSTRUCTIONS ══ -->
+<div class="instructions-box">
+  <h3>How to use this worksheet</h3>
+  <p>Work through each exercise in order. The goal is not to eliminate high standards — it is to loosen the grip of perfectionism so that it no longer controls how you feel about yourself. Take your time, be honest, and treat this as an experiment rather than something else to get right.</p>
+</div>
+
+<!-- ══ WORKSHEET ══ -->
+<div class="page-worksheet">
+
+  <!-- Step 1 -->
+  <div class="step-block" style="margin-top:28px;">
+    <div class="step-header">
+      <div class="step-number">1</div>
+      <div class="step-title">Weigh Up Your Perfectionism</div>
+    </div>
+    <p class="step-desc">The first step is to honestly examine whether perfectionism is actually helping you. List the advantages and disadvantages of your own perfectionism — be as specific and honest as you can.</p>
+
+    <div class="insight-list">
+      <span class="insight-label">Three things to remember about imperfection</span>
+      <p>🧠 <strong>We learn from mistakes</strong> — we will not grow unless we allow ourselves to get things wrong.</p>
+      <p>🤝 <strong>People connect with vulnerability</strong> — most people feel more comfortable with someone who is "imperfect" and human.</p>
+      <p>🚫 <strong>Fear of failure leads to paralysis</strong> — if we are too afraid to make mistakes, we often stop trying altogether.</p>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <label class="field-label" style="margin-top:0;">✅ Advantages of my perfectionism</label>
+        <textarea id="advantages" rows="7" placeholder="e.g. I produce high quality work / People know they can rely on me / I rarely make careless errors..."></textarea>
+      </div>
+      <div>
+        <label class="field-label" style="margin-top:0;">❌ Disadvantages of my perfectionism</label>
+        <textarea id="disadvantages" rows="7" placeholder="e.g. I am never satisfied and often feel tense / I struggle to vary my work speed / I am critical of myself and others / I avoid risks and new experiences..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 2 -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">2</div>
+      <div class="step-title">Deliberately Limit Time and Lower Standards</div>
+    </div>
+    <p class="step-desc">Identify a task you would normally approach in a perfectionist way and set a strict time limit so that you genuinely cannot do it perfectly. The aim is to attempt the task at around 80% of your usual standard — then notice what actually happens.</p>
+
+    <div class="prompt-box">
+      <strong>Examples</strong>
+      Instead of "I will write this report properly" — try "I have 20 minutes to write a draft and then I stop." Instead of "I will tidy the whole house" — try "I have 30 minutes, so that is 5 minutes per room."
+    </div>
+
+    <div class="field-row">
+      <div>
+        <label class="field-label" style="margin-top:0;">The task I will attempt at 80%</label>
+        <input type="text" id="time_task" placeholder="e.g. Writing my weekly update email..." />
+      </div>
+      <div>
+        <label class="field-label" style="margin-top:0;">My time limit</label>
+        <input type="text" id="time_limit" placeholder="e.g. 15 minutes, then stop" />
+      </div>
+    </div>
+
+    <label class="field-label">What I noticed — how did it go? What was the outcome?</label>
+    <textarea id="time_reflection" rows="5" placeholder="e.g. I felt anxious when the timer went off and it wasn't finished, but when I re-read it the next day it was actually fine. Nobody noticed the difference. I saved almost an hour..."></textarea>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 3 -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">3</div>
+      <div class="step-title">Disclose a Weakness</div>
+    </div>
+    <p class="step-desc">Make a deliberate attempt to show vulnerability to someone. If you feel nervous or out of your depth in a situation, say so. Dare to be average — and notice how the other person actually responds.</p>
+
+    <div class="prompt-box">
+      <strong>The challenge</strong>
+      Perfectionists often keep emotions under very tight control. This exercise is a small, deliberate step in the other direction. You do not need to share anything major — even a small admission like "I found that really difficult" or "I wasn't sure what I was doing there" counts.
+    </div>
+
+    <label class="field-label">What weakness or vulnerability I chose to disclose, and to whom</label>
+    <textarea id="disclose_plan" rows="4" placeholder="e.g. I told my colleague that I was finding the new system confusing and wasn't sure I was using it correctly..."></textarea>
+
+    <label class="field-label">How did the other person respond? What did I notice?</label>
+    <textarea id="disclose_reaction" rows="5" placeholder="e.g. She laughed and said she felt exactly the same way — we ended up figuring it out together. I expected judgement but got connection instead..."></textarea>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 4 -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">4</div>
+      <div class="step-title">Deliberately Savour the Moment</div>
+    </div>
+    <p class="step-desc">Choose an activity and consciously focus on the experience of doing it rather than the end result. Slow down. Notice what you are actually feeling and sensing in the moment, rather than rushing to reach the goal.</p>
+
+    <div class="prompt-box">
+      <strong>Why this matters</strong>
+      Perfectionists tend to live in the future — always focused on the outcome and whether it will measure up. This exercise trains attention back onto the present, where enjoyment actually lives.
+    </div>
+
+    <label class="field-label">The activity I chose to savour</label>
+    <input type="text" id="savour_activity" placeholder="e.g. Cooking dinner / Going for a walk / Having a conversation with a friend..." />
+
+    <label class="field-label">What I noticed when I focused on the process rather than the outcome</label>
+    <textarea id="savour_reflection" rows="6" placeholder="e.g. I noticed how much I usually rush through cooking just to get it done. When I slowed down and actually paid attention, I realised I quite enjoyed it. The food tasted better too..."></textarea>
+  </div>
+
+  <div class="remember-box">
+    🌿 <strong>Remember:</strong> Perfectionism is not really about high standards — it is about fear. The antidote is not lowering your ambitions, but loosening the belief that your worth depends on the outcome. Good enough, done with care, is something to be genuinely proud of.
+  </div>
+
+  <div class="submit-section">
+    <button id="saveBtn">Save My Entry</button>
+    <div class="entries-wrap">
+      <h3>Saved Entries</h3>
+      <div id="entriesList"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function g(id) {
+  return (document.getElementById(id).value || '').replace(/\r?\n|\r/g, ' | ').trim();
+}
+
+function collectData() {
+  return {
+    advantages:        g('advantages'),
+    disadvantages:     g('disadvantages'),
+    time_task:         g('time_task'),
+    time_limit:        g('time_limit'),
+    time_reflection:   g('time_reflection'),
+    disclose_plan:     g('disclose_plan'),
+    disclose_reaction: g('disclose_reaction'),
+    savour_activity:   g('savour_activity'),
+    savour_reflection: g('savour_reflection'),
+    time: new Date().toLocaleString()
+  };
+}
+
+async function saveEntry() {
+  var data = collectData();
+  try {
+    await fetch('/.netlify/functions/saveWorksheet', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch (err) {
+    console.error('Save error:', err);
+  }
+  var entries = JSON.parse(localStorage.getItem('overcoming-perfectionism') || '[]');
+  entries.unshift(data);
+  localStorage.setItem('overcoming-perfectionism', JSON.stringify(entries));
+  render();
+}
+
+function render() {
+  var el = document.getElementById('entriesList');
+  if (!el) return;
+  var entries = JSON.parse(localStorage.getItem('overcoming-perfectionism') || '[]');
+  if (!entries.length) { el.innerHTML = ''; return; }
+  el.innerHTML = entries.map(function(e) {
+    var preview = (e.time_task || e.savour_activity || '').substring(0, 80);
+    return '<div class="entry-item">'
+      + '<strong>' + (e.time || '') + '</strong>'
+      + (preview ? '<span style="color:#333;">' + preview + '</span>' : '')
+      + '</div>';
+  }).join('');
+}
+
+document.getElementById('saveBtn').addEventListener('click', saveEntry);
+render();
+</script>
+
+</body>
+</html>
