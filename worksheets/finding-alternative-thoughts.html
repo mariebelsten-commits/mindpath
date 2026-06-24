@@ -583,13 +583,15 @@
   </div>
 </section>
 
+<script src="/js/save.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
   function el(id) { return document.getElementById(id); }
 
-  async function saveEntry() {
+  function saveEntry() {
     const data = {
+      type:                    'Finding Alternative Thoughts',
       alt_mental_filter:       el("alt_mental_filter")?.value || "",
       alt_mind_reading:        el("alt_mind_reading")?.value || "",
       alt_prediction:          el("alt_prediction")?.value || "",
@@ -605,17 +607,7 @@ document.addEventListener("DOMContentLoaded", function () {
       time: new Date().toLocaleString()
     };
 
-    try {
-      const res = await fetch('/.netlify/functions/saveWorksheet', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      const result = await res.json();
-      console.log("Server response:", result);
-    } catch (err) {
-      console.error("Error saving to server:", err);
-    }
+    saveToServer(data);
 
     let entries = JSON.parse(localStorage.getItem("finding-alt-thoughts") || "[]");
     entries.unshift(data);
