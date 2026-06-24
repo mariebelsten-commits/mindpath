@@ -584,6 +584,7 @@
 
 </section>
 
+<script src="/js/save.js"></script>
 <script>
 function nl(v) { return (v || '').replace(/\r?\n|\r/g, ' | '); }
 function gv(id) { return nl(document.getElementById(id).value); }
@@ -591,6 +592,7 @@ function gn(id) { return (document.getElementById(id).value || '').trim(); }
 
 function collectWorksheetData() {
   return {
+    type:                    'Your Values',
     family_values:           gv('family_values'),
     family_importance:       gn('family_importance'),
     family_success:          gn('family_success'),
@@ -625,17 +627,9 @@ function collectWorksheetData() {
   };
 }
 
-async function saveEntry() {
+function saveEntry() {
   var data = collectWorksheetData();
-  try {
-    await fetch('/.netlify/functions/saveWorksheet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-  } catch (err) {
-    console.error('Save error:', err);
-  }
+  saveToServer(data);
   var entries = JSON.parse(localStorage.getItem('clarify-your-values') || '[]');
   entries.unshift(data);
   localStorage.setItem('clarify-your-values', JSON.stringify(entries));
