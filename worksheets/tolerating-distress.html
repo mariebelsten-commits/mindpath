@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tolerating Distress | ChatCBT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f0f9f0;
+      color: #1a2e1a;
+      line-height: 1.7;
+    }
+
+    /* ── HERO ── */
+    .page-hero {
+      background: linear-gradient(135deg, #0d4a2e 0%, #1a5c3a 60%, #2d7a50 100%);
+      color: #fff;
+      padding: 72px 24px 52px;
+      text-align: center;
+    }
+    .page-hero h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 20px;
+      line-height: 1.15;
+      color: #ffffff !important;
+    }
+    .page-hero p {
+      font-size: 1.15rem;
+      max-width: 640px;
+      margin: 0 auto 44px;
+      opacity: 0.92;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    .feature-card {
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 14px;
+      padding: 22px 20px;
+    }
+    .feature-card .icon { font-size: 1.6rem; margin-bottom: 10px; }
+    .feature-card h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #ffffff !important;
+    }
+    .feature-card p { font-size: 0.9rem; opacity: 0.88; }
+
+    /* ── QUOTE ── */
+    .quote-block {
+      background: linear-gradient(135deg, #0d4a2e 0%, #1a5c3a 100%);
+      border-top: 1px solid rgba(255,255,255,0.15);
+      padding: 12px 24px 26px;
+      text-align: center;
+    }
+    .quote-text {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.92);
+      font-style: italic;
+      max-width: 480px;
+      margin: 0 auto 6px;
+      line-height: 1.6;
+    }
+    .quote-attr {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ── SECTION LABELS ── */
+    .section-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #1a5c3a;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .section-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: #0d4a2e;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .section-sub {
+      text-align: center;
+      color: #4a6a4a;
+      margin-bottom: 44px;
+      max-width: 620px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .page-howto { background: #fff; padding: 64px 24px; }
+    .steps-stack {
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .step-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      background: #f8fdf8;
+      border-radius: 14px;
+      padding: 22px 24px;
+      border: 1px solid #d4edda;
+    }
+    .step-num {
+      background: #1a5c3a;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-text h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      color: #0d4a2e;
+      margin-bottom: 4px;
+    }
+    .step-text p { color: #4a6a4a; font-size: 0.95rem; }
+
+    /* ── SUDS SCALE VISUAL ── */
+    .suds-scale-container { max-width: 680px; margin: 36px auto 0; }
+    .suds-scale-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #0d4a2e;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+    .suds-band {
+      display: grid;
+      grid-template-columns: 58px 1fr auto;
+      align-items: center;
+      gap: 14px;
+      padding: 13px 18px;
+      border-radius: 10px;
+      margin-bottom: 6px;
+    }
+    .suds-level-badge {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      color: #ffffff !important;
+      text-align: center;
+      padding: 7px 4px;
+      border-radius: 8px;
+      line-height: 1.2;
+    }
+    .suds-band-desc { font-size: 0.88rem; color: inherit; line-height: 1.45; }
+    .suds-skill-tag {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      padding: 5px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+      color: #ffffff !important;
+    }
+    .band-10 { background: #fff2f2; color: #7a1c1c; }
+    .band-10 .suds-level-badge { background: #c62828; }
+    .band-10 .suds-skill-tag   { background: #c62828; }
+    .band-78 { background: #fff6f2; color: #7a3010; }
+    .band-78 .suds-level-badge { background: #e64a19; }
+    .band-78 .suds-skill-tag   { background: #e64a19; }
+    .band-56 { background: #fffaf0; color: #7a4400; }
+    .band-56 .suds-level-badge { background: #ef6c00; }
+    .band-56 .suds-skill-tag   { background: #ef6c00; }
+    .band-34 { background: #fffde7; color: #6a4800; }
+    .band-34 .suds-level-badge { background: #f9a825; }
+    .band-34 .suds-skill-tag   { background: #f0a000; }
+    .band-12 { background: #f1f8e9; color: #1a4a1a; }
+    .band-12 .suds-level-badge { background: #2e7d32; }
+    .band-12 .suds-skill-tag   { background: #2e7d32; }
+
+    /* ── INFO BOX ── */
+    .info-box {
+      max-width: 680px;
+      margin: 22px auto 0;
+      background: #b5e8c4;
+      border-radius: 14px;
+      padding: 20px 24px;
+      color: #0d4a2e;
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+    .info-box strong { font-weight: 700; }
+
+    /* ── WORKSHEET ── */
+    .page-worksheet { background: #f0f9f0; padding: 64px 24px 80px; }
+    .ws-inner { max-width: 900px; margin: 0 auto; }
+
+    .remember-box {
+      background: #b5e8c4;
+      border-radius: 14px;
+      padding: 22px 26px;
+      margin-bottom: 32px;
+      color: #0d4a2e;
+    }
+    .remember-box h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+    .remember-box p { font-size: 0.94rem; line-height: 1.65; }
+    .remember-box p + p { margin-top: 8px; }
+
+    /* WS CARD */
+    .ws-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 20px rgba(26,92,58,0.10);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    .ws-card-header {
+      background: linear-gradient(135deg, #0d4a2e, #1a5c3a);
+      padding: 18px 26px;
+    }
+    .ws-card-header h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #ffffff !important;
+      margin: 0 0 3px;
+    }
+    .ws-card-header p {
+      font-size: 0.85rem;
+      margin: 0;
+      color: rgba(255,255,255,0.88) !important;
+    }
+    .ws-card-body { padding: 24px 26px; }
+
+    /* SUDS SLIDER */
+    .suds-slider-wrap { text-align: center; }
+    .suds-bubble {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 2.2rem;
+      color: #fff !important;
+      background: #2e7d32;
+      margin-bottom: 12px;
+      transition: background 0.3s;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    }
+    .suds-current-label {
+      font-size: 0.95rem;
+      color: #4a6a4a;
+      margin-bottom: 22px;
+      min-height: 1.5em;
+      font-style: italic;
+    }
+    input[type="range"]#sudsSlider {
+      -webkit-appearance: none;
+      width: 100%;
+      max-width: 420px;
+      height: 8px;
+      border-radius: 4px;
+      background: linear-gradient(to right,
+        #2e7d32 0%, #2e7d32 10%,
+        #f9a825 10%, #f9a825 40%,
+        #ef6c00 40%, #ef6c00 60%,
+        #e64a19 60%, #e64a19 80%,
+        #c62828 80%, #c62828 100%
+      );
+      cursor: pointer;
+      outline: none;
+    }
+    input[type="range"]#sudsSlider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: #fff;
+      border: 3px solid #1a5c3a;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      cursor: pointer;
+    }
+    input[type="range"]#sudsSlider::-moz-range-thumb {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: #fff;
+      border: 3px solid #1a5c3a;
+      cursor: pointer;
+    }
+    .suds-range-labels {
+      display: flex;
+      justify-content: space-between;
+      max-width: 420px;
+      margin: 8px auto 0;
+      font-size: 0.75rem;
+      color: #7a9a7a;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+    }
+
+    /* TEXTAREA & INPUT */
+    .ws-textarea {
+      width: 100%;
+      min-height: 120px;
+      border: 1.5px solid #c8e6d0;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.92rem;
+      color: #1a2e1a;
+      background: #f8fdf8;
+      resize: vertical;
+      transition: border-color 0.2s;
+      line-height: 1.6;
+    }
+    .ws-textarea:focus { outline: none; border-color: #1a5c3a; background: #fff; }
+    .ws-textarea::placeholder { color: #9ab89a; }
+
+    .ws-input {
+      width: 100%;
+      border: 1.5px solid #c8e6d0;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.92rem;
+      color: #1a2e1a;
+      background: #f8fdf8;
+      transition: border-color 0.2s;
+    }
+    .ws-input:focus { outline: none; border-color: #1a5c3a; background: #fff; }
+    .ws-input::placeholder { color: #9ab89a; }
+
+    /* STRATEGIES GRID */
+    .strategies-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .strategy-block {
+      background: #f8fdf8;
+      border-radius: 12px;
+      padding: 16px;
+      border: 1px solid #d4edda;
+    }
+    .strategy-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .strategy-icon { font-size: 1.1rem; }
+    .strategy-block-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #0d4a2e;
+    }
+    .idea-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 9px; }
+    .idea-chip {
+      background: #fff;
+      border: 1px solid #b0d8bc;
+      border-radius: 20px;
+      padding: 3px 9px;
+      font-size: 0.74rem;
+      color: #1a5c3a;
+      font-style: italic;
+    }
+    .strategy-block-hint {
+      font-size: 0.78rem;
+      color: #6a9a6a;
+      margin-bottom: 8px;
+      font-style: italic;
+      line-height: 1.4;
+    }
+    .strategy-block textarea {
+      width: 100%;
+      min-height: 88px;
+      border: 1.5px solid #c8e6d0;
+      border-radius: 8px;
+      padding: 9px 11px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      color: #1a2e1a;
+      background: #fff;
+      resize: vertical;
+      line-height: 1.55;
+      transition: border-color 0.2s;
+    }
+    .strategy-block textarea:focus { outline: none; border-color: #1a5c3a; }
+    .strategy-block textarea::placeholder { color: #9ab89a; }
+
+    /* NUMBERED INPUTS */
+    .numbered-inputs { display: flex; flex-direction: column; gap: 12px; }
+    .numbered-input-row { display: flex; align-items: center; gap: 12px; }
+    .input-num {
+      background: #1a5c3a;
+      color: #fff !important;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 0.95rem;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .field-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #0d4a2e;
+      margin-bottom: 8px;
+    }
+
+    .card-section-divider { border: none; border-top: 1px solid #e8f5e9; margin: 24px 0; }
+    .card-section-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #1a5c3a;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+    }
+
+    .submit-wrap { text-align: center; margin-top: 16px; }
+    .btn-submit {
+      background: linear-gradient(135deg, #0d4a2e, #1a5c3a);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding: 16px 44px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      box-shadow: 0 4px 20px rgba(13,74,46,0.28);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(13,74,46,0.38); }
+
+    .entry-item{background:#fff;border-left:4px solid #0d4a2e;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:10px;font-size:.85rem;}
+    .entry-item strong{color:#0d4a2e;display:block;margin-bottom:4px;}
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 760px) {
+      .page-hero h1 { font-size: 2rem; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .strategies-grid { grid-template-columns: 1fr; }
+      .suds-band { grid-template-columns: 50px 1fr; }
+      .suds-skill-tag { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section class="page-hero">
+  <h1>Tolerating Distress</h1>
+  <p>Distress tolerance skills help you get through intense emotions without making things worse. Build your personal toolkit, prepare a survival plan, and know exactly what to do before the next wave hits.</p>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="icon">🌡️</div>
+      <h3>Rate Your Distress</h3>
+      <p>The SUDS scale (0–10) gives you a shared language for how intense your distress is — and helps you choose the right strategy for the moment.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🛠️</div>
+      <h3>Build Your Toolkit</h3>
+      <p>Distancing, communication, self-soothing, distraction, physical skills, and more — find what works for you at each distress level.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🤝</div>
+      <h3>Your Support Network</h3>
+      <p>Having names ready means you don't need to think clearly in the moment — you just reach out. Even a brief connection can significantly reduce distress.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🚨</div>
+      <h3>Safety Planning</h3>
+      <p>If distress ever reaches crisis point, a written safety plan means you already know what to do — without having to figure it out under pressure.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ QUOTE ══ -->
+<div class="quote-block">
+  <p class="quote-text">"Whatever gets you through the night…"</p>
+  <p class="quote-attr">John Lennon</p>
+</div>
+
+<!-- ══ HOW IT WORKS ══ -->
+<section class="page-howto">
+  <p class="section-label">How It Works</p>
+  <h2 class="section-title">Understanding distress tolerance</h2>
+  <p class="section-sub">Pain and distress are part of life — they cannot be entirely avoided or removed. Always trying to escape pain leads to more problems than it solves. Distress tolerance isn't about feeling better instantly; it's about getting through the moment without making things worse.</p>
+
+  <div class="steps-stack">
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <h4>Accept that pain is part of life</h4>
+        <p>Attempts to shut out emotional pain — through avoidance, alcohol, or self-harm — come back to haunt us. People with PTSD or pathological grief are primarily trying to avoid cues that cause discomfort. The goal is to <em>feel</em> without being destroyed by it. The more you tolerate distress, the stronger you get.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <h4>Rate your distress using SUDS</h4>
+        <p>The <strong>Subjective Units of Distress Scale (SUDS)</strong> runs from 1 (completely calm) to 10 (highest possible distress). Rating yourself gives you a snapshot of where you are right now — and helps you choose the strategy that matches your level.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <h4>Spot your personal warning signs</h4>
+        <p>Warning signs are the thoughts, feelings, and body sensations that tell you distress is building. Getting to know them early means you can use coping strategies sooner — before things become overwhelming.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">4</div>
+      <div class="step-text">
+        <h4>Match your strategy to your distress level</h4>
+        <p>Different skills work best at different intensities. When distress is very high (8–10), body-based strategies like <strong>TIPP</strong> work best — your thinking brain is less available. At lower levels, distancing, communication, and skills like <strong>Radical Acceptance</strong> become more accessible.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">5</div>
+      <div class="step-text">
+        <h4>Know your safety plan in advance</h4>
+        <p>If distress ever becomes unsafe, a pre-written safety plan tells you what to do step by step. You don't have to think clearly under pressure — you just follow the plan. Review it with your therapist so you both know what it says.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="suds-scale-container">
+    <div class="suds-scale-title">The SUDS Scale — Levels &amp; Strategies</div>
+    <div class="suds-band band-10">
+      <div class="suds-level-badge">9–10</div>
+      <div class="suds-band-desc"><strong>Highest distress</strong> — feeling out of control, completely overwhelmed</div>
+      <div class="suds-skill-tag">STOP / TIPP</div>
+    </div>
+    <div class="suds-band band-78">
+      <div class="suds-level-badge">7–8</div>
+      <div class="suds-band-desc"><strong>Very distressed</strong> — physiological symptoms present, hard to think clearly</div>
+      <div class="suds-skill-tag">ACCEPTS</div>
+    </div>
+    <div class="suds-band band-56">
+      <div class="suds-level-badge">5–6</div>
+      <div class="suds-band-desc"><strong>Moderate to strong</strong> — significant discomfort, difficult to focus</div>
+      <div class="suds-skill-tag">Self-Soothing</div>
+    </div>
+    <div class="suds-band band-34">
+      <div class="suds-level-badge">3–4</div>
+      <div class="suds-band-desc"><strong>Mild to moderate</strong> — noticeable discomfort, manageable with effort</div>
+      <div class="suds-skill-tag">IMPROVE / Communicate</div>
+    </div>
+    <div class="suds-band band-12">
+      <div class="suds-level-badge">1–2</div>
+      <div class="suds-band-desc"><strong>Calm</strong> — no feelings of distress, at peace, alert and focused</div>
+      <div class="suds-skill-tag">Radical Acceptance</div>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <strong>💡 About the strategies:</strong> These are skills drawn from Dialectical Behaviour Therapy (DBT). <strong>TIPP</strong> (Temperature, Intense exercise, Paced breathing, Progressive relaxation) and <strong>STOP</strong> work by changing your physiology directly when distress is highest. <strong>ACCEPTS</strong> uses distraction. <strong>Self-Soothing</strong> engages the five senses. <strong>IMPROVE</strong> and <strong>Pros &amp; Cons</strong> work when you have more cognitive capacity. <strong>Radical Acceptance</strong> means fully accepting reality as it is — without fighting it. Your therapist can teach you each of these in more depth.
+  </div>
+</section>
+
+<!-- ══ WORKSHEET ══ -->
+<section class="page-worksheet">
+  <div class="ws-inner">
+    <p class="section-label">Your Worksheet</p>
+    <h2 class="section-title">My Distress Tolerance Plan</h2>
+    <p class="section-sub" style="margin-bottom:36px;">Work through each section below and save your completed plan.</p>
+
+    <div class="remember-box">
+      <h4>📝 Before you begin</h4>
+      <p>Distress tolerance skills are for <strong>crisis moments</strong> — when emotions are so intense they threaten to overwhelm you. The goal isn't to solve the problem or feel better immediately: it's to get through the moment without making things worse. Once the intensity has passed, problem-solving becomes possible again.</p>
+      <p>Fill this plan in when you're calm, so it's ready when you're not.</p>
+    </div>
+
+    <!-- PART 1: SITUATION + SUDS -->
+    <div class="ws-card">
+      <div class="ws-card-header">
+        <h3>🌡️ Part 1 — My Situation &amp; Distress Level</h3>
+        <p>Briefly describe what is causing your distress, then rate how you are feeling right now.</p>
+      </div>
+      <div class="ws-card-body">
+        <div class="field-label">What is currently causing me distress?</div>
+        <textarea id="currentDistress" class="ws-textarea" style="min-height:100px;"
+          placeholder="e.g. I am going through a difficult period following a relationship breakdown. At certain times the emotions become overwhelming and I don't know how to cope. I want to have a plan ready for those moments…"></textarea>
+        <div style="margin-top:24px;">
+          <div class="suds-slider-wrap">
+            <div class="suds-bubble" id="sudsDisplay">5</div>
+            <div class="suds-current-label" id="sudsLabel">Moderate distress — uncomfortable, harder to concentrate.</div>
+            <input type="range" id="sudsSlider" min="1" max="10" value="5" />
+            <div class="suds-range-labels">
+              <span>1 — Calm</span>
+              <span>5 — Moderate</span>
+              <span>10 — Extreme</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PART 2: WARNING SIGNS -->
+    <div class="ws-card">
+      <div class="ws-card-header">
+        <h3>⚠️ Part 2 — My Warning Signs</h3>
+        <p>The thoughts, feelings, and body sensations that tell me distress is building.</p>
+      </div>
+      <div class="ws-card-body">
+        <p style="font-size:0.88rem; color:#4a6a4a; margin-bottom:14px;">Think about what happens in your <strong>mind</strong> (racing thoughts, catastrophising), your <strong>emotions</strong> (sudden dread, irritability, tearfulness), and your <strong>body</strong> (tight chest, fast heartbeat, tension, nausea). The sooner you spot these, the sooner you can use your coping strategies.</p>
+        <textarea id="warningSigns" class="ws-textarea" style="min-height:140px;"
+          placeholder="e.g. My mind starts racing and jumping to worst-case scenarios. I feel a tightness in my chest and my heart speeds up. I become snappy with people around me. I start to feel like I can't cope and want to escape the situation…"></textarea>
+      </div>
+    </div>
+
+    <!-- PART 3: COPING TOOLKIT -->
+    <div class="ws-card">
+      <div class="ws-card-header">
+        <h3>🛠️ Part 3 — My Coping Toolkit</h3>
+        <p>Choose the strategies that feel right for you in each category. The chips are ideas — personalise them to what actually works for you.</p>
+      </div>
+      <div class="ws-card-body">
+        <div class="info-box" style="max-width:100%; margin: 0 0 20px;">
+          <strong>Which strategy to use?</strong> At 9–10, use STOP or TIPP first. At 7–8, try ACCEPTS to distract. At 5–6, try self-soothing through the senses. At 3–4, communication or IMPROVE work well. At 1–2, practise Radical Acceptance.
+        </div>
+        <div class="strategies-grid">
+
+          <div class="strategy-block">
+            <div class="strategy-header">
+              <span class="strategy-icon">🌊</span>
+              <div class="strategy-block-title">Distancing</div>
+            </div>
+            <div class="idea-chips">
+              <span class="idea-chip">Step back and observe</span>
+              <span class="idea-chip">Notice intensity without judgment</span>
+              <span class="idea-chip">Take a 20-min nap</span>
+              <span class="idea-chip">Pull the covers over your head</span>
+              <span class="idea-chip">Take a short break or trip</span>
+            </div>
+            <div class="strategy-block-hint">The distancing strategies I will use:</div>
+            <textarea id="distancing" placeholder="e.g. When distress peaks I will rest briefly and allow the feeling to pass without fighting it…"></textarea>
+          </div>
+
+          <div class="strategy-block">
+            <div class="strategy-header">
+              <span class="strategy-icon">💬</span>
+              <div class="strategy-block-title">Communicate</div>
+            </div>
+            <div class="idea-chips">
+              <span class="idea-chip">Describe your emotions in words</span>
+              <span class="idea-chip">Write it down or journal</span>
+              <span class="idea-chip">Write a letter (send or not)</span>
+              <span class="idea-chip">Phone a trusted friend</span>
+              <span class="idea-chip">Visit someone safe</span>
+            </div>
+            <div class="strategy-block-hint">The communication strategies I will use:</div>
+            <textarea id="communication" placeholder="e.g. Call my friend and ask them just to listen. Write in my journal without editing myself…"></textarea>
+          </div>
+
+          <div class="strategy-block">
+            <div class="strategy-header">
+              <span class="strategy-icon">🎯</span>
+              <div class="strategy-block-title">Distract (ACCEPTS)</div>
+            </div>
+            <div class="idea-chips">
+              <span class="idea-chip">Activities (clean, TV, game)</span>
+              <span class="idea-chip">Contributing (help someone)</span>
+              <span class="idea-chip">Comparisons</span>
+              <span class="idea-chip">Emotions (comedy, music)</span>
+              <span class="idea-chip">Push away temporarily</span>
+              <span class="idea-chip">Thoughts (count, puzzle)</span>
+              <span class="idea-chip">Sensations (ice, cold water)</span>
+            </div>
+            <div class="strategy-block-hint">The distraction strategies I will use:</div>
+            <textarea id="distraction" placeholder="e.g. Do a jigsaw, watch something funny, tidy a room, call someone who needs support…"></textarea>
+          </div>
+
+          <div class="strategy-block">
+            <div class="strategy-header">
+              <span class="strategy-icon">🎨</span>
+              <div class="strategy-block-title">Self-Soothe &amp; Creative</div>
+            </div>
+            <div class="idea-chips">
+              <span class="idea-chip">Stroke a pet</span>
+              <span class="idea-chip">Have a bath</span>
+              <span class="idea-chip">Hug somebody</span>
+              <span class="idea-chip">Listen to music</span>
+              <span class="idea-chip">Walk in nature</span>
+              <span class="idea-chip">Look at beautiful things</span>
+              <span class="idea-chip">Paint, draw or write</span>
+              <span class="idea-chip">Play music</span>
+              <span class="idea-chip">Light a candle</span>
+              <span class="idea-chip">Eat a good meal mindfully</span>
+              <span class="idea-chip">Say a prayer</span>
+            </div>
+            <div class="strategy-block-hint">The self-soothing and creative strategies I will use:</div>
+            <textarea id="selfSoothing" placeholder="e.g. Run a bath, put on music that moves me, walk in the park and really notice what's around me…"></textarea>
+          </div>
+
+          <div class="strategy-block">
+            <div class="strategy-header">
+              <span class="strategy-icon">⚡</span>
+              <div class="strategy-block-title">Physical Skills (TIPP)</div>
+            </div>
+            <div class="idea-chips">
+              <span class="idea-chip">Temperature (cold water, hold ice)</span>
+              <span class="idea-chip">Intense exercise (run, swim)</span>
+              <span class="idea-chip">Paced breathing (4 in, 6 out)</span>
+              <span class="idea-chip">Progressive muscle relaxation</span>
+              <span class="idea-chip">STOP (stop, step back, observe, proceed)</span>
+              <span class="idea-chip">Dance or exhaust yourself</span>
+            </div>
+            <div class="strategy-block-hint">The physical strategies I will use:</div>
+            <textarea id="physicalSkills" placeholder="e.g. Paced breathing when distress spikes. Cold water on my face. Go for a run until I feel calmer…"></textarea>
+          </div>
+
+          <div class="strategy-block">
+            <div class="strategy-header">
+              <span class="strategy-icon">💪</span>
+              <div class="strategy-block-title">Encourage &amp; Remind</div>
+            </div>
+            <div class="idea-chips">
+              <span class="idea-chip">"This feeling will pass"</span>
+              <span class="idea-chip">"I've got through this before"</span>
+              <span class="idea-chip">"I can stand it — I'm getting stronger"</span>
+              <span class="idea-chip">"I am allowing myself to feel"</span>
+              <span class="idea-chip">Coping card</span>
+              <span class="idea-chip">IMPROVE (imagery, meaning, encouragement)</span>
+              <span class="idea-chip">Pros and cons of tolerating</span>
+              <span class="idea-chip">Imagine a better time</span>
+            </div>
+            <div class="strategy-block-hint">The affirmations and coping statements I will use:</div>
+            <textarea id="reminders" placeholder="e.g. 'I have got through hard things before.' Read my coping card. Remind myself of the light at the end of the tunnel…"></textarea>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- PART 4: SUPPORT NETWORK -->
+    <div class="ws-card">
+      <div class="ws-card-header">
+        <h3>🤝 Part 4 — My Support Network</h3>
+        <p>People I can contact if I need extra help — written down in advance so I don't have to think in the moment.</p>
+      </div>
+      <div class="ws-card-body">
+        <div class="numbered-inputs">
+          <div class="numbered-input-row">
+            <div class="input-num">1</div>
+            <input type="text" id="support1" class="ws-input" placeholder="Name and contact details…" />
+          </div>
+          <div class="numbered-input-row">
+            <div class="input-num">2</div>
+            <input type="text" id="support2" class="ws-input" placeholder="Name and contact details…" />
+          </div>
+          <div class="numbered-input-row">
+            <div class="input-num">3</div>
+            <input type="text" id="support3" class="ws-input" placeholder="Name and contact details…" />
+          </div>
+          <div class="numbered-input-row">
+            <div class="input-num">4</div>
+            <input type="text" id="support4" class="ws-input" placeholder="Name and contact details…" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PART 5: ACTION PLAN -->
+    <div class="ws-card">
+      <div class="ws-card-header">
+        <h3>📋 Part 5 — My Action Plan</h3>
+        <p>Your step-by-step plan for when distress peaks — and what to do if it becomes unsafe.</p>
+      </div>
+      <div class="ws-card-body">
+
+        <div class="card-section-heading">When distress peaks — my personal survival plan</div>
+        <p style="font-size:0.88rem; color:#4a6a4a; margin-bottom:14px;">Write exactly what you will do, step by step, when things become overwhelming. Having it written down means you just follow the plan — no decisions required in the moment.</p>
+        <textarea id="survivalPlan" class="ws-textarea" style="min-height:130px;"
+          placeholder="e.g. 1. Notice I am in crisis — don't fight the feeling. 2. Use paced breathing for 2 minutes. 3. Text or call someone from my support network. 4. If alone, put on my playlist and go for a walk. 5. Write in my journal when calmer. 6. Remind myself: this will pass. It always does…"></textarea>
+
+        <hr class="card-section-divider" />
+
+        <div class="card-section-heading">🚨 If distress becomes unsafe — my safety steps</div>
+        <p style="font-size:0.88rem; color:#4a6a4a; margin-bottom:16px;">If emotions reach a point where you feel at risk, what steps will you take? Write them in order so you don't need to think clearly under pressure.</p>
+        <div class="numbered-inputs" style="margin-bottom:22px;">
+          <div class="numbered-input-row">
+            <div class="input-num">1</div>
+            <input type="text" id="safetyStep1" class="ws-input" placeholder="e.g. Remove myself from the situation and go somewhere safe…" />
+          </div>
+          <div class="numbered-input-row">
+            <div class="input-num">2</div>
+            <input type="text" id="safetyStep2" class="ws-input" placeholder="e.g. Contact a person from my support network…" />
+          </div>
+          <div class="numbered-input-row">
+            <div class="input-num">3</div>
+            <input type="text" id="safetyStep3" class="ws-input" placeholder="e.g. Use my crisis coping strategies — TIPP, paced breathing…" />
+          </div>
+          <div class="numbered-input-row">
+            <div class="input-num">4</div>
+            <input type="text" id="safetyStep4" class="ws-input" placeholder="e.g. Call a crisis helpline or go to A&amp;E…" />
+          </div>
+        </div>
+        <div class="field-label">Emergency contacts:</div>
+        <textarea id="emergencyContacts" class="ws-textarea" style="min-height:88px;"
+          placeholder="e.g. Samaritans: 116 123 (free, 24/7) | Crisis team: [local number] | A&amp;E: [local hospital]"></textarea>
+
+        <hr class="card-section-divider" />
+
+        <div class="card-section-heading">🌅 The light at the end of the tunnel</div>
+        <p style="font-size:0.88rem; color:#4a6a4a; margin-bottom:12px;">What longer-term thought will you hold on to? Focus on the future helps you endure the moment.</p>
+        <textarea id="longTermFocus" class="ws-textarea" style="min-height:100px;"
+          placeholder="e.g. I know this level of pain doesn't last forever. In time the sharp edges soften. I am building strength I didn't know I had. When I get through this I will be a better, more resilient person. I am a lovable person and I deserve to feel well again…"></textarea>
+
+      </div>
+    </div>
+
+    <div class="remember-box">
+      <h4>🌿 Remember</h4>
+      <p>You don't have to eliminate distress — you just have to survive it without making things worse. The more you tolerate it, the stronger you get. These skills improve with practice.</p>
+      <p>If you are in immediate danger, please call emergency services (999 in the UK / 911 in the US) or go to your nearest A&amp;E.</p>
+    </div>
+
+    <div class="submit-wrap" style="text-align:center;margin:40px 0 16px;">
+      <button id="saveBtn" class="btn-submit">Save My Entry</button>
+      <div style="margin-top:24px;">
+        <h3 style="font-family:Montserrat,sans-serif;font-size:0.95rem;color:#0d4a2e;margin-bottom:12px;text-align:center;">Saved Entries</h3>
+        <div id="entriesList"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  /* ── SUDS SLIDER ── */
+  var sudsColors = {
+    1:'#2e7d32', 2:'#388e3c',
+    3:'#f9a825', 4:'#fb8c00',
+    5:'#ef6c00', 6:'#e64a19',
+    7:'#d84315', 8:'#c62828',
+    9:'#b71c1c', 10:'#7f0000'
+  };
+  var sudsLabels = {
+    1:'No distress — calm, alert and at peace.',
+    2:'Very mild distress — slightly unsettled.',
+    3:'Mild distress — noticeable but manageable.',
+    4:'Mild to moderate distress — feeling tense.',
+    5:'Moderate distress — uncomfortable, harder to concentrate.',
+    6:'Moderate to strong distress — significant discomfort.',
+    7:'Strong distress — physiological symptoms present.',
+    8:'Very distressed — physical symptoms, hard to think clearly.',
+    9:'Extreme distress — feeling out of control.',
+    10:'Highest distress — completely overwhelmed.'
+  };
+  var slider  = document.getElementById('sudsSlider');
+  var display = document.getElementById('sudsDisplay');
+  var lbl     = document.getElementById('sudsLabel');
+  function updateSuds(v) {
+    display.textContent = v;
+    display.style.background = sudsColors[v];
+    lbl.textContent = sudsLabels[v];
+  }
+  slider.addEventListener('input', function() { updateSuds(parseInt(slider.value)); });
+
+  /* ── SAVE ── */
+  function clean(id) {
+    var el = document.getElementById(id);
+    if (!el) return '';
+    return (el.value || '')
+      .replace(/\r\n/g, ' | ')
+      .replace(/\r/g, ' | ')
+      .replace(/\n/g, ' | ')
+      .replace(/"/g, "'");
+  }
+
+  function getVal(id) {
+    var el = document.getElementById(id);
+    if (!el) return '';
+    return (el.value || '').trim();
+  }
+
+  function collectData() {
+    return {
+      suds_rating:        slider.value,
+      current_distress:   clean('currentDistress'),
+      warning_signs:      clean('warningSigns'),
+      distancing:         clean('distancing'),
+      communication:      clean('communication'),
+      distraction:        clean('distraction'),
+      self_soothing:      clean('selfSoothing'),
+      physical_skills:    clean('physicalSkills'),
+      reminders:          clean('reminders'),
+      support1:           getVal('support1'),
+      support2:           getVal('support2'),
+      support3:           getVal('support3'),
+      support4:           getVal('support4'),
+      survival_plan:      clean('survivalPlan'),
+      safety_step1:       getVal('safetyStep1'),
+      safety_step2:       getVal('safetyStep2'),
+      safety_step3:       getVal('safetyStep3'),
+      safety_step4:       getVal('safetyStep4'),
+      emergency_contacts: clean('emergencyContacts'),
+      long_term_focus:    clean('longTermFocus')
+    };
+  }
+
+  async function saveEntry() {
+    var data = collectData();
+    data.time = new Date().toLocaleString();
+    try {
+      await fetch('/.netlify/functions/saveWorksheet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    } catch (err) { console.error('Save error:', err); }
+    var entries = JSON.parse(localStorage.getItem('tolerating-distress') || '[]');
+    entries.unshift(data);
+    localStorage.setItem('tolerating-distress', JSON.stringify(entries));
+    render();
+  }
+
+  function render() {
+    var el = document.getElementById('entriesList');
+    if (!el) return;
+    var entries = JSON.parse(localStorage.getItem('tolerating-distress') || '[]');
+    if (!entries.length) { el.innerHTML = ''; return; }
+    el.innerHTML = entries.map(function(e) {
+      var p = (e.current_distress || '').substring(0, 80);
+      return '<div class="entry-item"><strong>' + (e.time || '') + '</strong>' + (p ? '<span style="color:#333;">' + p + '</span>' : '') + '</div>';
+    }).join('');
+  }
+
+  document.getElementById('saveBtn').addEventListener('click', saveEntry);
+  render();
+</script>
+</body>
+</html>
