@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Progress Reflection &amp; Monthly Overview</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: #1a1a1a;
+  line-height: 1.6;
+  background: #f0f9f0;
+}
+
+h1, h2, h3, h4 { font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif; }
+
+textarea, input[type="text"], input[type="number"] {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  border: 2px solid #c3e6cb;
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: #fff;
+  color: #1a1a1a;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+textarea { resize: vertical; }
+textarea:focus, input:focus {
+  outline: none;
+  border-color: #2d6a4f;
+  box-shadow: 0 0 0 3px rgba(45,106,79,0.15);
+}
+input::placeholder, textarea::placeholder { color: #999; font-style: italic; }
+
+/* ===== HERO ===== */
+.page-hero {
+  padding: 70px 40px 60px;
+  background: linear-gradient(135deg, rgba(212,237,218,0.88) 0%, rgba(232,245,233,0.85) 40%, rgba(240,249,232,0.88) 100%);
+}
+.page-hero h1 { font-size: 3rem; color: #0d4a2e; margin-bottom: 20px; letter-spacing: -0.5px; }
+.badge {
+  display: inline-block;
+  background: #d4f1dd;
+  color: #0d4a2e;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  border: 1px solid #b8dbc0;
+}
+.page-hero .intro { font-size: 1.05rem; color: #333; max-width: 900px; margin-bottom: 40px; line-height: 1.7; }
+.feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 1100px; }
+.feature-card { background: rgba(212,237,218,0.55); border: 1.5px solid #b8dbc0; border-radius: 12px; padding: 26px 28px; }
+.feature-card h3 { font-size: 1.35rem; color: #0d4a2e; margin-bottom: 10px; font-weight: 700; }
+.feature-card p { font-size: 0.98rem; color: #333; line-height: 1.55; }
+
+/* ===== HOW IT WORKS ===== */
+.page-howto { padding: 70px 40px 60px; background: linear-gradient(160deg, #e8f5e9 0%, #f0f9f0 50%, #d4edda 100%); }
+.page-howto h2 { font-size: 2.4rem; color: #0d4a2e; margin-bottom: 16px; }
+.page-howto .lead { font-size: 1rem; color: #333; max-width: 900px; margin-bottom: 34px; line-height: 1.7; }
+.steps-stack { display: flex; flex-direction: column; gap: 14px; max-width: 1100px; }
+.step-row {
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  background: rgba(212,237,218,0.45);
+  border: 1.5px solid #b8dbc0;
+  border-radius: 10px;
+  padding: 18px 22px;
+  align-items: start;
+}
+.step-num { font-family: 'Montserrat', sans-serif; font-size: 2rem; font-weight: 700; color: #0d4a2e; text-align: center; }
+.step-body h3 { font-size: 1.2rem; color: #0d4a2e; margin-bottom: 6px; font-weight: 700; }
+.step-body p { font-size: 0.95rem; color: #333; line-height: 1.6; }
+.info-box { margin-top: 30px; background: #b5e8c4; border-radius: 10px; padding: 20px 24px; max-width: 1100px; color: #0d4a2e; font-size: 0.95rem; line-height: 1.65; }
+
+/* ===== WORKSHEET ===== */
+.page-worksheet { padding: 70px 40px 60px; background: linear-gradient(160deg, #d4edda 0%, #e8f5e9 40%, #f0f9e8 100%); }
+.page-worksheet h2 { font-size: 2.4rem; color: #0d4a2e; margin-bottom: 14px; }
+.page-worksheet .lead { font-size: 1rem; color: #333; max-width: 900px; margin-top: 24px; margin-bottom: 34px; line-height: 1.7; }
+
+.ws-wrapper { max-width: 1100px; }
+
+/* Worksheet sub-title */
+.ws-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0d4a2e;
+  margin: 40px 0 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #b8dbc0;
+}
+.ws-title:first-of-type { margin-top: 0; }
+
+/* Section blocks */
+.section-block { margin-bottom: 16px; }
+
+.section-header {
+  padding: 14px 20px;
+  border-radius: 10px 10px 0 0;
+  background: #0d4a2e;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff !important;
+}
+
+.section-body {
+  background: rgba(212,237,218,0.45);
+  border: 1.5px solid #b8dbc0;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  padding: 20px;
+}
+
+.section-body p {
+  font-size: 0.95rem;
+  color: #333;
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+.field-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #2d6a4f;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.field-group { margin-bottom: 14px; }
+.field-group:last-child { margin-bottom: 0; }
+
+/* Number inputs */
+input[type="number"] {
+  width: 80px;
+  text-align: center;
+  padding: 8px 10px;
+}
+
+/* Weekly table */
+.table-wrap { overflow-x: auto; margin-top: 4px; }
+
+.weekly-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+}
+
+.weekly-table th {
+  background: #0d4a2e;
+  color: #ffffff !important;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 12px 10px;
+  text-align: center;
+  letter-spacing: 0.3px;
+  border: 1px solid #1a5c3a;
+}
+
+.weekly-table th:first-child { border-radius: 8px 0 0 0; width: 60px; }
+.weekly-table th:last-child { border-radius: 0 8px 0 0; }
+
+.weekly-table td {
+  padding: 8px;
+  border: 1.5px solid #c3e6cb;
+  background: #fff;
+  vertical-align: middle;
+}
+
+.weekly-table td:first-child {
+  background: rgba(212,237,218,0.5);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0d4a2e;
+  text-align: center;
+  width: 60px;
+}
+
+.weekly-table td input[type="text"] {
+  border: 1.5px solid #c3e6cb;
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 0.88rem;
+}
+
+.weekly-table td input[type="number"] {
+  border: 1.5px solid #c3e6cb;
+  border-radius: 6px;
+  padding: 6px 4px;
+  font-size: 0.88rem;
+  width: 60px;
+  text-align: center;
+}
+
+.score-col { width: 80px; }
+
+/* Divider between worksheet sections */
+.ws-divider {
+  border: none;
+  border-top: 2px dashed #b8dbc0;
+  margin: 40px 0;
+}
+
+.remember-box { margin-top: 30px; background: #b5e8c4; border-radius: 10px; padding: 20px 24px; max-width: 1100px; color: #0d4a2e; font-size: 0.95rem; line-height: 1.65; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 760px) {
+  .feature-grid { grid-template-columns: 1fr; }
+  .page-hero, .page-howto, .page-worksheet, .submit-wrap { padding: 50px 22px; }
+  .page-hero h1 { font-size: 2.2rem; }
+  .page-howto h2, .page-worksheet h2 { font-size: 1.9rem; }
+  .step-row { grid-template-columns: 44px 1fr; }
+  .step-num { font-size: 1.6rem; }
+}
+
+.entry-item{background:#fff;border-left:4px solid #0d4a2e;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:10px;font-size:.85rem;}
+.entry-item strong{color:#0d4a2e;display:block;margin-bottom:4px;}
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<section class="page-hero">
+  <h1>Progress Reflection &amp; Monthly Overview</h1>
+  <div class="badge">Cognitive Behavioural Therapy</div>
+  <p class="intro">These worksheets help you track your CBT journey over time — noticing what has changed, celebrating your progress, making concrete plans, and reviewing what works. Use them regularly to build momentum and stay connected to your growth.</p>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <h3>📊 Track Progress</h3>
+      <p>Capture changes in mood, behaviour, and coping week by week so you can see your journey clearly over time</p>
+    </div>
+    <div class="feature-card">
+      <h3>🌟 Celebrate Wins</h3>
+      <p>Recognise and record achievements — however small — to build motivation and reinforce positive change</p>
+    </div>
+    <div class="feature-card">
+      <h3>🎯 Plan Ahead</h3>
+      <p>Turn reflection into concrete action with clear, specific plans for your next steps</p>
+    </div>
+    <div class="feature-card">
+      <h3>🔄 Review &amp; Adjust</h3>
+      <p>Evaluate what worked, learn from what didn't, and refine your approach as you grow</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="page-howto">
+  <h2>How to Use These Worksheets</h2>
+  <p class="lead">Work through the Progress Reflection Sheet after each session or at the end of each week. Use the Monthly Overview at the end of each month to zoom out and see the bigger picture. Both can be completed on your own or with your therapist.</p>
+  <div class="steps-stack">
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Looking Back</h3>
+        <p>Reflect honestly on what has changed, which skills have helped most, and what challenges you have worked through. This builds self-awareness and acknowledges real progress.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Celebrating Progress</h3>
+        <p>Note what you are proud of and any positive feedback you have received. Intentionally celebrating progress — even small steps — is an important part of sustainable change.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Looking Ahead</h3>
+        <p>Identify skills you want to keep practising and goals you want to focus on next. This keeps your therapy purposeful and forward-moving.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>Make a Plan</h3>
+        <p>Turn your goals into a specific, actionable plan — what you will do, when, and what support you need. Specific plans are far more likely to be followed through than vague intentions.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h3>Review</h3>
+        <p>After trying your plan, record what happened. Did it help? What would you do differently? This review loop is at the heart of CBT — experiment, observe, and refine.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <h3>Monthly Overview</h3>
+        <p>Use the weekly summary table to spot patterns across the month in mood, motivation, and confidence. Then reflect on the month as a whole and set intentions for the month ahead.</p>
+      </div>
+    </div>
+  </div>
+  <div class="info-box">
+    💡 <strong>Tip:</strong> You don't need to wait until things are going well to complete these sheets. Reflecting during difficult periods is just as valuable — it helps you identify what needs adjusting and reminds you of the skills you already have.
+  </div>
+</section>
+
+<!-- ===== WORKSHEET ===== -->
+<section class="page-worksheet">
+  <h2>My Progress Worksheets</h2>
+  <div class="badge">Complete This Section</div>
+  <p class="lead">Work through each section in order. Be honest and kind to yourself as you reflect.</p>
+
+  <div class="ws-wrapper">
+
+    <!-- ===== PART 1: REFLECTION SHEET ===== -->
+    <div class="ws-title">My Progress Reflection Sheet</div>
+
+    <!-- Looking Back -->
+    <div class="section-block">
+      <div class="section-header">Looking Back</div>
+      <div class="section-body">
+        <div class="field-group">
+          <label class="field-label" for="changes_noticed">What changes have I noticed in myself?</label>
+          <textarea id="changes_noticed" rows="4" placeholder="Describe any changes — in thoughts, feelings, behaviour, or relationships..."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="helpful_skills">What skills or strategies have I found most helpful?</label>
+          <textarea id="helpful_skills" rows="4" placeholder="e.g. Thought records, breathing exercises, behavioural activation..."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="challenges_overcome">What challenges have I overcome?</label>
+          <textarea id="challenges_overcome" rows="4" placeholder="Even small wins count — note what felt difficult but you managed anyway..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Celebrating Progress -->
+    <div class="section-block">
+      <div class="section-header">Celebrating Progress</div>
+      <div class="section-body">
+        <div class="field-group">
+          <label class="field-label" for="proud_of">I am proud of:</label>
+          <textarea id="proud_of" rows="4" placeholder="What have you done that deserves recognition?"></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="positive_feedback">Positive feedback I have received:</label>
+          <textarea id="positive_feedback" rows="4" placeholder="What have others said about changes they have noticed in you?"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Looking Ahead -->
+    <div class="section-block">
+      <div class="section-header">Looking Ahead</div>
+      <div class="section-body">
+        <div class="field-group">
+          <label class="field-label" for="keep_practising">Skills I want to keep practising:</label>
+          <textarea id="keep_practising" rows="4" placeholder="Which CBT skills do you want to continue using?"></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="new_goals">New goals I'd like to focus on:</label>
+          <textarea id="new_goals" rows="4" placeholder="What would you like to work towards next?"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <hr class="ws-divider">
+
+    <!-- ===== PART 2: PLAN & REVIEW ===== -->
+    <div class="ws-title">Make a Plan &amp; Review</div>
+
+    <!-- Step 6: Make a Plan -->
+    <div class="section-block">
+      <div class="section-header">Step 6: Make a Plan</div>
+      <div class="section-body">
+        <div class="field-group">
+          <label class="field-label" for="plan_step">What exact step will I take?</label>
+          <textarea id="plan_step" rows="4" placeholder="Be specific — what exactly will you do?"></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="plan_when">When will I do it?</label>
+          <textarea id="plan_when" rows="3" placeholder="Day, time, and place if relevant..."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="plan_support">What support or resources do I need?</label>
+          <textarea id="plan_support" rows="3" placeholder="Who or what might help you follow through?"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 7: Review -->
+    <div class="section-block">
+      <div class="section-header">Step 7: Review</div>
+      <div class="section-body">
+        <p style="font-size:0.92rem; color:#555; font-style:italic; margin-bottom:16px;">After trying your plan, complete this section.</p>
+        <div class="field-group">
+          <label class="field-label" for="review_happened">What happened?</label>
+          <textarea id="review_happened" rows="4" placeholder="Describe what you did and what occurred..."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="review_helped">Did it help reduce the problem?</label>
+          <textarea id="review_helped" rows="3" placeholder="In what way did it help, or not?"></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="review_differently">What would I do differently next time?</label>
+          <textarea id="review_differently" rows="3" placeholder="What adjustments would you make?"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <hr class="ws-divider">
+
+    <!-- ===== PART 3: MONTHLY OVERVIEW ===== -->
+    <div class="ws-title">Monthly Progress Overview</div>
+
+    <!-- Step 1: Weekly Summary Table -->
+    <div class="section-block">
+      <div class="section-header">Step 1: Weekly Summary</div>
+      <div class="section-body">
+        <p>Fill in one row for each week.</p>
+        <div class="table-wrap">
+          <table class="weekly-table">
+            <thead>
+              <tr>
+                <th>Week</th>
+                <th>Highlights (What went well)</th>
+                <th>Challenges</th>
+                <th>Skills I Used</th>
+                <th class="score-col">Mood Avg (0–10)</th>
+                <th class="score-col">Motivation (0–10)</th>
+                <th class="score-col">Confidence (0–10)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td><input type="text" id="w1_highlights" placeholder="What went well..."></td>
+                <td><input type="text" id="w1_challenges" placeholder="Challenges..."></td>
+                <td><input type="text" id="w1_skills" placeholder="Skills used..."></td>
+                <td><input type="number" id="w1_mood" min="0" max="10" placeholder="0–10"></td>
+                <td><input type="number" id="w1_motivation" min="0" max="10" placeholder="0–10"></td>
+                <td><input type="number" id="w1_confidence" min="0" max="10" placeholder="0–10"></td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td><input type="text" id="w2_highlights" placeholder="What went well..."></td>
+                <td><input type="text" id="w2_challenges" placeholder="Challenges..."></td>
+                <td><input type="text" id="w2_skills" placeholder="Skills used..."></td>
+                <td><input type="number" id="w2_mood" min="0" max="10" placeholder="0–10"></td>
+                <td><input type="number" id="w2_motivation" min="0" max="10" placeholder="0–10"></td>
+                <td><input type="number" id="w2_confidence" min="0" max="10" placeholder="0–10"></td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td><input type="text" id="w3_highlights" placeholder="What went well..."></td>
+                <td><input type="text" id="w3_challenges" placeholder="Challenges..."></td>
+                <td><input type="text" id="w3_skills" placeholder="Skills used..."></td>
+                <td><input type="number" id="w3_mood" min="0" max="10" placeholder="0–10"></td>
+                <td><input type="number" id="w3_motivation" min="0" max="10" placeholder="0–10"></td>
+                <td><input type="number" id="w3_confidence" min="0" max="10" placeholder="0–10"></td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td><input type="text" id="w4_highlights" placeholder="What went well..."></td>
+                <td><input type="text" id="w4_challenges" placeholder="Challenges..."></td>
+                <td><input type="text" id="w4_skills" placeholder="Skills used..."></td>
+                <td><input type="number" id="w4_mood" min="0" max="10" placeholder="0–10"></td>
+                <td><input type="number" id="w4_motivation" min="0" max="10" placeholder="0–10"></td>
+                <td><input type="number" id="w4_confidence" min="0" max="10" placeholder="0–10"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: Reflection -->
+    <div class="section-block">
+      <div class="section-header">Step 2: Reflection</div>
+      <div class="section-body">
+        <div class="field-group">
+          <label class="field-label" for="biggest_changes">Biggest changes I noticed this month:</label>
+          <textarea id="biggest_changes" rows="3" placeholder="What stood out most across the month?"></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="skills_helped_most">Skills that helped me most:</label>
+          <textarea id="skills_helped_most" rows="3" placeholder="Which approaches made the biggest difference?"></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="still_difficult">Areas I still find difficult:</label>
+          <textarea id="still_difficult" rows="3" placeholder="What are you still working on?"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: Looking Ahead -->
+    <div class="section-block">
+      <div class="section-header">Step 3: Looking Ahead</div>
+      <div class="section-body">
+        <div class="field-group">
+          <label class="field-label" for="goals_next_month">Goals for next month:</label>
+          <textarea id="goals_next_month" rows="3" placeholder="What do you want to focus on over the coming month?"></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="small_step">One small step I will focus on first:</label>
+          <textarea id="small_step" rows="3" placeholder="What is the single most important next step?"></textarea>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="remember-box">
+    🌿 <strong>Remember:</strong> Progress in CBT is rarely a straight line. These sheets are not a test — they are a mirror. Use them with curiosity and self-compassion, and bring them to your next session to share with your therapist.
+  </div>
+
+  <div class="submit-wrap" style="text-align:center;margin:40px 0 16px;">
+    <button id="saveBtn" style="background:#0d4a2e;color:#fff;border:none;padding:16px 40px;border-radius:50px;font-family:Montserrat,sans-serif;font-size:17px;font-weight:700;cursor:pointer;">Save My Entry</button>
+    <div style="margin-top:24px;">
+      <h3 style="font-family:Montserrat,sans-serif;font-size:0.95rem;color:#0d4a2e;margin-bottom:12px;text-align:center;">Saved Entries</h3>
+      <div id="entriesList"></div>
+    </div>
+  </div>
+
+</section>
+
+<script>
+function clean(id) {
+  var el = document.getElementById(id);
+  if (!el) return '';
+  return (el.value || '')
+    .replace(/\r\n/g, ' | ')
+    .replace(/\r/g, ' | ')
+    .replace(/\n/g, ' | ')
+    .replace(/"/g, "'");
+}
+
+function collectData() {
+  return {
+    changes_noticed:     clean('changes_noticed'),
+    helpful_skills:      clean('helpful_skills'),
+    challenges_overcome: clean('challenges_overcome'),
+    proud_of:            clean('proud_of'),
+    positive_feedback:   clean('positive_feedback'),
+    keep_practising:     clean('keep_practising'),
+    new_goals:           clean('new_goals'),
+    plan_step:           clean('plan_step'),
+    plan_when:           clean('plan_when'),
+    plan_support:        clean('plan_support'),
+    review_happened:     clean('review_happened'),
+    review_helped:       clean('review_helped'),
+    review_differently:  clean('review_differently'),
+    w1_highlights:       clean('w1_highlights'),
+    w1_challenges:       clean('w1_challenges'),
+    w1_skills:           clean('w1_skills'),
+    w1_mood:             clean('w1_mood'),
+    w1_motivation:       clean('w1_motivation'),
+    w1_confidence:       clean('w1_confidence'),
+    w2_highlights:       clean('w2_highlights'),
+    w2_challenges:       clean('w2_challenges'),
+    w2_skills:           clean('w2_skills'),
+    w2_mood:             clean('w2_mood'),
+    w2_motivation:       clean('w2_motivation'),
+    w2_confidence:       clean('w2_confidence'),
+    w3_highlights:       clean('w3_highlights'),
+    w3_challenges:       clean('w3_challenges'),
+    w3_skills:           clean('w3_skills'),
+    w3_mood:             clean('w3_mood'),
+    w3_motivation:       clean('w3_motivation'),
+    w3_confidence:       clean('w3_confidence'),
+    w4_highlights:       clean('w4_highlights'),
+    w4_challenges:       clean('w4_challenges'),
+    w4_skills:           clean('w4_skills'),
+    w4_mood:             clean('w4_mood'),
+    w4_motivation:       clean('w4_motivation'),
+    w4_confidence:       clean('w4_confidence'),
+    biggest_changes:     clean('biggest_changes'),
+    skills_helped_most:  clean('skills_helped_most'),
+    still_difficult:     clean('still_difficult'),
+    goals_next_month:    clean('goals_next_month'),
+    small_step:          clean('small_step')
+  };
+}
+
+async function saveEntry() {
+  var data = collectData();
+  data.time = new Date().toLocaleString();
+  try {
+    await fetch('/.netlify/functions/saveWorksheet', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch (err) { console.error('Save error:', err); }
+  var entries = JSON.parse(localStorage.getItem('self-monitoring-progress') || '[]');
+  entries.unshift(data);
+  localStorage.setItem('self-monitoring-progress', JSON.stringify(entries));
+  render();
+}
+
+function render() {
+  var el = document.getElementById('entriesList');
+  if (!el) return;
+  var entries = JSON.parse(localStorage.getItem('self-monitoring-progress') || '[]');
+  if (!entries.length) { el.innerHTML = ''; return; }
+  el.innerHTML = entries.map(function(e) {
+    var p = (e.changes_noticed || '').substring(0, 80);
+    return '<div class="entry-item"><strong>' + (e.time || '') + '</strong>' + (p ? '<span style="color:#333;">' + p + '</span>' : '') + '</div>';
+  }).join('');
+}
+
+document.getElementById('saveBtn').addEventListener('click', saveEntry);
+render();
+</script>
+
+</body>
+</html>
