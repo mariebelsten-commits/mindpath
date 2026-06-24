@@ -254,6 +254,7 @@
 
 </div>
 
+<script src="/js/save.js"></script>
 <script>
 function g(id) {
   return (document.getElementById(id).value || '').replace(/\r?\n|\r/g, ' | ').trim();
@@ -261,6 +262,7 @@ function g(id) {
 
 function collectData() {
   return {
+    type:                 'Forgiveness',
     what_they_did:        g('what_they_did'),
     feelings:             g('feelings'),
     thoughts:             g('thoughts'),
@@ -274,17 +276,9 @@ function collectData() {
   };
 }
 
-async function saveEntry() {
+function saveEntry() {
   var data = collectData();
-  try {
-    await fetch('/.netlify/functions/saveWorksheet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-  } catch (err) {
-    console.error('Save error:', err);
-  }
+  saveToServer(data);
   var entries = JSON.parse(localStorage.getItem('forgiveness') || '[]');
   entries.unshift(data);
   localStorage.setItem('forgiveness', JSON.stringify(entries));
