@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wise Mind | ChatCBT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f0f9f0; color: #1a1a1a; }
+
+    .page-hero { background: #0d4a2e; padding: 56px 24px 48px; text-align: center; }
+    .hero-badge { display: inline-block; background: rgba(255,255,255,0.15); color: #fff; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; }
+    .page-hero h1 { font-family: 'Montserrat', sans-serif; font-size: 2.6rem; font-weight: 800; color: #ffffff !important; margin-bottom: 12px; letter-spacing: -0.5px; }
+    .page-hero p { font-size: 1.1rem; color: rgba(255,255,255,0.88); max-width: 580px; margin: 0 auto; line-height: 1.6; }
+
+    .quote-block { background: #0d4a2e; border-top: 1px solid rgba(255,255,255,0.15); padding: 16px 24px 28px; text-align: center; }
+    .quote-text { font-family: 'Montserrat', sans-serif; font-size: 0.97rem; font-weight: 600; color: rgba(255,255,255,0.92); font-style: italic; max-width: 620px; margin: 0 auto 6px; line-height: 1.65; }
+    .quote-attr { font-size: 0.8rem; color: rgba(255,255,255,0.5); letter-spacing: 0.06em; text-transform: uppercase; }
+
+    .features-section { background: #1a5c3a; padding: 40px 24px; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 20px; max-width: 960px; margin: 0 auto; }
+    .feature-card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 22px 18px; text-align: center; color: #fff; }
+    .feature-card .icon { font-size: 1.8rem; margin-bottom: 10px; }
+    .feature-card h3 { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 700; color: #ffffff !important; margin-bottom: 7px; }
+    .feature-card p { font-size: 0.83rem; color: rgba(255,255,255,0.85); line-height: 1.5; }
+
+    .info-section { background: #fff; padding: 48px 24px 40px; }
+    .info-inner { max-width: 800px; margin: 0 auto; }
+    .info-section h2 { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; font-weight: 800; color: #0d4a2e; margin-bottom: 12px; text-align: center; }
+    .info-intro { font-size: 0.9rem; color: #2d4a35; line-height: 1.75; margin-bottom: 32px; text-align: center; max-width: 640px; margin-left: auto; margin-right: auto; }
+
+    .venn-wrap { position: relative; height: 168px; max-width: 460px; margin: 0 auto 32px; }
+    .vcircle { position: absolute; width: 196px; height: 168px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
+    .vcircle-r { left: 0; background: rgba(26,92,58,0.14); border: 2.5px solid #1a5c3a; }
+    .vcircle-e { right: 0; background: rgba(170,90,20,0.11); border: 2.5px solid #b87020; }
+    .vc-icon { font-size: 1.5rem; }
+    .vc-label { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.78rem; text-align: center; line-height: 1.2; }
+    .vcircle-r .vc-icon, .vcircle-r .vc-label { margin-left: -30px; }
+    .vcircle-r .vc-label { color: #0d4a2e; }
+    .vcircle-e .vc-icon, .vcircle-e .vc-label { margin-right: -30px; }
+    .vcircle-e .vc-label { color: #8a4810; }
+    .venn-center { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 96px; height: 96px; border-radius: 50%; background: #0d4a2e; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; z-index: 10; box-shadow: 0 4px 18px rgba(13,74,46,0.32); }
+    .venn-center-icon { font-size: 1.2rem; }
+    .venn-center-label { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 0.66rem; color: #fff; text-align: center; line-height: 1.2; letter-spacing: 0.05em; }
+
+    .minds-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    @media (max-width: 600px) { .minds-grid { grid-template-columns: 1fr; } .venn-wrap { max-width: 320px; height: 140px; } .vcircle { width: 155px; height: 140px; } .venn-center { width: 80px; height: 80px; } }
+    .mind-desc { border-radius: 10px; padding: 16px; }
+    .mind-desc-rational { background: #e8f5e9; border-left: 4px solid #1a5c3a; }
+    .mind-desc-wise { background: #0d4a2e; border-left: 4px solid #2d7a50; }
+    .mind-desc-emotional { background: #fef3e2; border-left: 4px solid #b87020; }
+    .mind-desc-title { font-family: 'Montserrat', sans-serif; font-size: 0.82rem; font-weight: 700; margin-bottom: 7px; }
+    .mind-desc-rational .mind-desc-title { color: #0d4a2e; }
+    .mind-desc-wise .mind-desc-title { color: #fff; }
+    .mind-desc-emotional .mind-desc-title { color: #7a4210; }
+    .mind-desc p { font-size: 0.82rem; line-height: 1.6; }
+    .mind-desc-rational p { color: #1a3d28; }
+    .mind-desc-wise p { color: rgba(255,255,255,0.88); }
+    .mind-desc-emotional p { color: #5a3010; }
+
+    .instructions-box { background: #e8f5e9; border-left: 4px solid #1a5c3a; padding: 18px 24px; max-width: 800px; margin: 32px auto 0; border-radius: 0 8px 8px 0; }
+    .instructions-box h3 { font-family: 'Montserrat', sans-serif; font-size: 0.92rem; font-weight: 700; color: #0d4a2e; margin-bottom: 6px; }
+    .instructions-box p { font-size: 0.87rem; color: #2d4a35; line-height: 1.65; }
+
+    .page-worksheet { max-width: 800px; margin: 28px auto 48px; padding: 0 16px; }
+
+    .step-block { background: #fff; border-radius: 12px; padding: 28px 28px 24px; margin-bottom: 8px; border: 1px solid #d0ecd8; box-shadow: 0 2px 8px rgba(13,74,46,0.06); }
+    .step-header { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+    .step-number { width: 36px; height: 36px; background: #1a5c3a; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.9rem; flex-shrink: 0; }
+    .step-title { font-family: 'Montserrat', sans-serif; font-size: 1.08rem; font-weight: 700; color: #0d4a2e; }
+    .step-desc { font-size: 0.88rem; color: #4a7a5a; margin-bottom: 16px; line-height: 1.6; }
+
+    .mind-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 700; margin-bottom: 12px; }
+    .badge-rational { background: #e8f5e9; color: #0d4a2e; border: 1px solid #1a5c3a; }
+    .badge-emotional { background: #fef3e2; color: #7a4210; border: 1px solid #b87020; }
+    .badge-wise { background: #0d4a2e; color: #fff; }
+
+    .prompt-box { background: #e8f5e9; border-radius: 8px; padding: 13px 15px; margin-bottom: 14px; font-size: 0.86rem; color: #1a3d28; line-height: 1.65; }
+    .prompt-box strong { font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 700; color: #0d4a2e; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 4px; }
+
+    .flow-arrow { text-align: center; font-size: 1.4rem; color: #4a7a5a; line-height: 1; margin: 6px 0; }
+
+    .balance-row { margin-bottom: 18px; }
+    .balance-row:last-child { margin-bottom: 0; }
+    .balance-q { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+    .balance-badge { font-family: 'Montserrat', sans-serif; font-size: 0.74rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; flex-shrink: 0; }
+    .bb-most { background: #e8f5e9; color: #0d4a2e; border: 1px solid #1a5c3a; }
+    .bb-toomuch { background: #fff3e0; color: #8a4210; border: 1px solid #c07020; }
+    .bb-develop { background: #0d4a2e; color: #fff; }
+    .balance-q-text { font-size: 0.88rem; font-weight: 600; color: #1a3d28; }
+
+    textarea { width: 100%; padding: 10px 12px; border: 1px solid #b0d8bc; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #1a1a1a; background: #fff; resize: vertical; line-height: 1.5; }
+    textarea:focus { outline: none; border-color: #1a5c3a; box-shadow: 0 0 0 3px rgba(26,92,58,0.1); }
+
+    .remember-box { background: #e8f5e9; border-radius: 12px; padding: 20px 24px; margin-top: 8px; font-size: 0.88rem; color: #1a3d28; line-height: 1.7; text-align: center; }
+
+    .entry-item{background:#fff;border-left:4px solid #0d4a2e;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:10px;font-size:.85rem;}
+    .entry-item strong{color:#0d4a2e;display:block;margin-bottom:4px;}
+
+    @media (max-width: 600px) { .page-hero h1 { font-size: 2rem; } }
+  </style>
+</head>
+<body>
+
+<section class="page-hero">
+  <div class="hero-badge">CBT Worksheet</div>
+  <h1>Wise Mind</h1>
+  <p>Learn to integrate your thoughts and feelings — moving beyond purely rational or purely emotional responses towards a deeper, centred knowing.</p>
+</section>
+
+<div class="quote-block">
+  <p class="quote-text">"The intuitive mind is a sacred gift and the rational mind is a faithful servant. We have created a society that honours the servant and has forgotten the gift."</p>
+  <p class="quote-attr">Albert Einstein</p>
+</div>
+
+<section class="features-section">
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="icon">🧠</div>
+      <h3>Rational Mind</h3>
+      <p>Thinking, logical, evidence-based — the powerful capacity to plan, organise, and solve problems</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">❤️</div>
+      <h3>Emotional Mind</h3>
+      <p>Feeling, instinctive, passionate — the emotional heart that colours our experience and drives us to act</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">✨</div>
+      <h3>Wise Mind</h3>
+      <p>The integration of both — intuition, inner peace, and a deep knowing that is neither purely thought nor feeling</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">⚖️</div>
+      <h3>Find Your Balance</h3>
+      <p>Discover which mind you lean on most and which you need to cultivate to access Wise Mind more often</p>
+    </div>
+  </div>
+</section>
+
+<section class="info-section">
+  <div class="info-inner">
+    <h2>Understanding the Three Minds</h2>
+    <p class="info-intro">We all move between Rational Mind and Emotional Mind depending on the situation. Neither is bad — both are essential. The goal is to develop the capacity to access Wise Mind: where thoughts and feelings integrate and we experience a deeper, centred knowing.</p>
+
+    <div class="venn-wrap">
+      <div class="vcircle vcircle-r">
+        <span class="vc-icon">🧠</span>
+        <span class="vc-label">Rational<br>Mind</span>
+      </div>
+      <div class="venn-center">
+        <span class="venn-center-icon">✨</span>
+        <span class="venn-center-label">WISE<br>MIND</span>
+      </div>
+      <div class="vcircle vcircle-e">
+        <span class="vc-icon">❤️</span>
+        <span class="vc-label">Emotional<br>Mind</span>
+      </div>
+    </div>
+
+    <div class="minds-grid">
+      <div class="mind-desc mind-desc-rational">
+        <div class="mind-desc-title">🧠 Rational Mind</div>
+        <p>Thinking, logical, evidence-based. Focused on facts, planning, organising and problem-solving. These skills are primarily housed in the frontal lobes of the brain.</p>
+      </div>
+      <div class="mind-desc mind-desc-wise">
+        <div class="mind-desc-title">✨ Wise Mind</div>
+        <p>Integration of the rational and emotional. Intuition. A quiet sense of peace, knowing, and being centred — when thoughts and feelings come together as one.</p>
+      </div>
+      <div class="mind-desc mind-desc-emotional">
+        <div class="mind-desc-title">❤️ Emotional Mind</div>
+        <p>Strong emotional states arising from the Amygdala. Feelings rooted in early experience that can both enrich life and influence or distort thinking.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="instructions-box">
+  <h3>How to use this worksheet</h3>
+  <p>Work through the four exercises below. The goal is not to eliminate either Rational or Emotional Mind — both are valuable — but to deepen your self-awareness and increase your access to Wise Mind: the integrated, grounded state where your best decisions are made.</p>
+</div>
+
+<div class="page-worksheet">
+
+  <div class="step-block" style="margin-top:28px;">
+    <div class="step-header">
+      <div class="step-number">1</div>
+      <div class="step-title">The Benefits of Your Rational Mind</div>
+    </div>
+    <span class="mind-badge badge-rational">🧠 Rational Mind</span>
+    <p class="step-desc">Thinking rationally is an enormous asset. What does your Rational Mind help you with in your life? When do you rely on it most — and what would be harder without it?</p>
+    <textarea id="rational_benefits" rows="5" placeholder="e.g. My Rational Mind helps me at work — I can analyse problems methodically, weigh up options, and make decisions based on evidence rather than impulse. It helps me manage money, plan for the future, and stay calm in a crisis when others panic. Without it I would act on every passing feeling and make a mess of things…"></textarea>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">2</div>
+      <div class="step-title">The Benefits of Your Emotional Mind</div>
+    </div>
+    <span class="mind-badge badge-emotional">❤️ Emotional Mind</span>
+    <p class="step-desc">Emotional Mind is not the enemy of good thinking — it is also essential. It drives creativity, connection, love, passion, and moral courage. What does your Emotional Mind give you that logic alone cannot?</p>
+    <textarea id="emotional_benefits" rows="5" placeholder="e.g. My Emotional Mind keeps me connected to the people I love. It tells me when something is wrong before I can put it into words. It fuels my creativity and gives my work meaning. Without it I might be efficient but hollow — I would lose the things that make life worth living…"></textarea>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">3</div>
+      <div class="step-title">A Time When You Were in Wise Mind</div>
+    </div>
+    <span class="mind-badge badge-wise">✨ Wise Mind</span>
+    <p class="step-desc">Wise Mind is the state where thoughts and feelings come together — where you know and feel something to be true at the same time, from your core. It is often quiet, calm, and certain without being cold or detached. Recall and describe a specific moment when you experienced this.</p>
+    <div class="prompt-box">
+      <strong>What Wise Mind can feel like</strong>
+      A moment of profound clarity despite ongoing difficulty. Knowing you had to end a relationship or leave a job — not impulsively, but with deep, settled certainty. A moment of genuine forgiveness that felt complete. A creative decision that felt undeniably right. A time when your gut and your head finally agreed and you felt at peace with the knowing.
+    </div>
+    <textarea id="wise_mind_memory" rows="6" placeholder="e.g. When I decided to leave my last job, there was a moment — after months of anxiety and overthinking — when everything became still. I wasn't fleeing out of fear or acting on a burst of emotion. I just knew. It felt calm, clear, and true in a way that was completely different from my usual doubting and second-guessing. That was Wise Mind…"></textarea>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-number">4</div>
+      <div class="step-title">Your Balance of the Three Minds</div>
+    </div>
+    <p class="step-desc">Consider how you tend to operate. Most of us lean more heavily on one type of mind — and most of us have blind spots. Honest reflection here is the beginning of greater balance.</p>
+
+    <div class="balance-row">
+      <div class="balance-q">
+        <span class="balance-badge bb-most">Most of</span>
+        <span class="balance-q-text">Which type of mind do you use most?</span>
+      </div>
+      <textarea id="balance_most" rows="2" placeholder="e.g. Rational Mind — I tend to analyse everything to the point where I lose touch with how I actually feel about it…"></textarea>
+    </div>
+
+    <div class="balance-row">
+      <div class="balance-q">
+        <span class="balance-badge bb-toomuch">Too much of</span>
+        <span class="balance-q-text">Which do you sometimes have too much of — and how does that cause problems?</span>
+      </div>
+      <textarea id="balance_too_much" rows="2" placeholder="e.g. Emotional Mind — when I'm stressed, feelings completely take over and I can't think straight or make clear decisions…"></textarea>
+    </div>
+
+    <div class="balance-row">
+      <div class="balance-q">
+        <span class="balance-badge bb-develop">Develop</span>
+        <span class="balance-q-text">Which do you most need to develop — and what might that look like in practice?</span>
+      </div>
+      <textarea id="balance_develop" rows="3" placeholder="e.g. Wise Mind — I want to practise sitting with both my thoughts and feelings without letting either dominate. That might mean a regular meditation practice, slowing down before big decisions, or learning to trust a quiet inner sense rather than always needing external proof…"></textarea>
+    </div>
+  </div>
+
+  <div class="remember-box">
+    ✨ <strong>Remember:</strong> Wise Mind is not a permanent state — it is something to move towards. The more you practise noticing when you are purely in Rational or Emotional Mind, the more you will find your way to the integration that lies between them.
+  </div>
+
+  <div class="submit-wrap" style="text-align:center;margin:40px 0 16px;">
+    <button id="saveBtn" style="background:#1a5c3a;color:#fff;border:none;padding:16px 40px;border-radius:50px;font-family:Montserrat,sans-serif;font-size:17px;font-weight:700;cursor:pointer;">Save My Entry</button>
+    <div style="margin-top:24px;">
+      <h3 style="font-family:Montserrat,sans-serif;font-size:0.95rem;color:#0d4a2e;margin-bottom:12px;text-align:center;">Saved Entries</h3>
+      <div id="entriesList"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function clean(id) {
+    var el = document.getElementById(id);
+    if (!el) return '';
+    return (el.value || '')
+      .replace(/\r\n/g, ' | ')
+      .replace(/\r/g, ' | ')
+      .replace(/\n/g, ' | ')
+      .replace(/"/g, "'");
+  }
+
+  function collectData() {
+    return {
+      rational_benefits:  clean('rational_benefits'),
+      emotional_benefits: clean('emotional_benefits'),
+      wise_mind_memory:   clean('wise_mind_memory'),
+      balance_most:       clean('balance_most'),
+      balance_too_much:   clean('balance_too_much'),
+      balance_develop:    clean('balance_develop')
+    };
+  }
+
+  async function saveEntry() {
+    var data = collectData();
+    data.time = new Date().toLocaleString();
+    try {
+      await fetch('/.netlify/functions/saveWorksheet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    } catch (err) { console.error('Save error:', err); }
+    var entries = JSON.parse(localStorage.getItem('wise-mind') || '[]');
+    entries.unshift(data);
+    localStorage.setItem('wise-mind', JSON.stringify(entries));
+    render();
+  }
+
+  function render() {
+    var el = document.getElementById('entriesList');
+    if (!el) return;
+    var entries = JSON.parse(localStorage.getItem('wise-mind') || '[]');
+    if (!entries.length) { el.innerHTML = ''; return; }
+    el.innerHTML = entries.map(function(e) {
+      var p = (e.rational_benefits || '').substring(0, 80);
+      return '<div class="entry-item"><strong>' + (e.time || '') + '</strong>' + (p ? '<span style="color:#333;">' + p + '</span>' : '') + '</div>';
+    }).join('');
+  }
+
+  document.getElementById('saveBtn').addEventListener('click', saveEntry);
+  render();
+</script>
+</body>
+</html>
