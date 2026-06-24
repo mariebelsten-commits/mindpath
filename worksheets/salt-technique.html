@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The SALT Technique – ChatCBT</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #f2f8f4;
+    color: #1a1a1a;
+    min-height: 100vh;
+  }
+
+  .page-header {
+    background: #0d4a2e;
+    padding: 36px 24px 30px;
+    text-align: center;
+  }
+  .page-header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #ffffff !important;
+    letter-spacing: -0.3px;
+    margin-bottom: 10px;
+  }
+  .page-header p {
+    font-size: 0.97rem;
+    color: #c8e6d4 !important;
+    max-width: 660px;
+    margin: 0 auto;
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  .container {
+    max-width: 820px;
+    margin: 32px auto;
+    padding: 0 20px 72px;
+  }
+
+  .info-box {
+    background: #ffffff;
+    border-left: 5px solid #0d4a2e;
+    border-radius: 0 10px 10px 0;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+  }
+  .info-box h2 { font-size: 0.95rem; font-weight: 700; color: #0d4a2e; margin-bottom: 8px; }
+  .info-box p { font-size: 0.88rem; line-height: 1.75; color: #444; }
+  .info-box p + p { margin-top: 8px; }
+
+  .ref-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+    font-size: 0.82rem;
+  }
+  .ref-table th {
+    background: #0d4a2e;
+    color: #ffffff !important;
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .ref-table td {
+    padding: 9px 12px;
+    border-bottom: 1px solid #e0f0e8;
+    color: #444;
+    vertical-align: top;
+    line-height: 1.65;
+  }
+  .ref-table tr:last-child td { border-bottom: none; }
+  .ref-table tr:nth-child(even) td { background: #f7fdf9; }
+  .ref-table .step-cell { font-weight: 700; color: #0d4a2e; white-space: nowrap; }
+
+  .salt-flow {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+  .flow-step {
+    background: #0d4a2e;
+    border-radius: 10px;
+    padding: 14px 10px 12px;
+    text-align: center;
+    flex: 1;
+    max-width: 160px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .flow-letter { font-size: 1.6rem; font-weight: 800; color: #ffffff !important; line-height: 1; }
+  .flow-name {
+    font-size: 0.62rem;
+    font-weight: 600;
+    color: #c8e6d4 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    line-height: 1.35;
+    margin-top: 5px;
+  }
+  .flow-arrow {
+    color: #0d4a2e;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    padding: 0 5px;
+    flex-shrink: 0;
+    font-weight: 700;
+  }
+  @media (max-width: 560px) {
+    .flow-step { padding: 10px 6px; max-width: 70px; }
+    .flow-letter { font-size: 1.2rem; }
+    .flow-name { font-size: 0.53rem; }
+    .flow-arrow { font-size: 1rem; padding: 0 3px; }
+  }
+  @media (max-width: 400px) { .flow-name { display: none; } }
+
+  .quote-strip {
+    background: #e8f5ee;
+    border-radius: 10px;
+    padding: 15px 22px;
+    margin-bottom: 28px;
+    font-style: italic;
+    font-size: 0.92rem;
+    color: #0d4a2e;
+    text-align: center;
+    line-height: 1.6;
+  }
+  .quote-strip strong {
+    display: block;
+    font-style: normal;
+    font-size: 0.82rem;
+    color: #5a7a66;
+    margin-top: 5px;
+  }
+
+  .card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 14px rgba(13,74,46,0.08);
+    margin-bottom: 22px;
+    overflow: hidden;
+  }
+
+  .section-header {
+    background: #0d4a2e;
+    padding: 14px 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-header .badge {
+    background: rgba(255,255,255,0.2);
+    color: #ffffff !important;
+    font-weight: 800;
+    font-size: 0.95rem;
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .section-header span { font-size: 0.97rem; font-weight: 700; color: #ffffff !important; }
+
+  .section-body { padding: 22px 24px; }
+
+  .field-group { margin-bottom: 18px; }
+  .field-group:last-child { margin-bottom: 0; }
+
+  label { display: block; font-size: 0.85rem; font-weight: 600; color: #0d4a2e; margin-bottom: 6px; }
+  .hint { font-weight: 400; font-size: 0.8rem; color: #7a9a86; margin-left: 3px; }
+
+  input[type="text"],
+  input[type="date"],
+  textarea,
+  select {
+    width: 100%;
+    border: 1.5px solid #c5dfd0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.88rem;
+    color: #1a1a1a;
+    background: #f7fdf9;
+    transition: border-color 0.2s, background 0.2s;
+    resize: vertical;
+  }
+  input[type="text"]:focus,
+  input[type="date"]:focus,
+  textarea:focus,
+  select:focus { outline: none; border-color: #0d4a2e; background: #ffffff; }
+  textarea { min-height: 100px; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .two-col { grid-template-columns: 1fr; } }
+
+  .slider-wrap { margin-top: 2px; }
+  .slider-row { display: flex; align-items: center; gap: 14px; }
+  .slider-row input[type="range"] {
+    flex: 1; min-width: 80px; border: none; padding: 0;
+    background: transparent; accent-color: #0d4a2e; cursor: pointer; height: 4px;
+  }
+  .rating-pill {
+    background: #0d4a2e; color: #ffffff !important; font-weight: 700;
+    font-size: 0.92rem; min-width: 54px; text-align: center;
+    border-radius: 8px; padding: 6px 10px; flex-shrink: 0;
+  }
+  .slider-labels { display: flex; justify-content: space-between; font-size: 0.72rem; color: #9ab0a0; margin-top: 5px; }
+
+  .compare-panel { background: #e8f5ee; border-radius: 10px; padding: 18px 20px; margin-bottom: 20px; }
+  .compare-panel-title { font-size: 0.78rem; font-weight: 700; color: #0d4a2e; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 14px; }
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 500px) { .compare-grid { grid-template-columns: 1fr; } }
+  .compare-item .clabel { font-size: 0.74rem; font-weight: 600; color: #3a6e50; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 4px; }
+  .compare-item .cval { background: #ffffff; border-radius: 7px; padding: 7px 11px; font-size: 0.87rem; color: #1a1a1a; min-height: 34px; font-weight: 500; }
+
+  .listen-box {
+    background: #f0f9f4;
+    border: 1.5px solid #0d4a2e;
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 18px;
+  }
+  .listen-box label { color: #0d4a2e; }
+  .listen-prefix {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #0d4a2e;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+  .listen-box textarea { min-height: 80px; }
+
+  .card-intro { font-size: 0.85rem; color: #555; line-height: 1.7; margin-bottom: 18px; }
+  .divider { border: none; border-top: 2px dashed #d0eadb; margin: 20px 0; }
+
+  .entry-item{background:#fff;border-left:4px solid #0d4a2e;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:10px;font-size:.85rem;}
+  .entry-item strong{color:#0d4a2e;display:block;margin-bottom:4px;}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>The SALT Technique</h1>
+  <p>A step-by-step CBT tool for breaking the OCD thought cycle — Stop, Ask, Listen, Think.</p>
+</div>
+
+<div class="container">
+
+  <div class="info-box">
+    <h2>How to use this worksheet</h2>
+    <p>The SALT Technique is a mental rehearsal tool used in CBT to help manage OCD. When an intrusive thought or compulsive urge arises, SALT gives you a structured way to pause, interrogate the thought, and choose a different response — rather than giving in to a ritual that feeds the cycle and reinforces the belief that it was necessary.</p>
+    <p>Work through the four steps in sequence as an urge arises, or shortly afterwards while it is still fresh. Over time, practising SALT builds the mental habit of responding to OCD with curiosity rather than compliance.</p>
+    <table class="ref-table">
+      <thead>
+        <tr>
+          <th>Step</th>
+          <th>Action</th>
+          <th>Example</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="step-cell">S — Stop</td>
+          <td>Identify the trigger thought or urge</td>
+          <td>"I am worried about germs on my hands"</td>
+        </tr>
+        <tr>
+          <td class="step-cell">A — Ask</td>
+          <td>Ask what OCD is trying to achieve</td>
+          <td>"It wants me to feel safe from illness"</td>
+        </tr>
+        <tr>
+          <td class="step-cell">L — Listen</td>
+          <td>Acknowledge the goal; recognise it as OCD, not reality</td>
+          <td>"I hear that I want to be safe"</td>
+        </tr>
+        <tr>
+          <td class="step-cell">T — Think</td>
+          <td>Choose a non-ritual response instead</td>
+          <td>"I will wait 10 minutes before washing, or wash once only"</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="salt-flow">
+    <div class="flow-step">
+      <div class="flow-letter">S</div>
+      <div class="flow-name">Stop</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-letter">A</div>
+      <div class="flow-name">Ask</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-letter">L</div>
+      <div class="flow-name">Listen</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-letter">T</div>
+      <div class="flow-name">Think</div>
+    </div>
+  </div>
+
+  <div class="quote-strip">
+    "You are not your thoughts. A thought is just a signal — and you can choose what to do with it."
+    <strong>— CBT principle</strong>
+  </div>
+
+  <!-- S: STOP -->
+  <div class="card">
+    <div class="section-header">
+      <div class="badge">S</div>
+      <span>Stop — Pause and Identify the Trigger</span>
+    </div>
+    <div class="section-body">
+      <p class="card-intro">The moment an intrusive thought or compulsive urge arises, stop what you are doing. Don't act on it yet. Bring your attention to the present moment and name what is happening as plainly as you can.</p>
+      <div class="two-col">
+        <div class="field-group">
+          <label for="saltDate">Date</label>
+          <input type="date" id="saltDate"/>
+        </div>
+        <div class="field-group">
+          <label for="saltContext">OCD theme <span class="hint">(optional)</span></label>
+          <select id="saltContext">
+            <option value="">— Select —</option>
+            <option>Contamination / cleanliness</option>
+            <option>Checking / safety</option>
+            <option>Intrusive thoughts (harm, blasphemy, sexual)</option>
+            <option>Symmetry / ordering / completeness</option>
+            <option>Health anxiety</option>
+            <option>Relationship OCD (ROCD)</option>
+            <option>Hoarding / discarding</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-group">
+        <label for="saltTriggerThought">What was the intrusive thought or compulsive urge? <span class="hint">— Describe it as plainly as you can</span></label>
+        <textarea id="saltTriggerThought" placeholder="e.g. I had an overwhelming thought that I had left the gas on. I felt a strong urge to go back and check, even though I had already checked three times before leaving…"></textarea>
+      </div>
+      <div class="field-group">
+        <label>How strong was the urge when it first hit? <span class="hint">(0 = barely noticeable, 100 = overwhelming)</span></label>
+        <div class="slider-wrap">
+          <div class="slider-row">
+            <input type="range" id="saltUrgeIntensitySlider" min="0" max="100" value="50"/>
+            <div class="rating-pill" id="saltUrgeIntensityDisplay">50</div>
+          </div>
+          <div class="slider-labels"><span>0 — Barely noticeable</span><span>50 — Moderate</span><span>100 — Overwhelming</span></div>
+        </div>
+        <input type="hidden" id="saltUrgeIntensity" value="50"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- A: ASK -->
+  <div class="card">
+    <div class="section-header">
+      <div class="badge">A</div>
+      <span>Ask — What Is This OCD Thought Trying to Do?</span>
+    </div>
+    <div class="section-body">
+      <p class="card-intro">OCD thoughts almost always have an underlying goal — usually to keep you safe, prevent something bad, or relieve discomfort. Asking "what is this thought trying to achieve?" helps you see it as a misguided attempt at protection, rather than a genuine warning that demands action.</p>
+      <div class="field-group">
+        <label for="saltOcdGoal">What is this OCD thought or urge trying to achieve?</label>
+        <select id="saltOcdGoal">
+          <option value="">— Select —</option>
+          <option>Keep me safe from harm or illness</option>
+          <option>Prevent something bad from happening</option>
+          <option>Protect someone I care about</option>
+          <option>Make an uncertain or uncomfortable feeling go away</option>
+          <option>Relieve a feeling of incompleteness or "not just right"</option>
+          <option>Avoid a feared thought becoming real</option>
+          <option>Make sure I haven't made a mistake</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label for="saltFearedOutcome">What specific harm or outcome is OCD warning you about? <span class="hint">— Describe the feared scenario in your own words</span></label>
+        <textarea id="saltFearedOutcome" placeholder="e.g. OCD is telling me that if I don't go back and check, there will be a gas leak and a fire — and it will be my fault because I knew and did nothing about it…"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- L: LISTEN -->
+  <div class="card">
+    <div class="section-header">
+      <div class="badge">L</div>
+      <span>Listen — Acknowledge the Urge, Recognise the Source</span>
+    </div>
+    <div class="section-body">
+      <p class="card-intro">Listening means acknowledging what the urge is trying to tell you — without acting on it. By naming the underlying desire, you validate the feeling without treating it as a command. The key is then to recognise it as a symptom of OCD, not a genuine threat.</p>
+      <div class="listen-box">
+        <label for="saltAcknowledgement">Complete this sentence <span class="hint">— acknowledge what the urge is telling you</span></label>
+        <div class="listen-prefix">"I hear that I want to..."</div>
+        <textarea id="saltAcknowledgement" placeholder="e.g. ...feel safe and certain that no one will be harmed. I understand why this feels urgent. The urge makes sense — it is trying to protect me. But the threat it is describing is not real."></textarea>
+      </div>
+      <div class="field-group">
+        <label for="saltIsOcd">Do you recognise this as OCD or anxiety, rather than a genuine threat?</label>
+        <select id="saltIsOcd">
+          <option value="">— Select —</option>
+          <option>Yes — I can clearly see this is OCD, not a real danger</option>
+          <option>Mostly yes — I can see it intellectually, even if it still feels real</option>
+          <option>I'm not sure — it still feels like a genuine risk</option>
+          <option>It feels very real right now — I'm finding it hard to separate OCD from reality</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label for="saltRecognitionEffect">What does recognising this as OCD — rather than reality — change for you? <span class="hint">— Even a small shift in perspective counts</span></label>
+        <textarea id="saltRecognitionEffect" style="min-height:80px;" placeholder="e.g. It reminds me that I've had this exact thought many times before and nothing bad has ever happened. It makes me slightly less certain that the feared outcome is real, even if the feeling is still strong…"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- T: THINK -->
+  <div class="card">
+    <div class="section-header">
+      <div class="badge">T</div>
+      <span>Think — Choose a Safer Alternative</span>
+    </div>
+    <div class="section-body">
+      <p class="card-intro">Instead of performing the usual compulsion, think of a different, non-ritual response. This might mean delaying the behaviour, doing it once instead of repeating, or replacing it with something else entirely. Even a small change breaks the OCD cycle and begins to weaken it over time.</p>
+      <div class="field-group">
+        <label for="saltUsualCompulsion">What is your usual compulsion or ritual in response to this thought? <span class="hint">— Be honest and specific</span></label>
+        <textarea id="saltUsualCompulsion" style="min-height:80px;" placeholder="e.g. I go back to check the gas hob multiple times — usually 3 to 5 times — until it feels right. Sometimes I photograph it on my phone so I can look back at it for reassurance later…"></textarea>
+      </div>
+      <hr class="divider"/>
+      <div class="field-group">
+        <label for="saltAlternativeAction">What will you do instead? <span class="hint">— Your alternative, non-ritual response</span></label>
+        <textarea id="saltAlternativeAction" placeholder="e.g. I will check the hob once only, then leave without going back. If the urge returns, I will remind myself I have already checked and use slow breathing until the feeling passes…"></textarea>
+      </div>
+      <div class="field-group">
+        <label for="saltDelayTime">How will you limit or delay your response to this urge?</label>
+        <select id="saltDelayTime">
+          <option value="">— Select —</option>
+          <option>Wait 5 minutes before responding to the urge</option>
+          <option>Wait 10 minutes before responding to the urge</option>
+          <option>Wait 15 minutes before responding to the urge</option>
+          <option>Wait 30 minutes before responding to the urge</option>
+          <option>Do the behaviour once only instead of repeating</option>
+          <option>Skip the ritual entirely this time</option>
+          <option>Do a reduced or modified version of the ritual</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- REFLECTION -->
+  <div class="card">
+    <div class="section-header">
+      <div class="badge">↩</div>
+      <span>Reflection — After Using SALT</span>
+    </div>
+    <div class="section-body">
+      <p class="card-intro">Return to this section after you have used the SALT technique — even if it didn't go perfectly. Reflecting on what happened is an important part of building the skill. Any effort, however partial, is progress worth recording.</p>
+
+      <div class="compare-panel">
+        <div class="compare-panel-title">Urge intensity — before and after SALT</div>
+        <div class="compare-grid">
+          <div class="compare-item">
+            <div class="clabel">Urge at the start (Section S)</div>
+            <div class="cval" id="cmpUrgeBefore">50 / 100</div>
+          </div>
+          <div class="compare-item">
+            <div class="clabel">Urge after SALT (this section)</div>
+            <div class="cval" id="cmpUrgeAfter">50 / 100</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="saltTechniqueUsed">Were you able to use the SALT technique?</label>
+        <select id="saltTechniqueUsed">
+          <option value="">— Select —</option>
+          <option>Yes — I worked through all four steps</option>
+          <option>Mostly — I completed most of the steps</option>
+          <option>Partially — I got through some steps before the urge became too strong</option>
+          <option>No — I wasn't able to use it this time, but I noticed the urge</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label>How strong is the urge now? <span class="hint">(0 = completely gone, 100 = as strong as ever)</span></label>
+        <div class="slider-wrap">
+          <div class="slider-row">
+            <input type="range" id="saltUrgeAfterSlider" min="0" max="100" value="50"/>
+            <div class="rating-pill" id="saltUrgeAfterDisplay">50</div>
+          </div>
+          <div class="slider-labels"><span>0 — Gone</span><span>50 — Reduced</span><span>100 — As strong as ever</span></div>
+        </div>
+        <input type="hidden" id="saltUrgeAfter" value="50"/>
+      </div>
+      <div class="field-group">
+        <label for="saltReflection">What did you notice during this process? <span class="hint">— Any shift, however small, is worth recording</span></label>
+        <textarea id="saltReflection" placeholder="e.g. Naming the thought and asking what it was trying to do made it feel slightly less overwhelming. I still wanted to check, but I managed to delay for 10 minutes. The urge did fade a little on its own during that time…"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="submit-wrap" style="text-align:center;margin:40px 0 16px;">
+    <button id="saveBtn" style="background:#0d4a2e;color:#fff;border:none;padding:16px 40px;border-radius:50px;font-family:Poppins,sans-serif;font-size:17px;font-weight:700;cursor:pointer;">Save My Entry</button>
+    <div style="margin-top:24px;">
+      <h3 style="font-family:Poppins,sans-serif;font-size:0.95rem;color:#0d4a2e;margin-bottom:12px;text-align:center;">Saved Entries</h3>
+      <div id="entriesList"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  var sliders = [
+    { slider: 'saltUrgeIntensitySlider', display: 'saltUrgeIntensityDisplay', hidden: 'saltUrgeIntensity', cmp: 'cmpUrgeBefore' },
+    { slider: 'saltUrgeAfterSlider',     display: 'saltUrgeAfterDisplay',     hidden: 'saltUrgeAfter',     cmp: 'cmpUrgeAfter'  }
+  ];
+
+  sliders.forEach(function(s) {
+    var el = document.getElementById(s.slider);
+    if (!el) return;
+    el.addEventListener('input', function() {
+      var v = el.value;
+      document.getElementById(s.display).textContent = v;
+      document.getElementById(s.hidden).value = v;
+      if (s.cmp) { document.getElementById(s.cmp).textContent = v + ' / 100'; }
+    });
+  });
+
+  document.getElementById('cmpUrgeBefore').textContent = '50 / 100';
+  document.getElementById('cmpUrgeAfter').textContent  = '50 / 100';
+
+  function getVal(id) {
+    var el = document.getElementById(id);
+    if (!el) return '';
+    return (el.value || '').replace(/\r\n/g, ' | ').replace(/\r/g, ' | ').replace(/\n/g, ' | ').replace(/"/g, "'").trim();
+  }
+
+  function collectData() {
+    return {
+      date:               getVal('saltDate'),
+      context:            getVal('saltContext'),
+      trigger_thought:    getVal('saltTriggerThought'),
+      urge_intensity:     getVal('saltUrgeIntensity'),
+      ocd_goal:           getVal('saltOcdGoal'),
+      feared_outcome:     getVal('saltFearedOutcome'),
+      acknowledgement:    getVal('saltAcknowledgement'),
+      is_ocd:             getVal('saltIsOcd'),
+      recognition_effect: getVal('saltRecognitionEffect'),
+      usual_compulsion:   getVal('saltUsualCompulsion'),
+      alternative_action: getVal('saltAlternativeAction'),
+      delay_time:         getVal('saltDelayTime'),
+      technique_used:     getVal('saltTechniqueUsed'),
+      urge_after:         getVal('saltUrgeAfter'),
+      reflection:         getVal('saltReflection')
+    };
+  }
+
+  async function saveEntry() {
+    var data = collectData();
+    data.time = new Date().toLocaleString();
+    try {
+      await fetch('/.netlify/functions/saveWorksheet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    } catch (err) { console.error('Save error:', err); }
+    var entries = JSON.parse(localStorage.getItem('salt-technique') || '[]');
+    entries.unshift(data);
+    localStorage.setItem('salt-technique', JSON.stringify(entries));
+    render();
+  }
+
+  function render() {
+    var el = document.getElementById('entriesList');
+    if (!el) return;
+    var entries = JSON.parse(localStorage.getItem('salt-technique') || '[]');
+    if (!entries.length) { el.innerHTML = ''; return; }
+    el.innerHTML = entries.map(function(e) {
+      var p = (e.trigger_thought || '').substring(0, 80);
+      return '<div class="entry-item"><strong>' + (e.time || '') + '</strong>' + (p ? '<span style="color:#333;">' + p + '</span>' : '') + '</div>';
+    }).join('');
+  }
+
+  document.getElementById('saveBtn').addEventListener('click', saveEntry);
+  render();
+</script>
+
+</body>
+</html>
