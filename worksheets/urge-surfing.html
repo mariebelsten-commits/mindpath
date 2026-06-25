@@ -470,6 +470,7 @@
 
 </div>
 
+<script src="/js/save.js"></script>
 <script>
   var sliders = [
     { slider: 'fmrAnxBeforeSlider', display: 'fmrAnxBeforeDisplay', hidden: 'fmrAnxBefore' },
@@ -505,6 +506,7 @@
 
   function collectData() {
     return {
+      type:             'The 15-Minute Rule & Urge Surfing',
       date:             getVal('fmrDate'),
       time:             getVal('fmrTime'),
       trigger:          clean('fmrTrigger'),
@@ -525,16 +527,10 @@
     };
   }
 
-  async function saveEntry() {
+  function saveEntry() {
     var data = collectData();
     data.time_saved = new Date().toLocaleString();
-    try {
-      await fetch('/.netlify/functions/saveWorksheet', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-    } catch (err) { console.error('Save error:', err); }
+    saveToServer(data);
     var entries = JSON.parse(localStorage.getItem('urge-surfing') || '[]');
     entries.unshift(data);
     localStorage.setItem('urge-surfing', JSON.stringify(entries));
