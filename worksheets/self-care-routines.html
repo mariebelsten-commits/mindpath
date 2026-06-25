@@ -277,7 +277,7 @@
   <p style="text-align:center; font-size:13px; color:#666; margin-bottom:48px;">© 2025 The Resource Library Limited. Adapted for ChatCBT.</p>
 
 </div>
-
+<script src="/js/save.js"></script>
 <script>
 function g(id) {
   var el = document.getElementById(id);
@@ -417,38 +417,16 @@ function collectData() {
 }
 
 // ── Save & render ─────────────────────────────────────────────────────────
-async function saveEntry() {
+function saveEntry() {
   var data = collectData();
+  data.type = 'Looking After Yourself';
   data.time = new Date().toLocaleString();
-  try {
-    await fetch('/.netlify/functions/saveWorksheet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-  } catch (err) { console.error('Save error:', err); }
+  saveToServer(data);
   var entries = JSON.parse(localStorage.getItem('self-care-routines') || '[]');
   entries.unshift(data);
   localStorage.setItem('self-care-routines', JSON.stringify(entries));
   render();
 }
-
-function render() {
-  var el = document.getElementById('entriesList');
-  if (!el) return;
-  var entries = JSON.parse(localStorage.getItem('self-care-routines') || '[]');
-  if (!entries.length) { el.innerHTML = ''; return; }
-  el.innerHTML = entries.map(function(e) {
-    var preview = (e.menu_physical || e.menu_emotional || '').substring(0, 80);
-    return '<div class="entry-item">'
-      + '<strong>' + (e.time || '') + ' · Score: ' + (e.quiz_total || 0) + '/48</strong>'
-      + (preview ? '<span style="color:#333;">' + preview + '</span>' : '')
-      + '</div>';
-  }).join('');
-}
-
-document.getElementById('saveBtn').addEventListener('click', saveEntry);
-render();
 </script>
 
 </body>
