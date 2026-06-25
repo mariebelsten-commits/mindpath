@@ -268,6 +268,7 @@
   </div>
 </section>
 
+<script src="/js/save.js"></script>
 <script>
 function g(id) {
   return (document.getElementById(id).value || '').replace(/\r?\n|\r/g, ' | ').trim();
@@ -275,6 +276,7 @@ function g(id) {
 
 function collectData() {
   return {
+    type:                    'Modifying Rules & Assumptions',
     old_rule:                g('old_rule'),
     rule_origins:            g('rule_origins'),
     advantages_old_rule:     g('advantages_old_rule'),
@@ -290,17 +292,9 @@ function collectData() {
   };
 }
 
-async function saveEntry() {
+function saveEntry() {
   var data = collectData();
-  try {
-    await fetch('/.netlify/functions/saveWorksheet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-  } catch (err) {
-    console.error('Save error:', err);
-  }
+  saveToServer(data);
   var entries = JSON.parse(localStorage.getItem('modifying-rules-and-assumptions') || '[]');
   entries.unshift(data);
   localStorage.setItem('modifying-rules-and-assumptions', JSON.stringify(entries));
