@@ -468,6 +468,7 @@
   </div>
 </section>
 
+<script src="/js/save.js"></script>
 <script>
   function clean(id) {
     var el = document.getElementById(id);
@@ -481,27 +482,22 @@
 
   function collectData() {
     return {
-      theory_a:      clean('theory_a'),
-      theory_b:      clean('theory_b'),
+      type:           'Theory A vs Theory B',
+      theory_a:       clean('theory_a'),
+      theory_b:       clean('theory_b'),
       evidence_for_a: clean('evidence_for_a'),
       evidence_for_b: clean('evidence_for_b'),
-      action_if_a:   clean('action_if_a'),
-      action_if_b:   clean('action_if_b'),
-      meaning_if_a:  clean('meaning_if_a'),
-      meaning_if_b:  clean('meaning_if_b')
+      action_if_a:    clean('action_if_a'),
+      action_if_b:    clean('action_if_b'),
+      meaning_if_a:   clean('meaning_if_a'),
+      meaning_if_b:   clean('meaning_if_b')
     };
   }
 
-  async function saveEntry() {
+  function saveEntry() {
     var data = collectData();
     data.time = new Date().toLocaleString();
-    try {
-      await fetch('/.netlify/functions/saveWorksheet', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-    } catch (err) { console.error('Save error:', err); }
+    saveToServer(data);
     var entries = JSON.parse(localStorage.getItem('theory-a-vs-b') || '[]');
     entries.unshift(data);
     localStorage.setItem('theory-a-vs-b', JSON.stringify(entries));
