@@ -370,6 +370,7 @@ input::placeholder, textarea::placeholder { color: #999; font-style: italic; }
   </div>
 </section>
 
+<script src="/js/save.js"></script>
 <script>
 function clean(id) {
   var el = document.getElementById(id);
@@ -379,6 +380,7 @@ function clean(id) {
 
 function collectData() {
   return {
+    type:             'Developing Compassionate Self Talk',
     inner_voice:      clean('inner_voice'),
     impact:           clean('impact'),
     critical_1:       clean('critical_1'),
@@ -392,16 +394,10 @@ function collectData() {
   };
 }
 
-async function saveEntry() {
+function saveEntry() {
   var data = collectData();
   data.time = new Date().toLocaleString();
-  try {
-    await fetch('/.netlify/functions/saveWorksheet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-  } catch (err) { console.error('Save error:', err); }
+  saveToServer(data);
   var entries = JSON.parse(localStorage.getItem('self-compassion-diary') || '[]');
   entries.unshift(data);
   localStorage.setItem('self-compassion-diary', JSON.stringify(entries));
