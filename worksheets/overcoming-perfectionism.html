@@ -251,6 +251,7 @@
 
 </div>
 
+<script src="/js/save.js"></script>
 <script>
 function g(id) {
   return (document.getElementById(id).value || '').replace(/\r?\n|\r/g, ' | ').trim();
@@ -258,6 +259,7 @@ function g(id) {
 
 function collectData() {
   return {
+    type:              'Overcoming Perfectionism',
     advantages:        g('advantages'),
     disadvantages:     g('disadvantages'),
     time_task:         g('time_task'),
@@ -271,17 +273,9 @@ function collectData() {
   };
 }
 
-async function saveEntry() {
+function saveEntry() {
   var data = collectData();
-  try {
-    await fetch('/.netlify/functions/saveWorksheet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-  } catch (err) {
-    console.error('Save error:', err);
-  }
+  saveToServer(data);
   var entries = JSON.parse(localStorage.getItem('overcoming-perfectionism') || '[]');
   entries.unshift(data);
   localStorage.setItem('overcoming-perfectionism', JSON.stringify(entries));
