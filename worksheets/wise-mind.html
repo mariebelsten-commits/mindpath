@@ -269,6 +269,7 @@
 
 </div>
 
+<script src="/js/save.js"></script>
 <script>
   function clean(id) {
     var el = document.getElementById(id);
@@ -282,6 +283,7 @@
 
   function collectData() {
     return {
+      type:               'Wise Mind',
       rational_benefits:  clean('rational_benefits'),
       emotional_benefits: clean('emotional_benefits'),
       wise_mind_memory:   clean('wise_mind_memory'),
@@ -291,16 +293,10 @@
     };
   }
 
-  async function saveEntry() {
+  function saveEntry() {
     var data = collectData();
     data.time = new Date().toLocaleString();
-    try {
-      await fetch('/.netlify/functions/saveWorksheet', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-    } catch (err) { console.error('Save error:', err); }
+    saveToServer(data);
     var entries = JSON.parse(localStorage.getItem('wise-mind') || '[]');
     entries.unshift(data);
     localStorage.setItem('wise-mind', JSON.stringify(entries));
