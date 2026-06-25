@@ -234,6 +234,7 @@
 
 </div>
 
+<script src="/js/save.js"></script>
 <script>
 function g(id) {
   return (document.getElementById(id).value || '').replace(/\r?\n|\r/g, ' | ').trim();
@@ -250,6 +251,7 @@ function syncRevised(val) {
 
 function collectData() {
   return {
+    type:                'Probability Estimation',
     feared_outcome:      g('feared_outcome'),
     initial_likelihood:  document.getElementById('initial_likelihood').value,
     evidence_supporting: g('evidence_supporting'),
@@ -259,17 +261,9 @@ function collectData() {
   };
 }
 
-async function saveEntry() {
+function saveEntry() {
   var data = collectData();
-  try {
-    await fetch('/.netlify/functions/saveWorksheet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-  } catch (err) {
-    console.error('Save error:', err);
-  }
+  saveToServer(data);
   var entries = JSON.parse(localStorage.getItem('probability-estimator') || '[]');
   entries.unshift(data);
   localStorage.setItem('probability-estimator', JSON.stringify(entries));
@@ -296,6 +290,5 @@ function render() {
 document.getElementById('saveBtn').addEventListener('click', saveEntry);
 render();
 </script>
-
 </body>
 </html>
