@@ -574,6 +574,7 @@
   <div id="entriesList"></div>
 </div>
 
+<script src="/js/save.js"></script>
 <script>
   var allValues = [
     'Adventurous','Ambitious','Attentive','Authentic','Brave','Careful','Clean','Committed',
@@ -651,6 +652,7 @@
 
   function collectData() {
     return {
+      type:                  'Values Clarification',
       selected_values:       document.getElementById('selectedValuesHidden').value,
       selected_values_count: document.querySelectorAll('input[name="values"]:checked').length,
       custom_values:         document.getElementById('customValuesHidden').value,
@@ -681,17 +683,9 @@
     };
   }
 
-  async function saveEntry() {
+  function saveEntry() {
     var data = collectData();
-    try {
-      await fetch('/.netlify/functions/saveWorksheet', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-    } catch (err) {
-      console.error('Save error:', err);
-    }
+    saveToServer(data);
     var entries = JSON.parse(localStorage.getItem('values-clarification') || '[]');
     entries.unshift(data);
     localStorage.setItem('values-clarification', JSON.stringify(entries));
