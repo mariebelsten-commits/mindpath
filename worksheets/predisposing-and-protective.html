@@ -304,6 +304,7 @@
 
 </section>
 
+<script src="/js/save.js"></script>
 <script>
 function g(id) {
   return (document.getElementById(id).value || '').replace(/\r?\n|\r/g, ' | ').trim();
@@ -311,6 +312,7 @@ function g(id) {
 
 function collectData() {
   return {
+    type:                       'Predisposing & Protective Factors',
     developmental_predisposing: g('developmental_predisposing'),
     developmental_protective:   g('developmental_protective'),
     core_beliefs_predisposing:  g('core_beliefs_predisposing'),
@@ -331,17 +333,9 @@ function collectData() {
   };
 }
 
-async function saveEntry() {
+function saveEntry() {
   var data = collectData();
-  try {
-    await fetch('/.netlify/functions/saveWorksheet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-  } catch (err) {
-    console.error('Save error:', err);
-  }
+  saveToServer(data);
   var entries = JSON.parse(localStorage.getItem('predisposing-and-protective') || '[]');
   entries.unshift(data);
   localStorage.setItem('predisposing-and-protective', JSON.stringify(entries));
