@@ -450,7 +450,7 @@ body{font-family:'Inter',sans-serif;background:#f4f6f4;color:#1a1a1a;}
   </p>
 
 </main>
-
+<script src="/js/save.js"></script>
 <script>
 function v(id) { return (document.getElementById(id).value || '').trim(); }
 
@@ -514,17 +514,10 @@ function collectData() {
   return data;
 }
 
-async function saveEntry() {
+function saveEntry() {
   var data = collectData();
-  try {
-    await fetch('/.netlify/functions/saveWorksheet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-  } catch (err) {
-    console.error('Save error:', err);
-  }
+  data.type = 'Mindfulness of Daily Life';
+  saveToServer(data);
   var entries = JSON.parse(localStorage.getItem('mindful-daily-living') || '[]');
   entries.unshift(data);
   localStorage.setItem('mindful-daily-living', JSON.stringify(entries));
