@@ -867,6 +867,7 @@
   </div>
 </section>
 
+<script src="/js/save.js"></script>
 <script>
   /* ── SUDS SLIDER ── */
   var sudsColors = {
@@ -917,6 +918,7 @@
 
   function collectData() {
     return {
+      type:               'Tolerating Distress',
       suds_rating:        slider.value,
       current_distress:   clean('currentDistress'),
       warning_signs:      clean('warningSigns'),
@@ -940,16 +942,10 @@
     };
   }
 
-  async function saveEntry() {
+  function saveEntry() {
     var data = collectData();
     data.time = new Date().toLocaleString();
-    try {
-      await fetch('/.netlify/functions/saveWorksheet', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-    } catch (err) { console.error('Save error:', err); }
+    saveToServer(data);
     var entries = JSON.parse(localStorage.getItem('tolerating-distress') || '[]');
     entries.unshift(data);
     localStorage.setItem('tolerating-distress', JSON.stringify(entries));
