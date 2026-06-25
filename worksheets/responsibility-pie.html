@@ -211,6 +211,7 @@
 
 </div>
 
+<script src="/js/save.js"></script>
 <script>
 var PIE_COLORS = ['#1a5c3a','#2d8a5e','#4aaa7a','#6bc49a','#8fd4b4','#b3e4ce','#e05252'];
 
@@ -263,6 +264,7 @@ function g(id) { return (document.getElementById(id).value || '').replace(/\r?\n
 
 function collectData() {
   return {
+    type:              'The Responsibility Pie',
     situation:         g('situation'),
     factor_1:          g('factor_1'), pct_1: g('pct_1') || '0',
     factor_2:          g('factor_2'), pct_2: g('pct_2') || '0',
@@ -277,15 +279,9 @@ function collectData() {
   };
 }
 
-async function saveEntry() {
+function saveEntry() {
   var data = collectData();
-  try {
-    await fetch('/.netlify/functions/saveWorksheet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-  } catch (err) { console.error('Save error:', err); }
+  saveToServer(data);
   var entries = JSON.parse(localStorage.getItem('responsibility-pie') || '[]');
   entries.unshift(data);
   localStorage.setItem('responsibility-pie', JSON.stringify(entries));
