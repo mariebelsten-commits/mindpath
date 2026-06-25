@@ -435,6 +435,7 @@
 
 </div>
 
+<script src="/js/save.js"></script>
 <script>
   function clean(id) {
     var el = document.getElementById(id);
@@ -461,6 +462,7 @@
     var r1 = document.querySelector('input[name="can_do_something"]:checked');
     var r2 = document.querySelector('input[name="action_timing"]:checked');
     return {
+      type:                'The Worry Tree',
       worry:               clean('worry'),
       can_do_something:    r1 ? r1.value : '',
       action_what:         clean('action_what'),
@@ -473,16 +475,10 @@
     };
   }
 
-  async function saveEntry() {
+  function saveEntry() {
     var data = collectData();
     data.time = new Date().toLocaleString();
-    try {
-      await fetch('/.netlify/functions/saveWorksheet', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-    } catch (err) { console.error('Save error:', err); }
+    saveToServer(data);
     var entries = JSON.parse(localStorage.getItem('worry-tree') || '[]');
     entries.unshift(data);
     localStorage.setItem('worry-tree', JSON.stringify(entries));
