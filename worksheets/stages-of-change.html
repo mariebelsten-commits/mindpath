@@ -356,6 +356,7 @@
 
 </div><!-- end worksheet-container -->
 
+<script src="/js/save.js"></script>
 <script>
   function getVal(id) {
     var el = document.getElementById(id);
@@ -364,7 +365,7 @@
   }
 
   function collectData() {
-    var data = {};
+    var data = { type: 'Stages of Change' };
     data.my_goal    = getVal('my_goal');
     data.reflection = getVal('reflection');
     for (var i = 1; i <= 5; i++) {
@@ -377,16 +378,10 @@
     return data;
   }
 
-  async function saveEntry() {
+  function saveEntry() {
     var data = collectData();
     data.time = new Date().toLocaleString();
-    try {
-      await fetch('/.netlify/functions/saveWorksheet', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-    } catch (err) { console.error('Save error:', err); }
+    saveToServer(data);
     var entries = JSON.parse(localStorage.getItem('stages-of-change') || '[]');
     entries.unshift(data);
     localStorage.setItem('stages-of-change', JSON.stringify(entries));
