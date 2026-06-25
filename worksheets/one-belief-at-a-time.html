@@ -455,7 +455,7 @@
     <p class="attribution">Based on The Work by Byron Katie · © Byron Katie International, Inc. All rights reserved · thework.com</p>
   </div>
 </section>
-
+<script src="/js/save.js"></script>
 <script>
   // ── Q3 Emotion Picker ──
   (function () {
@@ -679,11 +679,12 @@
   // ── Save ──
   function el(id) { return document.getElementById(id); }
 
-  document.getElementById('saveBtn').addEventListener('click', async function () {
+    document.getElementById('saveBtn').addEventListener('click', function () {
     var q1 = document.querySelector('input[name="is_it_true"]:checked');
     var q2 = document.querySelector('input[name="absolutely_know"]:checked');
 
     var data = {
+      type:                 'One Belief at a Time',
       belief:               el('belief')?.value || "",
       is_it_true:           q1 ? q1.value : "",
       absolutely_know:      q2 ? q2.value : "",
@@ -702,17 +703,7 @@
       time: new Date().toLocaleString()
     };
 
-    try {
-      var res = await fetch('/.netlify/functions/saveWorksheet', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      var result = await res.json();
-      console.log("Server response:", result);
-    } catch (err) {
-      console.error("Error saving to server:", err);
-    }
+    saveToServer(data);
 
     var entries = JSON.parse(localStorage.getItem("one-belief-at-a-time") || "[]");
     entries.unshift(data);
