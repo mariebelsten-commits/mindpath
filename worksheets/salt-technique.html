@@ -522,6 +522,7 @@
 
 </div>
 
+<script src="/js/save.js"></script>
 <script>
   var sliders = [
     { slider: 'saltUrgeIntensitySlider', display: 'saltUrgeIntensityDisplay', hidden: 'saltUrgeIntensity', cmp: 'cmpUrgeBefore' },
@@ -550,6 +551,7 @@
 
   function collectData() {
     return {
+      type:               'The SALT Technique',
       date:               getVal('saltDate'),
       context:            getVal('saltContext'),
       trigger_thought:    getVal('saltTriggerThought'),
@@ -568,16 +570,10 @@
     };
   }
 
-  async function saveEntry() {
+  function saveEntry() {
     var data = collectData();
     data.time = new Date().toLocaleString();
-    try {
-      await fetch('/.netlify/functions/saveWorksheet', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-    } catch (err) { console.error('Save error:', err); }
+    saveToServer(data);
     var entries = JSON.parse(localStorage.getItem('salt-technique') || '[]');
     entries.unshift(data);
     localStorage.setItem('salt-technique', JSON.stringify(entries));
