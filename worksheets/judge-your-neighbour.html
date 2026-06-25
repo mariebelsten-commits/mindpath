@@ -443,7 +443,7 @@
     <p class="attribution">Based on the Judge-Your-Neighbour Worksheet by Byron Katie · © Byron Katie International, Inc. All rights reserved · thework.com</p>
   </div>
 </section>
-
+<script src="/js/save.js"></script>
 <script>
   function el(id) { return document.getElementById(id); }
 
@@ -456,10 +456,11 @@
     el('nameDisplay5').textContent = name;
   });
 
-  el('saveBtn').addEventListener('click', async function () {
+    el('saveBtn').addEventListener('click', function () {
     var q3Radio = document.querySelector('input[name="q3_should_shouldnt"]:checked');
 
     var data = {
+      type:                'Judge-Your-Neighbour',
       emotion:             el('emotionInput')?.value || "",
       person_name:         el('nameInput')?.value || "",
       q1_because:          el('q1_because')?.value.replace(/\r?\n|\r/g, ' | ') || "",
@@ -472,17 +473,7 @@
       time: new Date().toLocaleString()
     };
 
-    try {
-      var res = await fetch('/.netlify/functions/saveWorksheet', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      var result = await res.json();
-      console.log("Server response:", result);
-    } catch (err) {
-      console.error("Error saving to server:", err);
-    }
+    saveToServer(data);
 
     var entries = JSON.parse(localStorage.getItem("judge-your-neighbour") || "[]");
     entries.unshift(data);
