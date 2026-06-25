@@ -318,6 +318,7 @@ body{font-family:'Inter',sans-serif;background:#f4f6f4;color:#1a1a1a;}
 
 </main>
 
+<script src="/js/save.js"></script>
 <script>
 function g(id) {
   return (document.getElementById(id).value || '').replace(/\r?\n|\r/g, ' | ').trim();
@@ -325,6 +326,7 @@ function g(id) {
 
 function collectData() {
   return {
+    type:               'Panic Attack Thought Record',
     situation:          g('situation'),
     physical_symptoms:  g('physical_symptoms'),
     most_frightening:   g('most_frightening'),
@@ -342,17 +344,9 @@ function collectData() {
   };
 }
 
-async function saveEntry() {
+function saveEntry() {
   var data = collectData();
-  try {
-    await fetch('/.netlify/functions/saveWorksheet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-  } catch (err) {
-    console.error('Save error:', err);
-  }
+  saveToServer(data);
   var entries = JSON.parse(localStorage.getItem('panic-attack-thought-record') || '[]');
   entries.unshift(data);
   localStorage.setItem('panic-attack-thought-record', JSON.stringify(entries));
