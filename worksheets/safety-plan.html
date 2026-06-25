@@ -291,6 +291,7 @@
 
 </div>
 
+<script src="/js/save.js"></script>
 <script>
 function v(id) { return (document.getElementById(id).value || '').trim(); }
 
@@ -333,6 +334,7 @@ function collectData() {
   if (otherVal) coping.push('Other: ' + otherVal);
 
   return {
+    type:                   'My Safety Plan and Support Network',
     warning_signs:          v('warning_signs'),
     coping_strategies:      coping.join(', '),
     contact_friend:         v('contact_friend'),
@@ -352,15 +354,9 @@ function collectData() {
   };
 }
 
-async function saveEntry() {
+function saveEntry() {
   var data = collectData();
-  try {
-    await fetch('/.netlify/functions/saveWorksheet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-  } catch (err) { console.error('Save error:', err); }
+  saveToServer(data);
   var entries = JSON.parse(localStorage.getItem('safety-plan') || '[]');
   entries.unshift(data);
   localStorage.setItem('safety-plan', JSON.stringify(entries));
