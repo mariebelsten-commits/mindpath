@@ -194,6 +194,7 @@ textarea:focus { outline: none; border-color: #1a5c3a; box-shadow: 0 0 0 3px rgb
 .entry { background:#fff; border-left:4px solid #1a5c3a; border-radius:0 8px 8px 0; padding:12px 16px; margin-bottom:10px; font-size:0.88rem; }
 .entry strong { color:#0d4a2e; }
 </style>
+<script src="/js/save.js"></script>
 <script>
 var petalColors = ['#e8417a', '#e8b800', '#18b8bc', '#1e2d8a', '#8b44ad'];
 var petalIdCounter = 0;
@@ -245,7 +246,7 @@ function renderPetals(savedValues) {
 }
 
 function collectViciousFlowerData() {
-  var data = {};
+  var data = { type: 'The Vicious Flower' };
   data.statement_feeling = document.getElementById('statementFeelingTextarea').value;
   document.querySelectorAll('#petals-grid .vf-petal-dynamic').forEach(function(el, i) {
     data['thought_behaviour_' + (i + 1)] = el.querySelector('textarea').value;
@@ -256,20 +257,10 @@ function collectViciousFlowerData() {
   return data;
 }
 
-async function saveEntry() {
+function saveEntry() {
   var data = collectViciousFlowerData();
   data.time = new Date().toLocaleString();
-  try {
-    var res = await fetch('/.netlify/functions/saveWorksheet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-    var result = await res.json();
-    console.log('Server response:', result);
-  } catch (err) {
-    console.error('Error saving to server:', err);
-  }
+  saveToServer(data);
   var entries = JSON.parse(localStorage.getItem('vicious-flower') || '[]');
   entries.unshift(data);
   localStorage.setItem('vicious-flower', JSON.stringify(entries));
