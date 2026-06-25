@@ -587,6 +587,7 @@
   </div>
 </section>
 
+<script src="/js/save.js"></script>
 <script>
   function clean(id) {
     var el = document.getElementById(id);
@@ -600,6 +601,7 @@
 
   function collectData() {
     return {
+      type:          'My Sensory Toolkit',
       sightItems:    clean('sightItems'),
       soundItems:    clean('soundItems'),
       smellItems:    clean('smellItems'),
@@ -609,16 +611,10 @@
     };
   }
 
-  async function saveEntry() {
+  function saveEntry() {
     var data = collectData();
     data.time = new Date().toLocaleString();
-    try {
-      await fetch('/.netlify/functions/saveWorksheet', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-    } catch (err) { console.error('Save error:', err); }
+    saveToServer(data);
     var entries = JSON.parse(localStorage.getItem('sensory-toolkit') || '[]');
     entries.unshift(data);
     localStorage.setItem('sensory-toolkit', JSON.stringify(entries));
