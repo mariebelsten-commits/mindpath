@@ -306,6 +306,7 @@ body{font-family:'Inter',sans-serif;background:#f4f6f4;color:#1a1a1a;}
 
 </main>
 
+<script src="/js/save.js"></script>
 <script>
   // Chip toggle: unselected → this week → next months → unselected
   document.querySelectorAll('.act-chip').forEach(function(chip) {
@@ -324,6 +325,7 @@ body{font-family:'Inter',sans-serif;background:#f4f6f4;color:#1a1a1a;}
       else if (chip.dataset.state === '2') nextMonths.push(label);
     });
     return {
+      type:           'Pleasure & Mastery',
       this_week:      thisWeek.join(', ') || 'None selected',
       next_months:    nextMonths.join(', ') || 'None selected',
       first_activity: (document.getElementById('first_activity').value || '').trim(),
@@ -334,17 +336,9 @@ body{font-family:'Inter',sans-serif;background:#f4f6f4;color:#1a1a1a;}
     };
   }
 
-  async function saveEntry() {
+  function saveEntry() {
     var data = collectData();
-    try {
-      await fetch('/.netlify/functions/saveWorksheet', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-    } catch (err) {
-      console.error('Save error:', err);
-    }
+    saveToServer(data);
     var entries = JSON.parse(localStorage.getItem('pleasure-and-mastery') || '[]');
     entries.unshift(data);
     localStorage.setItem('pleasure-and-mastery', JSON.stringify(entries));
