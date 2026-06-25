@@ -471,6 +471,7 @@
 
 </div><!-- /ws-container -->
 
+<script src="/js/save.js"></script>
 <script>
   function selectStatement(el, text) {
     document.querySelectorAll('.statement-option').forEach(function(o) { o.classList.remove('selected'); });
@@ -490,6 +491,7 @@
 
   function collectData() {
     return {
+      type:            'The 333 Rule',
       bodyNotice:      clean('bodyNotice'),
       see1:            clean('see1'),
       see2:            clean('see2'),
@@ -505,16 +507,10 @@
     };
   }
 
-  async function saveEntry() {
+  function saveEntry() {
     var data = collectData();
     data.time = new Date().toLocaleString();
-    try {
-      await fetch('/.netlify/functions/saveWorksheet', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-    } catch (err) { console.error('Save error:', err); }
+    saveToServer(data);
     var entries = JSON.parse(localStorage.getItem('the-333-rule') || '[]');
     entries.unshift(data);
     localStorage.setItem('the-333-rule', JSON.stringify(entries));
