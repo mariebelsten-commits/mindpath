@@ -305,11 +305,12 @@ body{font-family:'Inter',sans-serif;background:#f4f6f4;color:#1a1a1a;}
 
 </main>
 
+<script src="/js/save.js"></script>
 <script>
 function v(id) { return (document.getElementById(id).value || '').trim(); }
 
 function collectData() {
-  var data = { time: new Date().toLocaleString() };
+  var data = { type: 'Mood Diary', time: new Date().toLocaleString() };
   for (var i = 1; i <= 7; i++) {
     data['day_time_'  + i] = v('day_time_'  + i);
     data['mood_'      + i] = v('mood_'      + i);
@@ -319,17 +320,9 @@ function collectData() {
   return data;
 }
 
-async function saveEntry() {
+function saveEntry() {
   var data = collectData();
-  try {
-    await fetch('/.netlify/functions/saveWorksheet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-  } catch (err) {
-    console.error('Save error:', err);
-  }
+  saveToServer(data);
   var entries = JSON.parse(localStorage.getItem('mood-diary') || '[]');
   entries.unshift(data);
   localStorage.setItem('mood-diary', JSON.stringify(entries));
