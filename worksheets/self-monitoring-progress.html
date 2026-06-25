@@ -527,6 +527,7 @@ input[type="number"] {
 
 </section>
 
+<script src="/js/save.js"></script>
 <script>
 function clean(id) {
   var el = document.getElementById(id);
@@ -540,6 +541,7 @@ function clean(id) {
 
 function collectData() {
   return {
+    type:                'Progress Reflection & Monthly Overview',
     changes_noticed:     clean('changes_noticed'),
     helpful_skills:      clean('helpful_skills'),
     challenges_overcome: clean('challenges_overcome'),
@@ -585,16 +587,10 @@ function collectData() {
   };
 }
 
-async function saveEntry() {
+function saveEntry() {
   var data = collectData();
   data.time = new Date().toLocaleString();
-  try {
-    await fetch('/.netlify/functions/saveWorksheet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-  } catch (err) { console.error('Save error:', err); }
+  saveToServer(data);
   var entries = JSON.parse(localStorage.getItem('self-monitoring-progress') || '[]');
   entries.unshift(data);
   localStorage.setItem('self-monitoring-progress', JSON.stringify(entries));
